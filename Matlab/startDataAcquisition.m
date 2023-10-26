@@ -12,31 +12,6 @@ stopMatlab = adsClt.ReadSymbol(stopMatlabSymbol);
 adsClt.WriteAny(matlabStartingSymbol.IndexGroup,matlabStartingSymbol.IndexOffset,true);
 adsClt.WriteAny(matlabRunningSymbol.IndexGroup,matlabRunningSymbol.IndexOffset,true);
 
-%% Log the starting time
-disp('Logged starting time');
-format shortg;
-starttime = clock;
-starthr = starttime(4);
-startmin = starttime(5);
-startsec = starttime(6);
-timetitle = ['Starting time: ',...
-    num2str(starthr),':',num2str(startmin),':',num2str(startsec)]; % Starting time title for plotting
-format;
-
-%% Initialize value vectors
-n = 0; saveround = 0; % Iteration round variable
-pvalues = []; currenttime = []; tvalues = [];  % NÄIHIN OIKEAT NIMER
-foldername = ([num2str(starttime(1)),'_',num2str(starttime(2)),'_',...
-    num2str(starttime(3)),'_',num2str(starthr),'_',num2str(startmin),'_',...
-    num2str(startsec)]); % Foldername (date_time) for saving measured values
-mkdir(fullfile(foldername)) % Make new folder under new name
-currentFolder = fullfile(foldername); 
-figure(1); hold on;
-sgtitle(timetitle);
-cd(currentFolder);
-save("Starting_time","starttime")
-cd('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab') % TÄHÄN OIKEA POLKU
-
 %% Start continuously running program
 disp('MATLAB started')
 start = true;
@@ -48,6 +23,16 @@ figure(1); hold on;
 while stopMatlab ~= true
     stopMatlab = adsClt.ReadSymbol(stopMatlabSymbol);
     while started == false
+        %% Log the starting time
+        disp('Logged starting time');
+        format shortg;
+        starttime = clock;
+        starthr = starttime(4);
+        startmin = starttime(5);
+        startsec = starttime(6);
+        timetitle = ['Starting time: ',...
+            num2str(starthr),':',num2str(startmin),':',num2str(startsec)]; % Starting time title for plotting
+        format;
         %% Connect to OPC-UA server
         disp('Connecting to OPC-UA server...')
         uaClient = opcua('169.254.172.138',4840);
@@ -55,6 +40,23 @@ while stopMatlab ~= true
         namespace = getNamespace(uaClient);
         allvar = getAllChildren(namespace(3));
         started = true;
+        %% Initialize value vectors
+        n = 0; saveround = 0; % Iteration round variable
+        pvalues = []; currenttime = []; tvalues = [];  % NÄIHIN OIKEAT NIMER
+        foldername = ([num2str(starttime(1)),'_',num2str(starttime(2)),'_',...
+            num2str(starttime(3)),'_',num2str(starthr),'_',num2str(startmin),'_',...
+            num2str(startsec)]); % Foldername (date_time) for saving measured values
+        programNamePrefix =  findNodeByName(allvar,'ProgramNamePrefix','-once'); % Get program name prefix from plc
+        prefix = readValue(uaClient,programNamePrefix);
+        foldername = append(foldername," (", convertCharsToStrings(prefix), ")");
+        mkdir(fullfile(foldername)) % Make new folder under new name
+        currentFolder = fullfile(foldername); 
+        figure(1); hold on;
+        sgtitle(timetitle);
+        cd(currentFolder);
+        save("Starting_time","starttime")
+        cd('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab') % TÄHÄN OIKEA POLKU
+
     end
     disp('Starting data saving and plotting...')
     while started && stopMatlab ~= true

@@ -22,6 +22,8 @@ VAR_GLOBAL
 	
 	CO2VolumetricFlow: DINT;
 	
+	// Program name 
+	ProgramNamePrefix: STRING;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
