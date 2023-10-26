@@ -5,9 +5,9 @@ asm = NET.addAssembly('C:\TwinCAT\AdsApi\.NET\v4.0.30319\TwinCAT.Ads.dll');
 import TwinCAT.Ads.*;
 adsClt=TwinCAT.Ads.TcAdsClient;
 adsClt.Connect('5.86.83.4.1.1',851); %('10.98.76.62.1.1',851);
-matlabStartingSymbol = adsClt.ReadSymbolInfo('RunMATLAB.bMatlabStarting'); 
-matlabRunningSymbol = adsClt.ReadSymbolInfo('RunMATLAB.bMatlabRunning');
-stopMatlabSymbol = adsClt.ReadSymbolInfo('RunMATLAB.bStopMatlab');
+matlabStartingSymbol = adsClt.ReadSymbolInfo('MATLAB.bMatlabStarting'); 
+matlabRunningSymbol = adsClt.ReadSymbolInfo('MATLAB.bMatlabRunning');
+stopMatlabSymbol = adsClt.ReadSymbolInfo('MATLAB.bStopMatlab');
 stopMatlab = adsClt.ReadSymbol(stopMatlabSymbol); 
 adsClt.WriteAny(matlabStartingSymbol.IndexGroup,matlabStartingSymbol.IndexOffset,true);
 adsClt.WriteAny(matlabRunningSymbol.IndexGroup,matlabRunningSymbol.IndexOffset,true);
@@ -58,12 +58,6 @@ while stopMatlab ~= true
     end
     disp('Starting data saving and plotting...')
     while started && stopMatlab ~= true
-        %% Monitor stop command from PLC and update hearbeat
-        stopMatlab = adsClt.ReadSymbol(stopMatlabSymbol);
-        matlabHeartBeatSymbol = adsClt.ReadSymbolInfo('RunMATLAB.HeartBeatSwitch'); % LISÄTTY
-        matlabHeartBeat = adsClt.ReadSymbol(matlabHeartBeatSymbol );  % LISÄTTY
-        adsClt.WriteAny(matlabHeartBeatSymbol.IndexGroup,matlabHeartBeatSymbol.IndexOffset,~matlabHeartBeat); % LISÄTTY
-
         %% Get timestamp from current time
         n = n + 1; % current iteration round
         round(n) = n; % Iteration rounds collected in an array (for plotting)
@@ -74,51 +68,26 @@ while stopMatlab ~= true
         %% Read symbols cyclically
         stopMatlab = adsClt.ReadSymbol(stopMatlabSymbol);
         %% Read measurement values
-        iReactorTy =  findNodeByName(allvar,'ReactorTemperature','-once');% Reactor temperature value
-        iReactorTsp = findNodeByName(allvar,'ReactorTemperatureSetpoint','-once'); 
-        bReactorTu = findNodeByName(allvar,'TemperatureContactor','-once'); % Reactor temperature Contactor
-        iReactorPy = findNodeByName(allvar,'ReactorPressure','-once'); % Reactor pressure
-        bSlurryInlet = findNodeByName(allvar,'SlurryInletValve','-once');
-        bSlurryOutlet = findNodeByName(allvar,'SlurryOutletValve','-once');
+        iReactorTy =  findNodeByName(allvar,'iReactorTy','-once');% Reactor temperature value
+        bReactorTu = findNodeByName(allvar,'bReactorTu','-once'); % Reactor temperature Contactor
+        iReactorPy = findNodeByName(allvar,'iPressureScaledValue','-once'); % Reactor pressure
 
         %% Save and plot data
-        % Slurry valves
-        outletdata(n) = readValue(uaClient,bSlurryOutlet);
-        inletdata(n) = readValue(uaClient,bSlurryInlet);
-        outletvalues(n) = double(outletdata(:,n));
-        inletvalues(n) = double(inletdata(:,n));
-        Valve_data(n,:) = [outletvalues(n) inletvalues(n) timestamp];
-        subplot(2,2,1);
-        plot(round, inletvalues,"b-");
-        xlabel("Second out of passing minute (s)"); ylabel("Inlet valve operation (on/off)");
-        set(gca,"xticklabel",timestamp(:,6));
-        subplot(2,2,2);
-        plot(round, outletvalues,"b-");
-        xlabel("Second out of passing minute (s)"); ylabel("Outlet valve operation (on/off)");
-        set(gca,"xticklabel",timestamp(:,6));        
-
         % Reactor temperature
         tdata(n) = readValue(uaClient,iReactorTy)./10;
-        tspdata(n) = readValue(uaClient, iReactorTsp);
-        tudata(n) = readValue(uaClient, bReactorTu);
         tvalues(n) = double(tdata(:,n));
-        tspvalues(n) = double(tspdata(:,n));
-        tuvalues(n) = double(tudata(:,n));
-        T_data(n,:) = [tvalues(n) tspvalues(n) tuvalues(n) timestamp];
-        subplot(2,2,3);
+        T_data(n,:) = [tvalues(n) timestamp];
+        subplot(2,1,1);
         plot(round,tvalues,"b-");
-        hold on;
-        plot(round,tspvalues,"r-");
         xlabel("Second out of passing minute (s)"); ylabel("Reactor temperature (*C)");
         set(gca,"xticklabel",timestamp(:,6));
-        hold off;
 
         % Reactor pressure 
         %pdata(n) = read(iReactorTy); % TÄHÄN OIKEA MUUTTUJA 
         pdata(n) = readValue(uaClient,iReactorPy);
         pvalues(n) = double(pdata(:,n));
         P_data(n,:) = [pvalues(n) timestamp];
-        subplot(2,2,4);
+        subplot(2,1,2);
         plot(round,pvalues,"b-");
         xlabel("Second out of passing minute (s)"); ylabel("Reactor pressure (bar)");
         set(gca,"xticklabel",timestamp(:,6));
@@ -129,7 +98,6 @@ while stopMatlab ~= true
             cd(currentFolder); % Make new folder current
             save("T_data","T_data")
             save("P_data", "P_data")
-            save("Valve_data","Valve_data")
             save("Total_runtime_(s)","n")
             save("Timestamps", "timestampmat")
             saveround = 0;

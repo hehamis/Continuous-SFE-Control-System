@@ -80,22 +80,20 @@ while stopMatlab ~= true
         iReactorPy = findNodeByName(allvar,'ReactorPressure','-once'); % Reactor pressure
         bSlurryInlet = findNodeByName(allvar,'SlurryInletValve','-once');
         bSlurryOutlet = findNodeByName(allvar,'SlurryOutletValve','-once');
+        iPumpingPressureSetpoint = findNodeByName(allvar,'PumpingPressureSetpoint','-once');
+        iPreHeaterTemperature = findNodeByName(allvar,'PreHeaterTemperature','-once');
+        iPreHeaterTemperatureSetpoint = findNodeByName(allvar,'PreHeaterTemperatureSetpoint','-once');
+        iSeparatorTemperature = findNodeByName(allvar,'SeparatorTemperature','-once');
+        iSeparatorTemperatureSetpoint = findNodeByName(allvar,'SeparatorTemperatureSetpoint','-once');
+        iCO2VolumetricFlow = findNodeByName(allvar,'CO2VolumetricFlow','-once');
 
         %% Save and plot data
-        % Slurry valves
+        %Slurry valves
         outletdata(n) = readValue(uaClient,bSlurryOutlet);
         inletdata(n) = readValue(uaClient,bSlurryInlet);
         outletvalues(n) = double(outletdata(:,n));
         inletvalues(n) = double(inletdata(:,n));
-        Valve_data(n,:) = [outletvalues(n) inletvalues(n) timestamp];
-        subplot(2,2,1);
-        plot(round, inletvalues,"b-");
-        xlabel("Second out of passing minute (s)"); ylabel("Inlet valve operation (on/off)");
-        set(gca,"xticklabel",timestamp(:,6));
-        subplot(2,2,2);
-        plot(round, outletvalues,"b-");
-        xlabel("Second out of passing minute (s)"); ylabel("Outlet valve operation (on/off)");
-        set(gca,"xticklabel",timestamp(:,6));        
+        Valve_data(n,:) = [outletvalues(n) inletvalues(n) timestamp];    
 
         % Reactor temperature
         tdata(n) = readValue(uaClient,iReactorTy)./10;
@@ -105,7 +103,7 @@ while stopMatlab ~= true
         tspvalues(n) = double(tspdata(:,n));
         tuvalues(n) = double(tudata(:,n));
         T_data(n,:) = [tvalues(n) tspvalues(n) tuvalues(n) timestamp];
-        subplot(2,2,3);
+        subplot(2,2,1);
         plot(round,tvalues,"b-");
         hold on;
         plot(round,tspvalues,"r-");
@@ -113,22 +111,61 @@ while stopMatlab ~= true
         set(gca,"xticklabel",timestamp(:,6));
         hold off;
 
+         % CO2 preheater temperature
+        pretdata(n) = readValue(uaClient,iPreHeaterTemperature);
+        pretspdata(n) = readValue(uaClient, iPreHeaterTemperatureSetpoint);
+        pretvalues(n) = double(pretdata(:,n));
+        pretspvalues(n) = double(pretspdata(:,n));
+        TCO2_data(n,:) = [pretvalues(n) pretspvalues(n) timestamp];
+
+        % Separator temperature
+        stdata(n) = readValue(uaClient,iSeparatorTemperature);
+        stspdata(n) = readValue(uaClient, iSeparatorTemperatureSetpoint);
+        stvalues(n) = double(stdata(:,n));
+        stspvalues(n) = double(stspdata(:,n));
+        TS_data(n,:) = [stvalues(n) stspvalues(n) timestamp];
+        subplot(2,2,2);
+        plot(round,stvalues,"b-");
+        hold on;
+        plot(round,stspvalues,"r-");
+        xlabel("Second out of passing minute (s)"); ylabel("Separator temperature (*C)");
+        set(gca,"xticklabel",timestamp(:,6));
+        hold off;
+
         % Reactor pressure 
         %pdata(n) = read(iReactorTy); % TÄHÄN OIKEA MUUTTUJA 
         pdata(n) = readValue(uaClient,iReactorPy);
+        pspdata(n) = readValue(uaClient,iPumpingPressureSetpoint); 
         pvalues(n) = double(pdata(:,n));
-        P_data(n,:) = [pvalues(n) timestamp];
-        subplot(2,2,4);
+        pspvalues(n) = double(pspdata(:,n));
+        P_data(n,:) = [pvalues(n) pspvalues(n) timestamp];
+        subplot(2,2,3);
         plot(round,pvalues,"b-");
+        hold on;
+        plot(round,pspvalues,"r-");
         xlabel("Second out of passing minute (s)"); ylabel("Reactor pressure (bar)");
         set(gca,"xticklabel",timestamp(:,6));
+ 
+        % CO2 flow
+        %pdata(n) = read(iReactorTy); % TÄHÄN OIKEA MUUTTUJA 
+        fdata(n) = readValue(uaClient,iCO2VolumetricFlow);
+        fvalues(n) = double(fdata(:,n));
+        F_data(n,:) = [fvalues(n) timestamp];
+        subplot(2,2,4);
+        plot(round,fvalues,"b-");
+        xlabel("Second out of passing minute (s)"); ylabel("CO2 volumetric flow (cl/min)");
+        set(gca,"xticklabel",timestamp(:,6));
+
 
         %% Save data every 30s
         saveround = saveround + 1; 
-        if saveround ==  5
+        if saveround ==  30
             cd(currentFolder); % Make new folder current
             save("T_data","T_data")
+            save("TCO2_data","TCO2_data")
+            save("TS_data","TS_data")
             save("P_data", "P_data")
+            save("F_data", "F_data")
             save("Valve_data","Valve_data")
             save("Total_runtime_(s)","n")
             save("Timestamps", "timestampmat")
