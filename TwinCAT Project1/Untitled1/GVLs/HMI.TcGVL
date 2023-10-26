@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="HMI" Id="{79d6175f-ed5c-4c88-949a-982b759f1432}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	{attribute 'OPC.UA.DA' := '1'}
+	iTemperatureSetpoint: INT; // Temperature controller setpoint
+	bTemperatureControlSwitch: BOOL; //Switch for temperature control
+	sTemperatureControlState: STRING(35); //Temperature control switch state in str
+	iTemperatureDisplayValue: INT; //Displayed temp value in HMI (see MAIN)
+	iTemperatureControlPercentage: INT; //Temperature controller output % (0-100)
+	bPIDcontrolParameterMenu: BOOL; //Parameter menu switch
+	
+	bLevelControlSwitch: BOOL; //Switch for level control	
+	sLevelControlState: STRING(35); //Level control switch state in str
+	sLevelValveState: STRING(35); //Valve state in str
+	
+	iPressureScaledValue: INT; //Scaled pressure value
+	sFillingValveState: STRING; // Filling valve state in str
+	
+	sMatlabRunningState: STRING(35); // Matlab run state in str
+	bMatlabBtnPrevented: BOOL;
+	bMatlabBtnState		: BOOL;
+	
+	// PID PARAMETERS
+	fbCX565304_PER :FB_S_UPS_CX51x0;
+	
+END_VAR
+
+VAR_GLOBAL PERSISTENT
+	{attribute 'OPC.UA.DA' := '1'}
+	iPersistentValueTest: INT;
+	iProportionalBand: INT;
+	iIntegralTime: INT;
+	iDerivativeTime: INT;
+	iBias: INT;
+	iCycleTime: INT;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

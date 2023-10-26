@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="GVL_OPC" Id="{ff69d8bd-4aa9-4fbf-a8cd-ee3ab3220a99}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	{attribute 'OPC.UA.DA' := '1'}
+	TemperatureContactor : BOOL; // Temperature contactor
+	ReactorTemperature : INT; // Reactor temperature
+	ReactorPressure : INT; // Reactor pressure
+	ReactorTemperatureSetpoint: INT; // Reactr temperature setpoint
+	SlurryInletValve: BOOL;
+	SlurryOutletValve: BOOL;
+	
+	PumpingPressure: DINT;
+	PumpingPressureSetpoint: DINT;
+	
+	PreHeaterTemperature: DINT;
+	PreHeaterTemperatureSetpoint: DINT;
+	
+	SeparatorTemperature: DINT;
+	SeparatorTemperatureSetpoint: DINT;
+	
+	CO2VolumetricFlow: DINT;
+	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

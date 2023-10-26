@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_TemperaturePIDControl" Id="{fec9367a-41a1-444a-b23a-817c84e06e42}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_TemperaturePIDControl
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	rInput: REAL;
+	// PID parameters
+	rIprior: REAL := 0;
+	rIterationtime: REAL := 6;
+	reprior: REAL := 0;
+	rPB: REAL :=9;
+	rTi: REAL := 300;
+	rTd: REAL := 90;
+	rKp: REAL := 100/rPB;
+	rKi: REAL := 1/rTi;
+	rKd: REAL := 1/rTd;
+	rBias: REAL := 0;
+	// IO, HMI variables
+	ryT: REAL; // Temperature measurement
+	rspT: REAL; // Temperature setpoint
+	buT: BOOL; // Temperature control (contactor)
+	bTempCon: BOOL; // Temperature control mode (AUTO == 1, MAN == 0)
+	//
+	rontime: REAL;
+	re: REAL;
+	rI: REAL;
+	// Cycle timer
+	bCycleTimerStart : BOOL := 0;
+	fbCycleTimer : TON; // EHKÄ TÄHÄN mielummin IN parametri kuin pT? uusi pt sitten koodissa aina? tai sitten kaikki inputit ja outputit tähän?
+	// Ctrl timer
+	bCtrlTimerStart : BOOL := 0;
+	fbCtrlTimer : TON;	
+	//
+	rPIDypercentage: REAL;
+	bAutomode: BOOL;
+	bPercentageMode: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF ReactorTemperatureControl.iCycleTime <> 0 THEN
+	rIterationTime := ReactorTemperatureControl.iCycleTime;
+END_IF
+IF ReactorTemperatureControl.iProportionalBand <> 0 THEN
+	rPB := ReactorTemperatureControl.iProportionalBand;
+END_IF
+IF ReactorTemperatureControl.iIntegralTime <> 0 THEN
+	rTi := ReactorTemperatureControl.iIntegralTime;
+END_IF
+IF ReactorTemperatureControl.iDerivativeTime <> 0 THEN
+	rTd := ReactorTemperatureControl.iDerivativeTime;
+END_IF
+IF ReactorTemperatureControl.iBias <> 0 THEN
+	rBias := ReactorTemperatureControl.iBias;
+END_IF
+//IO.bOutput := HMI.bContactor;
+ReactorTemperatureControl.iTemperatureDisplayValue := IO.iReactorTy/10;
+//Temperature Control state
+IF ReactorTemperatureControl.bTemperatureControlSwitch = 1 THEN
+	ReactorTemperatureControl.sTemperatureControlState := 'AUTO';
+END_IF
+IF ReactorTemperatureControl.bTemperatureControlSwitch = 0 THEN
+	ReactorTemperatureControl.sTemperatureControlState := 'MAN';
+END_IF
+// Read measurement values
+// Temperature
+ryT := INT_TO_FLOAT(in := IO.iReactorTy);
+ryT := ryT/10;
+rspT := ReactorTemperatureControl.iTemperatureSetpoint;
+buT := IO.bReactorTu;
+bTempCon := ReactorTemperatureControl.bTemperatureControlSwitch;
+// Temperature PID control
+fbCtrlTimer(IN := bCtrlTimerStart,PT := REAL_TO_TIME(rontime*1000));
+fbCycleTimer(IN := bCycleTimerStart,PT := REAL_TO_TIME(rIterationtime*1000));
+IF bTempCon = 1 THEN
+	ReactorTemperatureControl.iTemperatureControlPercentage := 0;
+	IF bCycleTimerStart = 0 THEN
+		F_GetPIDOntime(rspT := rspT, ryT := ryT, rIprior := rIprior, riterationtime := riterationtime, reprior := reprior, rKp := rKp, rKi := rKi, rKd := rKd, rbias := rbias, rontime =>rontime, re => re, rI => rI);
+		reprior := re;
+		rIprior := rI;
+		bCycleTimerStart := 1;
+		bCtrlTimerStart := 1;
+	ELSE
+		F_ContactorControl(bCtrltimerQ := fbCtrlTimer.Q);
+		IF fbCycleTimer.Q = 1 THEN
+			bCycleTimerStart := 0;
+			bCtrlTimerStart := 0;	
+		END_IF
+	END_IF
+	bAutomode := 1;
+	bPercentageMode := 0;
+ELSE
+	IF bAutomode THEN
+		IO.bReactorTu := 0;
+		bAutomode := 0;
+	END_IF
+	rPIDypercentage := INT_TO_REAL(ReactorTemperatureControl.iTemperatureControlPercentage)/100;
+	IF rPIDypercentage > 0 THEN
+		bPercentageMode := TRUE;
+		rontime := F_PercentageToTime(rPIDypercentage := rPIDypercentage,rIterationtime := rIterationtime);
+		IF FbCycleTimer.Q = 0 THEN
+			bCycleTimerStart := 1;
+			bCtrlTimerStart := 1;
+			F_ContactorControl(bCtrltimerQ := fbCtrlTimer.Q);
+		END_IF
+			IF fbCycleTimer.Q = 1 THEN
+				bCycleTimerStart := 0;
+				bCtrlTimerStart := 0;	
+			END_IF	
+	ELSIF rPIDypercentage = 0 THEN
+		IF IO.bReactorTu = 1 AND bPercentageMode THEN
+			IO.bReactorTu := 0;
+		END_IF
+		bPercentageMode := FALSE;
+	END_IF
+END_IF
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_TemperaturePIDControl">
+      <LineId Id="302" Count="0" />
+      <LineId Id="209" Count="0" />
+      <LineId Id="303" Count="4" />
+      <LineId Id="208" Count="0" />
+      <LineId Id="308" Count="3" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="312" Count="1" />
+      <LineId Id="115" Count="7" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="124" Count="5" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="10" Count="17" />
+      <LineId Id="169" Count="0" />
+      <LineId Id="260" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="166" Count="1" />
+      <LineId Id="213" Count="0" />
+      <LineId Id="168" Count="0" />
+      <LineId Id="29" Count="1" />
+      <LineId Id="258" Count="0" />
+      <LineId Id="31" Count="9" />
+      <LineId Id="251" Count="0" />
+      <LineId Id="253" Count="0" />
+      <LineId Id="255" Count="1" />
+      <LineId Id="262" Count="0" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <Itf Name="I_SerialControlledDevice" Id="{65f13558-6a7f-4359-8026-07cf4695500c}">
+    <Declaration><![CDATA[INTERFACE I_SerialControlledDevice
+]]></Declaration>
+    <Method Name="StartSend" Id="{c4217205-e4d8-4cf7-b323-d74f4f9ceec2}">
+      <Declaration><![CDATA[METHOD StartSend : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="StopSend" Id="{a996e6f4-dbcd-479b-85d0-ccfe2ec25da2}">
+      <Declaration><![CDATA[METHOD StopSend : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

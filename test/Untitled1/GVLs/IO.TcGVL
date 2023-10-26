@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="IO" Id="{86a3f261-87c7-445b-99f5-4f998ed6afb1}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	//Test
+	{attribute 'OPC.UA.DA' := '1'}
+	iInput AT %I* : INT; // Thermocouple test
+	bReactorTu AT %Q* : BOOL; // Temperature contactor
+	iReactorTy AT %I*: INT; // Reactor temperature
+	bReactorHHy AT %I*: BOOL; // Higher high slurry level
+	bReactorHy AT %I*: BOOL; // High slurry level
+	bReactorLy AT %I*: BOOL; // Low slurry level
+	bReactorLLy AT %I*: BOOL; // Lower low slurry level
+	bReactorLu AT %Q*: BOOL;  // Reactor outlet valve
+	
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

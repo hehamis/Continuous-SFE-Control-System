@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="HMI" Id="{79d6175f-ed5c-4c88-949a-982b759f1432}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	bContactor: BOOL;
+	iTemperatureSetpoint: INT; // Temperature controller setpoint
+	bTemperatureControlSwitch: BOOL; //Switch for temperature control
+	sTemperatureControlState: STRING(35); //Temperature control switch state in str
+	iTemperatureDisplayValue: INT; //Displayed temp value in HMI (see MAIN)
+	iTemperatureControlPercentage: INT; //Temperature controller output % (0-100)
+	
+	bLevelControlSwitch: BOOL; //Switch for level control	
+	sLevelControlState: STRING(35); //Level control switch state in str
+	
+	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

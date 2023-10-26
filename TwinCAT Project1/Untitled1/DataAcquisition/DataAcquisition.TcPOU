@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="DataAcquisition" Id="{8ef7b23d-377f-464a-94da-dbf13a683f44}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM DataAcquisition
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+RunMATLAB();
+ReadWriteOPCvariables();]]></ST>
+    </Implementation>
+    <LineIds Name="DataAcquisition">
+      <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="14" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

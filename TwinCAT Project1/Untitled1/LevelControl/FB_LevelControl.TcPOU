@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_LevelControl" Id="{32cd3e91-9b01-412d-a1bd-2ea8d1d450bf}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_LevelControl
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	byH: BOOL;
+	byL: BOOL;
+	buL: BOOL;
+	fbReactorUpperLimit: FB_LimitSwitch;
+	fbReactorLowerLimit: FB_LimitSwitch;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*//Level Control state
+IF HMI.bLevelControlSwitch = 1 THEN
+	HMI.sLevelControlState := 'AUTO';
+END_IF
+IF HMI.bLevelControlSwitch = 0 THEN
+	HMI.sLevelControlState := 'MAN';
+END_IF
+//Level Valve state
+IF IO.bReactorLu = 1 THEN
+	HMI.sLevelValveState := 'CLOSE';
+END_IF
+IF IO.bReactorLu = 0 THEN
+	HMI.sLevelValveState := 'OPEN';
+END_IF
+
+//Read measurement values
+// Level
+byH := IO.bReactorHy;
+byL := IO.bReactorLy;
+buL := IO.bReactorLu;
+
+IF HMI.bLevelControlSwitch THEN
+	fbReactorUpperLimit(I_LimitSwitch := IO.bReactorHy, I_LowerLimit := FALSE, I_AlarmTimeSecs := 3);
+	fbReactorLowerLimit(I_LimitSwitch := IO.bReactorLy, I_LowerLimit := TRUE, I_AlarmTimeSecs := 1);
+	IF fbReactorUpperLimit.O_LimitAlarm THEN
+		IO.bReactorLu := TRUE;
+	END_IF
+	IF fbReactorLowerLimit.O_LimitAlarm THEN
+		IO.bReactorLu := FALSE;
+	END_IF
+END_IF
+
+//IF fbReactorUpperLimit.O_LimitAlarm THEN
+
+//Auto Control
+(*IF HMI.bLevelControlSwitch THEN
+	IF byL = 0 THEN
+		IF IO.bReactorLu = 1 THEN
+			IO.bReactorLu := 0;
+		END_IF
+	ELSIF byH = 1 THEN
+		IF IO.bReactorLu = 0 THEN
+			IO.bReactorLu := 1;
+		END_IF
+	// exit auto mode when filling 
+	(*ELSIF byL = 0 AND byH = 0 THEN
+		HMI.bLevelControlSwitch := 0;*)
+	END_IF
+END_IF*)
+*)]]></ST>
+    </Implementation>
+    <LineIds Name="FB_LevelControl">
+      <LineId Id="10" Count="12" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="26" Count="2" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="69" Count="1" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="82" Count="4" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="42" Count="1" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="47" Count="5" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="112" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

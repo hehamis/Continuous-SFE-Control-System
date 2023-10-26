@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="VariablePersistent" Id="{7495d68e-5062-4f43-bcb1-46f6e9da2a9c}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM VariablePersistent
+VAR
+	fbCX565304_PER :FB_S_UPS_CX51x0;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+//Save Peristent Data 
+fbCX565304_PER(
+	sNetID:= , //'5.86.83.4.4.1'
+	iPLCPort:= 851, 
+	tTimeout:= DEFAULT_ADS_TIMEOUT, 
+	eUpsMode:= eSUPS_WrPersistData_NoShutdown, 
+	ePersistentMode:= SPDM_2PASS, 
+	tRecoverTime:= T#10S, 
+	bPowerFailDetect=> , 
+	eState=> );
+	
+	]]></ST>
+    </Implementation>
+    <LineIds Name="VariablePersistent">
+      <LineId Id="17" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="36" Count="7" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="15" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

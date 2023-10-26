@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="Globale_Variablen" Id="{5c233f0c-81fa-466e-801d-878eb4422002}">
+    <Declaration><![CDATA[{attribute 'Tc2GvlVarNames'}
+VAR_GLOBAL CONSTANT
+	MAX_CSV_ROWS 			: UDINT := 100;
+	MAX_CSV_COLUMNS 		: UDINT := 5;
+	MAX_CSV_FIELD_LENGTH	: UDINT := 100;
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

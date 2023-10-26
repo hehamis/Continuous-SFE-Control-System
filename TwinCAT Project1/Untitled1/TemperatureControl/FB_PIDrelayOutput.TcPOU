@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_PIDrelayOutput" Id="{f4581e0f-d784-4c32-87ac-52ac429693ea}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_PIDrelayOutput
+VAR_INPUT
+	Iterationtime: REAL;
+	PB: REAL;
+	Ti: REAL;
+	Td: REAL;
+	Kp: REAL;
+	Ki: REAL;
+	Kd: REAL;
+	Bias: REAL;		
+	processVariable: REAL; // Temperature measurement
+	setpoint: REAL; // Temperature setpoint
+	modeSelection: BOOL; // Temperature control mode (AUTO == 1, MAN == 0)
+END_VAR
+VAR_IN_OUT
+	iTemperatureControlPercentage : INT;
+END_VAR
+VAR_OUTPUT
+	relayOn : BOOL;
+END_VAR
+VAR
+	// IO, HMI variables
+	onTime: REAL;
+	e: REAL;
+	I: REAL;
+	Iprior: REAL;
+	ePrior: REAL;
+	// Cycle timer
+	CycleTimerStart : BOOL := 0;
+	CycleTimer : TON; // EHKÄ TÄHÄN mielummin IN parametri kuin pT? uusi pt sitten koodissa aina? tai sitten kaikki inputit ja outputit tähän?
+	// Ctrl timer
+	CtrlTimerStart : BOOL := 0;
+	CtrlTimer : TON;	
+	//
+	PIDypercentage: REAL;
+	Automode: BOOL;
+	PercentageMode: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CtrlTimer(IN := CtrlTimerStart,PT := REAL_TO_TIME(onTime*1000));
+CycleTimer(IN := CycleTimerStart,PT := REAL_TO_TIME(Iterationtime*1000));
+IF modeSelection = 1 THEN
+	iTemperatureControlPercentage := 0;
+	IF CycleTimerStart = 0 THEN
+		GetOntime(rspT := setpoint, ryT := processVariable, rIprior := Iprior, riterationtime := Iterationtime, reprior := ePrior, rKp := Kp, rKi := Ki, rKd := Kd, rbias := Bias, rontime =>onTime, re => e, rI => I);
+		ePrior := e;
+		Iprior := I;
+		CycleTimerStart := 1;
+		CtrlTimerStart := 1;
+	ELSE
+		RelayControl(CtrltimerQ := CtrlTimer.Q, bRelayOnCommanded => relayOn);
+		IF CycleTimer.Q = 1 THEN
+			CycleTimerStart := 0;
+			CtrlTimerStart := 0;	
+		END_IF
+	END_IF
+	Automode := 1;
+	PercentageMode := 0;
+ELSE
+	IF Automode THEN
+		relayOn := 0;
+		Automode := 0;
+	END_IF
+	PIDypercentage := INT_TO_REAL(iTemperatureControlPercentage)/100;
+	IF PIDypercentage > 0 THEN
+		PercentageMode := TRUE;
+		onTime := PercentageToTime(rPIDypercentage := PIDypercentage,rIterationtime := Iterationtime);
+		IF CycleTimer.Q = 0 THEN
+			CycleTimerStart := 1;
+			CtrlTimerStart := 1;
+			RelayControl(CtrltimerQ := CtrlTimer.Q, bRelayOnCommanded => relayOn);
+		END_IF
+			IF CycleTimer.Q = 1 THEN
+				CycleTimerStart := 0;
+				CtrlTimerStart := 0;	
+			END_IF	
+	ELSIF PIDypercentage = 0 THEN
+		IF relayOn = 1 AND PercentageMode THEN
+			relayOn := 0;
+		END_IF
+		PercentageMode := FALSE;
+	END_IF
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="GetOnTime" Id="{e347c615-ce23-4a3f-bbe3-5132fe73fb77}">
+      <Declaration><![CDATA[METHOD GetOnTime : BOOL
+VAR_INPUT
+	rspT: REAL;
+	ryT: REAL;
+	rIprior: REAL;
+	riterationtime: REAL;
+	reprior: REAL;
+	rKp: REAL;
+	rKi: REAL;
+	rKd: REAL;
+	rbias: REAL;
+END_VAR
+VAR
+	rD: REAL;
+	rPIDy: REAL;
+	rPIDypercentage: REAL;
+END_VAR
+VAR_OUTPUT
+	rOntime: REAL;
+	re: REAL;
+	rI: REAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[re := rspT -ryT;
+rI := rIprior + re*riterationtime;
+rD := (re-reprior)/riterationtime;
+rPIDy := rKp*re + rKi*rI + rKd*rD + rbias;
+IF rPIDy > 150 THEN
+	rPIDy := 150;
+END_IF
+IF rPIDy < 0 THEN
+	rPIDy := 0;
+END_IF
+rPIDypercentage := rPIDy/150;
+rontime := PercentageToTime(rPIDypercentage := rPIDypercentage,rIterationtime := rIterationtime);
+//percentagetotime function here
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="PercentageToTime" Id="{dc1f33f2-d788-4b46-b01d-be88c101f017}">
+      <Declaration><![CDATA[METHOD PercentageToTime 
+VAR_INPUT
+	rPIDypercentage: REAL;
+	rIterationtime: REAL;
+END_VAR
+VAR
+	dontime: DINT;
+END_VAR
+VAR_OUTPUT
+	rontime: REAL;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[rontime := rPIDypercentage * riterationtime;
+dontime := REAL_TO_DINT(rontime*10);
+rontime := DINT_TO_REAL(dontime)/10;
+
+//rontime := F_HVACRoundLREAL(lrIN := rontime);
+//https://support.industry.siemens.com/forum/WW/en/posts/round-real-to-1-decimal-point-and-convert-to-string/119734]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RelayControl" Id="{3d19b568-524c-4863-a1bc-188ac6cc5b44}">
+      <Declaration><![CDATA[METHOD RelayControl : BOOL
+VAR_IN_OUT
+	
+END_VAR
+VAR_INPUT
+	CtrltimerQ : BOOL;
+END_VAR
+VAR
+END_VAR
+VAR_OUTPUT
+	bRelayOnCommanded : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF CtrltimerQ = 0 THEN
+	bRelayOnCommanded := 1;
+ELSE
+	bRelayOnCommanded := 0;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_PIDrelayOutput">
+      <LineId Id="2262" Count="42" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_PIDrelayOutput.GetOnTime">
+      <LineId Id="26" Count="11" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="59" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_PIDrelayOutput.PercentageToTime">
+      <LineId Id="16" Count="4" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_PIDrelayOutput.RelayControl">
+      <LineId Id="13" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

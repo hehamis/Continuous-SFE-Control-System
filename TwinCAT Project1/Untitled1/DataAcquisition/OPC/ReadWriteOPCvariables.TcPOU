@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="ReadWriteOPCvariables" Id="{f3380c8e-c00f-42bf-a0c6-face89438324}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM ReadWriteOPCvariables
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[GVL_OPC.ReactorTemperature := IO.iReactorTy;
+GVL_OPC.TemperatureContactor := IO.bReactorTu;
+GVL_OPC.ReactorPressure := PressureControl.iPressureScaledValue;
+IF ReactorTemperatureControl.bTempCon THEN
+	GVL_OPC.ReactorTemperatureSetpoint := REAL_TO_INT(ReactorTemperatureControl.iTemperatureSetpoint);
+ELSE
+	GVL_OPC.ReactorTemperatureSetpoint := 0;
+END_IF
+GVL_OPC.SlurryInletValve := IO.bReactorFu;
+GVL_OPC.SlurryOutletValve := IO.bReactorLu;
+
+GVL_OPC.CO2VolumetricFlow := SerialCommunicationHandler.flowMeasurement;
+GVL_OPC.PumpingPressure := SerialCommunicationHandler.pumpingPressureMeasurement;
+GVL_OPC.PumpingPressureSetpoint := SerialCommunicationHandler.pumpingPressureSetpoint;
+GVL_OPC.PreHeaterTemperature := SerialCommunicationHandler.preHeaterTemperatureMeasurement;
+GVL_OPC.PreHeaterTemperatureSetpoint := SerialCommunicationHandler.preHeaterTemperatureSetpoint;
+GVL_OPC.SeparatorTemperature := SerialCommunicationHandler.separatorTemperatureMeasurement;
+GVL_OPC.SeparatorTemperatureSetpoint := SerialCommunicationHandler.preHeaterTemperatureSetpoint;
+]]></ST>
+    </Implementation>
+    <LineIds Name="ReadWriteOPCvariables">
+      <LineId Id="5" Count="2" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="4" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="25" Count="5" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

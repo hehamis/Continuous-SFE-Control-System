@@ -1,0 +1,70 @@
+Id;Default
+574;%2.0f
+759;%2f
+655;%i
+472;%i %
+23;%i *C
+756;%i bar
+291;%i C
+853;%i l/min
+684;%i sec
+71;%i °C
+615;%s
+917;&i
+561;1: %i bar
+352;2: %i bar
+662;3: %i bar
+482;Bias (%)
+308;Closed time
+740;CO2 + extractive
+99;CO2 + extractive OUT
+622;CO2 flow
+64;CO2 IN
+506;CO2 OUT
+459;CO2 pump
+905;CO2+extractive
+480;CO2+extractive OUT
+757;Contactor
+153;Control
+219;Cycle time (%)
+416;Cycle time (s)
+353;Data acquisition
+985;EXIT
+273;Extractive
+444;Flow
+154;Label
+334;Lower
+744;Lower interval
+378;Lower intervals
+69;Mode
+351;ON/OFF
+861;Open time 
+693;Output power
+810;PB
+963;PB (%)
+463;Percentage
+443;Percentage (%)
+457;PID
+797;Pre-heater
+795;Pressure
+951;Reactor
+579;Screen
+31;Screen1
+465;Screen2
+89;sec
+970;Separator
+160;Setpoint
+833;Slurry IN
+336;Slurry in + upper
+280;Slurry off + upper
+634;Slurry on + not upper
+155;Slurry OUT
+458;Start MATLAB
+888;Supercritical Fluid Extraction
+410;Td (s)
+640;Temperature
+968;Temperature Control
+50;Ti (s)
+796;Upper
+591;Upper interval
+290;Upper intervals
