@@ -246,6 +246,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"113"</v>
+              <v n="TextDefault">"Program name prefix"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"951"</v>
               <v n="TextDefault">"Reactor"</v>
               <l n="LanguageTexts" t="ArrayList" />
