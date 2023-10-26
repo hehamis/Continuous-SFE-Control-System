@@ -8,8 +8,6 @@ VAR
 	fillingValveAutoMode: BOOL;
 	sFillingValveControlState: STRING;
 	toggleFillingValve : FB_ToggleHeartBeat;
-	fillingValveOpenInterval: INT;
-	fillingValveCloseInterval: INT;
 	fTrigFillingAutoMode: F_TRIG;
 	rTrigFillingAutoMode: R_TRIG;
 	ReactorPressurePIDcontrol: FB_PIDsetpointOutput;
@@ -26,6 +24,10 @@ VAR
 	togglePressureControl: FB_ToggleHeartBeat;
 	ReactorPressureAutoPID : BOOL;
 	reactorPressureSetpoint: REAL;
+END_VAR
+VAR PERSISTENT
+	fillingValveOpenInterval: INT;
+	fillingValveCloseInterval: INT;	
 END_VAR
 ]]></Declaration>
     <Implementation>
