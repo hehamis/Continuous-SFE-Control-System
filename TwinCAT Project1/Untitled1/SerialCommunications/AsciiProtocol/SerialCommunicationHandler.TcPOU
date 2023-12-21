@@ -93,7 +93,7 @@ CASE ReceiveStep OF
 		// Read flow measurement from controller
 		fbAsciiComm.StartSend(SendStringIn := 'L3M?*', start := TRUE);
 		IF fbAsciiComm.Received THEN
-			flowMeasurement := F_AsciiNumberConvert(fbAsciiComm.sReceivedString)/100;  
+			flowMeasurement := F_AsciiNumberConvert(fbAsciiComm.sReceivedString);  
 			fbAsciiComm.StopSend(stop := TRUE);
 			ReceiveStep := 5;
 		END_IF
