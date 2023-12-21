@@ -87,7 +87,7 @@ CASE iStartStep OF
 		dMatlabBtnColor := 16#FFFFFF00; // Yellow
 		sMatlabRunningState := 'MATLAB STARTING';
 		Process(START:=FALSE);
-		tonMatlabStartTimer(IN:= TRUE, PT := T#50S);
+		tonMatlabStartTimer(IN:= TRUE, PT := T#60S);
 		IF tonMatlabStartTimer.q THEN
 			bMatlabStarting := FALSE;
 			bMatlabBtn := FALSE;
@@ -247,7 +247,9 @@ END_IF *)
 ]]></ST>
     </Implementation>
     <LineIds Name="RunMATLAB">
-      <LineId Id="24" Count="50" />
+      <LineId Id="24" Count="47" />
+      <LineId Id="335" Count="1" />
+      <LineId Id="74" Count="0" />
       <LineId Id="257" Count="0" />
       <LineId Id="75" Count="41" />
       <LineId Id="293" Count="1" />
