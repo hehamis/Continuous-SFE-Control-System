@@ -46,7 +46,7 @@ while stopMatlab ~= true
         foldername = ([num2str(starttime(1)),'_',num2str(starttime(2)),'_',...
             num2str(starttime(3)),'_',num2str(starthr),'_',num2str(startmin),'_',...
             num2str(startsec)]); % Foldername (date_time) for saving measured values
-        programNamePrefix =  findNodeByName(allvar,'ProgramNamePrefix','-once'); % Get program name prefix from plc
+        programNamePrefix =  findNodeByName(allvar,'OPC_ProgramNamePrefix','-once'); % Get program name prefix from plc
         prefix = readValue(uaClient,programNamePrefix);
         foldername = append(foldername," (", convertCharsToStrings(prefix), ")");
         mkdir(fullfile(foldername)) % Make new folder under new name
@@ -76,18 +76,18 @@ while stopMatlab ~= true
         %% Read symbols cyclically
         stopMatlab = adsClt.ReadSymbol(stopMatlabSymbol);
         %% Read measurement values
-        iReactorTy =  findNodeByName(allvar,'ReactorTemperature','-once');% Reactor temperature value
-        iReactorTsp = findNodeByName(allvar,'ReactorTemperatureSetpoint','-once'); 
-        bReactorTu = findNodeByName(allvar,'TemperatureContactor','-once'); % Reactor temperature Contactor
-        iReactorPy = findNodeByName(allvar,'ReactorPressure','-once'); % Reactor pressure
-        bSlurryInlet = findNodeByName(allvar,'SlurryInletValve','-once');
-        bSlurryOutlet = findNodeByName(allvar,'SlurryOutletValve','-once');
-        iPumpingPressureSetpoint = findNodeByName(allvar,'PumpingPressureSetpoint','-once');
-        iPreHeaterTemperature = findNodeByName(allvar,'PreHeaterTemperature','-once');
-        iPreHeaterTemperatureSetpoint = findNodeByName(allvar,'PreHeaterTemperatureSetpoint','-once');
-        iSeparatorTemperature = findNodeByName(allvar,'SeparatorTemperature','-once');
-        iSeparatorTemperatureSetpoint = findNodeByName(allvar,'SeparatorTemperatureSetpoint','-once');
-        iCO2VolumetricFlow = findNodeByName(allvar,'CO2VolumetricFlow','-once');
+        iReactorTy =  findNodeByName(allvar,'OPC_ReactorTemperature','-once');% Reactor temperature value
+        iReactorTsp = findNodeByName(allvar,'OPC_ReactorTemperatureSetpoint','-once'); 
+        bReactorTu = findNodeByName(allvar,'OPC_TemperatureContactor','-once'); % Reactor temperature Contactor
+        iReactorPy = findNodeByName(allvar,'OPC_ReactorPressure','-once'); % Reactor pressure
+        bSlurryInlet = findNodeByName(allvar,'OPC_SlurryInletValve','-once');
+        bSlurryOutlet = findNodeByName(allvar,'OPC_SlurryOutletValve','-once');
+        iPumpingPressureSetpoint = findNodeByName(allvar,'OPC_PumpingPressureSetpoint','-once');
+        iPreHeaterTemperature = findNodeByName(allvar,'OPC_PreHeaterTemperature','-once');
+        iPreHeaterTemperatureSetpoint = findNodeByName(allvar,'OPC_PreHeaterTemperatureSetpoint','-once');
+        iSeparatorTemperature = findNodeByName(allvar,'OPC_SeparatorTemperature','-once');
+        iSeparatorTemperatureSetpoint = findNodeByName(allvar,'OPC_SeparatorTemperatureSetpoint','-once');
+        iCO2VolumetricFlow = findNodeByName(allvar,'OPC_CO2VolumetricFlow','-once');
 
         %% Save and plot data
         %Slurry valves
@@ -137,6 +137,7 @@ while stopMatlab ~= true
         % Reactor pressure 
         %pdata(n) = read(iReactorTy); % TÄHÄN OIKEA MUUTTUJA 
         pdata(n) = readValue(uaClient,iReactorPy);
+        disp(readValue(uaClient,iReactorPy))
         pspdata(n) = readValue(uaClient,iPumpingPressureSetpoint); 
         pvalues(n) = double(pdata(:,n));
         pspvalues(n) = double(pspdata(:,n));

@@ -4,26 +4,26 @@
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
 	{attribute 'OPC.UA.DA' := '1'}
-	TemperatureContactor : BOOL; // Temperature contactor
-	ReactorTemperature : INT; // Reactor temperature
-	ReactorPressure : INT; // Reactor pressure
-	ReactorTemperatureSetpoint: INT; // Reactr temperature setpoint
-	SlurryInletValve: BOOL;
-	SlurryOutletValve: BOOL;
+	OPC_TemperatureContactor : BOOL; // Temperature contactor
+	OPC_ReactorTemperature : INT; // Reactor temperature
+	OPC_ReactorPressure : INT; // Reactor pressure
+	OPC_ReactorTemperatureSetpoint: INT; // Reactr temperature setpoint
+	OPC_SlurryInletValve: BOOL;
+	OPC_SlurryOutletValve: BOOL;
 	
-	PumpingPressure: DINT;
-	PumpingPressureSetpoint: DINT;
+	OPC_PumpingPressure: DINT;
+	OPC_PumpingPressureSetpoint: DINT;
 	
-	PreHeaterTemperature: DINT;
-	PreHeaterTemperatureSetpoint: DINT;
+	OPC_PreHeaterTemperature: DINT;
+	OPC_PreHeaterTemperatureSetpoint: DINT;
 	
-	SeparatorTemperature: DINT;
-	SeparatorTemperatureSetpoint: DINT;
+	OPC_SeparatorTemperature: DINT;
+	OPC_SeparatorTemperatureSetpoint: DINT;
 	
-	CO2VolumetricFlow: DINT;
+	OPC_CO2VolumetricFlow: DINT;
 	
 	// Program name 
-	ProgramNamePrefix: STRING;
+	OPC_ProgramNamePrefix: STRING;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

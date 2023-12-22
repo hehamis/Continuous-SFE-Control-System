@@ -6,28 +6,28 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[GVL_OPC.ReactorTemperature := IO.reactorTemperatureUpper;
-GVL_OPC.TemperatureContactor := IO.reactorTemperatureContactor;
-GVL_OPC.ReactorPressure := PressureControl.iPressureScaledValue;
+      <ST><![CDATA[GVL_OPC.OPC_ReactorTemperature := IO.reactorTemperatureUpper;
+GVL_OPC.OPC_TemperatureContactor := IO.reactorTemperatureContactor;
+GVL_OPC.OPC_ReactorPressure := PressureControl.iPressureScaledValue;
 IF ReactorTemperatureControl.bTempCon THEN
-	GVL_OPC.ReactorTemperatureSetpoint := REAL_TO_INT(ReactorTemperatureControl.iTemperatureSetpoint);
+	GVL_OPC.OPC_ReactorTemperatureSetpoint := REAL_TO_INT(ReactorTemperatureControl.iTemperatureSetpoint);
 ELSE
-	GVL_OPC.ReactorTemperatureSetpoint := 0;
+	GVL_OPC.OPC_ReactorTemperatureSetpoint := 0;
 END_IF
-GVL_OPC.SlurryInletValve := IO.reactorInletValve;
-GVL_OPC.SlurryOutletValve := IO.reactorOutletValve;
+GVL_OPC.OPC_SlurryInletValve := IO.reactorInletValve;
+GVL_OPC.OPC_SlurryOutletValve := IO.reactorOutletValve;
 
-GVL_OPC.CO2VolumetricFlow := SerialCommunicationHandler.flowMeasurement;
-GVL_OPC.PumpingPressure := SerialCommunicationHandler.pumpingPressureMeasurement;
-GVL_OPC.PumpingPressureSetpoint := SerialCommunicationHandler.pumpingPressureSetpoint;
-GVL_OPC.PreHeaterTemperature := SerialCommunicationHandler.preHeaterTemperatureMeasurement;
-GVL_OPC.PreHeaterTemperatureSetpoint := SerialCommunicationHandler.preHeaterTemperatureSetpoint;
-GVL_OPC.SeparatorTemperature := SerialCommunicationHandler.separatorTemperatureMeasurement;
-GVL_OPC.SeparatorTemperatureSetpoint := SerialCommunicationHandler.preHeaterTemperatureSetpoint;
+GVL_OPC.OPC_CO2VolumetricFlow := SerialCommunicationHandler.flowMeasurement;
+GVL_OPC.OPC_PumpingPressure := SerialCommunicationHandler.pumpingPressureMeasurement;
+GVL_OPC.OPC_PumpingPressureSetpoint := SerialCommunicationHandler.pumpingPressureSetpoint;
+GVL_OPC.OPC_PreHeaterTemperature := SerialCommunicationHandler.preHeaterTemperatureMeasurement;
+GVL_OPC.OPC_PreHeaterTemperatureSetpoint := SerialCommunicationHandler.preHeaterTemperatureSetpoint;
+GVL_OPC.OPC_SeparatorTemperature := SerialCommunicationHandler.separatorTemperatureMeasurement;
+GVL_OPC.OPC_SeparatorTemperatureSetpoint := SerialCommunicationHandler.preHeaterTemperatureSetpoint;
 ]]></ST>
     </Implementation>
     <LineIds Name="ReadWriteOPCvariables">
-      <LineId Id="106" Count="17" />
+      <LineId Id="145" Count="17" />
       <LineId Id="8" Count="0" />
     </LineIds>
   </POU>

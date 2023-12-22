@@ -137,7 +137,7 @@ heartBeat(
 // Reset program name after matlab has stopped
 rTrigMatlabStopped(CLK:= bStopMatlab);
 IF rTrigMatlabStopped.Q THEN
-	GVL_OPC.ProgramNamePrefix := '';
+	GVL_OPC.OPC_ProgramNamePrefix := '';
 END_IF
 
 (*CASE iStartStep OF
