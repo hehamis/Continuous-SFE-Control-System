@@ -71,10 +71,10 @@ IF iBias <> 0 THEN
 END_IF
 
 // Temperature display value to HMI
-iTemperatureDisplayValue := IO.iReactorTy/10;
+iTemperatureDisplayValue := IO.reactorTemperatureUpper/10;
 
 // Lower temperature displau value to HMi
-iTemperatureLowerDisplayValue := IO.iReactorTyLower/10;
+iTemperatureLowerDisplayValue := IO.reactorTemperatureLower/10;
 
 //Temperature Control state
 IF bTemperatureControlSwitch = 1 THEN
@@ -86,10 +86,10 @@ END_IF
 
 // Read measurement values
 // Temperature
-ryT := INT_TO_FLOAT(in := IO.iReactorTy);
+ryT := INT_TO_FLOAT(in := IO.reactorTemperatureUpper);
 ryT := ryT/10;
 rspT := iTemperatureSetpoint;
-buT := IO.bReactorTu;
+buT := IO.reactorTemperatureContactor;
 bTempCon := bTemperatureControlSwitch;
 
 IF bTempCon OR iTemperatureControlPercentage > 0 THEN
@@ -106,7 +106,7 @@ IF bTempCon OR iTemperatureControlPercentage > 0 THEN
 		setpoint:= rspT, 
 		modeSelection:= bTempCon,
 		iTemperatureControlPercentage := iTemperatureControlPercentage, 
-		relayOn=> IO.bReactorTu);
+		relayOn=> IO.reactorTemperatureContactor);
 END_IF
 
 (*// Temperature PID control

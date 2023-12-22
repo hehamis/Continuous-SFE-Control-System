@@ -32,9 +32,9 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Scale analog pressure
-iPressureScaledValue := F_AnalogScale(AnalogInputRawValue := IO.iReactorPy, MaxAnalogValue := 1000);
+iPressureScaledValue := F_AnalogScale(AnalogInputRawValue := IO.reactorPressure, MaxAnalogValue := 1000);
 // Manual operation of filling valve: state texts
-IF NOT io.bReactorFu THEN
+IF NOT io.reactorInletValve THEN
 	sFillingValveState := 'OPEN';
 ELSE
 	sFillingValveState := 'CLOSE';
@@ -43,7 +43,7 @@ END_IF
 // Filling valve control mode and auto control
 IF fillingValveAutoMode THEN
 	sFillingValveControlState := 'AUTO';
-	toggleFillingValve(I_OpenInterValSecs := fillingValveOpenInterval, I_CloseIntervalSecs := fillingValveCloseInterval, O_Update => io.bReactorFu);
+	toggleFillingValve(I_OpenInterValSecs := fillingValveOpenInterval, I_CloseIntervalSecs := fillingValveCloseInterval, O_Update => io.reactorInletValve);
 ELSE
 	sFillingValveControlState := 'MAN';
 END_IF
@@ -51,12 +51,12 @@ END_IF
 rTrigFillingAutoMode(CLK := fillingValveAutoMode);
 IF rTrigFillingAutoMode.Q THEN
 	//toggleFillingValve.firstTime(entered := TRUE);
-	io.bReactorFu := TRUE;
+	io.reactorInletValve := TRUE;
 END_IF
 // Close valve when auto mode is entered
 fTrigFillingAutoMode(CLK := fillingValveAutoMode);
 IF fTrigFillingAutoMode.Q THEN
-	io.bReactorFu := FALSE;
+	io.reactorInletValve := FALSE;
 END_IF
 
 

@@ -57,7 +57,7 @@ IF ReactorTemperatureControl.iBias <> 0 THEN
 	rBias := ReactorTemperatureControl.iBias;
 END_IF
 //IO.bOutput := HMI.bContactor;
-ReactorTemperatureControl.iTemperatureDisplayValue := IO.iReactorTy/10;
+ReactorTemperatureControl.iTemperatureDisplayValue := IO.reactorTemperatureUpper/10;
 //Temperature Control state
 IF ReactorTemperatureControl.bTemperatureControlSwitch = 1 THEN
 	ReactorTemperatureControl.sTemperatureControlState := 'AUTO';
@@ -67,10 +67,10 @@ IF ReactorTemperatureControl.bTemperatureControlSwitch = 0 THEN
 END_IF
 // Read measurement values
 // Temperature
-ryT := INT_TO_FLOAT(in := IO.iReactorTy);
+ryT := INT_TO_FLOAT(in := IO.reactorTemperatureUpper);
 ryT := ryT/10;
 rspT := ReactorTemperatureControl.iTemperatureSetpoint;
-buT := IO.bReactorTu;
+buT := IO.reactorTemperatureContactor;
 bTempCon := ReactorTemperatureControl.bTemperatureControlSwitch;
 // Temperature PID control
 fbCtrlTimer(IN := bCtrlTimerStart,PT := REAL_TO_TIME(rontime*1000));
@@ -94,7 +94,7 @@ IF bTempCon = 1 THEN
 	bPercentageMode := 0;
 ELSE
 	IF bAutomode THEN
-		IO.bReactorTu := 0;
+		IO.reactorTemperatureContactor := 0;
 		bAutomode := 0;
 	END_IF
 	rPIDypercentage := INT_TO_REAL(ReactorTemperatureControl.iTemperatureControlPercentage)/100;
@@ -111,8 +111,8 @@ ELSE
 				bCtrlTimerStart := 0;	
 			END_IF	
 	ELSIF rPIDypercentage = 0 THEN
-		IF IO.bReactorTu = 1 AND bPercentageMode THEN
-			IO.bReactorTu := 0;
+		IF IO.reactorTemperatureContactor = 1 AND bPercentageMode THEN
+			IO.reactorTemperatureContactor := 0;
 		END_IF
 		bPercentageMode := FALSE;
 	END_IF

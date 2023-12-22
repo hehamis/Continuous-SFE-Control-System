@@ -47,18 +47,18 @@ IF bLevelControlSwitch = 0 THEN
 	sLevelControlState := 'MAN';
 END_IF
 (*** Level valve state ***)
-IF IO.bReactorLu = 1 THEN
+IF IO.reactorOutletValve = 1 THEN
 	sLevelValveState := 'CLOSE';
 END_IF
-IF IO.bReactorLu = 0 THEN
+IF IO.reactorOutletValve = 0 THEN
 	sLevelValveState := 'OPEN';
 END_IF
 
 (*** Read measurement values ***)
 // Level
-byH := IO.bReactorHy;
-byL := IO.bReactorLy;
-buL := IO.bReactorLu;
+byH := IO.reactorLevelHigh;
+byL := IO.reactorLevelLower;
+buL := IO.reactorOutletValve;
 
 (***Enter level auto control when selected from HMI***)
 rtrigLevelControlAuto(CLK := bLevelControlSwitch);
@@ -68,11 +68,11 @@ IF rTrigLevelControlAuto.Q THEN
 END_IF
 IF fTrigLevelControlAuto.Q THEN // Close valve if auto control is exited
 	levelAutoControl := FALSE;
-	IO.bReactorLu := FALSE;
+	IO.reactorOutletValve := FALSE;
 END_IF
 
 (***If filling valve auto control is selected, automatically turn on outlet valve auto control ***)
-IF PressureControl.fillingValveAutoMode AND io.bReactorFu THEN
+IF PressureControl.fillingValveAutoMode AND io.reactorInletValve THEN
 	bLevelControlSwitch := TRUE;
 ELSE
 	bLevelControlSwitch := FALSE;
@@ -83,10 +83,10 @@ END_IF
 PressureReference := SerialCommunicationHandler.pumpingPressureSetpoint;//PressureControl.iPressureScaledValue;
 IF PressureControl.fillingValveAutoMode THEN
 	// Select pressure intervals according to lower limit sensor and filling valve state
-	IF IO.bReactorLy and IO.bReactorFu THEN // If above lower limit and filling valve open
+	IF IO.reactorLevelLower and IO.reactorInletValve THEN // If above lower limit and filling valve open
 			PressureUpperInterval := PressureUpperInterval_1;
 			PressureLowerInterval := PressureLowerInterval_1;
-	ELSIF IO.bReactorLy AND NOT IO.bReactorFu THEN // If above lower limit and filling valve closed
+	ELSIF IO.reactorLevelLower AND NOT IO.reactorInletValve THEN // If above lower limit and filling valve closed
 			PressureUpperInterval := PressureUpperInterVal_3;
 			PressureLowerInterval := PressureLowerInterval_3;		
 	ELSE // If below lower limit
@@ -96,9 +96,9 @@ IF PressureControl.fillingValveAutoMode THEN
 	
 	// Control outlet valve when intervals are exceeded
 	IF PressureControl.iPressureScaledValue >= PressureReference + PressureUpperInterval THEN
-		IO.bReactorLu := TRUE;
+		IO.reactorOutletValve := TRUE;
 	ELSIF PressureControl.iPressureScaledValue <= PressureReference - PressureLowerInterval THEN
-		IO.bReactorLu := FALSE;
+		IO.reactorOutletValve := FALSE;
 	END_IF
 	
 	

@@ -12,9 +12,9 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF bCtrltimerQ = 0 THEN
-	IO.bReactorTu := 1;
+	IO.reactorTemperatureContactor := 1;
 ELSE
-	IO.bReactorTu := 0;
+	IO.reactorTemperatureContactor := 0;
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="F_ContactorControl">

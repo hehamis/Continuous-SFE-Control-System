@@ -5,16 +5,16 @@
 VAR_GLOBAL
 	//Test
 	{attribute 'OPC.UA.DA' := '1'}
-	bReactorTu AT %Q* : BOOL; // Temperature contactor
-	iReactorTy AT %I*: INT; // Reactor temperature
-	iReactorTyLower AT %I*: INT; // Reactor temperature lower
-	bReactorHHy AT %I*: BOOL; // Higher high slurry level
-	bReactorHy AT %I*: BOOL; // High slurry level
-	bReactorLy AT %I*: BOOL; // Low slurry level
-	bReactorLLy AT %I*: BOOL; // Lower low slurry level
-	bReactorLu AT %Q*: BOOL;  // Reactor outlet valve
-	iReactorPy AT %I*: INT; // Reactor pressure raw analog value
-	bReactorFu AT %Q*: BOOL; // Filling valve
+	reactorTemperatureContactor AT %Q* : BOOL; // Temperature contactor
+	reactorTemperatureUpper AT %I*: INT; // Reactor temperature
+	reactorTemperatureLower AT %I*: INT; // Reactor temperature lower
+	reactorLevelHigherHigh AT %I*: BOOL; // Higher high slurry level
+	reactorLevelHigh AT %I*: BOOL; // High slurry level
+	reactorLevelLower AT %I*: BOOL; // Low slurry level
+	reactorLevelLowerLow AT %I*: BOOL; // Lower low slurry level
+	reactorOutletValve AT %Q*: BOOL;  // Reactor outlet valve
+	reactorPressure AT %I*: INT; // Reactor pressure raw analog value
+	reactorInletValve AT %Q*: BOOL; // Filling valve
 END_VAR
 ]]></Declaration>
   </GVL>
