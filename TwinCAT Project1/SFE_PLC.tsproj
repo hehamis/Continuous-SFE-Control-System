@@ -139,37 +139,37 @@
 					<Vars VarGrpType="1" ContextId="1" AreaNo="16">
 						<Name>PlcTask Inputs</Name>
 						<Var>
-							<Name>IO.bReactorHHy</Name>
-							<Comment><![CDATA[ Higher high slurry level]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>IO.iReactorTy</Name>
-							<Comment><![CDATA[ Reactor temperature]]></Comment>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>IO.iReactorTyLower</Name>
-							<Comment><![CDATA[ Reactor temperature lower]]></Comment>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>IO.bReactorHy</Name>
-							<Comment><![CDATA[ High slurry level]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>IO.bReactorLy</Name>
+							<Name>IO.reactorLevelLow</Name>
 							<Comment><![CDATA[ Low slurry level]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>IO.bReactorLLy</Name>
+							<Name>IO.reactorTemperatureUpper</Name>
+							<Comment><![CDATA[ Reactor temperature]]></Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>IO.reactorLevelHigherHigh</Name>
+							<Comment><![CDATA[ Higher high slurry level]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>IO.reactorTemperatureLower</Name>
+							<Comment><![CDATA[ Reactor temperature lower]]></Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>IO.reactorLevelHigh</Name>
+							<Comment><![CDATA[ High slurry level]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>IO.reactorLevelLowerLow</Name>
 							<Comment><![CDATA[ Lower low slurry level]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>IO.iReactorPy</Name>
+							<Name>IO.reactorPressure</Name>
 							<Comment><![CDATA[ Reactor pressure raw analog value]]></Comment>
 							<Type>INT</Type>
 						</Var>
@@ -177,21 +177,28 @@
 					<Vars VarGrpType="2" ContextId="1" AreaNo="17">
 						<Name>PlcTask Outputs</Name>
 						<Var>
-							<Name>IO.bReactorTu</Name>
+							<Name>IO.reactorTemperatureContactor</Name>
 							<Comment><![CDATA[ Temperature contactor]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>IO.bReactorLu</Name>
+							<Name>IO.reactorOutletValve</Name>
 							<Comment><![CDATA[ Reactor outlet valve]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>IO.bReactorFu</Name>
+							<Name>IO.reactorInletValve</Name>
 							<Comment><![CDATA[ Filling valve]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>
+					<UnrestoredVarLinks ImportTime="2023-12-22T12:43:52">
+						<OwnerA Name="InputDst" Prefix="TIPC^Untitled1^Untitled1 Instance" Type="1">
+							<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 11 (EL3204)">
+								<Link VarA="IO.iReactorTyLower" TypeA="INT" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000006}" VarB="RTD Inputs Channel 2^Value" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
 					<Contexts>
 						<Context>
 							<Id NeedCalleeCall="true">0</Id>
@@ -2406,20 +2413,20 @@ Bit1: Value bigger/equal Limit2]]></Comment>
 		<MappingInfo Identifier="{00000000-2003-0850-0020-500810000403}" Id="#x02030010"/>
 		<OwnerA Name="TIPC^Untitled1^Untitled1 Instance">
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 11 (EL3204)">
-				<Link VarA="PlcTask Inputs^IO.iReactorTy" VarB="RTD Inputs Channel 1^Value"/>
-				<Link VarA="PlcTask Inputs^IO.iReactorTyLower" VarB="RTD Inputs Channel 2^Value"/>
+				<Link VarA="PlcTask Inputs^IO.reactorTemperatureLower" VarB="RTD Inputs Channel 2^Value"/>
+				<Link VarA="PlcTask Inputs^IO.reactorTemperatureUpper" VarB="RTD Inputs Channel 1^Value"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 14 (EL3154)">
-				<Link VarA="PlcTask Inputs^IO.iReactorPy" VarB="AI Standard Channel 1^Value"/>
+				<Link VarA="PlcTask Inputs^IO.reactorPressure" VarB="AI Standard Channel 1^Value"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 2 (EL2004)">
-				<Link VarA="PlcTask Outputs^IO.bReactorFu" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^IO.bReactorLu" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^IO.bReactorTu" VarB="Channel 2^Output"/>
+				<Link VarA="PlcTask Outputs^IO.reactorInletValve" VarB="Channel 3^Output"/>
+				<Link VarA="PlcTask Outputs^IO.reactorOutletValve" VarB="Channel 4^Output"/>
+				<Link VarA="PlcTask Outputs^IO.reactorTemperatureContactor" VarB="Channel 2^Output"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 5 (EL1004)">
-				<Link VarA="PlcTask Inputs^IO.bReactorHy" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^IO.bReactorLy" VarB="Channel 2^Input"/>
+				<Link VarA="PlcTask Inputs^IO.reactorLevelHigh" VarB="Channel 2^Input"/>
+				<Link VarA="PlcTask Inputs^IO.reactorLevelLow" VarB="Channel 1^Input"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 6 (EL6021)">
 				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 0"/>
