@@ -91,14 +91,18 @@ IF PressureControl.fillingValveAutoMode THEN
 			PressureLowerInterval := PressureLowerInterval_3;		
 	ELSIF NOT IO.reactorLevelHigh AND IO.reactorInletValve THEN  // If below higher limit and reactor filling valve open
 			PressureUpperInterval := PressureUpperInterVal_2;
-			PressureLowerInterval := PressureLowerInterval_2;		
+			PressureLowerInterval := PressureLowerInterval_2;	
 	END_IF	
 	
 	// Control outlet valve when intervals are exceeded
-	IF PressureControl.iPressureScaledValue >= PressureReference + PressureUpperInterval THEN
+	IF PressureControl.iPressureScaledValue >= PressureReference + PressureUpperInterval 
+			AND NOT (NOT IO.reactorLevelHigh AND NOT IO.reactorInletValve) 
+		THEN
 		IO.reactorOutletValve := TRUE;
-	ELSIF PressureControl.iPressureScaledValue <= PressureReference - PressureLowerInterval THEN
-		IO.reactorOutletValve := FALSE;
+	ELSIF PressureControl.iPressureScaledValue <= PressureReference - PressureLowerInterval
+			OR (NOT IO.reactorLevelHigh AND NOT IO.reactorInletValve)	 
+		THEN
+			IO.reactorOutletValve := FALSE;
 	END_IF
 	
 	
@@ -150,10 +154,12 @@ END_IF*)]]></ST>
       <LineId Id="349" Count="8" />
       <LineId Id="348" Count="0" />
       <LineId Id="360" Count="0" />
-      <LineId Id="334" Count="0" />
-      <LineId Id="83" Count="0" />
-      <LineId Id="94" Count="0" />
-      <LineId Id="96" Count="1" />
+      <LineId Id="404" Count="0" />
+      <LineId Id="415" Count="0" />
+      <LineId Id="418" Count="1" />
+      <LineId Id="406" Count="0" />
+      <LineId Id="416" Count="1" />
+      <LineId Id="407" Count="1" />
       <LineId Id="95" Count="0" />
       <LineId Id="337" Count="0" />
       <LineId Id="152" Count="0" />
