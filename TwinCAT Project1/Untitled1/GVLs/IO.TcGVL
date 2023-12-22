@@ -9,8 +9,8 @@ VAR_GLOBAL
 	reactorTemperatureUpper AT %I*: INT; // Reactor temperature
 	reactorTemperatureLower AT %I*: INT; // Reactor temperature lower
 	reactorLevelHigherHigh AT %I*: BOOL; // Higher high slurry level
+	reactorLevelLow AT %I*: BOOL; // Low slurry level
 	reactorLevelHigh AT %I*: BOOL; // High slurry level
-	reactorLevelLower AT %I*: BOOL; // Low slurry level
 	reactorLevelLowerLow AT %I*: BOOL; // Lower low slurry level
 	reactorOutletValve AT %Q*: BOOL;  // Reactor outlet valve
 	reactorPressure AT %I*: INT; // Reactor pressure raw analog value

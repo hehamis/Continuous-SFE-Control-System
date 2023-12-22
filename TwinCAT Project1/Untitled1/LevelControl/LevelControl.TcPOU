@@ -56,8 +56,8 @@ END_IF
 
 (*** Read measurement values ***)
 // Level
-byH := IO.reactorLevelHigh;
-byL := IO.reactorLevelLower;
+byH := IO.reactorLevelLow;
+byL := IO.reactorLevelHigh;
 buL := IO.reactorOutletValve;
 
 (***Enter level auto control when selected from HMI***)
@@ -82,14 +82,14 @@ END_IF
 // Set pressure reference according to setpoint
 PressureReference := SerialCommunicationHandler.pumpingPressureSetpoint;//PressureControl.iPressureScaledValue;
 IF PressureControl.fillingValveAutoMode THEN
-	// Select pressure intervals according to lower limit sensor and filling valve state
-	IF IO.reactorLevelLower and IO.reactorInletValve THEN // If above lower limit and filling valve open
+	// Select pressure intervals according to high limit sensor and filling valve state
+	IF IO.reactorLevelHigh AND IO.reactorInletValve THEN // If above higher limit and filling valve open
 			PressureUpperInterval := PressureUpperInterval_1;
 			PressureLowerInterval := PressureLowerInterval_1;
-	ELSIF IO.reactorLevelLower AND NOT IO.reactorInletValve THEN // If above lower limit and filling valve closed
+	ELSIF IO.reactorLevelHigh AND NOT IO.reactorInletValve THEN // If above higher limit and filling valve closed
 			PressureUpperInterval := PressureUpperInterVal_3;
 			PressureLowerInterval := PressureLowerInterval_3;		
-	ELSE // If below lower limit
+	ELSIF NOT IO.reactorLevelHigh AND IO.reactorInletValve THEN  // If below higher limit and reactor filling valve open
 			PressureUpperInterval := PressureUpperInterVal_2;
 			PressureLowerInterval := PressureLowerInterval_2;		
 	END_IF	
