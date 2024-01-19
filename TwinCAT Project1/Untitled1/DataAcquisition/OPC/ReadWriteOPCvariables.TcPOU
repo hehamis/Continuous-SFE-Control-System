@@ -23,7 +23,7 @@ GVL_OPC.OPC_PumpingPressureSetpoint := SerialCommunicationHandler.pumpingPressur
 GVL_OPC.OPC_PreHeaterTemperature := SerialCommunicationHandler.preHeaterTemperatureMeasurement;
 GVL_OPC.OPC_PreHeaterTemperatureSetpoint := SerialCommunicationHandler.preHeaterTemperatureSetpoint;
 GVL_OPC.OPC_SeparatorTemperature := SerialCommunicationHandler.separatorTemperatureMeasurement;
-GVL_OPC.OPC_SeparatorTemperatureSetpoint := SerialCommunicationHandler.preHeaterTemperatureSetpoint;
+GVL_OPC.OPC_SeparatorTemperatureSetpoint := SerialCommunicationHandler.separatorTemperatureSetpoint;
 ]]></ST>
     </Implementation>
     <LineIds Name="ReadWriteOPCvariables">
