@@ -12,6 +12,7 @@ END_VAR
 ReactorTemperatureControl();
 LevelControl();
 PressureControl();
+ReactorLevelControl();
 // MATLAB functions
 DataAcquisition();
 // Persist set variables
@@ -50,7 +51,9 @@ END_IF*)
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="189" Count="10" />
+      <LineId Id="189" Count="4" />
+      <LineId Id="234" Count="0" />
+      <LineId Id="194" Count="5" />
       <LineId Id="201" Count="28" />
       <LineId Id="125" Count="0" />
     </LineIds>
