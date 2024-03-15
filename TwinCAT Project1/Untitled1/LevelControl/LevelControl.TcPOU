@@ -39,96 +39,96 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-(*** Level Control mode HMI text***)
-IF bLevelControlSwitch = 1 THEN
-	sLevelControlState := 'AUTO';
-END_IF
-IF bLevelControlSwitch = 0 THEN
-	sLevelControlState := 'MAN';
-END_IF
-(*** Level valve state ***)
-IF IO.reactorOutletValve = 1 THEN
-	sLevelValveState := 'CLOSE';
-END_IF
-IF IO.reactorOutletValve = 0 THEN
-	sLevelValveState := 'OPEN';
-END_IF
+//(*** Level Control mode HMI text***)
+//IF bLevelControlSwitch = 1 THEN
+//	sLevelControlState := 'AUTO';
+//END_IF
+//IF bLevelControlSwitch = 0 THEN
+//	sLevelControlState := 'MAN';
+//END_IF
+//(*** Level valve state ***)
+//IF IO.reactorOutletValve = 1 THEN
+//	sLevelValveState := 'CLOSE';
+//END_IF
+//IF IO.reactorOutletValve = 0 THEN
+//	sLevelValveState := 'OPEN';
+//END_IF
 
-(*** Read measurement values ***)
-// Level
-byH := IO.reactorLevelLow;
-byL := IO.reactorLevelHigh;
-buL := IO.reactorOutletValve;
+//(*** Read measurement values ***)
+//// Level
+//byH := IO.reactorLevelLow;
+//byL := IO.reactorLevelHigh;
+//buL := IO.reactorOutletValve;
 
-(***Enter level auto control when selected from HMI***)
-rtrigLevelControlAuto(CLK := bLevelControlSwitch);
-fTrigLevelControlAuto(CLK := bLevelControlSwitch);
-IF rTrigLevelControlAuto.Q THEN
-	levelAutoControl := TRUE;
-END_IF
-IF fTrigLevelControlAuto.Q THEN // Close valve if auto control is exited
-	levelAutoControl := FALSE;
-	IO.reactorOutletValve := FALSE;
-END_IF
+//(***Enter level auto control when selected from HMI***)
+//rtrigLevelControlAuto(CLK := bLevelControlSwitch);
+//fTrigLevelControlAuto(CLK := bLevelControlSwitch);
+//IF rTrigLevelControlAuto.Q THEN
+//	levelAutoControl := TRUE;
+//END_IF
+//IF fTrigLevelControlAuto.Q THEN // Close valve if auto control is exited
+//	levelAutoControl := FALSE;
+//	IO.reactorOutletValve := FALSE;
+//END_IF
 
-(***If filling valve auto control is selected, automatically turn on outlet valve auto control ***)
-IF PressureControl.fillingValveAutoMode AND io.reactorInletValve THEN
-	bLevelControlSwitch := TRUE;
-ELSE
-	bLevelControlSwitch := FALSE;
-END_IF
+//(***If filling valve auto control is selected, automatically turn on outlet valve auto control ***)
+//IF PressureControl.fillingValveAutoMode AND io.reactorInletValve THEN
+//	bLevelControlSwitch := TRUE;
+//ELSE
+//	bLevelControlSwitch := FALSE;
+//END_IF
 
-(** Outlet valve control accorfing to pressure intervals ***)
-// Set pressure reference according to setpoint
-PressureReference := SerialCommunicationHandler.pumpingPressureSetpoint;//PressureControl.iPressureScaledValue;
-IF PressureControl.fillingValveAutoMode THEN
-	// Select pressure intervals according to high limit sensor and filling valve state
-	IF IO.reactorLevelHigh AND IO.reactorInletValve THEN // If above higher limit and filling valve open
-			PressureUpperInterval := PressureUpperInterval_1;
-			PressureLowerInterval := PressureLowerInterval_1;
-	ELSIF IO.reactorLevelHigh AND NOT IO.reactorInletValve THEN // If above higher limit and filling valve closed
-			PressureUpperInterval := PressureUpperInterVal_3;
-			PressureLowerInterval := PressureLowerInterval_3;		
-	ELSIF NOT IO.reactorLevelHigh AND IO.reactorInletValve THEN  // If below higher limit and reactor filling valve open
-			PressureUpperInterval := PressureUpperInterVal_2;
-			PressureLowerInterval := PressureLowerInterval_2;	
-	END_IF	
+//(** Outlet valve control accorfing to pressure intervals ***)
+//// Set pressure reference according to setpoint
+//PressureReference := SerialCommunicationHandler.pumpingPressureSetpoint;//PressureControl.iPressureScaledValue;
+//IF PressureControl.fillingValveAutoMode THEN
+//	// Select pressure intervals according to high limit sensor and filling valve state
+//	IF IO.reactorLevelHigh AND IO.reactorInletValve THEN // If above higher limit and filling valve open
+//			PressureUpperInterval := PressureUpperInterval_1;
+//			PressureLowerInterval := PressureLowerInterval_1;
+//	ELSIF IO.reactorLevelHigh AND NOT IO.reactorInletValve THEN // If above higher limit and filling valve closed
+//			PressureUpperInterval := PressureUpperInterVal_3;
+//			PressureLowerInterval := PressureLowerInterval_3;		
+//	ELSIF NOT IO.reactorLevelHigh AND IO.reactorInletValve THEN  // If below higher limit and reactor filling valve open
+//			PressureUpperInterval := PressureUpperInterVal_2;
+//			PressureLowerInterval := PressureLowerInterval_2;	
+//	END_IF	
 	
-	// Control outlet valve when intervals are exceeded
-	IF PressureControl.iPressureScaledValue >= PressureReference + PressureUpperInterval 
-			AND NOT (NOT IO.reactorLevelHigh AND NOT IO.reactorInletValve) 
-		THEN
-		IO.reactorOutletValve := TRUE;
-	ELSIF PressureControl.iPressureScaledValue <= PressureReference - PressureLowerInterval
-			OR (NOT IO.reactorLevelHigh AND NOT IO.reactorInletValve)	 
-		THEN
-			IO.reactorOutletValve := FALSE;
-	END_IF
+//	// Control outlet valve when intervals are exceeded
+//	IF PressureControl.iPressureScaledValue >= PressureReference + PressureUpperInterval 
+//			AND NOT (NOT IO.reactorLevelHigh AND NOT IO.reactorInletValve) 
+//		THEN
+//		IO.reactorOutletValve := TRUE;
+//	ELSIF PressureControl.iPressureScaledValue <= PressureReference - PressureLowerInterval
+//			OR (NOT IO.reactorLevelHigh AND NOT IO.reactorInletValve)	 
+//		THEN
+//			IO.reactorOutletValve := FALSE;
+//	END_IF
 	
 	
-END_IF
+//END_IF
 
 
 
 
 
-//IF fbReactorUpperLimit.O_LimitAlarm THEN
+////IF fbReactorUpperLimit.O_LimitAlarm THEN
 
-//Auto Control
-(*IF HMI.bLevelControlSwitch THEN
-	IF byL = 0 THEN
-		IF IO.bReactorLu = 1 THEN
-			IO.bReactorLu := 0;
-		END_IF
-	ELSIF byH = 1 THEN
-		IF IO.bReactorLu = 0 THEN
-			IO.bReactorLu := 1;
-		END_IF
-	// exit auto mode when filling 
-	(*ELSIF byL = 0 AND byH = 0 THEN
-		HMI.bLevelControlSwitch := 0;*)
-	END_IF
-END_IF*)]]></ST>
+////Auto Control
+//(*IF HMI.bLevelControlSwitch THEN
+//	IF byL = 0 THEN
+//		IF IO.bReactorLu = 1 THEN
+//			IO.bReactorLu := 0;
+//		END_IF
+//	ELSIF byH = 1 THEN
+//		IF IO.bReactorLu = 0 THEN
+//			IO.bReactorLu := 1;
+//		END_IF
+//	// exit auto mode when filling 
+//	(*ELSIF byL = 0 AND byH = 0 THEN
+//		HMI.bLevelControlSwitch := 0;*)
+//	END_IF
+//END_IF*)]]></ST>
     </Implementation>
     <LineIds Name="LevelControl">
       <LineId Id="18" Count="20" />
