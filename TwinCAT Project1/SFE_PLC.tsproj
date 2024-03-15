@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.20">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.22">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom" AutoDeleteType="true">EL6inData22B</Name>
@@ -95,9 +95,11 @@
 		<ImageData Id="1003">424dd6020000000000003600000028000000100000000e0000000100180000000000a002000000000000000000000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ff808080808080808080808080808080808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080808080808080c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080808080808080c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080808080808080c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080808080808080c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080808080808080c0c0c0c0c0c0808080ff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0c0c0c00000ffc0c0c0c0c0c0c0c0c0808080ff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0c0c0c00000ffc0c0c0c0c0c0c0c0c0808080ff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0c0c0c000ff00c0c0c0c0c0c0c0c0c0808080ff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ff</ImageData>
 		<ImageData Id="1004">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ff808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff</ImageData>
 	</ImageDatas>
-	<Project ProjectGUID="{0ADE88E8-E664-404D-A997-0DA20A78A45A}" TargetNetId="5.86.83.4.1.1" Target64Bit="true" ShowHideConfigurations="#x106">
+	<Project ProjectGUID="{0ADE88E8-E664-404D-A997-0DA20A78A45A}" Target64Bit="true" ShowHideConfigurations="#x106">
 		<System>
-			<Settings MaxCpus="4" NonWinCpus="1"/>
+			<Settings MaxCpus="16">
+				<Cpu CpuId="3"/>
+			</Settings>
 			<Licenses>
 				<Target>
 					<ManualSelect>{BDCC0070-42D5-49AE-ABF1-1D4434813D60}</ManualSelect>
@@ -139,8 +141,8 @@
 					<Vars VarGrpType="1" ContextId="1" AreaNo="16">
 						<Name>PlcTask Inputs</Name>
 						<Var>
-							<Name>IO.reactorLevelLow</Name>
-							<Comment><![CDATA[ Low slurry level]]></Comment>
+							<Name>IO.reactorLevelHigherHigh</Name>
+							<Comment><![CDATA[ Higher high slurry level]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -149,14 +151,14 @@
 							<Type>INT</Type>
 						</Var>
 						<Var>
-							<Name>IO.reactorLevelHigherHigh</Name>
-							<Comment><![CDATA[ Higher high slurry level]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>IO.reactorTemperatureLower</Name>
 							<Comment><![CDATA[ Reactor temperature lower]]></Comment>
 							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>IO.reactorLevelLow</Name>
+							<Comment><![CDATA[ Low slurry level]]></Comment>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>IO.reactorLevelHigh</Name>
@@ -235,7 +237,7 @@
 					</TaskPouOids>
 				</Instance>
 			</Project>
-			<Project Disabled="true" GUID="{14DE218E-B063-4F0C-B0A5-3C631517C655}" Name="CSVExample" PrjFilePath="CSVExample\CSVExample.plcproj" TmcFilePath="CSVExample\CSVExample.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
+			<Project GUID="{14DE218E-B063-4F0C-B0A5-3C631517C655}" Name="CSVExample" PrjFilePath="CSVExample\CSVExample.plcproj" TmcFilePath="CSVExample\CSVExample.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
 				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="CSVExample\CSVExample.tmc">
 					<Name>CSVExample Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
@@ -257,7 +259,7 @@
 			</Project>
 		</Plc>
 		<Io>
-			<Device Id="1" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="5.86.83.4.2.1" RemoteName="Device 1 (EtherCAT)" InfoImageId="2">
+			<Device Id="1" Disabled="true" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="5.86.83.4.2.1" RemoteName="Device 1 (EtherCAT)" InfoImageId="2">
 				<Name>Device 1 (EtherCAT)</Name>
 				<AddressInfo>
 					<Ccat>
@@ -2409,8 +2411,6 @@ Bit1: Value bigger/equal Limit2]]></Comment>
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{00000000-2001-0850-0120-500831000403}" Id="#x02030020"/>
-		<MappingInfo Identifier="{00000000-2003-0850-0020-500810000403}" Id="#x02030010"/>
 		<OwnerA Name="TIPC^Untitled1^Untitled1 Instance">
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 11 (EL3204)">
 				<Link VarA="PlcTask Inputs^IO.reactorTemperatureLower" VarB="RTD Inputs Channel 2^Value"/>
