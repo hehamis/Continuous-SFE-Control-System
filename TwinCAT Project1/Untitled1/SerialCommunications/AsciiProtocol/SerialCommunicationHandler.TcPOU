@@ -161,12 +161,12 @@ IF pumpPressureStartSend OR preHeaterTemperatureStartSend OR separatorTemperatur
 	ReceiveStep := 0;
 END_IF
 // Update pressure setpoint
-IF PressureControl.ReactorPressureAutoPID THEN
-	pumpingPressureSentSetpoint := REAL_TO_DINT(PressureControl.ReactorPressurePIDcontrol.PIDy);
-	PressureControl.ReactorPressurePIDcontrol.PIDy;
-ELSE
+//IF PressureControl.ReactorPressureAutoPID THEN
+//	pumpingPressureSentSetpoint := REAL_TO_DINT(PressureControl.ReactorPressurePIDcontrol.PIDy);
+//	PressureControl.ReactorPressurePIDcontrol.PIDy;
+//ELSE
 	pumpingPressureSentSetpoint :=  pumpingPressureSetSetpoint;
-END_IF
+//END_IF
 fbUpdatePressureSetpoint(fbAsciiComm := fbAsciiComm, bStartSend := pumpPressureStartSend, sParameterCharacter := 'S', iValue := pumpingPressureSentSetpoint, iSlaveNo := 2);
 IF pumpingPressureSentSetpoint <> pumpingPressureSetSetpointPrev THEN
 	pumpPressureStartSend := TRUE;

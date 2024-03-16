@@ -59,6 +59,7 @@ Id;Default
 336;Slurry in + upper
 280;Slurry off + upper
 634;Slurry on + not upper
+224;Slurry on + upper
 155;Slurry OUT
 458;Start MATLAB
 888;Supercritical Fluid Extraction

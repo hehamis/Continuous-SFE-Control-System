@@ -56,15 +56,6 @@
     <Compile Include="Interfaces\I_SerialControlledDevice.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LevelControl\FB_LevelControl.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LevelControl\FB_LimitSwitch.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LevelControl\LevelControl.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
@@ -87,12 +78,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PressureAndLevelControl\ReactorLevelControl.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="PressureControl\FB_PIDsetpointOutput.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="PressureControl\PressureControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SerialCommunications\AsciiProtocol\FB_SerialController.TcPOU">
@@ -144,6 +129,21 @@
     <Compile Include="TemperatureControl\vanhat\FUNs\F_PercentageToTime.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TemperatureControl\vanhat\LevelControl\FB_LevelControl.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TemperatureControl\vanhat\LevelControl\FB_LimitSwitch.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TemperatureControl\vanhat\LevelControl\LevelControl.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TemperatureControl\vanhat\PressureControl\FB_PIDsetpointOutput.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TemperatureControl\vanhat\PressureControl\PressureControl.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TemperatureControl\vanhat\TemperatureControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -170,12 +170,10 @@
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
     <Folder Include="IMAGES" />
-    <Folder Include="LevelControl" />
     <Folder Include="DataAcquisition" />
     <Folder Include="Interfaces" />
     <Folder Include="PressureAndLevelControl" />
     <Folder Include="SerialCommunications" />
-    <Folder Include="PressureControl" />
     <Folder Include="SerialCommunications\Background" />
     <Folder Include="SerialCommunications\AsciiProtocol">
       <ExcludeFromBuild>false</ExcludeFromBuild>
@@ -183,6 +181,8 @@
     <Folder Include="TemperatureControl" />
     <Folder Include="TemperatureControl\vanhat" />
     <Folder Include="TemperatureControl\vanhat\FUNs" />
+    <Folder Include="TemperatureControl\vanhat\LevelControl" />
+    <Folder Include="TemperatureControl\vanhat\PressureControl" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>
