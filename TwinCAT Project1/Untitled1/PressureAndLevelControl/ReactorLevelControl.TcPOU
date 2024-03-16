@@ -3,6 +3,7 @@
   <POU Name="ReactorLevelControl" Id="{ef649cf9-5680-4ca5-a59e-cef35260a3da}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM ReactorLevelControl
 VAR
+	iPressureScaledValue: INT; //Scaled pressure value
 	bLevelControlSwitch : BOOL;
 	levelControlMode : INT;
 	manualModeEntered : BOOL;
@@ -13,9 +14,21 @@ VAR
 	sFillingValveState: STRING;
 	timeControlToggle: FB_toggleheartbeat;
 END_VAR
-]]></Declaration>
+VAR PERSISTENT
+	fillingValveOpenInterval: INT;
+	fillingValveCloseInterval: INT;	
+	PressureUpperInterVal_1: INT;
+	PressureUpperInterVal_2: INT;
+	PressureLowerInterval_1: INT;
+	PressureLowerInterval_2: INT;	
+	PressureUpperInterVal_3: INT;
+	PressureLowerInterval_3: INT;
+END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF bLevelControlSwitch THEN
+      <ST><![CDATA[// Scale analog pressure
+iPressureScaledValue := F_AnalogScale(AnalogInputRawValue := IO.reactorPressure, MaxAnalogValue := 1000);
+
+IF bLevelControlSwitch THEN
 	levelControlMode := 1;
 ELSE
 	levelControlMode := 0;
@@ -45,22 +58,22 @@ CASE levelControlMode OF
 		
 		// Reactor inlet valve: auto control according to timed intervals:
 		SFE_ReactorLevelControl.onOffTimeControl(
-										openInterValSecs := PressureControl.fillingValveOpenInterval,
-										closeIntervalSecs := PressureControl.fillingValveCloseInterval,
+										openInterValSecs := fillingValveOpenInterval,
+										closeIntervalSecs := fillingValveCloseInterval,
 										);
 		IO.reactorInletValve := SFE_ReactorLevelControl.timeControlOpen;
 		// Reactor outlet valve: auto control according to pressure intervals
 		SFE_ReactorLevelControl.pressureIntervalControl(
 												interval_1_condition:= IO.reactorLevelHigh AND IO.reactorInletValve, // If above higher limit and filling valve open
-												pressureUpperInterval_1:= LevelControl.PressureUpperInterval_1, 
-												pressureLowerInterval_1:= LevelControl.PressureLowerInterval_1, 
+												pressureUpperInterval_1:= PressureUpperInterval_1, 
+												pressureLowerInterval_1:= PressureLowerInterval_1, 
 												interval_2_condition:= IO.reactorLevelHigh AND NOT IO.reactorInletValve,  // If above higher limit and filling valve closed
-												pressureUpperInterval_2:= LevelControl.PressureUpperInterval_2, 
-												pressureLowerInterval_2:= LevelControl.PressureLowerInterval_2, 
+												pressureUpperInterval_2:= PressureUpperInterval_2, 
+												pressureLowerInterval_2:= PressureLowerInterval_2, 
 												interval_3_condition:= NOT IO.reactorLevelHigh AND IO.reactorInletValve,  // If below higher limit and reactor filling valve open
-												pressureUpperInterval_3:= LevelControl.PressureUpperInterval_3, 
-												pressureLowerInterval_3:= LevelControl.PressureLowerInterval_3, 
-												pressureValue:= PressureControl.iPressureScaledValue, 
+												pressureUpperInterval_3:= PressureUpperInterval_3, 
+												pressureLowerInterval_3:= PressureLowerInterval_3, 
+												pressureValue:= iPressureScaledValue, 
 												pressureReference:= DINT_TO_INT(SerialCommunicationHandler.pumpingPressureSetpoint), 
 												valveOpenCondition:= NOT (NOT IO.reactorLevelHigh AND NOT IO.reactorInletValve), 
 												forceValveClosed:= (NOT IO.reactorLevelHigh AND NOT IO.reactorInletValve),
@@ -90,6 +103,8 @@ END_IF
 timeControlToggle(I_OpenInterValSecs := 5, I_CloseIntervalSecs := 10, O_Update => );]]></ST>
     </Implementation>
     <LineIds Name="ReactorLevelControl">
+      <LineId Id="130" Count="0" />
+      <LineId Id="128" Count="1" />
       <LineId Id="107" Count="0" />
       <LineId Id="110" Count="0" />
       <LineId Id="112" Count="1" />

@@ -83,6 +83,12 @@
     <Compile Include="POUs\VariablePersistent.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PressureAndLevelControl\FB_ReactorLevelControl.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PressureAndLevelControl\ReactorLevelControl.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PressureControl\FB_PIDsetpointOutput.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -167,6 +173,7 @@
     <Folder Include="LevelControl" />
     <Folder Include="DataAcquisition" />
     <Folder Include="Interfaces" />
+    <Folder Include="PressureAndLevelControl" />
     <Folder Include="SerialCommunications" />
     <Folder Include="PressureControl" />
     <Folder Include="SerialCommunications\Background" />

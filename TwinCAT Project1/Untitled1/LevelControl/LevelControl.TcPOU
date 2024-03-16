@@ -2,40 +2,40 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="LevelControl" Id="{79bde8ae-6db5-4903-a256-e296e262a9d4}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM LevelControl
-VAR
-	// HMI variables
-	bLevelControlSwitch: BOOL; //Switch for level control	
-	sLevelControlState: STRING(35); //Level control switch state in str
-	sLevelValveState: STRING(35); //Valve state in str	
+//VAR
+//	// HMI variables
+//	bLevelControlSwitch: BOOL; //Switch for level control	
+//	sLevelControlState: STRING(35); //Level control switch state in str
+//	sLevelValveState: STRING(35); //Valve state in str	
 	
-	//fbLevelControl			: FB_LevelControl;
-	byH: BOOL;
-	byL: BOOL;
-	buL: BOOL;
-	fbReactorUpperLimit: FB_LimitSwitch;
-	fbReactorLowerLimit: FB_LimitSwitch;
-	rtrigLevelControlAuto: R_TRIG;
-	levelAutoControl: BOOL;
-	PressureReference: DINT;
-	fTrigLevelControlAuto: F_TRIG;
+//	//fbLevelControl			: FB_LevelControl;
+//	byH: BOOL;
+//	byL: BOOL;
+//	buL: BOOL;
+//	fbReactorUpperLimit: FB_LimitSwitch;
+//	fbReactorLowerLimit: FB_LimitSwitch;
+//	rtrigLevelControlAuto: R_TRIG;
+//	levelAutoControl: BOOL;
+//	PressureReference: DINT;
+//	fTrigLevelControlAuto: F_TRIG;
 
-	PressureUpperInterval: INT;
-	PressureLowerInterval: INT;
-	intervalStep: INT;
-	(*PressureUpperInterVal_1: INT;
-	PressureUpperInterVal_2: INT;
-	PressureLowerInterval_1: INT;
-	PressureLowerInterval_2: INT;*)
-	interValChanged: BOOL;
-END_VAR
-VAR PERSISTENT
-	PressureUpperInterVal_1: INT;
-	PressureUpperInterVal_2: INT;
-	PressureLowerInterval_1: INT;
-	PressureLowerInterval_2: INT;	
-	PressureUpperInterVal_3: INT;
-	PressureLowerInterval_3: INT;
-END_VAR
+//	PressureUpperInterval: INT;
+//	PressureLowerInterval: INT;
+//	intervalStep: INT;
+//	(*PressureUpperInterVal_1: INT;
+//	PressureUpperInterVal_2: INT;
+//	PressureLowerInterval_1: INT;
+//	PressureLowerInterval_2: INT;*)
+//	interValChanged: BOOL;
+//END_VAR
+//VAR PERSISTENT
+//	PressureUpperInterVal_1: INT;
+//	PressureUpperInterVal_2: INT;
+//	PressureLowerInterval_1: INT;
+//	PressureLowerInterval_2: INT;	
+//	PressureUpperInterVal_3: INT;
+//	PressureLowerInterval_3: INT;
+//END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[

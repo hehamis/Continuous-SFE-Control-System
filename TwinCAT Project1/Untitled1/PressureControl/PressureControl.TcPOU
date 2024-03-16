@@ -26,13 +26,13 @@ VAR
 	reactorPressureSetpoint: REAL;
 END_VAR
 VAR PERSISTENT
-	fillingValveOpenInterval: INT;
-	fillingValveCloseInterval: INT;	
+//	fillingValveOpenInterval: INT;
+//	fillingValveCloseInterval: INT;	
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Scale analog pressure
-iPressureScaledValue := F_AnalogScale(AnalogInputRawValue := IO.reactorPressure, MaxAnalogValue := 1000);
+//iPressureScaledValue := F_AnalogScale(AnalogInputRawValue := IO.reactorPressure, MaxAnalogValue := 1000);
 //// Manual operation of filling valve: state texts
 //IF NOT io.reactorInletValve THEN
 //	sFillingValveState := 'OPEN';

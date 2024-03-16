@@ -8,7 +8,7 @@ END_VAR
     <Implementation>
       <ST><![CDATA[GVL_OPC.OPC_ReactorTemperature := IO.reactorTemperatureUpper;
 GVL_OPC.OPC_TemperatureContactor := IO.reactorTemperatureContactor;
-GVL_OPC.OPC_ReactorPressure := PressureControl.iPressureScaledValue;
+GVL_OPC.OPC_ReactorPressure := ReactorLevelControl.iPressureScaledValue;
 IF ReactorTemperatureControl.bTempCon THEN
 	GVL_OPC.OPC_ReactorTemperatureSetpoint := REAL_TO_INT(ReactorTemperatureControl.iTemperatureSetpoint);
 ELSE
