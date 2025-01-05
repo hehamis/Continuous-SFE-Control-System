@@ -10,9 +10,9 @@ END_VAR
       <ST><![CDATA[// Control functions
 //TemperatureControl();
 ReactorTemperatureControl();
-LevelControl();
-PressureControl();
-ReactorLevelControl();
+//LevelControl();
+//PressureControl();
+ReactorLevelAndPressureControl();
 // MATLAB functions
 DataAcquisition();
 // Persist set variables

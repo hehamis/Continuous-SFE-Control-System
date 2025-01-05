@@ -105,7 +105,7 @@ IF bTempCon OR iTemperatureControlPercentage > 0 THEN
 		processVariable:= ryT, 
 		setpoint:= rspT, 
 		modeSelection:= bTempCon,
-		iTemperatureControlPercentage := iTemperatureControlPercentage, 
+		iControlPercentage := iTemperatureControlPercentage, 
 		relayOn=> IO.reactorTemperatureContactor);
 END_IF
 ]]></ST>

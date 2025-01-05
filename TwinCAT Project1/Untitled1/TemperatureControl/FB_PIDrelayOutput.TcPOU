@@ -16,7 +16,7 @@ VAR_INPUT
 	modeSelection: BOOL; // Temperature control mode (AUTO == 1, MAN == 0)
 END_VAR
 VAR_IN_OUT
-	iTemperatureControlPercentage : INT;
+	iControlPercentage : INT;
 END_VAR
 VAR_OUTPUT
 	relayOn : BOOL;
@@ -44,7 +44,7 @@ END_VAR
       <ST><![CDATA[CtrlTimer(IN := CtrlTimerStart,PT := REAL_TO_TIME(onTime*1000));
 CycleTimer(IN := CycleTimerStart,PT := REAL_TO_TIME(Iterationtime*1000));
 IF modeSelection = 1 THEN
-	iTemperatureControlPercentage := 0;
+	iControlPercentage := 0;
 	IF CycleTimerStart = 0 THEN
 		GetOntime(rspT := setpoint, ryT := processVariable, rIprior := Iprior, riterationtime := Iterationtime, reprior := ePrior, rKp := Kp, rKi := Ki, rKd := Kd, rbias := Bias, rontime =>onTime, re => e, rI => I);
 		ePrior := e;
@@ -65,7 +65,7 @@ ELSE
 		relayOn := 0;
 		Automode := 0;
 	END_IF
-	PIDypercentage := INT_TO_REAL(iTemperatureControlPercentage)/100;
+	PIDypercentage := INT_TO_REAL(iControlPercentage)/100;
 	IF PIDypercentage > 0 THEN
 		PercentageMode := TRUE;
 		onTime := PercentageToTime(rPIDypercentage := PIDypercentage,rIterationtime := Iterationtime);
@@ -172,7 +172,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_PIDrelayOutput">
-      <LineId Id="2262" Count="42" />
+      <LineId Id="2381" Count="42" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_PIDrelayOutput.GetOnTime">

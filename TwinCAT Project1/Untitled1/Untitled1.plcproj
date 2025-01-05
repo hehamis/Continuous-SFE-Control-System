@@ -74,10 +74,10 @@
     <Compile Include="POUs\VariablePersistent.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PressureAndLevelControl\FB_ReactorLevelControl.TcPOU">
+    <Compile Include="PressureAndLevelControl\FB_ReactorValves.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PressureAndLevelControl\ReactorLevelControl.TcPOU">
+    <Compile Include="PressureAndLevelControl\ReactorLevelAndPressureControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SerialCommunications\AsciiProtocol\FB_SerialController.TcPOU">
@@ -158,6 +158,10 @@
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
     <Compile Include="VISUs\PidParameterMenu.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="VISUs\LevelControlParamMenu.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
