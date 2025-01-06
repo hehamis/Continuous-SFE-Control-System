@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="MAIN" Id="{dec5b1ca-8e16-4f49-8efb-57a750654862}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	rInput: REAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Control functions
+//TemperatureControl();
+ReactorTemperatureControl();
+//LevelControl();
+//PressureControl();
+ReactorLevelAndPressureControl();
+// MATLAB functions
+DataAcquisition();
+// Persist set variables
+VariablePersistence();
+// Serial communications
+SerialCommunicationHandler();
+
+// Test CSharp
+
+
+//Vanhat
+(*//IO.bOutput := HMI.bContactor;
+HMI.iTemperatureDisplayValue := IO.iInput/10;
+//Temperature Control state
+IF HMI.bTemperatureControlSwitch = 1 THEN
+	HMI.sTemperatureControlState := 'AUTO';
+END_IF
+IF HMI.bTemperatureControlSwitch = 0 THEN
+	HMI.sTemperatureControlState := 'MAN';
+END_IF
+//Level Control state
+IF HMI.bLevelControlSwitch = 1 THEN
+	HMI.sLevelControlState := 'AUTO';
+END_IF
+IF HMI.bLevelControlSwitch = 0 THEN
+	HMI.sLevelControlState := 'MAN';
+END_IF
+//Level Valve state
+IF IO.bReactorLu = 1 THEN
+	HMI.sLevelValveState := 'CLOSE';
+END_IF
+IF IO.bReactorLu = 0 THEN
+	HMI.sLevelValveState := 'OPEN';
+END_IF*)
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="189" Count="4" />
+      <LineId Id="234" Count="0" />
+      <LineId Id="194" Count="5" />
+      <LineId Id="201" Count="28" />
+      <LineId Id="125" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

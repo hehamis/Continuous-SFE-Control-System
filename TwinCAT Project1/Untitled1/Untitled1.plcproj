@@ -19,42 +19,80 @@
     </CompilerDefines>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DataAcquisition\DataAcquisition.TcPOU">
+    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\FBs\FB_PIDrelayOutput.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataAcquisition\FB_HeartBeat.TcPOU">
+    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\ReactorTemperatureControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataAcquisition\FB_RunMATLAB.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_ReactorValves.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataAcquisition\OPC\GVL_OPC.TcGVL">
-      <SubType>Code</SubType>
-      <LinkAlways>true</LinkAlways>
-    </Compile>
-    <Compile Include="DataAcquisition\OPC\ReadWriteOPCvariables.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\ReactorLevelAndPressureControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataAcquisition\RunMATLAB.TcPOU">
+    <Compile Include="01. MAIN\01.3 DataAcquisition\01.3.1 OPC\ReadWriteOPCvariables.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 DataAcquisition\01.3.2 RunMATLAB\FBs\FB_HeartBeat.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 DataAcquisition\01.3.2 RunMATLAB\RunMATLAB.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 DataAcquisition\DataAcquisition.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.4 VariablePersistence\VariablePersistence.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\FBs\FB_SerialCom.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\FBs\FB_UpdateSetpoint.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\FUNs\F_AsciiNumberConvert.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\FUNs\F_NumberAsciiConvert.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\SerialCommunicationHandler.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\SerialCommVisuTest.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="01. MAIN\Common\FBs\FB_ToggleHeartBeat.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\Common\FUNs\F_AnalogScale.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="02. MAIN_Fast\02.1 Background\BackgroundEL.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="02. MAIN_Fast\MAIN_Fast.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GlobalTextList.TcGTLO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GVLs\HMI.TcGVL">
+    <Compile Include="04. GVLs\GVL_OPC.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
-    <Compile Include="GVLs\IO.TcGVL">
+    <Compile Include="04. GVLs\GVL_Serial.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="04. GVLs\GVL_IO.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
-    </Compile>
-    <Compile Include="GVLs\MATLAB.TcGVL">
-      <SubType>Code</SubType>
-      <LinkAlways>true</LinkAlways>
-    </Compile>
-    <Compile Include="Interfaces\I_SerialControlledDevice.TcIO">
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
@@ -62,106 +100,51 @@
     <Compile Include="PlcTaskFast.TcTTO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FB_ToggleHeartBeat.TcPOU">
+    <Compile Include="Trash\TemperatureControl\vanhat\FB_TemperaturePIDControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\F_AnalogScale.TcPOU">
+    <Compile Include="Trash\TemperatureControl\vanhat\FUNs\F_ContactorControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\MAIN.TcPOU">
+    <Compile Include="Trash\TemperatureControl\vanhat\FUNs\F_GetPIDOntime.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\VariablePersistent.TcPOU">
+    <Compile Include="Trash\TemperatureControl\vanhat\FUNs\F_PercentageToTime.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PressureAndLevelControl\FB_ReactorValves.TcPOU">
+    <Compile Include="Trash\TemperatureControl\vanhat\LevelControl\FB_LevelControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PressureAndLevelControl\ReactorLevelAndPressureControl.TcPOU">
+    <Compile Include="Trash\TemperatureControl\vanhat\LevelControl\FB_LimitSwitch.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SerialCommunications\AsciiProtocol\FB_SerialController.TcPOU">
+    <Compile Include="Trash\TemperatureControl\vanhat\LevelControl\LevelControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SerialCommunications\AsciiProtocol\SerialCommVisuTest.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-    </Compile>
-    <Compile Include="SerialCommunications\Background\BackgroundEL.TcPOU">
+    <Compile Include="Trash\TemperatureControl\vanhat\PressureControl\FB_PIDsetpointOutput.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SerialCommunications\Background\MAIN_Fast.TcPOU">
+    <Compile Include="Trash\TemperatureControl\vanhat\PressureControl\PressureControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SerialCommunications\GVL_Serial.TcGVL">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SerialCommunications\AsciiProtocol\FB_SerialCom.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SerialCommunications\AsciiProtocol\FB_UpdateSetpoint.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SerialCommunications\AsciiProtocol\F_AsciiNumberConvert.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SerialCommunications\AsciiProtocol\F_NumberAsciiConvert.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SerialCommunications\AsciiProtocol\SerialCommunicationHandler.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TemperatureControl\FB_PIDrelayOutput.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TemperatureControl\ReactorTemperatureControl.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TemperatureControl\vanhat\FB_TemperaturePIDControl.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TemperatureControl\vanhat\FUNs\F_ContactorControl.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TemperatureControl\vanhat\FUNs\F_GetPIDOntime.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TemperatureControl\vanhat\FUNs\F_PercentageToTime.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TemperatureControl\vanhat\LevelControl\FB_LevelControl.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TemperatureControl\vanhat\LevelControl\FB_LimitSwitch.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TemperatureControl\vanhat\LevelControl\LevelControl.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TemperatureControl\vanhat\PressureControl\FB_PIDsetpointOutput.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TemperatureControl\vanhat\PressureControl\PressureControl.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TemperatureControl\vanhat\TemperatureControl.TcPOU">
+    <Compile Include="Trash\TemperatureControl\vanhat\TemperatureControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Visualization Manager.TcVMO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="VISUs\ImagePool.TcIPO">
+    <Compile Include="03. VISUs\ImagePool.TcIPO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="VISUs\MainScreen.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-    </Compile>
-    <Compile Include="VISUs\PidParameterMenu.TcVIS">
+    <Compile Include="03. VISUs\MainScreen.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
-    <Compile Include="VISUs\LevelControlParamMenu.TcVIS">
+    <Compile Include="03. VISUs\PidParameterMenu.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="03. VISUs\LevelControlParamMenu.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
@@ -170,25 +153,35 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DataAcquisition\OPC" />
-    <Folder Include="DUTs" />
-    <Folder Include="GVLs" />
-    <Folder Include="IMAGES" />
-    <Folder Include="DataAcquisition" />
-    <Folder Include="Interfaces" />
-    <Folder Include="PressureAndLevelControl" />
-    <Folder Include="SerialCommunications" />
-    <Folder Include="SerialCommunications\Background" />
-    <Folder Include="SerialCommunications\AsciiProtocol">
-      <ExcludeFromBuild>false</ExcludeFromBuild>
-    </Folder>
-    <Folder Include="TemperatureControl" />
-    <Folder Include="TemperatureControl\vanhat" />
-    <Folder Include="TemperatureControl\vanhat\FUNs" />
-    <Folder Include="TemperatureControl\vanhat\LevelControl" />
-    <Folder Include="TemperatureControl\vanhat\PressureControl" />
-    <Folder Include="VISUs" />
-    <Folder Include="POUs" />
+    <Folder Include="01. MAIN\01.1 ReactorTemperatureControl" />
+    <Folder Include="01. MAIN\01.1 ReactorTemperatureControl\FBs" />
+    <Folder Include="01. MAIN\01.2 ReactorLevelAndPressureControl" />
+    <Folder Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs" />
+    <Folder Include="01. MAIN\01.3 DataAcquisition" />
+    <Folder Include="01. MAIN\01.3 DataAcquisition\01.3.1 OPC" />
+    <Folder Include="01. MAIN\01.3 DataAcquisition\01.3.2 RunMATLAB\FBs" />
+    <Folder Include="01. MAIN\01.3 DataAcquisition\01.3.2 RunMATLAB" />
+    <Folder Include="01. MAIN\01.4 VariablePersistence" />
+    <Folder Include="01. MAIN\01.5 SerialCommunicationHandler" />
+    <Folder Include="01. MAIN\01.5 SerialCommunicationHandler\FUNs" />
+    <Folder Include="01. MAIN\01.5 SerialCommunicationHandler\FBs" />
+    <Folder Include="01. MAIN\Common" />
+    <Folder Include="01. MAIN\Common\FUNs" />
+    <Folder Include="01. MAIN\Common\FBs" />
+    <Folder Include="02. MAIN_Fast\02.1 Background" />
+    <Folder Include="03. VISUs\IMAGES" />
+    <Folder Include="04. GVLs" />
+    <Folder Include="01. MAIN" />
+    <Folder Include="02. MAIN_Fast" />
+    <Folder Include="Trash" />
+    <Folder Include="Trash\PressureAndLevelControl" />
+    <Folder Include="Trash\SerialCommunications" />
+    <Folder Include="Trash\TemperatureControl" />
+    <Folder Include="Trash\TemperatureControl\vanhat" />
+    <Folder Include="Trash\TemperatureControl\vanhat\FUNs" />
+    <Folder Include="Trash\TemperatureControl\vanhat\LevelControl" />
+    <Folder Include="Trash\TemperatureControl\vanhat\PressureControl" />
+    <Folder Include="03. VISUs" />
   </ItemGroup>
   <ItemGroup>
     <PlaceholderReference Include="CmpBitmapPool">
@@ -277,16 +270,16 @@
     </LibraryReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="IMAGES\switch_closed.png">
+    <Content Include="03. VISUs\IMAGES\switch_closed.png">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="IMAGES\switch_opened.png">
+    <Content Include="03. VISUs\IMAGES\switch_opened.png">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="IMAGES\TEST.svg">
+    <Content Include="03. VISUs\IMAGES\TEST.svg">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="IMAGES\Valve.svg">
+    <Content Include="03. VISUs\IMAGES\Valve.svg">
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>

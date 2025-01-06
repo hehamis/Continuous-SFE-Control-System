@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="F_AnalogScale" Id="{ede14f80-1557-42a5-a2f9-8ca8f4e9e338}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_AnalogScale : INT
+VAR_INPUT
+	AnalogInputRawValue	: DINT;
+	MaxAnalogValue		: INT;
+END_VAR
+VAR
+	MaxInput			: INT;
+	ScaledValue: INT;
+END_VAR
+VAR_OUTPUT
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// 4-20 mA: 0-32767
+MaxInput := 32767;
+F_AnalogScale := REAL_TO_INT(AnalogInputRawValue / (MaxInput / MaxAnalogValue));
+]]></ST>
+    </Implementation>
+    <LineIds Name="F_AnalogScale">
+      <LineId Id="7" Count="0" />
+      <LineId Id="19" Count="2" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

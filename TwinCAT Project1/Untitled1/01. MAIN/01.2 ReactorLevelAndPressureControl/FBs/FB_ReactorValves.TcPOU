@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_ReactorValves" Id="{ce7b3864-50f8-427a-82b3-cc6b587741b3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ReactorValves
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+	pressureControlOpen : BOOL; // Valve to control via pressure intervals
+	timeControlOpen : BOOL; // Valve to control via on/off time intervals
+END_VAR
+VAR
+	timeControlToggle: FB_ToggleHeartBeat;
+	openInterval : INT;
+	closeInterval : INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="onOffTimeControl" Id="{32e4bde1-3926-4e59-a836-50da8d6efc09}">
+      <Declaration><![CDATA[METHOD onOffTimeControl : BOOL
+VAR_INPUT
+	openIntervalSecs : INT; // Time for valve to stay open
+	closeIntervalSecs : INT; // Time for valve to stay closed
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[openInterval := openIntervalSecs;
+closeInterval := closeIntervalSecs ;
+timeControlToggle(I_OpenInterValSecs := openInterval, I_CloseIntervalSecs := closeInterval, O_Update => timeControlOpen);
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="pressureIntervalControl" Id="{b27328fa-08a7-4d8f-a909-89cfa0a53987}">
+      <Declaration><![CDATA[METHOD pressureIntervalControl : BOOL
+VAR_INPUT
+	interval_1_condition: BOOL; // Condition for applying intervals marked with 1
+	pressureUpperInterval_1 : INT;
+	pressureLowerInterval_1 : INT;
+	interval_2_condition: BOOL; // Condition for applying intervals marked with 2
+	pressureUpperInterval_2 : INT;
+	pressureLowerInterval_2 : INT;	
+	interval_3_condition: BOOL; // Condition for applying intervals marked with 3
+	pressureUpperInterval_3 : INT;
+	pressureLowerInterval_3 : INT;	
+	pressureValue : INT; // Pressure measurement
+	pressureReference : INT; // Pressure reference (setpoint)
+	valveOpenCondition : BOOL; // Condition for opening valve, must be filled for other factors to applu
+	forceValveClosed : BOOL; // Condition for forcing valve closed independent of other factors
+END_VAR
+
+VAR
+	pressureUpperInterval : INT;
+	pressureLowerInterval: INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF interval_1_condition THEN
+	pressureUpperInterval := pressureUpperInterval_1;
+	pressureLowerInterval := pressureLowerInterval_1;
+ELSIF interval_2_condition THEN
+	pressureUpperInterval := pressureUpperInterval_2;
+	pressureLowerInterval := pressureLowerInterval_2;	
+ELSIF interval_3_condition THEN
+	pressureUpperInterval := pressureUpperInterval_3;
+	pressureLowerInterval := pressureLowerInterval_3;		
+END_IF
+
+// Control valve when intervals are exceeded
+IF (pressureValue >= pressureReference + pressureUpperInterval) AND valveOpenCondition THEN
+	pressureControlOpen := TRUE;
+ELSIF (pressureValue <= pressureReference - pressureLowerInterval) OR forceValveClosed THEN
+	pressureControlOpen := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_ReactorValves">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ReactorValves.onOffTimeControl">
+      <LineId Id="16" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ReactorValves.pressureIntervalControl">
+      <LineId Id="119" Count="15" />
+      <LineId Id="37" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

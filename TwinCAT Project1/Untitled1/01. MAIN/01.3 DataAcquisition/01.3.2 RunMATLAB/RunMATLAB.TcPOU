@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="RunMATLAB" Id="{aabd71b6-bb70-4709-8daa-a98f4a324623}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM RunMATLAB
+VAR
+	//HMI variables
+	sMatlabRunningState: STRING(35); // Matlab run state in str
+	bMatlabBtnPrevented: BOOL;
+	bMatlabBtnState		: BOOL;
+	
+	// MATLAB variables
+		bMatlabBtn	: BOOL;
+	bMatlabRunning	: BOOL; // Turns to TRUE over ADS from MATLAB script
+	bStopMatlab		: BOOL;
+	bMatlabStarting  : BOOL; 
+	dMatlabBtnColor : DWORD;
+	iMatlabHeartBeatCounter : DINT;
+	HeartBeatSwitch: BOOL;
+
+	Process         	: NT_StartProcess;
+    sTargetFilePath     : STRING(255);
+    sTargetDirectory    : STRING(255);
+    sCommand        	: STRING(255);
+    bTrigger        	: BOOL := FALSE;
+    bError         		: BOOL;
+    iErrorId        	: UDINT;
+	bState				: BOOL;
+	rTrigMatlabStartBtn	: R_TRIG;
+	fTrigMatlabStartBtn	: F_TRIG;
+	fTrigMatlabStopped	: F_TRIG;
+	tonMatlabStartTImer : TON;
+	bBtnDelay			: BOOL;
+	tonMatlabStopDelay	: TON;
+	bMatlabStartTimerOn : BOOL;
+	iStartStep: INT;
+
+	heartBeat: FB_HeartBeat;
+	rTrigMatlabStopped: R_TRIG;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Build Command String //
+(*sCommand := '/C ';                  									// Special command indicating command string input
+sCommand := CONCAT(sCommand, 'cd / && ');      							// Add move command
+sCommand := CONCAT(sCommand, 'cd Users\henri.hamalainen\desktop && ');//'cd C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab && ');  // Add target file path
+sCommand := CONCAT(sCommand, 'startMatlab.py');          				// Add python script name
+ 
+// Output
+Process(
+    NETID := '10.98.76.62.1.1',//'130.231.170.95.1.1' (SFE pc?),        // Local System
+    PATHSTR := 'C:\Windows\System32\cmd.exe',   						// Path to local cmd executable
+    COMNDLINE := sCommand,          									// Comnmand to be executedz
+    ERR => bError,                   									// Error Output
+    ERRID => iErrorId               				 					// Error Id Output
+);*)
+
+// Build Command String
+sCommand := '/C ';                  									// Special command indicating command string input
+sCommand := CONCAT(sCommand, 'cd / && ');      							// Add move command
+sCommand := CONCAT(sCommand, 'cd C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab && ');  // Add target file path
+sCommand := CONCAT(sCommand, 'startMatlab.py');          				// Add python script name
+ 
+// Output
+Process(
+    NETID := '130.231.170.95.1.1',                    						// Local System
+    PATHSTR := 'C:\Windows\System32\cmd.exe',   						// Path to local cmd executable
+    COMNDLINE := sCommand,          									// Comnmand to be executed
+    ERR => bError,                   									// Error Output
+    ERRID => iErrorId               				 					// Error Id Output
+);
+
+// MATLAB start process
+CASE iStartStep OF 
+	0:
+		// Wait for matlab start button press
+		dMatlabBtnColor := 16#FF00FF00; // Green
+		sMatlabRunningState := 'START MATLAB';
+		HeartBeatSwitch := FALSE;
+		rTrigMatlabStartBtn(CLK := bMatlabBtn);
+		IF rTrigMatlabStartBtn.Q THEN
+			Process(START:=TRUE);		
+			bMatlabStarting := TRUE;	
+			iStartStep := 1;
+		END_IF
+	1:
+		// Start matlab, wait for matlab to response
+		dMatlabBtnColor := 16#FFFFFF00; // Yellow
+		sMatlabRunningState := 'MATLAB STARTING';
+		Process(START:=FALSE);
+		tonMatlabStartTimer(IN:= TRUE, PT := T#60S);
+		IF tonMatlabStartTimer.q THEN
+			bMatlabStarting := FALSE;
+			bMatlabBtn := FALSE;
+			tonMatlabStartTimer(IN:=FALSE);
+			iStartStep := 0;
+		ELSIF bMatlabRunning AND HeartBeatSwitch THEN
+			bMatlabStarting := FALSE;
+			tonMatlabStartTimer(IN:=FALSE);
+			iStartStep := 2;			
+		END_IF
+	2:
+		// After start, wait for stop command: either from button or matlab
+		dMatlabBtnColor := 16#FFFF0000; // Red
+		sMatlabRunningState := 'STOP MATLAB';
+		fTrigMatlabStartBtn(CLK := bMatlabBtn);
+		fTrigMatlabStopped(CLK := bMatlabRunning);
+		
+		IF fTrigMatlabStartBtn.Q  OR fTrigMatlabStopped.Q OR heartBeat.O_AlarmOn THEN
+			bStopMatlab := TRUE;
+			//MATLAB.bMatlabBtn := FALSE;
+			iStartStep := 3;
+		END_IF
+	3:
+		// Stop timer, after running return to beginning
+		dMatlabBtnColor := 16#FFFFFF00; // Yellow
+		sMatlabRunningState := 'MATLAB STOPPING';
+		tonMatlabStopDelay(IN:= TRUE, PT:=T#12S);
+		IF tonMatlabStopDelay.q THEN
+			bStopMatlab := FALSE;
+			bMatlabRunning := FALSE;
+			bMatlabBtn := FALSE;
+			tonMatlabStopDelay(IN:= FALSE);
+			iStartStep := 0;
+		END_IF
+		
+		
+END_CASE
+
+heartBeat(
+		I_HeartBeatCheckSwitch:= HeartBeatSwitch, 
+		I_HeartBeatCheckActivation:= bMatlabRunning, 
+		I_HeartBeatCheckTime:= 10, 
+		I_HeartBeatCheckDelay:= 20, 
+		O_Running=> , 
+		O_AlarmOn=> );
+		
+// Reset program name after matlab has stopped
+rTrigMatlabStopped(CLK:= bStopMatlab);
+IF rTrigMatlabStopped.Q THEN
+	GVL_OPC.OPC_ProgramNamePrefix := '';
+END_IF
+
+(*CASE iStartStep OF
+	// Wait for button press from user
+	0: 
+		rTrigMatlabStartBtn(CLK := MATLAB.bMatlabBtn);
+		IF rTrigMatlabStartBtn.Q THEN
+			Process(START:=TRUE);
+			Process(START:=FALSE);
+			tonMatlabStopDelay(IN := FALSE);
+			MATLAB.bStopMatlab := FALSE;
+			MATLAB.bMatlabStarting := TRUE;
+			iStartStep := 1;
+		END_IF	
+	
+	// When MATLAB is starting, prevent button press until MATLAB responses. TODO: If no response, return to beginning after a certain time
+	1:
+		tonMatlabStartTimer(IN:= bMatlabStartTimerOn, PT := T#20S);
+		bMatlabStartTimerOn := TRUE;
+		hmi.bMatlabBtnPrevented := TRUE;
+		IF MATLAB.bMatlabRunning THEN
+			MATLAB.bMatlabStarting := FALSE;
+			hmi.bMatlabBtnPrevented := FALSE;
+			bMatlabStartTimerOn := FALSE;
+			iStartStep := 2;
+		ELSIF tonMatlabStartTimer.Q THEN
+			MATLAB.bMatlabStarting := FALSE;
+			hmi.bMatlabBtnPrevented := FALSE;
+			bMatlabStartTimerOn := FALSE;
+			MATLAB.bMatlabBtn := FALSE;
+			HMI.bMatlabBtnState := TRUE;			
+			iStartStep := 0;
+		END_IF
+	
+	// If button is pressed again, stop MATLAB and return to beginning. If MATLAB stopped via keyBoardInterrupt, go to step 3
+	2:
+		fTrigMatlabStartBtn(CLK := MATLAB.bMatlabBtn);
+		fTrigMatlabStopped(CLK := MATLAB.bMatlabRunning);
+		IF fTrigMatlabStartBtn.Q THEN
+			MATLAB.bStopMatlab := TRUE;
+			bBtnDelay := TRUE;
+			iStartStep := 0;
+		ELSIF fTrigMatlabStopped.Q THEN	
+			MATLAB.bStopMatlab := TRUE;
+			bBtnDelay := TRUE;
+			iStartStep := 3;
+		END_IF
+		
+	// Reset button state if exited via keyBoardInterrupt
+	3:
+		MATLAB.bMatlabBtn := FALSE;
+		HMI.bMatlabBtnState := TRUE;
+		iStartStep := 0;
+		
+END_CASE
+
+// HMI states
+tonMatlabStopDelay(PT := T#20S);
+IF tonMatlabStopDelay.Q THEN
+	bBtnDelay := FALSE;
+	hmi.bMatlabBtnPrevented := FALSE;
+END_IF
+IF MATLAB.bMatlabRunning AND NOT bBtnDelay THEN
+	HMI.sMatlabRunningState := 'MATLAB running';
+	HMI.bMatlabBtnState := TRUE;
+ELSIF MATLAB.bMatlabStarting AND NOT bBtnDelay THEN
+	HMI.sMatlabRunningState := 'MATLAB starting...';
+ELSIF bBtnDelay THEN
+	HMI.sMatlabRunningState := 'MATLAB closing...';
+	hmi.bMatlabBtnPrevented := TRUE;
+	tonMatlabStopDelay(IN:= TRUE);
+ELSE
+	HMI.bMatlabBtnState := TRUE;
+	HMI.sMatlabRunningState := 'Start MATLAB';	
+END_IF
+*)
+
+// VANHAT
+(* if button pressed (TRUE), start matlab process
+rTrigMatlabStartBtn(CLK := MATLAB.bMatlabBtn);
+IF rTrigMatlabStartBtn.Q THEN
+	Process(START:=TRUE);
+    Process(START:=FALSE);
+	tonMatlabStopDelay(IN := FALSE);
+	MATLAB.bStopMatlab := FALSE;
+	MATLAB.bMatlabStarting := TRUE;
+END_IF
+
+// if MATLAB is starting, prevent button press
+IF MATLAB.bMatlabStarting THEN
+	hmi.bMatlabBtnPrevented := TRUE;
+END_IF
+
+// if MATLAB responses, enable button
+IF MATLAB.bMatlabRunning THEN
+	MATLAB.bMatlabStarting := FALSE;
+	hmi.bMatlabBtnPrevented := FALSE;
+END_IF
+
+// if button is pressed again (FALSE), stop MATLAB // timer TÄHÄN??
+fTrigMatlabStartBtn(CLK := MATLAB.bMatlabBtn);
+IF fTrigMatlabStartBtn.Q THEN
+	MATLAB.bStopMatlab := TRUE;
+	bBtnDelay := TRUE;
+END_IF *)
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="RunMATLAB">
+      <LineId Id="24" Count="47" />
+      <LineId Id="335" Count="1" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="257" Count="0" />
+      <LineId Id="75" Count="41" />
+      <LineId Id="293" Count="1" />
+      <LineId Id="298" Count="0" />
+      <LineId Id="295" Count="2" />
+      <LineId Id="117" Count="104" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="F_ContactorControl" Id="{070fb794-3a32-4334-af96-757ec4b76403}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_ContactorControl
+VAR_IN_OUT
+	bCtrltimerQ: BOOL;
+END_VAR
+VAR
+END_VAR
+VAR_OUTPUT
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF bCtrltimerQ = 0 THEN
+	GVL_IO.reactorTemperatureContactor := 1;
+ELSE
+	GVL_IO.reactorTemperatureContactor := 0;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="F_ContactorControl">
+      <LineId Id="30" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="16" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

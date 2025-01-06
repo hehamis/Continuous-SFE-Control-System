@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="ReactorLevelAndPressureControl" Id="{ef649cf9-5680-4ca5-a59e-cef35260a3da}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM ReactorLevelAndPressureControl
+VAR
+	iPressureScaledValue: INT; //Scaled pressure value
+	bLevelControlSwitch : BOOL;
+	levelControlMode : INT;
+	manualModeEntered : BOOL;
+	autoModeEntered : BOOL;
+	SFE_ReactorValveControl: FB_ReactorValves;
+	sLevelControlState: STRING;
+	sLevelValveState: STRING;
+	sFillingValveState: STRING;
+	timeControlToggle: FB_toggleheartbeat;
+END_VAR
+VAR PERSISTENT
+	fillingValveOpenInterval: INT;
+	fillingValveCloseInterval: INT;	
+	PressureUpperInterVal_1: INT;
+	PressureUpperInterVal_2: INT;
+	PressureLowerInterval_1: INT;
+	PressureLowerInterval_2: INT;	
+	PressureUpperInterVal_3: INT;
+	PressureLowerInterval_3: INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Scale analog pressure
+iPressureScaledValue := F_AnalogScale(AnalogInputRawValue := GVL_IO.reactorPressure, MaxAnalogValue := 1000);
+
+IF bLevelControlSwitch THEN
+	levelControlMode := 1;
+ELSE
+	levelControlMode := 0;
+END_IF
+
+// Control logic according to level mode selection
+CASE levelControlMode OF
+	0:
+		//LevelControl.sLevelControlState := 'MAN';
+		sLevelControlState := 'MAN';
+		// Close inlet/outlet valves when manual mode entered
+		IF NOT manualModeEntered THEN
+			GVL_IO.reactorInletValve := FALSE; // Close all valves when auto mode is exited
+			GVL_IO.reactorOutletValve := FALSE;
+			autoModeEntered := FALSE;
+			manualModeEntered := TRUE;
+		END_IF
+		
+	1:
+		IF NOT autoModeEntered THEN
+			GVL_IO.reactorInletValve := TRUE; // Open inlet valve when auto mode is entered
+			manualModeEntered := FALSE;
+			autoModeEntered := TRUE;
+		END_IF
+		//LevelControl.sLevelControlState := 'AUTO';
+		sLevelControlState := 'AUTO';
+		
+		// Reactor inlet valve: auto control according to timed intervals:
+		SFE_ReactorValveControl.onOffTimeControl(
+										openInterValSecs := fillingValveOpenInterval,
+										closeIntervalSecs := fillingValveCloseInterval,
+										);
+		GVL_IO.reactorInletValve := SFE_ReactorValveControl.timeControlOpen;
+		// Reactor outlet valve: auto control according to pressure intervals
+		SFE_ReactorValveControl.pressureIntervalControl(
+												interval_1_condition:= GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve, // If above higher limit and filling valve open
+												pressureUpperInterval_1:= PressureUpperInterval_1, 
+												pressureLowerInterval_1:= PressureLowerInterval_1, 
+												interval_2_condition:= GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve,  // If above higher limit and filling valve closed
+												pressureUpperInterval_2:= PressureUpperInterval_2, 
+												pressureLowerInterval_2:= PressureLowerInterval_2, 
+												interval_3_condition:= NOT GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve,  // If below higher limit and reactor filling valve open
+												pressureUpperInterval_3:= PressureUpperInterval_3, 
+												pressureLowerInterval_3:= PressureLowerInterval_3, 
+												pressureValue:= iPressureScaledValue, 
+												pressureReference:= DINT_TO_INT(SerialCommunicationHandler.pumpingPressureSetpoint), 
+												valveOpenCondition:= NOT (NOT GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve), 
+												forceValveClosed:= (NOT GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve),
+												);
+		GVL_IO.reactorOutletValve := SFE_ReactorValveControl.pressureControlOpen;
+END_CASE
+
+(*** Outlet valve HMI state ***)
+IF GVL_IO.reactorOutletValve = 1 THEN
+	//LevelControl.sLevelValveState := 'CLOSE';
+	sLevelValveState := 'CLOSE';
+END_IF
+IF GVL_IO.reactorOutletValve = 0 THEN
+	//LevelControl.sLevelValveState := 'OPEN';
+	sLevelValveState := 'OPEN';
+END_IF
+
+(*** Inlet valve HMI state ***)
+IF NOT GVL_IO.reactorInletValve THEN
+	//PressureControl.sFillingValveState := 'OPEN';
+	sFillingValveState := 'OPEN';
+ELSE
+	//PressureControl.sFillingValveState := 'CLOSE';
+	sFillingValveState := 'CLOSE';
+END_IF
+
+timeControlToggle(I_OpenInterValSecs := 5, I_CloseIntervalSecs := 10, O_Update => );]]></ST>
+    </Implementation>
+    <LineIds Name="ReactorLevelAndPressureControl">
+      <LineId Id="175" Count="74" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

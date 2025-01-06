@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_ToggleHeartBeat" Id="{74053b5c-ea6f-4eab-8b0d-b55da9e2bf2f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ToggleHeartBeat
+VAR_INPUT
+	I_OpenIntervalSecs : INT;
+	I_CloseIntervalSecs : INT;
+END_VAR
+VAR_OUTPUT
+	O_Update : BOOL;
+END_VAR
+VAR
+	TON_LifeBitOff: TON;
+	TON_LifeBitOn: TON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+TON_LifeBitOn(IN:= NOT O_Update, PT:=INT_TO_TIME(I_CloseIntervalSecs)*1000, Q=> , ET=> );
+IF TON_LifeBitOn.Q THEN
+	O_Update := TRUE;
+END_IF
+TON_LifeBitOff(IN:= O_Update , PT:=INT_TO_TIME(I_OpenIntervalSecs)*1000 , Q=>, ET=> ); 
+IF TON_LifeBitOff.Q THEN
+	O_Update := FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="firstTime" Id="{438a684d-1455-4acc-8d9e-18ee728d734c}">
+      <Declaration><![CDATA[METHOD firstTime : BOOL
+VAR_INPUT
+	entered : BOOL;
+END_VAR
+
+VAR
+	enter: BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF entered THEN
+	//O_Update := TRUE;
+END_IF
+//IF enter THEN
+	//O_Update := TRUE;
+//END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_ToggleHeartBeat">
+      <LineId Id="29" Count="0" />
+      <LineId Id="10" Count="6" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ToggleHeartBeat.firstTime">
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="12" Count="2" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_PIDsetpointOutput" Id="{6d84a0cf-f9c7-4e2e-8d77-370e2319aadf}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_PIDsetpointOutput
+VAR_INPUT
+	Kp: REAL;
+	Ki: REAL;
+	Kd: REAL;
+	Bias: REAL;		
+	processVariable: REAL; // Temperature measurement
+	setpoint: REAL; // Temperature setpoint
+	//modeSelection: BOOL; // Temperature control mode (AUTO == 1, MAN == 0)
+END_VAR
+VAR_IN_OUT
+	//iTemperatureControlPercentage : INT;
+END_VAR
+VAR_OUTPUT
+	//relayOn : BOOL;	
+	PIDy: REAL;
+END_VAR
+VAR
+	// IO, HMI variables
+	onTime: REAL;
+	e: REAL;
+	I: REAL;
+	D: REAL;
+	Iprior: REAL;
+	ePrior: REAL;
+	// Cycle timer
+	CycleTimerStart : BOOL := 0;
+	CycleTimer : TON; // EHKÄ TÄHÄN mielummin IN parametri kuin pT? uusi pt sitten koodissa aina? tai sitten kaikki inputit ja outputit tähän?
+	// Ctrl timer
+	CtrlTimerStart : BOOL := 0;
+	CtrlTimer : TON;	
+	//
+	PIDypercentage: REAL;
+	Automode: BOOL;
+	ControlTimer: TON;
+	testi: INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*CtrlTimer(IN := CtrlTimerStart,PT := REAL_TO_TIME(onTime*1000));
+CycleTimer(IN := CycleTimerStart,PT := REAL_TO_TIME(Iterationtime*1000));
+IF modeSelection = 1 THEN
+	iTemperatureControlPercentage := 0;
+	IF CycleTimerStart = 0 THEN*)
+		//GetSetpoint(rspT := setpoint, ryT := processVariable, rIprior := Iprior, reprior := ePrior, rKp := Kp, rKi := Ki, rKd := Kd, rbias := Bias, rPIDy =>PIDy, re => e, rI => I);
+		ControlTimer(IN := TRUE, PT := T#1S);
+		IF ControlTimer.Q THEN
+			//testi := testi + 1;
+			e := setpoint -processVariable;
+			I := Iprior + e;
+			D := (e-eprior);
+			PIDy := Kp*e + Ki*I + Kd*D + bias;
+			IF PIDy > 170 THEN
+				PIDy := 170;
+			END_IF
+			IF PIDy < 80 THEN
+				PIDy := 80;
+			END_IF
+			
+			ePrior := e;
+			Iprior := I;
+			ControlTimer(IN := FALSE);
+			
+		END_IF
+		
+		//CycleTimerStart := 1;
+		//CtrlTimerStart := 1;
+	(*ELSE
+		//RelayControl(CtrltimerQ := CtrlTimer.Q, bRelayOnCommanded => relayOn);
+		IF CycleTimer.Q = 1 THEN
+			CycleTimerStart := 0;
+			CtrlTimerStart := 0;	
+		END_IF
+	END_IF
+	Automode := 1;
+	PercentageMode := 0;
+ELSE
+	IF Automode THEN
+		relayOn := 0;
+		Automode := 0;
+	END_IF
+	PIDypercentage := INT_TO_REAL(iTemperatureControlPercentage)/100;
+	IF PIDypercentage > 0 THEN
+		PercentageMode := TRUE;
+		//onTime := PercentageToTime(rPIDypercentage := PIDypercentage,rIterationtime := Iterationtime);
+		IF CycleTimer.Q = 0 THEN
+			CycleTimerStart := 1;
+			CtrlTimerStart := 1;
+			//RelayControl(CtrltimerQ := CtrlTimer.Q, bRelayOnCommanded => relayOn);
+		END_IF
+			IF CycleTimer.Q = 1 THEN
+				CycleTimerStart := 0;
+				CtrlTimerStart := 0;	
+			END_IF	
+	ELSIF PIDypercentage = 0 THEN
+		IF relayOn = 1 AND PercentageMode THEN
+			relayOn := 0;
+		END_IF
+		PercentageMode := FALSE;
+	END_IF
+END_IF*)]]></ST>
+    </Implementation>
+    <Method Name="GetSetpoint" Id="{5715b21d-0809-4671-adf6-b112d194fe13}">
+      <Declaration><![CDATA[METHOD GetSetpoint : BOOL
+VAR_INPUT
+	rspT: REAL;
+	ryT: REAL;
+	rIprior: REAL;
+	//riterationtime: REAL;
+	reprior: REAL;
+	rKp: REAL;
+	rKi: REAL;
+	rKd: REAL;
+	rbias: REAL;
+END_VAR
+VAR
+	rD: REAL;
+	rPIDypercentage: REAL;
+END_VAR
+VAR_OUTPUT
+	//rOntime: REAL;
+	re: REAL;
+	rI: REAL;
+	rPIDy: REAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[re := rspT -ryT;
+rI := rIprior + re;
+rD := (re-reprior);
+rPIDy := rKp*re + rKi*rI + rKd*rD + rbias;
+IF rPIDy > 170 THEN
+	rPIDy := 170;
+END_IF
+IF rPIDy < 80 THEN
+	rPIDy := 80;
+END_IF
+//rPIDypercentage := rPIDy/150;
+//rontime := PercentageToTime(rPIDypercentage := rPIDypercentage,rIterationtime := rIterationtime);
+//percentagetotime function here
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetValues" Id="{f71e6831-eeb5-4af7-8a37-fb9483d65f00}">
+      <Declaration><![CDATA[METHOD ResetValues : BOOL
+VAR_INPUT
+	Reset : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Reset THEN
+	ePrior := 0;
+	IPrior := 0;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_PIDsetpointOutput">
+      <LineId Id="2381" Count="5" />
+      <LineId Id="2440" Count="0" />
+      <LineId Id="2443" Count="0" />
+      <LineId Id="2447" Count="0" />
+      <LineId Id="2450" Count="11" />
+      <LineId Id="2449" Count="0" />
+      <LineId Id="2444" Count="0" />
+      <LineId Id="2446" Count="0" />
+      <LineId Id="2445" Count="0" />
+      <LineId Id="2442" Count="0" />
+      <LineId Id="2389" Count="34" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_PIDsetpointOutput.GetSetpoint">
+      <LineId Id="26" Count="9" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="59" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_PIDsetpointOutput.ResetValues">
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

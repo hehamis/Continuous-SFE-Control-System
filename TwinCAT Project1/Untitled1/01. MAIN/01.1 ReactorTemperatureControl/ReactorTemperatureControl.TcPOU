@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="ReactorTemperatureControl" Id="{e3e9f036-3c96-4afa-97ca-376e1dd7ea72}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM ReactorTemperatureControl
+VAR
+	// HMI variables
+	iTemperatureDisplayValue : INT;
+	bTemperatureControlSwitch : BOOL;
+	sTemperatureControlState : STRING(255);
+	iTemperatureSetpoint : REAL;
+	iTemperatureControlPercentage : INT;
+	bPIDcontrolParameterMenu: BOOL; //Parameter menu switch
+	// PID parameters
+	rIprior: REAL := 0;
+	rIterationtime: REAL := 6;
+	reprior: REAL := 0;
+	rPB: REAL :=9;
+	rTi: REAL := 300;
+	rTd: REAL := 90;
+	rKp: REAL := 100/rPB;
+	rKi: REAL := 1/rTi;
+	rKd: REAL := 1/rTd;
+	rBias: REAL := 0;
+	// IO, HMI variables
+	ryT: REAL; // Temperature measurement
+	rspT: REAL; // Temperature setpoint
+	buT: BOOL; // Temperature control (contactor)
+	bTempCon: BOOL; // Temperature control mode (AUTO == 1, MAN == 0)
+	//
+	rontime: REAL;
+	re: REAL;
+	rI: REAL;
+	// Cycle timer
+	bCycleTimerStart : BOOL := 0;
+	fbCycleTimer : TON; // EHKÄ TÄHÄN mielummin IN parametri kuin pT? uusi pt sitten koodissa aina? tai sitten kaikki inputit ja outputit tähän?
+	// Ctrl timer
+	bCtrlTimerStart : BOOL := 0;
+	fbCtrlTimer : TON;	
+	//
+	rPIDypercentage: REAL;
+	bAutomode: BOOL;
+	bPercentageMode: BOOL;
+	bContactorSwitch : BOOL;
+	
+	fbReactorTemperaturePIDControl: FB_PIDrelayOutput;
+	iTemperatureLowerDisplayValue: INT;
+END_VAR
+VAR PERSISTENT
+	iProportionalBand: INT;
+	iIntegralTime: INT;
+	iDerivativeTime: INT;
+	iBias: INT;
+	iCycleTime: INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Avoid dividing constants by zero
+IF iCycleTime <> 0 THEN
+	rIterationTime := iCycleTime;
+END_IF
+IF iProportionalBand <> 0 THEN
+	rPB := iProportionalBand;
+END_IF
+IF iIntegralTime <> 0 THEN
+	rTi := iIntegralTime;
+END_IF
+IF iDerivativeTime <> 0 THEN
+	rTd := iDerivativeTime;
+END_IF
+IF iBias <> 0 THEN
+	rBias := iBias;
+END_IF
+
+// Temperature display value to HMI
+iTemperatureDisplayValue := GVL_IO.reactorTemperatureUpper/10;
+
+// Lower temperature displau value to HMi
+iTemperatureLowerDisplayValue := GVL_IO.reactorTemperatureLower/10;
+
+//Temperature Control state HMI text
+IF bTemperatureControlSwitch = 1 THEN
+	sTemperatureControlState := 'AUTO';
+END_IF
+IF bTemperatureControlSwitch = 0 THEN
+	sTemperatureControlState := 'MAN';
+END_IF
+
+// Read measurement values
+ryT := INT_TO_FLOAT(in := GVL_IO.reactorTemperatureUpper);
+ryT := ryT/10;
+rspT := iTemperatureSetpoint;
+buT := GVL_IO.reactorTemperatureContactor;
+bTempCon := bTemperatureControlSwitch;
+
+// Temperature PID control logic
+IF bTempCon OR iTemperatureControlPercentage > 0 THEN
+	fbReactorTemperaturePIDControl(
+		Iterationtime:= rIterationTime, 
+		PB:= rPB, 
+		Ti:= rTi, 
+		Td:= rTd, 
+		Kp:= rKp, 
+		Ki:= rKi, 
+		Kd:= rKd, 
+		Bias:= rBias, 
+		processVariable:= ryT, 
+		setpoint:= rspT, 
+		modeSelection:= bTempCon,
+		iControlPercentage := iTemperatureControlPercentage, 
+		relayOn=> GVL_IO.reactorTemperatureContactor);
+END_IF
+]]></ST>
+    </Implementation>
+    <LineIds Name="ReactorTemperatureControl">
+      <LineId Id="514" Count="54" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

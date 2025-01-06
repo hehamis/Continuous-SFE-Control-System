@@ -141,37 +141,37 @@
 					<Vars VarGrpType="1" ContextId="1" AreaNo="16">
 						<Name>PlcTask Inputs</Name>
 						<Var>
-							<Name>IO.reactorTemperatureUpper</Name>
+							<Name>GVL_IO.reactorTemperatureUpper</Name>
 							<Comment><![CDATA[ Reactor temperature]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
-							<Name>IO.reactorTemperatureLower</Name>
+							<Name>GVL_IO.reactorTemperatureLower</Name>
 							<Comment><![CDATA[ Reactor temperature lower]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
-							<Name>IO.reactorLevelHigherHigh</Name>
+							<Name>GVL_IO.reactorLevelHigherHigh</Name>
 							<Comment><![CDATA[ Higher high slurry level]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>IO.reactorLevelLow</Name>
+							<Name>GVL_IO.reactorLevelLow</Name>
 							<Comment><![CDATA[ Low slurry level]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>IO.reactorLevelHigh</Name>
+							<Name>GVL_IO.reactorLevelHigh</Name>
 							<Comment><![CDATA[ High slurry level]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>IO.reactorLevelLowerLow</Name>
+							<Name>GVL_IO.reactorLevelLowerLow</Name>
 							<Comment><![CDATA[ Lower low slurry level]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>IO.reactorPressure</Name>
+							<Name>GVL_IO.reactorPressure</Name>
 							<Comment><![CDATA[ Reactor pressure raw analog value]]></Comment>
 							<Type>INT</Type>
 						</Var>
@@ -179,17 +179,17 @@
 					<Vars VarGrpType="2" ContextId="1" AreaNo="17">
 						<Name>PlcTask Outputs</Name>
 						<Var>
-							<Name>IO.reactorTemperatureContactor</Name>
+							<Name>GVL_IO.reactorTemperatureContactor</Name>
 							<Comment><![CDATA[ Temperature contactor]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>IO.reactorOutletValve</Name>
+							<Name>GVL_IO.reactorOutletValve</Name>
 							<Comment><![CDATA[ Reactor outlet valve]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>IO.reactorInletValve</Name>
+							<Name>GVL_IO.reactorInletValve</Name>
 							<Comment><![CDATA[ Filling valve]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
@@ -2413,20 +2413,20 @@ Bit1: Value bigger/equal Limit2]]></Comment>
 	<Mappings>
 		<OwnerA Name="TIPC^Untitled1^Untitled1 Instance">
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 11 (EL3204)">
-				<Link VarA="PlcTask Inputs^IO.reactorTemperatureLower" VarB="RTD Inputs Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^IO.reactorTemperatureUpper" VarB="RTD Inputs Channel 1^Value"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.reactorTemperatureLower" VarB="RTD Inputs Channel 2^Value"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.reactorTemperatureUpper" VarB="RTD Inputs Channel 1^Value"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 14 (EL3154)">
-				<Link VarA="PlcTask Inputs^IO.reactorPressure" VarB="AI Standard Channel 1^Value"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.reactorPressure" VarB="AI Standard Channel 1^Value"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 2 (EL2004)">
-				<Link VarA="PlcTask Outputs^IO.reactorInletValve" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^IO.reactorOutletValve" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^IO.reactorTemperatureContactor" VarB="Channel 2^Output"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.reactorInletValve" VarB="Channel 3^Output"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.reactorOutletValve" VarB="Channel 4^Output"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.reactorTemperatureContactor" VarB="Channel 2^Output"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 5 (EL1004)">
-				<Link VarA="PlcTask Inputs^IO.reactorLevelHigh" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^IO.reactorLevelLow" VarB="Channel 1^Input"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.reactorLevelHigh" VarB="Channel 2^Input"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.reactorLevelLow" VarB="Channel 1^Input"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 6 (EL6021)">
 				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 0"/>
