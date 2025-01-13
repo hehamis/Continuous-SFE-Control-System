@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="ST_PidParameters" Id="{a5cba726-e634-473c-a420-6dfe234c8234}">
+    <Declaration><![CDATA[TYPE ST_PidParameters :
+STRUCT
+	Iterationtime: REAL;
+	PB: REAL;
+	Ti: REAL;
+	Td: REAL;
+	Kp: REAL;
+	Ki: REAL;
+	Kd: REAL;
+	Bias: REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

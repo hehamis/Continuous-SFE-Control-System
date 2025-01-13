@@ -6,7 +6,8 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[GVL_OPC.OPC_ReactorTemperature := GVL_IO.reactorTemperatureUpper;
+      <ST><![CDATA[
+GVL_OPC.OPC_ReactorTemperature := GVL_IO.reactorTemperatureUpper;
 GVL_OPC.OPC_TemperatureContactor := GVL_IO.reactorTemperatureContactor;
 GVL_OPC.OPC_ReactorPressure := ReactorLevelAndPressureControl.iPressureScaledValue;
 IF ReactorTemperatureControl.bTempCon THEN
@@ -27,6 +28,7 @@ GVL_OPC.OPC_SeparatorTemperatureSetpoint := SerialCommunicationHandler.separator
 ]]></ST>
     </Implementation>
     <LineIds Name="ReadWriteOPCvariables">
+      <LineId Id="187" Count="0" />
       <LineId Id="166" Count="17" />
       <LineId Id="8" Count="0" />
     </LineIds>

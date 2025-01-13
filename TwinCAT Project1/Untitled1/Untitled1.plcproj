@@ -19,6 +19,21 @@
     </CompilerDefines>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\DUTs\FB_PidControllerRelayOutput.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\DUTs\I_PidController.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\DUTs\I_ProcessController.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\DUTs\ReactorTemperature.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\DUTs\ST_PidParameters.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\FBs\FB_PIDrelayOutput.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -61,10 +76,6 @@
     <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\SerialCommunicationHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\SerialCommVisuTest.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-    </Compile>
     <Compile Include="01. MAIN\Common\FBs\FB_ToggleHeartBeat.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -79,6 +90,17 @@
     </Compile>
     <Compile Include="02. MAIN_Fast\MAIN_Fast.TcPOU">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="03. VISUs\MainScreen View\MainScreen.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="03. VISUs\MainScreen View\MainScreenBindings.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="03. VISUs\SerialCommVisuTest.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
     <Compile Include="GlobalTextList.TcGTLO">
       <SubType>Code</SubType>
@@ -136,10 +158,6 @@
     <Compile Include="03. VISUs\ImagePool.TcIPO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="03. VISUs\MainScreen.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-    </Compile>
     <Compile Include="03. VISUs\PidParameterMenu.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
@@ -155,6 +173,7 @@
   <ItemGroup>
     <Folder Include="01. MAIN\01.1 ReactorTemperatureControl" />
     <Folder Include="01. MAIN\01.1 ReactorTemperatureControl\FBs" />
+    <Folder Include="01. MAIN\01.1 ReactorTemperatureControl\DUTs" />
     <Folder Include="01. MAIN\01.2 ReactorLevelAndPressureControl" />
     <Folder Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs" />
     <Folder Include="01. MAIN\01.3 DataAcquisition" />
@@ -168,8 +187,10 @@
     <Folder Include="01. MAIN\Common" />
     <Folder Include="01. MAIN\Common\FUNs" />
     <Folder Include="01. MAIN\Common\FBs" />
+    <Folder Include="01. MAIN\Common\ITFs" />
     <Folder Include="02. MAIN_Fast\02.1 Background" />
     <Folder Include="03. VISUs\IMAGES" />
+    <Folder Include="03. VISUs\MainScreen View" />
     <Folder Include="04. GVLs" />
     <Folder Include="01. MAIN" />
     <Folder Include="02. MAIN_Fast" />

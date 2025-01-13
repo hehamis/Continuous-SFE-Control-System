@@ -39,20 +39,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Build Command String //
-(*sCommand := '/C ';                  									// Special command indicating command string input
-sCommand := CONCAT(sCommand, 'cd / && ');      							// Add move command
-sCommand := CONCAT(sCommand, 'cd Users\henri.hamalainen\desktop && ');//'cd C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab && ');  // Add target file path
-sCommand := CONCAT(sCommand, 'startMatlab.py');          				// Add python script name
- 
-// Output
-Process(
-    NETID := '10.98.76.62.1.1',//'130.231.170.95.1.1' (SFE pc?),        // Local System
-    PATHSTR := 'C:\Windows\System32\cmd.exe',   						// Path to local cmd executable
-    COMNDLINE := sCommand,          									// Comnmand to be executedz
-    ERR => bError,                   									// Error Output
-    ERRID => iErrorId               				 					// Error Id Output
-);*)
+      <ST><![CDATA[
 
 // Build Command String
 sCommand := '/C ';                  									// Special command indicating command string input
@@ -247,7 +234,7 @@ END_IF *)
 ]]></ST>
     </Implementation>
     <LineIds Name="RunMATLAB">
-      <LineId Id="24" Count="47" />
+      <LineId Id="37" Count="34" />
       <LineId Id="335" Count="1" />
       <LineId Id="74" Count="0" />
       <LineId Id="257" Count="0" />

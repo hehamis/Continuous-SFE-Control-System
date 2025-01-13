@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="ReactorTemperature" Id="{16e4c80f-901e-45ce-babb-c77ace600a86}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ReactorTemperature IMPLEMENTS I_ProcessController
+VAR
+	iProportionalBand: INT;
+	iIntegralTime: INT;
+	iDerivativeTime: INT;
+	iBias: INT;
+	iCycleTime: INT;
+	ReactorTemperaturePIDControl : FB_PidControllerRelayOutput;
+	
+	_pidControllerParameters : ST_PidParameters;
+	_upperTemperature : INT;
+	_lowerTemperature : INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// Read measurement values
+ryT := INT_TO_FLOAT(in := GVL_IO.reactorTemperatureUpper);
+ryT := ryT/10;
+rspT := iTemperatureSetpoint;
+buT := GVL_IO.reactorTemperatureContactor;
+bTempCon := bTemperatureControlSwitch;
+
+// Temperature PID control logic
+IF bTempCon OR iTemperatureControlPercentage > 0 THEN
+	ReactorTemperaturePIDControl(
+		Iterationtime:= rIterationTime, 
+		PB:= rPB, 
+		Ti:= rTi, 
+		Td:= rTd, 
+		Kp:= rKp, 
+		Ki:= rKi, 
+		Kd:= rKd, 
+		Bias:= rBias, 
+		processVariable:= ryT, 
+		setpoint:= rspT, 
+		modeSelection:= bTempCon,
+		iControlPercentage := iTemperatureControlPercentage, 
+		relayOn=> GVL_IO.reactorTemperatureContactor);
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="HandleIoSignals" Id="{03f32b71-97c9-4940-9275-41b545349cd5}">
+      <Declaration><![CDATA[{warning 'add method implementation '}
+METHOD HandleIoSignals : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+_upperTemperature	:= GVL_IO.reactorTemperatureUpper;
+_lowerTemperature := GVL_IO.reactorTemperatureLower;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="LowerTemperatureDisplayValue" Id="{efa40fdb-028b-4abc-ab00-1447a9e12283}">
+      <Declaration><![CDATA[PROPERTY LowerTemperatureDisplayValue : INT]]></Declaration>
+      <Get Name="Get" Id="{406a293d-8f4f-41ae-9ae8-e5f930045856}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{e8113bd2-2990-40f2-9284-dba7791f3557}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="PidControllerParameters" Id="{a053fa36-ad6c-46f1-b0b7-a85306bcfc85}">
+      <Declaration><![CDATA[PROPERTY PidControllerParameters : ST_PidParameters]]></Declaration>
+      <Get Name="Get" Id="{0b85ceaa-23e1-45dd-acff-d1f20b6d0724}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{ceac80b3-1889-4d2c-bc67-41430dd0ca1e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="UpperTemperatureDisplayValue" Id="{680eea87-96c1-436c-a20d-cfd5f9c96357}">
+      <Declaration><![CDATA[PROPERTY UpperTemperatureDisplayValue : INT]]></Declaration>
+      <Get Name="Get" Id="{a97199b0-3d75-452d-a4e7-805d6bca4dd4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{01cd8f3d-cd29-488d-b427-416dcc46aa70}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="ReactorTemperature">
+      <LineId Id="20" Count="23" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.HandleIoSignals">
+      <LineId Id="8" Count="1" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.LowerTemperatureDisplayValue.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.LowerTemperatureDisplayValue.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.PidControllerParameters.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.PidControllerParameters.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.UpperTemperatureDisplayValue.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.UpperTemperatureDisplayValue.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

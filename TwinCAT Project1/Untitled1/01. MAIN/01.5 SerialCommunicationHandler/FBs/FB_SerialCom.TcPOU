@@ -41,7 +41,8 @@ END_VAR
 
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Call the send block every second to repeat the transmission.
+      <ST><![CDATA[
+// Call the send block every second to repeat the transmission.
 // Also call the block as long as it is busy to finish a transmission.
 rTrigStartTriggered(CLK := bStartTriggered);
 IF rTrigStartTriggered.Q THEN
@@ -93,7 +94,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[bStartTriggered := start;
+        <ST><![CDATA[
+bStartTriggered := start;
 sSendStringIn := SendStringIn;]]></ST>
       </Implementation>
     </Method>
@@ -103,7 +105,8 @@ VAR_INPUT
 	stop : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF stop THEN
+        <ST><![CDATA[
+IF stop THEN
 	bstart := FALSE;
 	bStartTriggered := FALSE;
 	Received := FALSE;
@@ -111,6 +114,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_SerialCom">
+      <LineId Id="206" Count="0" />
       <LineId Id="40" Count="1" />
       <LineId Id="117" Count="0" />
       <LineId Id="120" Count="2" />
@@ -123,10 +127,12 @@ END_IF]]></ST>
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_SerialCom.StartSend">
+      <LineId Id="35" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="15" Count="0" />
     </LineIds>
     <LineIds Name="FB_SerialCom.StopSend">
+      <LineId Id="28" Count="0" />
       <LineId Id="21" Count="3" />
       <LineId Id="9" Count="0" />
     </LineIds>

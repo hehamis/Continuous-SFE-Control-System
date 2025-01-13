@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <Itf Name="I_ProcessController" Id="{1cfb29d1-397f-4ea9-bea6-6d38846bc098}">
+    <Declaration><![CDATA[INTERFACE I_ProcessController
+]]></Declaration>
+    <Method Name="HandleIoSignals" Id="{66d611f0-34c7-430b-83e3-199474d0b6be}">
+      <Declaration><![CDATA[METHOD HandleIoSignals : BOOL]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

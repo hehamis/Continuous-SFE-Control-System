@@ -25,7 +25,8 @@ VAR PERSISTENT
 	PressureLowerInterval_3: INT;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Scale analog pressure
+      <ST><![CDATA[
+// Scale analog pressure
 iPressureScaledValue := F_AnalogScale(AnalogInputRawValue := GVL_IO.reactorPressure, MaxAnalogValue := 1000);
 
 IF bLevelControlSwitch THEN
@@ -103,6 +104,7 @@ END_IF
 timeControlToggle(I_OpenInterValSecs := 5, I_CloseIntervalSecs := 10, O_Update => );]]></ST>
     </Implementation>
     <LineIds Name="ReactorLevelAndPressureControl">
+      <LineId Id="272" Count="0" />
       <LineId Id="175" Count="74" />
       <LineId Id="5" Count="0" />
     </LineIds>

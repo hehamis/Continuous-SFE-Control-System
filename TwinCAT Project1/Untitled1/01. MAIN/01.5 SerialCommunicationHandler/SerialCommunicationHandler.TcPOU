@@ -2,7 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="SerialCommunicationHandler" Id="{a12e14a2-3147-4be8-a768-485775d9f2f3}" SpecialFunc="None">
     <Declaration><![CDATA[(*
-SerialCom_InfoSys_Sample1 (v2.0)
+Based on SerialCom_InfoSys_Sample1 (v2.0)
 This sample sends and receives a string via serial communication.
 Three hardware interfaces are used: Pc COM port, EL terminal, KL terminal
 *)
@@ -58,8 +58,25 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Receive data from controller
+      <ST><![CDATA[
+// Data exchange from/to terminal
 fbAsciiComm(TxBuffer:=TxBufferEL, RxBuffer:=RxBufferEL);
+
+// Receive data
+ReceiveData();
+
+// Send data
+SendData();
+
+]]></ST>
+    </Implementation>
+    <Method Name="ReceiveData" Id="{a1d1417a-4770-4ed6-b544-11e727bb2173}">
+      <Declaration><![CDATA[METHOD ReceiveData : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
 CASE ReceiveStep OF
 	0: 
 		// On startup: start data receiving
@@ -152,10 +169,16 @@ rTrigMessageNotUpdated(CLK := tonMessageUpdate.Q);
 IF rTrigMessageNotUpdated.Q THEN
 	fbAsciiComm.StopSend(stop := TRUE);
 	ReceiveStep := 0;
-END_IF
-
-// Send data to controller
-
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SendData" Id="{c2d14a5a-3c02-453c-8582-99fffae2c5c3}">
+      <Declaration><![CDATA[METHOD SendData : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
 // Stop receiving data during send
 IF pumpPressureStartSend OR preHeaterTemperatureStartSend OR separatorTemperatureStartSend THEN
 	ReceiveStep := 0;
@@ -192,24 +215,26 @@ IF separatorTemperatureSetSetpoint <> separatorTemperatureSetSetpointPrev THEN
 END_IF
 
 ]]></ST>
-    </Implementation>
+      </Implementation>
+    </Method>
     <LineIds Name="SerialCommunicationHandler">
-      <LineId Id="676" Count="62" />
-      <LineId Id="771" Count="22" />
-      <LineId Id="770" Count="0" />
-      <LineId Id="739" Count="15" />
-      <LineId Id="872" Count="1" />
-      <LineId Id="879" Count="0" />
-      <LineId Id="875" Count="1" />
-      <LineId Id="874" Count="0" />
-      <LineId Id="755" Count="4" />
-      <LineId Id="817" Count="0" />
-      <LineId Id="760" Count="6" />
-      <LineId Id="818" Count="0" />
-      <LineId Id="805" Count="6" />
-      <LineId Id="819" Count="0" />
-      <LineId Id="812" Count="0" />
-      <LineId Id="797" Count="0" />
+      <LineId Id="935" Count="0" />
+      <LineId Id="676" Count="1" />
+      <LineId Id="937" Count="0" />
+      <LineId Id="936" Count="0" />
+      <LineId Id="939" Count="0" />
+      <LineId Id="941" Count="0" />
+      <LineId Id="940" Count="0" />
+      <LineId Id="942" Count="0" />
+      <LineId Id="938" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="SerialCommunicationHandler.ReceiveData">
+      <LineId Id="6" Count="92" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="SerialCommunicationHandler.SendData">
+      <LineId Id="6" Count="35" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

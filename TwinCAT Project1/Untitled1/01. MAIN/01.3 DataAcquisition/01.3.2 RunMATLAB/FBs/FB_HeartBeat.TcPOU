@@ -26,7 +26,8 @@ VAR_OUTPUT
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF I_HeartBeatCheckTime = 0 THEN
+      <ST><![CDATA[
+IF I_HeartBeatCheckTime = 0 THEN
 	tonSimulateRotation(IN:=TRUE , PT:=INT_TO_TIME(100), Q=>bRotCheck , ET=> );
 	//tofSimulateRotation(IN:=FALSE , PT:=INT_TO_TIME(500), Q=>bRotCheck , ET=> );
 	IF tonSimulateRotation.Q THEN
@@ -71,6 +72,7 @@ END_IF
 ]]></ST>
     </Implementation>
     <LineIds Name="FB_HeartBeat">
+      <LineId Id="591" Count="0" />
       <LineId Id="526" Count="41" />
       <LineId Id="9" Count="0" />
     </LineIds>

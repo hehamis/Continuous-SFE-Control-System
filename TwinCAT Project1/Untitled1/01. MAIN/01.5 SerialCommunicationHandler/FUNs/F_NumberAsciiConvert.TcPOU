@@ -10,7 +10,8 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF Value >= 0 AND Value < 10 THEN
+      <ST><![CDATA[
+IF Value >= 0 AND Value < 10 THEN
 	CompiledString := CONCAT('000',DINT_TO_STRING(Value));
 ELSIF Value >= 10 AND Value < 100 THEN
 	CompiledString := CONCAT('00',DINT_TO_STRING(Value));
@@ -23,6 +24,7 @@ F_NumberAsciiConvert := CompiledString;
 ]]></ST>
     </Implementation>
     <LineIds Name="F_NumberAsciiConvert">
+      <LineId Id="32" Count="0" />
       <LineId Id="15" Count="9" />
       <LineId Id="7" Count="0" />
     </LineIds>

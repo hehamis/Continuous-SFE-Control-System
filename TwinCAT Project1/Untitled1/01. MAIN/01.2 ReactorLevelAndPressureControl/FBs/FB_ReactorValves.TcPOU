@@ -25,7 +25,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[openInterval := openIntervalSecs;
+        <ST><![CDATA[
+openInterval := openIntervalSecs;
 closeInterval := closeIntervalSecs ;
 timeControlToggle(I_OpenInterValSecs := openInterval, I_CloseIntervalSecs := closeInterval, O_Update => timeControlOpen);
 ]]></ST>
@@ -54,7 +55,8 @@ VAR
 	pressureLowerInterval: INT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF interval_1_condition THEN
+        <ST><![CDATA[
+IF interval_1_condition THEN
 	pressureUpperInterval := pressureUpperInterval_1;
 	pressureLowerInterval := pressureLowerInterval_1;
 ELSIF interval_2_condition THEN
@@ -77,11 +79,13 @@ END_IF]]></ST>
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_ReactorValves.onOffTimeControl">
+      <LineId Id="23" Count="0" />
       <LineId Id="16" Count="1" />
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="FB_ReactorValves.pressureIntervalControl">
+      <LineId Id="155" Count="0" />
       <LineId Id="119" Count="15" />
       <LineId Id="37" Count="0" />
     </LineIds>

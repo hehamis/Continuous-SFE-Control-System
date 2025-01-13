@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <Itf Name="I_PidController" Id="{aa630658-0d8b-4e8d-a461-2fcb82cd964a}">
+    <Declaration><![CDATA[INTERFACE I_PidController
+]]></Declaration>
+    <Method Name="AutomaticControl" Id="{faea0406-8ebf-41f1-9459-a5ac78b7e924}">
+      <Declaration><![CDATA[METHOD AutomaticControl : BOOL
+VAR_INPUT
+	processVariable		: REAL; // Temperature measurement
+	setpoint			: REAL; // Temperature setpoint
+	modeSelection		: BOOL; // Temperature control mode (AUTO == 1, MAN == 0)
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="ManualControl" Id="{04f20102-d226-4c81-b17e-1d3eaeea885c}">
+      <Declaration><![CDATA[METHOD ManualControl : BOOL
+VAR_INPUT
+	iControlPercentage : INT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="SetParameters" Id="{c9bcb76f-994e-4fce-8534-5f8b44dc3dbe}">
+      <Declaration><![CDATA[METHOD SetParameters : BOOL
+VAR_INPUT
+	parameters			: ST_PidParameters;
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>
