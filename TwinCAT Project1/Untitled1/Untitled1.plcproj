@@ -19,22 +19,19 @@
     </CompilerDefines>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\DUTs\FB_PidControllerRelayOutput.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\DUTs\I_PidController.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\DUTs\I_ProcessController.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\DUTs\ReactorTemperature.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\DUTs\ST_PidParameters.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\FBs\FB_PidControllerRelayOutput.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\FBs\FB_PIDrelayOutput.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\FBs\FB_ReactorTemperatureControlStateMachine.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\FBs\ReactorTemperature.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\ReactorTemperatureControl.TcPOU">
@@ -82,6 +79,9 @@
     <Compile Include="01. MAIN\Common\FUNs\F_AnalogScale.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\Common\ITFs\I_PidController.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -96,6 +96,26 @@
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
     <Compile Include="03. VISUs\MainScreen View\MainScreenBindings.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="03. VISUs\MainScreen View\MainScreen_1.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="03. VISUs\MainScreen View\Valve.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="03. VISUs\MainScreen View\ValveDiagonal.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="03. VISUs\PidParameterMenu View\PidParameterMenu.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="03. VISUs\PidParameterMenu View\PidParameterMenuBindings.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="03. VISUs\SerialCommVisuTest.TcVIS">
@@ -158,10 +178,6 @@
     <Compile Include="03. VISUs\ImagePool.TcIPO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="03. VISUs\PidParameterMenu.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-    </Compile>
     <Compile Include="03. VISUs\LevelControlParamMenu.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
@@ -191,6 +207,7 @@
     <Folder Include="02. MAIN_Fast\02.1 Background" />
     <Folder Include="03. VISUs\IMAGES" />
     <Folder Include="03. VISUs\MainScreen View" />
+    <Folder Include="03. VISUs\PidParameterMenu View" />
     <Folder Include="04. GVLs" />
     <Folder Include="01. MAIN" />
     <Folder Include="02. MAIN_Fast" />

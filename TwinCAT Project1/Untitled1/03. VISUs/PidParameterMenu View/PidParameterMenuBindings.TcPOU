@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="PidParameterMenuBindings" Id="{1a0b8999-6280-4899-bfb0-561a566affd5}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PidParameterMenuBindings
+VAR
+	reactorTemperaturePidParameters : ST_PidParameters;
+	
+	// VISU element variables
+	PbTextField_TextVariable : INT;
+	
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+reactorTemperaturePidParameters.PB := PbTextField_TextVariable;
+
+ReactorTemperature.pidControllerParameters := reactorTemperaturePidParameters;
+]]></ST>
+    </Implementation>
+    <LineIds Name="PidParameterMenuBindings">
+      <LineId Id="20" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="11" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

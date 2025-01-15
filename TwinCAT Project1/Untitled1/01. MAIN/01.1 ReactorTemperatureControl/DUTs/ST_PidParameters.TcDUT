@@ -7,9 +7,6 @@ STRUCT
 	PB: REAL;
 	Ti: REAL;
 	Td: REAL;
-	Kp: REAL;
-	Ki: REAL;
-	Kd: REAL;
 	Bias: REAL;
 END_STRUCT
 END_TYPE

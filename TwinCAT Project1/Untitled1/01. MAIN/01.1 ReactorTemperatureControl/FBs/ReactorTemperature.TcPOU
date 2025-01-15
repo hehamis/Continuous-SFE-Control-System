@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="ReactorTemperature" Id="{b264a75d-055d-45ef-ac02-67880535c654}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM ReactorTemperature
+VAR
+	TemperatureControlStateMachine : FB_ReactorTemperatureControlStateMachine;
+	_pidControllerParameters : ST_PidParameters;
+	_manualControlPercentage : INT;
+	_upperTemperature : INT;
+	_lowerTemperature : INT;
+	_temperatureSetpoint : INT;
+	_temperatureContactor : BOOL;
+	_autoControlSelected : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+_upperTemperature	:= GVL_IO.reactorTemperatureUpper/10;
+_lowerTemperature := GVL_IO.reactorTemperatureLower/10;
+GVL_IO.reactorTemperatureContactor := _temperatureContactor;
+
+// Temperature PID control logic
+TemperatureControlStateMachine(temperatureMeasurement := TO_REAL(_upperTemperature),
+							temperatureSetpoint := TO_REAL(_temperatureSetpoint),
+							pidParameters := _pidControllerParameters,
+							manualControlPercentage := _manualControlPercentage,
+							autoControlSelected := _autoControlSelected,
+							relayOn => _temperatureContactor);
+							
+_temperatureContactor := TemperatureControlStateMachine.relayOn;]]></ST>
+    </Implementation>
+    <Property Name="autoControlSelected" Id="{7f26212f-80c2-4e14-963e-4ce92499c181}">
+      <Declaration><![CDATA[PROPERTY autoControlSelected : BOOL]]></Declaration>
+      <Set Name="Set" Id="{dc712bed-2067-4279-b7a8-706ce7b7d03d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_autoControlSelected := autoControlSelected;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="lowerTemperature" Id="{88abff98-3ec2-4bdc-9d32-aee098608a79}">
+      <Declaration><![CDATA[PROPERTY lowerTemperature : INT]]></Declaration>
+      <Get Name="Get" Id="{881f5bc1-ee7c-49fe-bce9-a74f34989737}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+lowerTemperature := _lowerTemperature;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="manualControlPercentage" Id="{ead5434f-49a2-4a32-8c04-ec55ff3a1e8a}">
+      <Declaration><![CDATA[PROPERTY manualControlPercentage : INT]]></Declaration>
+      <Set Name="Set" Id="{c8e9bf7a-7b88-44b7-b4a9-b87d8a70468c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+
+_manualControlPercentage := manualControlPercentage;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="pidControllerParameters" Id="{646e59c0-265d-4aea-9693-ebdf1d70de6c}">
+      <Declaration><![CDATA[PROPERTY pidControllerParameters : ST_PidParameters]]></Declaration>
+      <Set Name="Set" Id="{74401392-871c-4c3a-b2a5-0ee58b8bde1d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_pidControllerParameters := pidControllerParameters;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="temperatureContactor" Id="{651aaa74-c7af-4155-91ce-d9b147209b1c}">
+      <Declaration><![CDATA[PROPERTY temperatureContactor : BOOL]]></Declaration>
+      <Get Name="Get" Id="{ed04c757-d4b1-4b51-bd63-6684d528cc07}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+temperatureContactor := _temperatureContactor;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="temperatureSetpoint" Id="{8e9d1647-23ef-4949-b863-ea810656227c}">
+      <Declaration><![CDATA[PROPERTY temperatureSetpoint : INT]]></Declaration>
+      <Set Name="Set" Id="{7c1326ac-99f1-4791-91f9-3ed3ce46bb17}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_temperatureSetpoint := temperatureSetpoint;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="upperTemperature" Id="{84243da1-7d07-4d5a-b916-9af3257e9f21}">
+      <Declaration><![CDATA[PROPERTY upperTemperature : INT]]></Declaration>
+      <Get Name="Get" Id="{56cb51bc-a137-41ac-aeee-448c455129d3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+upperTemperature := _upperTemperature;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="ReactorTemperature">
+      <LineId Id="19" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="13" Count="5" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="35" Count="1" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.autoControlSelected.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.lowerTemperature.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.manualControlPercentage.Set">
+      <LineId Id="5" Count="1" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.pidControllerParameters.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.temperatureContactor.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.temperatureSetpoint.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.upperTemperature.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

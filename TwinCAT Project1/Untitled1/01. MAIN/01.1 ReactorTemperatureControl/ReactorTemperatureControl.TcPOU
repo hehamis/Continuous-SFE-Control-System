@@ -44,6 +44,7 @@ VAR
 	
 	fbReactorTemperaturePIDControl: FB_PIDrelayOutput;
 	iTemperatureLowerDisplayValue: INT;
+	
 END_VAR
 VAR PERSISTENT
 	iProportionalBand: INT;

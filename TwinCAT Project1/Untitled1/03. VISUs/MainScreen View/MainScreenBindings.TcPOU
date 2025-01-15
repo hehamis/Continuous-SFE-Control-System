@@ -2,13 +2,13 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="MainScreenBindings" Id="{4a3b100e-d510-409e-8f4e-7c5919608164}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MainScreenBindings
-VAR
-END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[
+]]></ST>
     </Implementation>
     <LineIds Name="MainScreenBindings">
+      <LineId Id="10" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

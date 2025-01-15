@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_ReactorTemperatureControlStateMachine" Id="{a4816a41-d106-4c43-933b-fcb27a662bd9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ReactorTemperatureControlStateMachine
+VAR_INPUT
+	temperatureMeasurement : REAL;
+	temperatureSetpoint : REAL;
+	pidParameters : ST_PidParameters;
+	manualControlPercentage : INT;
+	autoControlSelected : BOOL;
+END_VAR
+VAR_OUTPUT
+	relayOn : BOOL;
+END_VAR
+VAR
+	ReactorTemperaturePIDControl : FB_PidControllerRelayOutput;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+ReactorTemperaturePIDControl.SetParameters(parameters := pidParameters);
+IF autoControlSelected THEN
+	ReactorTemperaturePIDControl.AutomaticControl(processVariable := temperatureMeasurement,
+												setpoint := temperatureSetpoint);													
+ELSIF NOT autoControlSelected AND manualControlPercentage > 0 THEN
+	ReactorTemperaturePIDControl.ManualControl(iControlPercentage := manualControlPercentage);
+ELSE
+	ReactorTemperaturePIDControl.ResetControl();
+END_IF
+
+relayOn := ReactorTemperaturePIDControl.relayOn;
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_ReactorTemperatureControlStateMachine">
+      <LineId Id="10" Count="8" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
