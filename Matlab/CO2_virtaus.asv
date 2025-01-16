@@ -1,0 +1,23 @@
+clear all, close all
+%% Ajo datan lataus: kopioi ajon päivämäärä ja nimi esim:"2024_11_1_13_17_57.109 (200bar_paprikaajo)" ja 
+% liitä alla Matlab\tähän väliin/F_data.mat')
+load('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab\2024_11_21_08_37_29.171 (Kuusenoksa+EtOH)/F_data.mat')
+
+%% CO2 virtaus
+Fd = F_data(:,1)/100;
+figure(1);
+plot(Fd)
+keskivirtaus = mean(Fd); %(L/min)
+Fmax = max(Fd);
+Fmin = min(Fd);
+kokonaisCO2kulutus = sum(Fd); %(L)
+
+
+
+
+
+
+
+
+
+
