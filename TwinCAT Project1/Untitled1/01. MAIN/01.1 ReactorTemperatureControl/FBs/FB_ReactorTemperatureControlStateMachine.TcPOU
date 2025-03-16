@@ -18,7 +18,10 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
+// Monitor PID controller parameters
 ReactorTemperaturePIDControl.SetParameters(parameters := pidParameters);
+
+// Control logic according to mode selection
 IF autoControlSelected THEN
 	ReactorTemperaturePIDControl.AutomaticControl(processVariable := temperatureMeasurement,
 												setpoint := temperatureSetpoint);													
@@ -28,12 +31,18 @@ ELSE
 	ReactorTemperaturePIDControl.ResetControl();
 END_IF
 
+// Control temperature relay 
 relayOn := ReactorTemperaturePIDControl.relayOn;
 ]]></ST>
     </Implementation>
     <LineIds Name="FB_ReactorTemperatureControlStateMachine">
-      <LineId Id="10" Count="8" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="12" Count="6" />
       <LineId Id="9" Count="0" />
+      <LineId Id="66" Count="0" />
       <LineId Id="48" Count="0" />
       <LineId Id="47" Count="0" />
       <LineId Id="23" Count="0" />

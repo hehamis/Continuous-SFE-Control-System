@@ -234,7 +234,10 @@ END_IF
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="SerialCommunicationHandler.SendData">
-      <LineId Id="6" Count="35" />
+      <LineId Id="6" Count="3" />
+      <LineId Id="45" Count="3" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="15" Count="26" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
