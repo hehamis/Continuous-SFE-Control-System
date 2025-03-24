@@ -40,6 +40,9 @@
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_ReactorValves.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\ReactorLevelAndPressure.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\ReactorLevelAndPressureControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -94,6 +97,7 @@
     <Compile Include="03. VISUs\MainScreen View\MainScreen.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+      <ExcludeFromBuild>false</ExcludeFromBuild>
     </Compile>
     <Compile Include="03. VISUs\MainScreen View\MainScreenBindings.TcPOU">
       <SubType>Code</SubType>
@@ -101,7 +105,7 @@
     <Compile Include="03. VISUs\MainScreen View\MainScreen_1.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-      <ExcludeFromBuild>true</ExcludeFromBuild>
+      <ExcludeFromBuild>false</ExcludeFromBuild>
     </Compile>
     <Compile Include="03. VISUs\MainScreen View\Valve.TcVIS">
       <SubType>Code</SubType>

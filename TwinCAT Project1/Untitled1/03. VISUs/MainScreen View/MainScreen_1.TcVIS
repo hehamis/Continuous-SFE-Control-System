@@ -1760,7 +1760,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"GVL_IO.reactorOutletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryOutLine1_ToggleColor"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -1915,7 +1915,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"GVL_IO.reactorOutletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryOutLine1_ToggleColor"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -2070,7 +2070,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"GVL_IO.reactorOutletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryOutLine1_ToggleColor"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -2225,7 +2225,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"GVL_IO.reactorInletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryInArrow_ToggleColor"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -2380,7 +2380,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"GVL_IO.reactorInletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryInArrow_ToggleColor"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -3460,7 +3460,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"GVL_IO.reactorInletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryInArrow_ToggleColor"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -3677,7 +3677,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorTemperatureControl.iTemperatureLowerDisplayValue"</v>
+                      <v n="Value">"MainScreenBindings.ReactorUpperTemperatureTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -3954,7 +3954,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"(ReactorTemperatureControl.bTemperatureControlSwitch) OR (ReactorTemperatureControl.iTemperatureControlPercentage &gt; 0) OR ((ReactorTemperatureControl.iTemperatureControlPercentage = 0) AND (GVL_IO.reactorTemperatureContactor = 1))"</v>
+                      <v n="Value">"MainScreenBindings.ReactorBackgroundRectangle_ToggleColor"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -4248,7 +4248,11 @@
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"GVL_IO.reactorTemperatureContactor"</v>
+                          <v n="Value">"MainScreenBindings.ReactorTemperatureContactorButton_ToggleVariable"</v>
+                        </o>
+                        <o>
+                          <v n="Id">2164770859L</v>
+                          <v n="Value">true</v>
                         </o>
                       </l>
                     </o>
@@ -4400,7 +4404,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"GVL_IO.reactorTemperatureContactor"</v>
+                      <v n="Value">"MainScreenBindings.ReactorTemperatureContactorLamp_Variable"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -4408,7 +4412,7 @@
                     </o>
                     <o>
                       <v n="Id">2880254039L</v>
-                      <v n="Value">"ReactorTemperatureControl.iTemperatureControlPercentage &gt; 0 or ReactorTemperatureControl.bTemperatureControlSwitch= 1"</v>
+                      <v n="Value">"MainScreenBindings.ReactorTemperatureContactorButton_Invisible"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -4510,7 +4514,7 @@
                     </o>
                     <o>
                       <v n="Id">743958181L</v>
-                      <v n="Value">"GVL_IO.reactorTemperatureContactor"</v>
+                      <v n="Value">"MainScreenBindings.ReactorTemperatureContactorButton_Invisible"</v>
                     </o>
                   </l>
                 </o>
@@ -4608,7 +4612,7 @@
                     </o>
                     <o>
                       <v n="Id">743958181L</v>
-                      <v n="Value">"GVL_IO.reactorLevelLow"</v>
+                      <v n="Value">"MainScreenBindings.ReactorLowerLevelLamp"</v>
                     </o>
                   </l>
                 </o>
@@ -4706,7 +4710,7 @@
                     </o>
                     <o>
                       <v n="Id">743958181L</v>
-                      <v n="Value">"GVL_IO.reactorLevelHigh"</v>
+                      <v n="Value">"MainScreenBindings.ReactorUpperLevelLamp_Variable"</v>
                     </o>
                   </l>
                 </o>
@@ -4860,7 +4864,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorTemperatureControl.iTemperatureSetpoint"</v>
+                      <v n="Value">"MainScreenBindings.ReactorTemperatureSetpointTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -5037,7 +5041,7 @@
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"ReactorTemperatureControl.bTemperatureControlSwitch"</v>
+                          <v n="Value">"MainScreenBindings.RectorTemperatureControlModeButton_ToggleVariable"</v>
                         </o>
                       </l>
                     </o>
@@ -5189,7 +5193,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"ReactorTemperatureControl.bTemperatureControlSwitch"</v>
+                      <v n="Value">"MainScreenBindings.PidParamMenuButton_Invisible"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -5197,7 +5201,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorTemperatureControl.sTemperatureControlState"</v>
+                      <v n="Value">"MainScreenBindings.RectorTemperatureControlModeButton_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -5611,7 +5615,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorTemperatureControl.iTemperatureDisplayValue"</v>
+                      <v n="Value">"MainScreenBindings.ReactorLowerTemperatureTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -5631,191 +5635,6 @@
                 <a n="LMGuids" et="Guid" />
                 <d n="SubElements" t="Hashtable" />
                 <v n="VisualElementId">33</v>
-                <l n="UserManagementAccessRights" t="ArrayList" />
-              </o>
-              <o>
-                <a n="ConfiguredComplexInputs" et="ComplexInput" />
-                <l n="Elements" t="ArrayList" />
-                <n n="VisualElementDescription" />
-                <o n="VisualElemMemberList" t="VisualElemMemberList">
-                  <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
-                    <o>
-                      <v n="Id">571893170L</v>
-                      <v n="Value">""</v>
-                    </o>
-                    <o>
-                      <v n="Id">494569607L</v>
-                      <l n="Value" t="ArrayList" cet="NamedStyleColor">
-                        <o>
-                          <v n="Color">-16777216</v>
-                          <v n="CanonicalName">"BasicElement-Frame-Color"</v>
-                        </o>
-                      </l>
-                    </o>
-                    <o>
-                      <v n="Id">2812299069L</v>
-                      <l n="Value" t="ArrayList" cet="NamedStyleColor">
-                        <o>
-                          <v n="Color">-1</v>
-                          <v n="CanonicalName">"BasicElement-Fill-Color"</v>
-                        </o>
-                      </l>
-                    </o>
-                    <o>
-                      <v n="Id">135947015L</v>
-                      <l n="Value" t="ArrayList" cet="NamedStyleColor">
-                        <o>
-                          <v n="Color">-65536</v>
-                          <v n="CanonicalName">"BasicElement-Alarm-Frame-Color"</v>
-                        </o>
-                      </l>
-                    </o>
-                    <o>
-                      <v n="Id">493260384L</v>
-                      <l n="Value" t="ArrayList" cet="NamedStyleColor">
-                        <o>
-                          <v n="Color">-12337</v>
-                          <v n="CanonicalName">"BasicElement-Alarm-Fill-Color"</v>
-                        </o>
-                      </l>
-                    </o>
-                    <o>
-                      <v n="Id">2340015797L</v>
-                      <v n="Value">"HCENTER"</v>
-                    </o>
-                    <o>
-                      <v n="Id">2565699834L</v>
-                      <v n="Value">"VCENTER"</v>
-                    </o>
-                    <o>
-                      <v n="Id">4134387352L</v>
-                      <v n="Value">"NONE"</v>
-                    </o>
-                    <o>
-                      <v n="Id">1603690730L</v>
-                      <v n="Value">"Arial"</v>
-                    </o>
-                    <o>
-                      <v n="Id">4253639993L</v>
-                      <v n="Value" t="Int16">12</v>
-                    </o>
-                    <o>
-                      <v n="Id">2729990903L</v>
-                      <v n="Value">0U</v>
-                    </o>
-                    <o>
-                      <v n="Id">1213979116L</v>
-                      <v n="Value">0U</v>
-                    </o>
-                    <o>
-                      <v n="Id">3488306084L</v>
-                      <v n="Value">4278190080U</v>
-                    </o>
-                    <o>
-                      <v n="Id">1999528970L</v>
-                      <v n="Value">"&lt;toggle/tap variable&gt;"</v>
-                    </o>
-                    <o>
-                      <v n="Id">3719097617L</v>
-                      <v n="Value">0</v>
-                    </o>
-                    <o>
-                      <v n="Id">1649127785L</v>
-                      <v n="Value" t="Int16">474</v>
-                    </o>
-                    <o>
-                      <v n="Id">357335551L</v>
-                      <v n="Value">426</v>
-                    </o>
-                    <o>
-                      <v n="Id">2422045748L</v>
-                      <v n="Value">144</v>
-                    </o>
-                    <o>
-                      <v n="Id">2134141914L</v>
-                      <v n="Value">101</v>
-                    </o>
-                    <o>
-                      <v n="Id">3729828405L</v>
-                      <l n="Value" t="ArrayList" cet="FontDescription">
-                        <o>
-                          <v n="FontStyle">1</v>
-                          <v n="AdditionalFontStyle" t="UInt16">0</v>
-                          <v n="ExplicitColor">-16777216</v>
-                          <v n="FontName">"Arial"</v>
-                          <v n="FontSize">18</v>
-                          <v n="ScriptIdentification">0</v>
-                          <v n="DoubleFontSize" t="Double">0</v>
-                          <o n="NamedColor" t="NamedStyleColor">
-                            <v n="Color">-16777216</v>
-                            <v n="CanonicalName">"Font-Default-Color"</v>
-                          </o>
-                        </o>
-                      </l>
-                    </o>
-                    <o>
-                      <v n="Id">550940142L</v>
-                      <v n="Value">546</v>
-                    </o>
-                    <o>
-                      <v n="Id">1473355128L</v>
-                      <v n="Value">476</v>
-                    </o>
-                    <o>
-                      <v n="Id">2678395525L</v>
-                      <v n="Value">1U</v>
-                    </o>
-                    <o>
-                      <v n="Id">564465120L</v>
-                      <v n="Value">"VISU_ST_ROUNDRECT"</v>
-                    </o>
-                    <o>
-                      <v n="Id">390574330L</v>
-                      <v n="Value">""</v>
-                    </o>
-                    <o>
-                      <v n="Id">2597686782L</v>
-                      <v n="Value">false</v>
-                    </o>
-                    <o>
-                      <v n="Id">1375557818L</v>
-                      <v n="Value">true</v>
-                    </o>
-                    <o>
-                      <v n="Id">494542316L</v>
-                      <l n="Value" t="ArrayList">
-                        <o t="NamedStyleColor">
-                          <v n="Color">-23296</v>
-                          <v n="CanonicalName">"Orange"</v>
-                        </o>
-                        <v>4294967295U</v>
-                        <v>0</v>
-                        <v>0</v>
-                        <v>0</v>
-                        <v>0</v>
-                        <v>0</v>
-                        <v>0</v>
-                        <v>4278190080U</v>
-                      </l>
-                    </o>
-                    <o>
-                      <v n="Id">2880254039L</v>
-                      <v n="Value">"(NOT GVL_IO.reactorLevelLowerLow) OR (GVL_IO.reactorLevelHigh)"</v>
-                    </o>
-                  </l>
-                </o>
-                <v n="VisualElementName">"Rectangle"</v>
-                <v n="VisualElementTypeName">"VisuFbElemSimple"</v>
-                <v n="VisualElementIsRectangle">true</v>
-                <v n="VisualElementIdentifier">"ReactorLowerLowerLevelReactangle"</v>
-                <n n="VisualElementOfflinePaintCommands" />
-                <n n="VisualElementFrameInformation" />
-                <d n="VisualElementInputActions" t="Hashtable" />
-                <v n="VisualElementIdentification">{4a236b8c-09a6-47d3-9cd6-9f33bea49503}</v>
-                <v n="VisualElementOwningObjectGuid">{825d6c5d-1db4-4d09-9524-d39611e22440}</v>
-                <a n="LMGuids" et="Guid" />
-                <d n="SubElements" t="Hashtable" />
-                <v n="VisualElementId">47</v>
                 <l n="UserManagementAccessRights" t="ArrayList" />
               </o>
               <o>
@@ -6113,7 +5932,7 @@
                     </o>
                     <o>
                       <v n="Id">2880254039L</v>
-                      <v n="Value">"(NOT GVL_IO.reactorLevelHigh) OR (GVL_IO.reactorLevelLow)"</v>
+                      <v n="Value">"MainScreenBindings.ReactorLowerLevelReactangle_Invisible"</v>
                     </o>
                   </l>
                 </o>
@@ -6298,7 +6117,7 @@
                     </o>
                     <o>
                       <v n="Id">2880254039L</v>
-                      <v n="Value">"(NOT GVL_IO.reactorLevelLow) OR (GVL_IO.reactorLevelHigherHigh)"</v>
+                      <v n="Value">"MainScreenBindings.ReactorUpperLevelRectangle_Invisible"</v>
                     </o>
                   </l>
                 </o>
@@ -6483,7 +6302,7 @@
                     </o>
                     <o>
                       <v n="Id">2880254039L</v>
-                      <v n="Value">"(NOT GVL_IO.reactorLevelHigherHigh)"</v>
+                      <v n="Value">"MainScreenBindings.ReactorUpperUpperLevelReactangle_Invisible"</v>
                     </o>
                   </l>
                 </o>
@@ -7432,7 +7251,7 @@
                     </o>
                     <o>
                       <v n="Id">743958181L</v>
-                      <v n="Value">"GVL_IO.reactorOutletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryOutValveLamp_Variable"</v>
                     </o>
                   </l>
                 </o>
@@ -7560,7 +7379,7 @@
                     </o>
                     <o>
                       <v n="Id">2880254039L</v>
-                      <v n="Value">"ReactorTemperatureControl.bTemperatureControlSwitch"</v>
+                      <v n="Value">"MainScreenBindings.PercentageLabel_Invisible"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -7718,11 +7537,11 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorTemperatureControl.iTemperatureControlPercentage"</v>
+                      <v n="Value">"MainScreenBindings.ReactorTemperatureControlPercentageTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">2880254039L</v>
-                      <v n="Value">"ReactorTemperatureControl.bTemperatureControlSwitch"</v>
+                      <v n="Value">"MainScreenBindings.ReactorTemperatureControlPercentageTextField_Invisible"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -7899,7 +7718,7 @@
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"ReactorLevelAndPressureControl.bLevelControlSwitch"</v>
+                          <v n="Value">"MainScreenBindings.SlurryOutControlModeButton_ToggleVariable"</v>
                         </o>
                       </l>
                     </o>
@@ -8051,7 +7870,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.bLevelControlSwitch"</v>
+                      <v n="Value">"MainScreenBindings.SlurryOutControlModeButton_ToggleColor"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -8059,7 +7878,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.sLevelControlState"</v>
+                      <v n="Value">"MainScreenBindings.SlurryOutControlModeButton_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -8089,7 +7908,7 @@
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"GVL_IO.reactorOutletValve"</v>
+                          <v n="Value">"MainScreenBindings.SlurryOutValveButton_ToggleVariable"</v>
                         </o>
                       </l>
                     </o>
@@ -8241,7 +8060,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"GVL_IO.reactorOutletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryOutValveButton_ToggleColor"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -8249,11 +8068,11 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.sLevelValveState"</v>
+                      <v n="Value">"MainScreenBindings.SlurryOutValveButton_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">2880254039L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.sLevelControlState = 'AUTO'"</v>
+                      <v n="Value">"MainScreenBindings.SlurryOutValveButton_Invisible"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -8617,7 +8436,7 @@
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"ReactorTemperatureControl.bPIDcontrolParameterMenu"</v>
+                          <v n="Value">" MainScreenBindings.PidParamMenuButton_ToggleVariable"</v>
                         </o>
                       </l>
                     </o>
@@ -8777,7 +8596,7 @@
                     </o>
                     <o>
                       <v n="Id">2880254039L</v>
-                      <v n="Value">"ReactorTemperatureControl.bTemperatureControlSwitch"</v>
+                      <v n="Value">"MainScreenBindings.PidParamMenuButton_Invisible"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -9193,7 +9012,7 @@
                     </o>
                     <o>
                       <v n="Id">2880254039L</v>
-                      <v n="Value">"NOT ReactorTemperatureControl.bPIDcontrolParameterMenu OR ReactorTemperatureControl.bTemperatureControlSwitch"</v>
+                      <v n="Value">"MainScreenBindings.PidParamMenuFrame_Invisible"</v>
                     </o>
                   </l>
                 </o>
@@ -9481,7 +9300,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.iPressureScaledValue"</v>
+                      <v n="Value">"MainScreenBindings.ReactorPressureTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -9675,15 +9494,15 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"RunMATLAB.sMatlabRunningState"</v>
+                      <v n="Value">"MainScreenBindings.StartMatlabButton_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">2496894244L</v>
-                      <v n="Value">"RunMATLAB.dMatlabBtnColor = 16#FFFFFF00"</v>
+                      <v n="Value">"MainScreenBindings.StartMatlabButton_DeactivateInputs"</v>
                     </o>
                     <o>
                       <v n="Id">2175578022L</v>
-                      <v n="Value">"RunMATLAB.dMatlabBtnColor"</v>
+                      <v n="Value">"MainScreenBindings.StartMatlabButton_Color"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -10636,7 +10455,7 @@
                     </o>
                     <o>
                       <v n="Id">743958181L</v>
-                      <v n="Value">"GVL_IO.reactorInletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryInValveLamp_Variable"</v>
                     </o>
                   </l>
                 </o>
@@ -10814,7 +10633,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"GVL_IO.reactorInletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryInValveControlModeButton_ToggleColor"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -10822,11 +10641,11 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.sFillingValveState"</v>
+                      <v n="Value">"MainScreenBindings.SlurryInValveControlModeButton_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">2880254039L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.sLevelControlState = 'AUTO'"</v>
+                      <v n="Value">"MainScreenBindings.SlurryInValveControlModeButton_Invisible"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -14051,7 +13870,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"SerialCommunicationHandler.preHeaterTemperatureSetpoint"</v>
+                      <v n="Value">"MainScreenBindings.PreHeaterTemperatureSetpointTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -14356,7 +14175,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"SerialCommunicationHandler.preHeaterTemperatureMeasurement"</v>
+                      <v n="Value">"MainScreenBindings.PreHeaterTemperatureTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -14642,7 +14461,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"SerialCommunicationHandler.pumpingPressureSetpoint"</v>
+                      <v n="Value">"MainScreenBindings.Co2PressureSetpointTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -14947,7 +14766,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"SerialCommunicationHandler.pumpingPressureMeasurement"</v>
+                      <v n="Value">"MainScreenBindings.Co2PressureTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -15873,7 +15692,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"SerialCommunicationHandler.flowMeasurement"</v>
+                      <v n="Value">"MainScreenBindings.Co2FlowTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -16852,7 +16671,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"SerialCommunicationHandler.separatorTemperatureSetpoint"</v>
+                      <v n="Value">"MainScreenBindings.SeparatorTemperatureSetpointTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -17157,7 +16976,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"SerialCommunicationHandler.separatorTemperatureMeasurement"</v>
+                      <v n="Value">"MainScreenBindings.SeperatorTemperatureTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -17699,7 +17518,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.PressureUpperInterVal_1"</v>
+                      <v n="Value">"MainScreenBindings.UpperIntervalSlurryOnUpperTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -17876,7 +17695,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.PressureUpperInterVal_2"</v>
+                      <v n="Value">"MainScreenBindings.UpperIntervalSlurryOnNotUpperTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -18053,7 +17872,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.PressureLowerInterval_1"</v>
+                      <v n="Value">"MainScreenBindings.LowerIntervalSlurryOnUpperTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -18230,7 +18049,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.PressureLowerInterval_2"</v>
+                      <v n="Value">"MainScreenBindings.LowerIntervalSlurryOnNotUpperTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -18663,7 +18482,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.fillingValveOpenInterval"</v>
+                      <v n="Value">"MainScreenBindings.SlurryInValveOpenTimeTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -18840,7 +18659,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.fillingValveCloseInterval"</v>
+                      <v n="Value">"MainScreenBindings.SlurryInValveClosedTimeTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -19273,7 +19092,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.PressureUpperInterVal_3"</v>
+                      <v n="Value">"MainScreenBindings.UpperIntervalSlurryOffUpperTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -19450,7 +19269,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorLevelAndPressureControl.PressureLowerInterval_3"</v>
+                      <v n="Value">"MainScreenBindings.LowerIntervalSlurryOffUpperTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -20011,7 +19830,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"GVL_OPC.OPC_ProgramNamePrefix"</v>
+                      <v n="Value">"MainScreenBindings.ProgramNamePrefixTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -21692,7 +21511,7 @@
                     </o>
                     <o>
                       <v n="Id">2880254039L</v>
-                      <v n="Value">"NOT GVL_IO.reactorTemperatureContactor"</v>
+                      <v n="Value">"MainScreenBindings.ReactorTemperatureContactorClosedLine_Invisible"</v>
                     </o>
                   </l>
                 </o>
@@ -22538,7 +22357,7 @@
                     </o>
                     <o>
                       <v n="Id">2880254039L</v>
-                      <v n="Value">"GVL_IO.reactorTemperatureContactor"</v>
+                      <v n="Value">"MainScreenBindings.ReactorTemperatureContactorOpenLine_Invisible"</v>
                     </o>
                   </l>
                 </o>
@@ -23598,7 +23417,7 @@
                         <l n="TypeNodeChildren" t="ArrayList" cet="BasicTypeNode">
                           <o>
                             <v n="Flags">2L</v>
-                            <v n="BasicTypeNodeValue">"GVL_IO.reactorInletValve"</v>
+                            <v n="BasicTypeNodeValue">"MainScreenBindings.SlurryInValveFrame_valve_toggleColor"</v>
                             <v n="BasicTypeNodeAcceptsExpression">true</v>
                             <n n="BasicTypeNodeFastAccess" />
                             <a n="BasicTypeNodeEnumValues" et="String" />
@@ -23627,7 +23446,7 @@
                           </o>
                           <o>
                             <v n="Flags">2L</v>
-                            <v n="BasicTypeNodeValue">"GVL_IO.reactorInletValve"</v>
+                            <v n="BasicTypeNodeValue">"MainScreenBindings.SlurryInValveFrame_valve_tapVariable"</v>
                             <v n="BasicTypeNodeAcceptsExpression">true</v>
                             <n n="BasicTypeNodeFastAccess" />
                             <a n="BasicTypeNodeEnumValues" et="String" />
@@ -23687,7 +23506,7 @@
                     </o>
                     <o>
                       <v n="Id">206929499L</v>
-                      <v n="Value">"GVL_IO.reactorInletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryInValveFrame_valve_toggleColor"</v>
                     </o>
                     <o>
                       <v n="Id">2277200375L</v>
@@ -23695,7 +23514,7 @@
                     </o>
                     <o>
                       <v n="Id">630250184L</v>
-                      <v n="Value">"GVL_IO.reactorInletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryInValveFrame_valve_tapVariable"</v>
                     </o>
                     <o>
                       <v n="Id">1013868361L</v>
@@ -24081,7 +23900,7 @@
                         <l n="TypeNodeChildren" t="ArrayList" cet="BasicTypeNode">
                           <o>
                             <v n="Flags">2L</v>
-                            <v n="BasicTypeNodeValue">"GVL_IO.reactorOutletValve"</v>
+                            <v n="BasicTypeNodeValue">"MainScreenBindings.SlurryOutValveFrame_valve_toggleColor"</v>
                             <v n="BasicTypeNodeAcceptsExpression">true</v>
                             <n n="BasicTypeNodeFastAccess" />
                             <a n="BasicTypeNodeEnumValues" et="String" />
@@ -24110,7 +23929,7 @@
                           </o>
                           <o>
                             <v n="Flags">2L</v>
-                            <v n="BasicTypeNodeValue">"GVL_IO.reactorOutletValve"</v>
+                            <v n="BasicTypeNodeValue">"MainScreenBindings.SlurryOutValveFrame_valve_tapVariable"</v>
                             <v n="BasicTypeNodeAcceptsExpression">true</v>
                             <n n="BasicTypeNodeFastAccess" />
                             <a n="BasicTypeNodeEnumValues" et="String" />
@@ -24170,7 +23989,7 @@
                     </o>
                     <o>
                       <v n="Id">206929499L</v>
-                      <v n="Value">"GVL_IO.reactorOutletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryOutValveFrame_valve_toggleColor"</v>
                     </o>
                     <o>
                       <v n="Id">2277200375L</v>
@@ -24178,7 +23997,7 @@
                     </o>
                     <o>
                       <v n="Id">630250184L</v>
-                      <v n="Value">"GVL_IO.reactorOutletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryOutValveFrame_valve_tapVariable"</v>
                     </o>
                     <o>
                       <v n="Id">1013868361L</v>
@@ -24280,7 +24099,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"GVL_IO.reactorOutletValve"</v>
+                      <v n="Value">"MainScreenBindings.SlurryOutLine1_ToggleColor"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
