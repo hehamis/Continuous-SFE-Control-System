@@ -11,6 +11,7 @@ VAR
 	_temperatureSetpoint : INT;
 	_temperatureContactor : BOOL;
 	_autoControlSelected : BOOL;
+	_temperatureContactorCommand : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -26,8 +27,12 @@ TemperatureControlStateMachine(temperatureMeasurement := TO_REAL(_upperTemperatu
 							manualControlPercentage := _manualControlPercentage,
 							autoControlSelected := _autoControlSelected,
 							relayOn => _temperatureContactor);
-							
-_temperatureContactor := TemperatureControlStateMachine.relayOn;]]></ST>
+
+IF _autoControlSelected OR (NOT _autoControlSelected AND _manualControlPercentage > 0) THEN
+	_temperatureContactor := TemperatureControlStateMachine.relayOn;
+ELSE
+	_temperatureContactor := _temperatureContactorCommand;
+END_IF]]></ST>
     </Implementation>
     <Property Name="autoControlSelected" Id="{7f26212f-80c2-4e14-963e-4ce92499c181}">
       <Declaration><![CDATA[PROPERTY autoControlSelected : BOOL]]></Declaration>
@@ -90,6 +95,18 @@ temperatureContactor := _temperatureContactor;]]></ST>
         </Implementation>
       </Get>
     </Property>
+    <Property Name="temperatureContactorCommand" Id="{be0d3024-09ac-474a-b153-44c6a5b42491}">
+      <Declaration><![CDATA[PROPERTY temperatureContactorCommand : BOOL]]></Declaration>
+      <Set Name="Set" Id="{b728023f-4905-41fd-8922-03426fb04baf}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_temperatureContactorCommand := temperatureContactorCommand;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="temperatureSetpoint" Id="{8e9d1647-23ef-4949-b863-ea810656227c}">
       <Declaration><![CDATA[PROPERTY temperatureSetpoint : INT]]></Declaration>
       <Set Name="Set" Id="{7c1326ac-99f1-4791-91f9-3ed3ce46bb17}">
@@ -122,7 +139,9 @@ upperTemperature := _upperTemperature;]]></ST>
       <LineId Id="13" Count="5" />
       <LineId Id="5" Count="0" />
       <LineId Id="30" Count="0" />
+      <LineId Id="49" Count="0" />
       <LineId Id="35" Count="1" />
+      <LineId Id="50" Count="2" />
     </LineIds>
     <LineIds Name="ReactorTemperature.autoControlSelected.Set">
       <LineId Id="5" Count="0" />
@@ -141,6 +160,10 @@ upperTemperature := _upperTemperature;]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="ReactorTemperature.temperatureContactor.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorTemperature.temperatureContactorCommand.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>

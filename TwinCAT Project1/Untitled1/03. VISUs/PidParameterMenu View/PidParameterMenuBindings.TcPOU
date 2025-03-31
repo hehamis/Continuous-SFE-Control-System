@@ -4,17 +4,23 @@
     <Declaration><![CDATA[PROGRAM PidParameterMenuBindings
 VAR
 	reactorTemperaturePidParameters : ST_PidParameters;
-	
-	// VISU element variables
-	PbTextField_TextVariable : INT;
-	
+END_VAR
+VAR PERSISTENT
+	PbTextField_TextVariable : INT := 9;
+	TiTextField_TextVariable : INT := 300;
+	TdTextField_TextVariable : INT := 900;
+	IterationTimeTextField_TextVariable : INT := 6;
+	BiasTextField_TextVariable : INT;
 END_VAR
 
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
 reactorTemperaturePidParameters.PB := PbTextField_TextVariable;
-
+reactorTemperaturePidParameters.Ti := TiTextField_TextVariable;
+reactorTemperaturePidParameters.Td := TdTextField_TextVariable;
+reactorTemperaturePidParameters.Iterationtime := IterationTimeTextField_TextVariable;
+reactorTemperaturePidParameters.Bias := BiasTextField_TextVariable;
 ReactorTemperature.pidControllerParameters := reactorTemperaturePidParameters;
 ]]></ST>
     </Implementation>
@@ -22,6 +28,7 @@ ReactorTemperature.pidControllerParameters := reactorTemperaturePidParameters;
       <LineId Id="20" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="22" Count="0" />
+      <LineId Id="32" Count="2" />
       <LineId Id="21" Count="0" />
       <LineId Id="11" Count="0" />
     </LineIds>

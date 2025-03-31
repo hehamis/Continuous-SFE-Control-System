@@ -4514,7 +4514,7 @@
                     </o>
                     <o>
                       <v n="Id">743958181L</v>
-                      <v n="Value">"MainScreenBindings.ReactorTemperatureContactorButton_Invisible"</v>
+                      <v n="Value">"MainScreenBindings.ReactorTemperatureContactorLamp_Variable"</v>
                     </o>
                   </l>
                 </o>
@@ -10481,7 +10481,7 @@
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"GVL_IO.reactorInletValve"</v>
+                          <v n="Value">"MainScreenBindings.SlurryInValveControlModeButton_ToggleVariable"</v>
                         </o>
                       </l>
                     </o>
@@ -30461,10 +30461,10 @@
               <d n="FbMethods" t="CaseInsensitiveHashtable_1" ckt="String" cvt="Guid">
                 <v>FB_Init</v>
                 <v>b8258c6d-77b1-4983-aba1-2f7e4ed28c48</v>
-                <v>FB_Reinit</v>
-                <v>6f629939-c003-4fbc-be77-06a7e159e7b3</v>
                 <v>FB_Exit</v>
                 <v>2539fa21-1df7-4e0b-b3c5-94d275647d2a</v>
+                <v>FB_Reinit</v>
+                <v>6f629939-c003-4fbc-be77-06a7e159e7b3</v>
               </d>
               <v n="FbName">"NotImportant"</v>
               <v n="FbGuid">{7ed72236-fe51-48d5-9e52-a8a021b3c0c4}</v>

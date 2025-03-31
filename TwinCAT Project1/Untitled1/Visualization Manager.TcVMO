@@ -49,10 +49,10 @@
             <d n="FbMethods" t="CaseInsensitiveHashtable" ckt="String" cvt="Guid">
               <v>FB_Init</v>
               <v>68fc751d-dde7-4bbf-8d40-0cf6a6eb11ac</v>
-              <v>FB_Exit</v>
-              <v>7c539227-2dc0-4d89-a235-eaea63e40104</v>
               <v>FB_Reinit</v>
               <v>1d1c4c6d-68fb-4938-834d-dc4317c77ca8</v>
+              <v>FB_Exit</v>
+              <v>7c539227-2dc0-4d89-a235-eaea63e40104</v>
             </d>
             <v n="FbName">"__VisuInitInstantiation_Fb"</v>
             <v n="FbGuid">{846aab8f-5f93-4f1b-aff0-4af357efa94d}</v>
@@ -480,24 +480,24 @@
               <v>f72d5f37-e719-4fa8-9dc8-8ffc96e57b61</v>
               <v>ExecuteMouseUp</v>
               <v>0d980c1b-32bb-4ab2-909a-5d1c95f2e6b3</v>
+              <v>ExecuteMouseEnter</v>
+              <v>a7cc90e8-e834-463e-a2e4-96756c11e29d</v>
               <v>FB_Reinit</v>
               <v>351233c1-190b-4e09-b2b9-8c89860c87c7</v>
               <v>GetElementInfo</v>
               <v>d2cbcd90-df9f-4c1c-af65-bd607baf98b8</v>
-              <v>ExecuteMouseMove</v>
-              <v>912bcf95-ae5b-427f-92f2-af9aaef18e8b</v>
+              <v>abstrGetDefaultCursor</v>
+              <v>cb55b330-a4dc-4fa2-b5fc-5bee393dbd19</v>
               <v>ExecuteDialogClosed</v>
               <v>7be596bc-2b84-4dcd-af50-64d3d7f61223</v>
               <v>ExecuteKeyUp</v>
               <v>633507ed-5533-486b-813c-0422be78739b</v>
               <v>ExecuteKeyDown</v>
               <v>afe546a2-3b26-47ed-855b-b166c169acca</v>
-              <v>abstrGetDefaultCursor</v>
-              <v>cb55b330-a4dc-4fa2-b5fc-5bee393dbd19</v>
+              <v>ExecuteMouseMove</v>
+              <v>912bcf95-ae5b-427f-92f2-af9aaef18e8b</v>
               <v>Initialize</v>
               <v>b78d16c4-fb07-4bb1-813e-819a4df3274c</v>
-              <v>ExecuteMouseEnter</v>
-              <v>a7cc90e8-e834-463e-a2e4-96756c11e29d</v>
               <v>ExecuteMouseLeave</v>
               <v>d0a14def-e455-4331-98dd-1016c3fb95ae</v>
               <v>FB_Init</v>
@@ -593,7 +593,7 @@
         <Data>
           <o xml:space="preserve" t="WebVisualizationObject">
             <o n="ViewSettings" t="WebVisualizationViewSettings">
-              <v n="StartVisu">"MainScreen"</v>
+              <v n="StartVisu">"MainScreen_1"</v>
               <v n="HtmFileName">"webvisu"</v>
               <v n="MainStartHtm">true</v>
               <v n="UpdateRate">200</v>

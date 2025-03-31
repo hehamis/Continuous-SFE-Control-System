@@ -147,7 +147,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorTemperatureControl.iProportionalBand"</v>
+                      <v n="Value">"PidParameterMenuBindings.PbTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -325,7 +325,7 @@
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"ReactorTemperatureControl.bPIDcontrolParameterMenu"</v>
+                          <v n="Value">"MainScreenBindings.PidParamMenuButton_ToggleVariable"</v>
                         </o>
                       </l>
                     </o>
@@ -904,7 +904,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorTemperatureControl.iIntegralTime"</v>
+                      <v n="Value">"PidParameterMenuBindings.TiTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -1084,7 +1084,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorTemperatureControl.iDerivativeTime"</v>
+                      <v n="Value">"PidParameterMenuBindings.TdTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -1393,7 +1393,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorTemperatureControl.iBias"</v>
+                      <v n="Value">"PidParameterMenuBindings.BiasTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -1702,7 +1702,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"ReactorTemperatureControl.iCycleTime"</v>
+                      <v n="Value">"PidParameterMenuBindings.IterationTimeTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -1849,10 +1849,10 @@
               <d n="FbMethods" t="CaseInsensitiveHashtable" ckt="String" cvt="Guid">
                 <v>FB_Init</v>
                 <v>9d8785ec-faf8-4260-9973-e58d14928f6a</v>
-                <v>FB_Reinit</v>
-                <v>44697f7e-4404-4666-817b-84133eb66867</v>
                 <v>FB_Exit</v>
                 <v>769d73e5-8121-43d5-a608-49ab27bd0f9f</v>
+                <v>FB_Reinit</v>
+                <v>44697f7e-4404-4666-817b-84133eb66867</v>
               </d>
               <v n="FbName">"NotImportant"</v>
               <v n="FbGuid">{dbe7b65c-dcb4-4efc-a622-1b4e4e8322fc}</v>

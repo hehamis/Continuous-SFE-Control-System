@@ -8,11 +8,12 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Control functions
-//TemperatureControl();
-ReactorTemperatureControl();
-//LevelControl();
-//PressureControl();
-ReactorLevelAndPressureControl();
+
+//ReactorTemperatureControl();
+ReactorTemperature();
+
+ReactorLevelAndPressure();
+//ReactorLevelAndPressureControl();
 // MATLAB functions
 DataAcquisition();
 // Persist set variables
@@ -23,7 +24,9 @@ SerialCommunicationHandler();
 MainScreenBindings();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="189" Count="4" />
+      <LineId Id="189" Count="2" />
+      <LineId Id="239" Count="1" />
+      <LineId Id="193" Count="0" />
       <LineId Id="234" Count="0" />
       <LineId Id="194" Count="5" />
       <LineId Id="201" Count="1" />
