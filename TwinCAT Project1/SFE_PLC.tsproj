@@ -192,6 +192,18 @@
 							<Comment><![CDATA[ Filling valve]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
+						<Var>
+							<Name>GVL_IO.extractiveOutletOnOffValve</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.extractiveOutletControlValveOpen</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.extractiveOutletControlValveClose</Name>
+							<Type>BOOL</Type>
+						</Var>
 					</Vars>
 					<UnrestoredVarLinks ImportTime="2023-12-22T12:43:52">
 						<OwnerA Name="InputDst" Prefix="TIPC^Untitled1^Untitled1 Instance" Type="1">

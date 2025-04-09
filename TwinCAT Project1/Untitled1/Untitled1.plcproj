@@ -38,10 +38,16 @@
       <SubType>Code</SubType>
       <ExcludeFromBuild>true</ExcludeFromBuild>
     </Compile>
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_ExtractiveOutletHandler.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_ReactorValves.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\ReactorLevelAndPressure.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\ST_PressureIntervals.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\ReactorLevelAndPressureControl.TcPOU">
@@ -76,6 +82,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\SerialCommunicationHandler.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\ST_SerialCommReadData.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\ST_SerialCommSetpoints.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="01. MAIN\Common\FBs\FB_ToggleHeartBeat.TcPOU">
