@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_ExtractiveOutletHandler" Id="{c4646b40-ee7c-48e1-846d-cd0fb4b976bb}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ExtractiveOutletHandler
+VAR_INPUT
+	onOffValveCommand : BOOL;
+END_VAR
+VAR_OUTPUT
+	onOffValveOpen	: BOOL;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+onOffValveOpen := onOffValveCommand;]]></ST>
+    </Implementation>
+    <LineIds Name="FB_ExtractiveOutletHandler">
+      <LineId Id="12" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

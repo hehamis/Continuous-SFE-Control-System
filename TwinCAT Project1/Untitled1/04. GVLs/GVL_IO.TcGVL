@@ -15,6 +15,10 @@ VAR_GLOBAL
 	reactorOutletValve AT %Q*: BOOL;  // Reactor outlet valve
 	reactorPressure AT %I*: INT; // Reactor pressure raw analog value
 	reactorInletValve AT %Q*: BOOL; // Filling valve
+	
+	extractiveOutletOnOffValve AT %Q* : BOOL;
+	extractiveOutletControlValveOpen AT %Q* : BOOL;
+	extractiveOutletControlValveClose AT %Q* : BOOL;
 END_VAR
 ]]></Declaration>
   </GVL>

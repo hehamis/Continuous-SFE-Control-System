@@ -81,6 +81,14 @@ VAR
 	SeparatorTemperatureSetpointTextField_WriteAvariable : DINT;
 	PreHeaterTemperatureSetpointTextField_WriteAvariable : DINT;
 	Co2PressureSetpointTextField_WriteAvariable : DINT;
+	
+	ExtractiveOutletOnOff_Valve_ToggleColor : BOOL;
+	ExtractiveOutletOnOff_Valve_TapVariable : BOOL;
+	ExtractiveOutOnOffValveButton_ToggleVariable : BOOL;
+	ExtractiveOutOnOffValveButton_ToggleColor : BOOL;
+	ExtractiveOutOnOffValveButton_TextVariable : STRING;
+	ExtractiveOutOnOffValveLamp_variable : BOOL;
+	ExtractiveOutLines_ToggleColor : BOOL;
 END_VAR
 VAR PERSISTENT
 	UpperIntervalSlurryOnUpperTextField_TextVariable : INT;
@@ -92,8 +100,7 @@ VAR PERSISTENT
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-IF RectorTemperatureControlModeButton_ToggleVariable THEN
+      <ST><![CDATA[IF RectorTemperatureControlModeButton_ToggleVariable THEN
 	RectorTemperatureControlModeButton_TextVariable := 'AUTO';
 ELSE
 	RectorTemperatureControlModeButton_TextVariable := 'MAN';
@@ -211,54 +218,22 @@ SeperatorTemperatureTextField_TextVariable := serialCommReadData.separatorTemper
 SeparatorTemperatureSetpointTextField_TextVariable := serialCommReadData.separatorTemperatureSetpoint;
 
 PidParamMenuFrame_Invisible := NOT PidParamMenuButton_ToggleVariable OR RectorTemperatureControlModeButton_ToggleVariable;//NOT PidParamMenuButton_ToggleVariable OR ReactorTemperatureControl.bTemperatureControlSwitch;//NOT ReactorTemperatureControl.bPIDcontrolParameterMenu OR ReactorTemperatureControl.bTemperatureControlSwitch;
-]]></ST>
+
+ExtractiveOutletOnOff_Valve_ToggleColor := GVL_IO.extractiveOutletOnOffValve;
+//ReactorLevelAndPressure.ExtractiveOutOnOffValveCommand := ExtractiveOutletOnOff_Valve_TapVariable;
+ReactorLevelAndPressure.ExtractiveOutOnOffValveCommand := ExtractiveOutOnOffValveButton_ToggleVariable ;
+ExtractiveOutOnOffValveButton_ToggleColor := GVL_IO.extractiveOutletOnOffValve; 
+ExtractiveOutOnOffValveLamp_variable := GVL_IO.extractiveOutletOnOffValve;
+ExtractiveOutLines_ToggleColor  := GVL_IO.extractiveOutletOnOffValve;
+IF ExtractiveOutOnOffValveButton_ToggleVariable THEN
+	ExtractiveOutOnOffValveButton_TextVariable := 'CLOSE';
+ELSE
+	ExtractiveOutOnOffValveButton_TextVariable := 'OPEN';
+END_IF]]></ST>
     </Implementation>
     <LineIds Name="MainScreenBindings">
-      <LineId Id="230" Count="0" />
-      <LineId Id="324" Count="1" />
-      <LineId Id="330" Count="1" />
-      <LineId Id="329" Count="0" />
-      <LineId Id="410" Count="3" />
-      <LineId Id="506" Count="0" />
-      <LineId Id="414" Count="3" />
-      <LineId Id="507" Count="0" />
-      <LineId Id="418" Count="5" />
-      <LineId Id="508" Count="0" />
-      <LineId Id="424" Count="2" />
-      <LineId Id="510" Count="0" />
-      <LineId Id="427" Count="1" />
-      <LineId Id="409" Count="0" />
-      <LineId Id="328" Count="0" />
-      <LineId Id="322" Count="1" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="97" Count="3" />
-      <LineId Id="319" Count="0" />
-      <LineId Id="102" Count="10" />
-      <LineId Id="513" Count="1" />
-      <LineId Id="113" Count="11" />
-      <LineId Id="511" Count="0" />
-      <LineId Id="125" Count="10" />
-      <LineId Id="596" Count="0" />
-      <LineId Id="595" Count="0" />
-      <LineId Id="136" Count="10" />
-      <LineId Id="232" Count="0" />
-      <LineId Id="147" Count="2" />
-      <LineId Id="240" Count="1" />
-      <LineId Id="150" Count="2" />
-      <LineId Id="785" Count="0" />
-      <LineId Id="153" Count="0" />
-      <LineId Id="680" Count="1" />
-      <LineId Id="692" Count="0" />
-      <LineId Id="687" Count="0" />
-      <LineId Id="694" Count="1" />
-      <LineId Id="690" Count="0" />
-      <LineId Id="686" Count="0" />
-      <LineId Id="684" Count="0" />
-      <LineId Id="679" Count="0" />
-      <LineId Id="154" Count="6" />
-      <LineId Id="321" Count="0" />
-      <LineId Id="320" Count="0" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="909" Count="128" />
+      <LineId Id="802" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

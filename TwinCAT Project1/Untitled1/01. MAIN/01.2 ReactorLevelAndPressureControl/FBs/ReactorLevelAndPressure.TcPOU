@@ -17,6 +17,10 @@ VAR
 //	sLevelValveState: STRING;
 	sFillingValveState: STRING;
 	timeControlToggle: FB_toggleheartbeat;
+	
+	_extractiveOutOnOffValveCommand : BOOL;
+	
+	HandleExtractiveOutlet : FB_ExtractiveOutletHandler;
 END_VAR
 VAR PERSISTENT
 	_fillingValveOpenInterval: INT;
@@ -87,26 +91,12 @@ CASE levelControlMode OF
 		GVL_IO.reactorOutletValve := SFE_ReactorValveControl.pressureControlOpen;
 END_CASE
 
-//(*** Outlet valve HMI state ***)
-//IF GVL_IO.reactorOutletValve = 1 THEN
-//	//LevelControl.sLevelValveState := 'CLOSE';
-//	sLevelValveState := 'CLOSE';
-//END_IF
-//IF GVL_IO.reactorOutletValve = 0 THEN
-//	//LevelControl.sLevelValveState := 'OPEN';
-//	sLevelValveState := 'OPEN';
-//END_IF
+timeControlToggle(I_OpenInterValSecs := 5, I_CloseIntervalSecs := 10, O_Update => );
 
-//(*** Inlet valve HMI state ***)
-//IF NOT GVL_IO.reactorInletValve THEN
-//	//PressureControl.sFillingValveState := 'OPEN';
-//	sFillingValveState := 'OPEN';
-//ELSE
-//	//PressureControl.sFillingValveState := 'CLOSE';
-//	sFillingValveState := 'CLOSE';
-//END_IF
-
-timeControlToggle(I_OpenInterValSecs := 5, I_CloseIntervalSecs := 10, O_Update => );]]></ST>
+// Extractive outlet control
+HandleExtractiveOutlet(
+					onOffValveCommand := _extractiveOutOnOffValveCommand,
+					onOffValveOpen => GVL_IO.extractiveOutletOnOffValve);]]></ST>
     </Implementation>
     <Property Name="bLevelControlSwitch" Id="{157d05c6-890c-4007-9267-879a33c29919}">
       <Declaration><![CDATA[PROPERTY bLevelControlSwitch : BOOL]]></Declaration>
@@ -117,6 +107,18 @@ END_VAR
         <Implementation>
           <ST><![CDATA[
 _bLevelControlSwitch := bLevelControlSwitch;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="ExtractiveOutOnOffValveCommand" Id="{461a6a9f-281d-484c-948f-8a31cb53f17c}">
+      <Declaration><![CDATA[PROPERTY ExtractiveOutOnOffValveCommand : BOOL]]></Declaration>
+      <Set Name="Set" Id="{56f473f2-6b90-480e-9099-0f83e1c5bbdc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_extractiveOutOnOffValveCommand := ExtractiveOutOnOffValveCommand;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -193,10 +195,19 @@ _slurryOutValveCommand := SlurryOutValveCommand;]]></ST>
       </Set>
     </Property>
     <LineIds Name="ReactorLevelAndPressure">
-      <LineId Id="682" Count="76" />
+      <LineId Id="682" Count="56" />
+      <LineId Id="758" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="788" Count="0" />
+      <LineId Id="787" Count="0" />
+      <LineId Id="789" Count="0" />
+      <LineId Id="792" Count="1" />
     </LineIds>
     <LineIds Name="ReactorLevelAndPressure.bLevelControlSwitch.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorLevelAndPressure.ExtractiveOutOnOffValveCommand.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
