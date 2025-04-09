@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="ST_PressureIntervals" Id="{c9f46b7e-e68c-426b-912a-ee3fe2c52a08}">
+    <Declaration><![CDATA[TYPE ST_PressureIntervals :
+STRUCT
+	PressureUpperInterVal_1 : INT;
+	PressureUpperInterVal_2 : INT;
+	PressureUpperInterVal_3 : INT;
+	PressureLowerInterval_1 : INT;
+	PressureLowerInterval_2 : INT;
+	PressureLowerInterval_3 : INT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

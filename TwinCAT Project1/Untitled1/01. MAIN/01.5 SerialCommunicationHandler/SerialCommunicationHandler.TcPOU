@@ -55,6 +55,9 @@ VAR
 	
 	pumpingPressureSentSetpoint : DINT;
 	ReactorPressureSetpoint: DINT;
+	
+	_serialCommSetpoints : ST_SerialCommSetpoints;
+	_serialCommReadData : ST_SerialCommReadData;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -86,7 +89,7 @@ CASE ReceiveStep OF
 		// Read pressure measurement from controller
 		fbAsciiComm.StartSend(SendStringIn := 'L2M?*', start := TRUE);
 		IF fbAsciiComm.Received THEN
-			pumpingPressureMeasurement := F_AsciiNumberConvert(fbAsciiComm.sReceivedString);  
+			_serialCommReadData.pumpingPressureMeasurement := F_AsciiNumberConvert(fbAsciiComm.sReceivedString);  
 			fbAsciiComm.StopSend(stop := TRUE);
 			ReceiveStep := 2;
 		END_IF
@@ -94,7 +97,7 @@ CASE ReceiveStep OF
 		// Read pressure setpoint value
 		fbAsciiComm.StartSend(SendStringIn := 'L2S?*', start := TRUE);
 		IF fbAsciiComm.Received THEN
-			pumpingPressureSetpoint := F_AsciiNumberConvert(fbAsciiComm.sReceivedString); 
+			_serialCommReadData.pumpingPressureSetpoint := F_AsciiNumberConvert(fbAsciiComm.sReceivedString); 
 			fbAsciiComm.StopSend(stop := TRUE);
 			ReceiveStep := 3;
 		END_IF		
@@ -102,7 +105,7 @@ CASE ReceiveStep OF
 		// Read pressure controller output power
 		fbAsciiComm.StartSend(SendStringIn := 'L2W?*', start := TRUE);
 		IF fbAsciiComm.Received THEN
-			pumpingPressureOutputPower := F_AsciiNumberConvert(fbAsciiComm.sReceivedString); 
+			_serialCommReadData.pumpingPressureOutputPower := F_AsciiNumberConvert(fbAsciiComm.sReceivedString); 
 			fbAsciiComm.StopSend(stop := TRUE);
 			ReceiveStep := 4;
 		END_IF
@@ -110,7 +113,7 @@ CASE ReceiveStep OF
 		// Read flow measurement from controller
 		fbAsciiComm.StartSend(SendStringIn := 'L3M?*', start := TRUE);
 		IF fbAsciiComm.Received THEN
-			flowMeasurement := F_AsciiNumberConvert(fbAsciiComm.sReceivedString);  
+			_serialCommReadData.flowMeasurement := F_AsciiNumberConvert(fbAsciiComm.sReceivedString);  
 			fbAsciiComm.StopSend(stop := TRUE);
 			ReceiveStep := 5;
 		END_IF
@@ -118,7 +121,7 @@ CASE ReceiveStep OF
 		// Read preheater measurement from controller
 		fbAsciiComm.StartSend(SendStringIn := 'L4M?*', start := TRUE);
 		IF fbAsciiComm.Received THEN
-			preHeaterTemperatureMeasurement := F_AsciiNumberConvert(fbAsciiComm.sReceivedString);  
+			_serialCommReadData.preHeaterTemperatureMeasurement := F_AsciiNumberConvert(fbAsciiComm.sReceivedString);  
 			fbAsciiComm.StopSend(stop := TRUE);
 			ReceiveStep := 6;
 		END_IF
@@ -126,7 +129,7 @@ CASE ReceiveStep OF
 		// Read preheater setpoint value
 		fbAsciiComm.StartSend(SendStringIn := 'L4S?*', start := TRUE);
 		IF fbAsciiComm.Received THEN
-			preHeaterTemperatureSetpoint := F_AsciiNumberConvert(fbAsciiComm.sReceivedString); 
+			_serialCommReadData.preHeaterTemperatureSetpoint := F_AsciiNumberConvert(fbAsciiComm.sReceivedString); 
 			fbAsciiComm.StopSend(stop := TRUE);
 			ReceiveStep := 7;
 		END_IF		
@@ -134,7 +137,7 @@ CASE ReceiveStep OF
 		// Read preheater controller output power
 		fbAsciiComm.StartSend(SendStringIn := 'L4W?*', start := TRUE);
 		IF fbAsciiComm.Received THEN
-			preHeaterTemperatureOutputPower := F_AsciiNumberConvert(fbAsciiComm.sReceivedString); 
+			_serialCommReadData.preHeaterTemperatureOutputPower := F_AsciiNumberConvert(fbAsciiComm.sReceivedString); 
 			fbAsciiComm.StopSend(stop := TRUE);
 			ReceiveStep := 8;
 		END_IF	
@@ -142,7 +145,7 @@ CASE ReceiveStep OF
 		// Read separator measurement from controller
 		fbAsciiComm.StartSend(SendStringIn := 'L5M?*', start := TRUE);
 		IF fbAsciiComm.Received THEN
-			separatorTemperatureMeasurement := F_AsciiNumberConvert(fbAsciiComm.sReceivedString);  
+			_serialCommReadData.separatorTemperatureMeasurement := F_AsciiNumberConvert(fbAsciiComm.sReceivedString);  
 			fbAsciiComm.StopSend(stop := TRUE);
 			ReceiveStep := 9;
 		END_IF
@@ -150,7 +153,7 @@ CASE ReceiveStep OF
 		// Read separator setpoint value
 		fbAsciiComm.StartSend(SendStringIn := 'L5S?*', start := TRUE);
 		IF fbAsciiComm.Received THEN
-			separatorTemperatureSetpoint := F_AsciiNumberConvert(fbAsciiComm.sReceivedString); 
+			_serialCommReadData.separatorTemperatureSetpoint := F_AsciiNumberConvert(fbAsciiComm.sReceivedString); 
 			fbAsciiComm.StopSend(stop := TRUE);
 			ReceiveStep := 10;
 		END_IF		
@@ -158,7 +161,7 @@ CASE ReceiveStep OF
 		// Read separator controller output power
 		fbAsciiComm.StartSend(SendStringIn := 'L5W?*', start := TRUE);
 		IF fbAsciiComm.Received THEN
-			separatorTemperatureOutputPower := F_AsciiNumberConvert(fbAsciiComm.sReceivedString); 
+			_serialCommReadData.separatorTemperatureOutputPower := F_AsciiNumberConvert(fbAsciiComm.sReceivedString); 
 			fbAsciiComm.StopSend(stop := TRUE);
 			ReceiveStep := 0;
 		END_IF
@@ -188,7 +191,7 @@ END_IF
 //	pumpingPressureSentSetpoint := REAL_TO_DINT(PressureControl.ReactorPressurePIDcontrol.PIDy);
 //	PressureControl.ReactorPressurePIDcontrol.PIDy;
 //ELSE
-	pumpingPressureSentSetpoint :=  pumpingPressureSetSetpoint;
+	pumpingPressureSentSetpoint :=  _serialCommSetpoints.pumpingPressureSetSetpoint;
 //END_IF
 fbUpdatePressureSetpoint(fbAsciiComm := fbAsciiComm, bStartSend := pumpPressureStartSend, sParameterCharacter := 'S', iValue := pumpingPressureSentSetpoint, iSlaveNo := 2);
 IF pumpingPressureSentSetpoint <> pumpingPressureSetSetpointPrev THEN
@@ -198,16 +201,16 @@ IF pumpingPressureSentSetpoint <> pumpingPressureSetSetpointPrev THEN
 	//ReceiveStep := 2;
 END_IF
 // Update preheater temperature setpoint
-fbUpdatePreHeaterTemperatureSetpoint(fbAsciiComm := fbAsciiComm, bStartSend := preHeaterTemperatureStartSend, sParameterCharacter := 'S', iValue := preHeaterTemperatureSetSetpoint, iSlaveNo := 4);
-IF preHeaterTemperatureSetSetpoint <> preHeaterTemperatureSetSetpointPrev THEN
+fbUpdatePreHeaterTemperatureSetpoint(fbAsciiComm := fbAsciiComm, bStartSend := preHeaterTemperatureStartSend, sParameterCharacter := 'S', iValue := _serialCommSetpoints.preHeaterTemperatureSetSetpoint, iSlaveNo := 4);
+IF _serialCommSetpoints.preHeaterTemperatureSetSetpoint <> preHeaterTemperatureSetSetpointPrev THEN
 	preHeaterTemperatureStartSend := TRUE;
 	fbAsciiComm.StopSend(stop := TRUE);
 	preHeaterTemperatureSetSetpointPrev := preHeaterTemperatureSetSetpoint;
 	//ReceiveStep := 6;
 END_IF
 // Update preheater temperature setpoint
-fbUpdateSeparatorTemperatureSetpoint(fbAsciiComm := fbAsciiComm, bStartSend := separatorTemperatureStartSend, sParameterCharacter := 'S', iValue := separatorTemperatureSetSetpoint, iSlaveNo := 5);
-IF separatorTemperatureSetSetpoint <> separatorTemperatureSetSetpointPrev THEN
+fbUpdateSeparatorTemperatureSetpoint(fbAsciiComm := fbAsciiComm, bStartSend := separatorTemperatureStartSend, sParameterCharacter := 'S', iValue := _serialCommSetpoints.separatorTemperatureSetSetpoint, iSlaveNo := 5);
+IF _serialCommSetpoints.separatorTemperatureSetSetpoint <> separatorTemperatureSetSetpointPrev THEN
 	separatorTemperatureStartSend := TRUE;
 	fbAsciiComm.StopSend(stop := TRUE);
 	separatorTemperatureSetSetpointPrev := separatorTemperatureSetSetpoint;
@@ -217,6 +220,31 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
+    <Property Name="SerialCommReadData" Id="{d42acb96-3051-4cc7-8cb4-b52d07a7c56e}">
+      <Declaration><![CDATA[PROPERTY SerialCommReadData : ST_SerialCommReadData]]></Declaration>
+      <Get Name="Get" Id="{105c5e16-d13b-4fb0-aa53-f0fcec0675c4}">
+        <Declaration><![CDATA[
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+SerialCommReadData := _serialCommReadData;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="SerialCommSetpoints" Id="{4e41ad63-edad-44ba-93f9-12f80b085bc1}">
+      <Declaration><![CDATA[PROPERTY SerialCommSetpoints : ST_SerialCommSetpoints]]></Declaration>
+      <Set Name="Set" Id="{5976fbf0-0c84-4fcb-9fc5-5b4c8068c325}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_serialCommSetpoints := SerialCommSetpoints;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="SerialCommunicationHandler">
       <LineId Id="935" Count="0" />
       <LineId Id="676" Count="1" />
@@ -239,6 +267,14 @@ END_IF
       <LineId Id="10" Count="0" />
       <LineId Id="15" Count="26" />
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="SerialCommunicationHandler.SerialCommReadData.Get">
+      <LineId Id="6" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="SerialCommunicationHandler.SerialCommSetpoints.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

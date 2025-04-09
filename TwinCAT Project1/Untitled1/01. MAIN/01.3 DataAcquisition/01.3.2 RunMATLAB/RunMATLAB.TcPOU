@@ -9,7 +9,7 @@ VAR
 	bMatlabBtnState		: BOOL;
 	
 	// MATLAB variables
-		bMatlabBtn	: BOOL;
+	_bMatlabBtn	: BOOL;
 	bMatlabRunning	: BOOL; // Turns to TRUE over ADS from MATLAB script
 	bStopMatlab		: BOOL;
 	bMatlabStarting  : BOOL; 
@@ -39,9 +39,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-
-// Build Command String
+      <ST><![CDATA[// Build Command String
 sCommand := '/C ';                  									// Special command indicating command string input
 sCommand := CONCAT(sCommand, 'cd / && ');      							// Add move command
 sCommand := CONCAT(sCommand, 'cd C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab && ');  // Add target file path
@@ -63,7 +61,7 @@ CASE iStartStep OF
 		dMatlabBtnColor := 16#FF00FF00; // Green
 		sMatlabRunningState := 'START MATLAB';
 		HeartBeatSwitch := FALSE;
-		rTrigMatlabStartBtn(CLK := bMatlabBtn);
+		rTrigMatlabStartBtn(CLK := _bMatlabBtn);
 		IF rTrigMatlabStartBtn.Q THEN
 			Process(START:=TRUE);		
 			bMatlabStarting := TRUE;	
@@ -77,7 +75,7 @@ CASE iStartStep OF
 		tonMatlabStartTimer(IN:= TRUE, PT := T#60S);
 		IF tonMatlabStartTimer.q THEN
 			bMatlabStarting := FALSE;
-			bMatlabBtn := FALSE;
+			_bMatlabBtn := FALSE;
 			tonMatlabStartTimer(IN:=FALSE);
 			iStartStep := 0;
 		ELSIF bMatlabRunning AND HeartBeatSwitch THEN
@@ -89,7 +87,7 @@ CASE iStartStep OF
 		// After start, wait for stop command: either from button or matlab
 		dMatlabBtnColor := 16#FFFF0000; // Red
 		sMatlabRunningState := 'STOP MATLAB';
-		fTrigMatlabStartBtn(CLK := bMatlabBtn);
+		fTrigMatlabStartBtn(CLK := _bMatlabBtn);
 		fTrigMatlabStopped(CLK := bMatlabRunning);
 		
 		IF fTrigMatlabStartBtn.Q  OR fTrigMatlabStopped.Q OR heartBeat.O_AlarmOn THEN
@@ -105,7 +103,7 @@ CASE iStartStep OF
 		IF tonMatlabStopDelay.q THEN
 			bStopMatlab := FALSE;
 			bMatlabRunning := FALSE;
-			bMatlabBtn := FALSE;
+			_bMatlabBtn := FALSE;
 			tonMatlabStopDelay(IN:= FALSE);
 			iStartStep := 0;
 		END_IF
@@ -233,17 +231,25 @@ END_IF *)
 
 ]]></ST>
     </Implementation>
+    <Property Name="MatlabBtn" Id="{806e451b-de58-4a5f-a065-eb52b14778c0}">
+      <Declaration><![CDATA[PROPERTY MatlabBtn : BOOL]]></Declaration>
+      <Set Name="Set" Id="{83932c80-2249-4e06-8381-a08f4ec3be7c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_bMatlabBtn := MatlabBtn;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="RunMATLAB">
-      <LineId Id="37" Count="34" />
-      <LineId Id="335" Count="1" />
-      <LineId Id="74" Count="0" />
-      <LineId Id="257" Count="0" />
-      <LineId Id="75" Count="41" />
-      <LineId Id="293" Count="1" />
-      <LineId Id="298" Count="0" />
-      <LineId Id="295" Count="2" />
-      <LineId Id="117" Count="104" />
+      <LineId Id="409" Count="189" />
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="RunMATLAB.MatlabBtn.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

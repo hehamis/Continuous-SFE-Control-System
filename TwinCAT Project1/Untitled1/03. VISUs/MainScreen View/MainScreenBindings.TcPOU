@@ -44,12 +44,6 @@ VAR
 
 	SlurryInValveControlModeButton_Invisible : BOOL;
 	ReactorPressureTextField_TextVariable : INT;
-	UpperIntervalSlurryOnUpperTextField_TextVariable : INT;
-	UpperIntervalSlurryOnNotUpperTextField_TextVariable : INT;
-	UpperIntervalSlurryOffUpperTextField_TextVariable : INT;
-	LowerIntervalSlurryOnUpperTextField_TextVariable : INT;
-	LowerIntervalSlurryOnNotUpperTextField_TextVariable : INT;
-	LowerIntervalSlurryOffUpperTextField_TextVariable : INT;
 	SlurryOutValveFrame_valve_toggleColor : BOOL;
 	SlurryOutValveFrame_valve_tapVariable : BOOL;
 	SlurryInArrow_ToggleColor : BOOL;
@@ -69,6 +63,8 @@ VAR
 	StartMatlabButton_TextVariable : STRING;
 	StartMatlabButton_Color : DWORD;
 	StartMatlabButton_DeactivateInputs  : BOOL;
+	StartMatlabButton_ToggleVariable : BOOL;
+	
 	ProgramNamePrefixTextField_TextVariable : STRING;
 	PreHeaterTemperatureTextField_TextVariable : DINT;
 	PreHeaterTemperatureSetpointTextField_TextVariable : DINT;
@@ -78,6 +74,21 @@ VAR
 	SeperatorTemperatureTextField_TextVariable : DINT;
 	SeparatorTemperatureSetpointTextField_TextVariable : DINT;
 	
+	PressureIntervals : ST_PressureIntervals;
+	
+	serialCommReadData : ST_SerialCommReadData;
+	serialCommSetpoints : ST_SerialCommSetpoints;
+	SeparatorTemperatureSetpointTextField_WriteAvariable : DINT;
+	PreHeaterTemperatureSetpointTextField_WriteAvariable : DINT;
+	Co2PressureSetpointTextField_WriteAvariable : DINT;
+END_VAR
+VAR PERSISTENT
+	UpperIntervalSlurryOnUpperTextField_TextVariable : INT;
+	UpperIntervalSlurryOnNotUpperTextField_TextVariable : INT;
+	UpperIntervalSlurryOffUpperTextField_TextVariable : INT;
+	LowerIntervalSlurryOnUpperTextField_TextVariable : INT;
+	LowerIntervalSlurryOnNotUpperTextField_TextVariable : INT;
+	LowerIntervalSlurryOffUpperTextField_TextVariable : INT;	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -138,27 +149,29 @@ ReactorUpperLevelRectangle_Invisible := (NOT GVL_IO.reactorLevelLow) OR (GVL_IO.
 ReactorLowerLevelReactangle_Invisible := (NOT GVL_IO.reactorLevelHigh) OR (GVL_IO.reactorLevelLow);
 ReactorUpperLevelLamp_Variable := GVL_IO.reactorLevelHigh;
 ReactorLowerLevelLamp := GVL_IO.reactorLevelLow;
-SlurryInValveOpenTimeTextField_TextVariable := ReactorLevelAndPressure.fillingValveOpenInterval;
-SlurryInValveClosedTimeTextField_TextVariable := ReactorLevelAndPressure.fillingValveCloseInterval;
+ReactorLevelAndPressure.fillingValveOpenInterval := SlurryInValveOpenTimeTextField_TextVariable;
+ReactorLevelAndPressure.fillingValveCloseInterval := SlurryInValveClosedTimeTextField_TextVariable;
 SlurryInValveFrame_valve_toggleColor := GVL_IO.reactorInletValve;
-GVL_IO.reactorInletValve := SlurryInValveFrame_valve_tapVariable; // OUTPUT
+//GVL_IO.reactorInletValve := SlurryInValveFrame_valve_tapVariable; // OUTPUT
 SlurryInValveLamp_Variable := GVL_IO.reactorInletValve;
 SlurryInValveControlModeButton_ToggleColor := GVL_IO.reactorInletValve;
 //SlurryInValveControlModeButton_TextVariable := ReactorLevelAndPressure.sFillingValveState;
-GVL_IO.reactorInletValve := SlurryInValveControlModeButton_ToggleVariable;
+ReactorLevelAndPressure.SlurryInValveCommand := SlurryInValveControlModeButton_ToggleVariable;
 SlurryInLine1_ToggleColor := GVL_IO.reactorInletValve;
 SlurryInLine2_ToggleColor := GVL_IO.reactorInletValve;
 
 SlurryInValveControlModeButton_Invisible := ReactorLevelAndPressure.sLevelControlState = 'AUTO';
 ReactorPressureTextField_TextVariable := ReactorLevelAndPressure.iPressureScaledValue;
-UpperIntervalSlurryOnUpperTextField_TextVariable := ReactorLevelAndPressure.PressureUpperInterVal_1;
-UpperIntervalSlurryOnNotUpperTextField_TextVariable := ReactorLevelAndPressure.PressureUpperInterVal_2;
-UpperIntervalSlurryOffUpperTextField_TextVariable := ReactorLevelAndPressure.PressureUpperInterVal_3;
-LowerIntervalSlurryOnUpperTextField_TextVariable := ReactorLevelAndPressure.PressureLowerInterval_1;
-LowerIntervalSlurryOnNotUpperTextField_TextVariable := ReactorLevelAndPressure.PressureLowerInterval_2;
-LowerIntervalSlurryOffUpperTextField_TextVariable := ReactorLevelAndPressure.PressureLowerInterval_3;
+PressureIntervals.PressureUpperInterVal_1 := UpperIntervalSlurryOnUpperTextField_TextVariable;
+PressureIntervals.PressureUpperInterVal_2 := UpperIntervalSlurryOnNotUpperTextField_TextVariable;
+PressureIntervals.PressureUpperInterVal_3 := UpperIntervalSlurryOffUpperTextField_TextVariable;
+PressureIntervals.PressureLowerInterval_1 := LowerIntervalSlurryOnUpperTextField_TextVariable;
+PressureIntervals.PressureLowerInterval_2 := LowerIntervalSlurryOnNotUpperTextField_TextVariable;
+PressureIntervals.PressureLowerInterval_3 := LowerIntervalSlurryOffUpperTextField_TextVariable;
+ReactorLevelAndPressure.PressureIntervals := PressureIntervals;
+
 SlurryOutValveFrame_valve_toggleColor := GVL_IO.reactorOutletValve;
-GVL_IO.reactorOutletValve := SlurryOutValveFrame_valve_tapVariable;// OUTPUT
+//GVL_IO.reactorOutletValve := SlurryOutValveFrame_valve_tapVariable;// OUTPUT
 SlurryInArrow_ToggleColor := GVL_IO.reactorInletValve;
 SlurryOutLine1_ToggleColor := GVL_IO.reactorOutletValve;
 SlurryOutLine2_ToggleColor := GVL_IO.reactorOutletValve;
@@ -168,7 +181,7 @@ SlurryOutValveLamp_Variable := GVL_IO.reactorOutletValve;
 SlurryOutValveButton_Invisible := ReactorLevelAndPressure.sLevelControlState = 'AUTO';
 //SlurryOutValveButton_TextVariable := ReactorLevelAndPressure.sLevelValveState;
 SlurryOutValveButton_ToggleColor := GVL_IO.reactorOutletValve;
-GVL_IO.reactorOutletValve := SlurryOutValveButton_ToggleVariable;// OUTPUT
+ReactorLevelAndPressure.SlurryOutValveCommand := SlurryOutValveButton_ToggleVariable;// OUTPUT
 
 SlurryOutControlModeButton_TextVariable := ReactorLevelAndPressure.sLevelControlState;
 SlurryOutControlModeButton_ToggleColor := SlurryOutControlModeButton_ToggleVariable;//ReactorLevelAndPressure.bLevelControlSwitch;
@@ -177,14 +190,25 @@ ReactorLevelAndPressure.bLevelControlSwitch := SlurryOutControlModeButton_Toggle
 StartMatlabButton_TextVariable := RunMATLAB.sMatlabRunningState;
 StartMatlabButton_Color := RunMATLAB.dMatlabBtnColor;
 StartMatlabButton_DeactivateInputs := RunMATLAB.dMatlabBtnColor = 16#FFFFFF00;
-ProgramNamePrefixTextField_TextVariable := GVL_OPC.OPC_ProgramNamePrefix;
-PreHeaterTemperatureTextField_TextVariable := SerialCommunicationHandler.preHeaterTemperatureMeasurement;
-PreHeaterTemperatureSetpointTextField_TextVariable := SerialCommunicationHandler.preHeaterTemperatureSetpoint;
-Co2FlowTextField_TextVariable := SerialCommunicationHandler.flowMeasurement;
-Co2PressureTextField_TextVariable := SerialCommunicationHandler.pumpingPressureMeasurement;
-Co2PressureSetpointTextField_TextVariable := SerialCommunicationHandler.pumpingPressureSetpoint;
-SeperatorTemperatureTextField_TextVariable := SerialCommunicationHandler.separatorTemperatureMeasurement;
-SeparatorTemperatureSetpointTextField_TextVariable := SerialCommunicationHandler.separatorTemperatureSetpoint;
+RunMATLAB.MatlabBtn := StartMatlabButton_ToggleVariable; // OUTPUT
+GVL_OPC.OPC_ProgramNamePrefix := ProgramNamePrefixTextField_TextVariable;  // OUTPUT
+
+serialCommReadData := SerialCommunicationHandler.SerialCommReadData;
+
+serialCommSetpoints.separatorTemperatureSetSetpoint := SeparatorTemperatureSetpointTextField_WriteAvariable;
+serialCommSetpoints.preHeaterTemperatureSetSetpoint := PreHeaterTemperatureSetpointTextField_WriteAvariable;
+serialCommSetpoints.pumpingPressureSetSetpoint := Co2PressureSetpointTextField_WriteAvariable;
+
+SerialCommunicationHandler.SerialCommSetpoints := serialCommSetpoints; 
+
+
+PreHeaterTemperatureTextField_TextVariable := serialCommReadData.preHeaterTemperatureMeasurement;
+PreHeaterTemperatureSetpointTextField_TextVariable := serialCommReadData.preHeaterTemperatureSetpoint;
+Co2FlowTextField_TextVariable := serialCommReadData.flowMeasurement;
+Co2PressureTextField_TextVariable := serialCommReadData.pumpingPressureMeasurement;
+Co2PressureSetpointTextField_TextVariable := serialCommReadData.pumpingPressureSetpoint;
+SeperatorTemperatureTextField_TextVariable := serialCommReadData.separatorTemperatureMeasurement;
+SeparatorTemperatureSetpointTextField_TextVariable := serialCommReadData.separatorTemperatureSetpoint;
 
 PidParamMenuFrame_Invisible := NOT PidParamMenuButton_ToggleVariable OR RectorTemperatureControlModeButton_ToggleVariable;//NOT PidParamMenuButton_ToggleVariable OR ReactorTemperatureControl.bTemperatureControlSwitch;//NOT ReactorTemperatureControl.bPIDcontrolParameterMenu OR ReactorTemperatureControl.bTemperatureControlSwitch;
 ]]></ST>
@@ -213,11 +237,25 @@ PidParamMenuFrame_Invisible := NOT PidParamMenuButton_ToggleVariable OR RectorTe
       <LineId Id="513" Count="1" />
       <LineId Id="113" Count="11" />
       <LineId Id="511" Count="0" />
-      <LineId Id="125" Count="21" />
+      <LineId Id="125" Count="10" />
+      <LineId Id="596" Count="0" />
+      <LineId Id="595" Count="0" />
+      <LineId Id="136" Count="10" />
       <LineId Id="232" Count="0" />
       <LineId Id="147" Count="2" />
       <LineId Id="240" Count="1" />
-      <LineId Id="150" Count="10" />
+      <LineId Id="150" Count="2" />
+      <LineId Id="785" Count="0" />
+      <LineId Id="153" Count="0" />
+      <LineId Id="680" Count="1" />
+      <LineId Id="692" Count="0" />
+      <LineId Id="687" Count="0" />
+      <LineId Id="694" Count="1" />
+      <LineId Id="690" Count="0" />
+      <LineId Id="686" Count="0" />
+      <LineId Id="684" Count="0" />
+      <LineId Id="679" Count="0" />
+      <LineId Id="154" Count="6" />
       <LineId Id="321" Count="0" />
       <LineId Id="320" Count="0" />
       <LineId Id="5" Count="0" />

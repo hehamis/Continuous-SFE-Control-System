@@ -3,8 +3,12 @@
   <POU Name="ReactorLevelAndPressure" Id="{a387b85d-f129-4119-abd4-456930450f01}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM ReactorLevelAndPressure
 VAR
-	iPressureScaledValue: INT; //Scaled pressure value
+	_iPressureScaledValue: INT; //Scaled pressure value
 	_bLevelControlSwitch : BOOL;
+	_slurryInValveCommand : BOOL;
+	_slurryOutValveCommand : BOOL;
+	_pressureIntervals : ST_PressureIntervals;
+	
 	levelControlMode : INT;
 	manualModeEntered : BOOL;
 	autoModeEntered : BOOL;
@@ -15,8 +19,8 @@ VAR
 	timeControlToggle: FB_toggleheartbeat;
 END_VAR
 VAR PERSISTENT
-	fillingValveOpenInterval: INT;
-	fillingValveCloseInterval: INT;	
+	_fillingValveOpenInterval: INT;
+	_fillingValveCloseInterval: INT;	
 	PressureUpperInterVal_1: INT;
 	PressureUpperInterVal_2: INT;
 	PressureLowerInterval_1: INT;
@@ -26,7 +30,7 @@ VAR PERSISTENT
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Scale analog pressure
-iPressureScaledValue := F_AnalogScale(AnalogInputRawValue := GVL_IO.reactorPressure, MaxAnalogValue := 1000);
+_iPressureScaledValue := F_AnalogScale(AnalogInputRawValue := GVL_IO.reactorPressure, MaxAnalogValue := 1000);
 
 IF _bLevelControlSwitch THEN
 	levelControlMode := 1;
@@ -46,6 +50,8 @@ CASE levelControlMode OF
 			autoModeEntered := FALSE;
 			manualModeEntered := TRUE;
 		END_IF
+		GVL_IO.reactorInletValve := _slurryInValveCommand;
+		GVL_IO.reactorOutletValve := _slurryOutValveCommand;
 		
 	1:
 		IF NOT autoModeEntered THEN
@@ -58,22 +64,22 @@ CASE levelControlMode OF
 		
 		// Reactor inlet valve: auto control according to timed intervals:
 		SFE_ReactorValveControl.onOffTimeControl(
-										openInterValSecs := fillingValveOpenInterval,
-										closeIntervalSecs := fillingValveCloseInterval,
+										openInterValSecs := _fillingValveOpenInterval,
+										closeIntervalSecs := _fillingValveCloseInterval,
 										);
 		GVL_IO.reactorInletValve := SFE_ReactorValveControl.timeControlOpen;
 		// Reactor outlet valve: auto control according to pressure intervals
 		SFE_ReactorValveControl.pressureIntervalControl(
 												interval_1_condition:= GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve, // If above higher limit and filling valve open
-												pressureUpperInterval_1:= PressureUpperInterval_1, 
-												pressureLowerInterval_1:= PressureLowerInterval_1, 
+												pressureUpperInterval_1:= _pressureIntervals.PressureUpperInterval_1, 
+												pressureLowerInterval_1:= _pressureIntervals.PressureLowerInterval_1, 
 												interval_2_condition:= GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve,  // If above higher limit and filling valve closed
-												pressureUpperInterval_2:= PressureUpperInterval_2, 
-												pressureLowerInterval_2:= PressureLowerInterval_2, 
+												pressureUpperInterval_2:= _pressureIntervals.PressureUpperInterval_2, 
+												pressureLowerInterval_2:= _pressureIntervals.PressureLowerInterval_2, 
 												interval_3_condition:= NOT GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve,  // If below higher limit and reactor filling valve open
-												pressureUpperInterval_3:= PressureUpperInterval_3, 
-												pressureLowerInterval_3:= PressureLowerInterval_3, 
-												pressureValue:= iPressureScaledValue, 
+												pressureUpperInterval_3:= _pressureIntervals.PressureUpperInterval_3, 
+												pressureLowerInterval_3:= _pressureIntervals.PressureLowerInterval_3, 
+												pressureValue:= _iPressureScaledValue, 
 												pressureReference:= DINT_TO_INT(SerialCommunicationHandler.pumpingPressureSetpoint), 
 												valveOpenCondition:= NOT (NOT GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve), 
 												forceValveClosed:= (NOT GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve),
@@ -114,11 +120,107 @@ _bLevelControlSwitch := bLevelControlSwitch;]]></ST>
         </Implementation>
       </Set>
     </Property>
+    <Property Name="fillingValveCloseInterval" Id="{6a88157e-ad1e-4b33-b420-23e077b392b3}">
+      <Declaration><![CDATA[PROPERTY fillingValveCloseInterval : INT]]></Declaration>
+      <Set Name="Set" Id="{ecae8a8d-2f82-4ab1-b797-5f8a6ba22e3e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_fillingValveCloseInterval := fillingValveCloseInterval;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="fillingValveOpenInterval" Id="{1a5a0701-ed7c-4ad0-b561-bf5a253bdcbd}">
+      <Declaration><![CDATA[PROPERTY fillingValveOpenInterval : INT]]></Declaration>
+      <Set Name="Set" Id="{c5a68f5f-e948-4258-ab24-2caf6453de2b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_fillingValveOpenInterval := fillingValveOpenInterval;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="iPressureScaledValue" Id="{f3fccc10-a324-4a46-aa67-2f5a5ade620e}">
+      <Declaration><![CDATA[PROPERTY iPressureScaledValue : INT]]></Declaration>
+      <Get Name="Get" Id="{b24340e3-e276-44cc-aedf-92fb116f5053}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+iPressureScaledValue := _iPressureScaledValue;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="PressureIntervals" Id="{590fbcd9-9ded-465e-b5f3-c87f976ee592}">
+      <Declaration><![CDATA[PROPERTY PressureIntervals : ST_PressureIntervals]]></Declaration>
+      <Set Name="Set" Id="{55337214-2fb9-445e-aa8b-e3a09f5ae5e0}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_pressureIntervals := PressureIntervals;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="SlurryInValveCommand" Id="{cf2e99f8-1ae2-4412-8aaa-3a3f4953daac}">
+      <Declaration><![CDATA[PROPERTY SlurryInValveCommand : BOOL]]></Declaration>
+      <Set Name="Set" Id="{fa7013a0-5634-4bfb-bf36-3d02e0323469}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_slurryInValveCommand := SlurryInValveCommand;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="SlurryOutValveCommand" Id="{28697755-784a-4676-838b-2343170d2384}">
+      <Declaration><![CDATA[PROPERTY SlurryOutValveCommand : BOOL]]></Declaration>
+      <Set Name="Set" Id="{b5d4a71f-8119-4ac2-95c8-c61337f36845}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_slurryOutValveCommand := SlurryOutValveCommand;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="ReactorLevelAndPressure">
-      <LineId Id="323" Count="74" />
+      <LineId Id="682" Count="76" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="ReactorLevelAndPressure.bLevelControlSwitch.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorLevelAndPressure.fillingValveCloseInterval.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorLevelAndPressure.fillingValveOpenInterval.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorLevelAndPressure.iPressureScaledValue.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorLevelAndPressure.PressureIntervals.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorLevelAndPressure.SlurryInValveCommand.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorLevelAndPressure.SlurryOutValveCommand.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>

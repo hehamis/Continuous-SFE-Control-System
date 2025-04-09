@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="ST_SerialCommReadData" Id="{c55dfed0-0cb6-4f89-abbf-7a4fa10273e9}">
+    <Declaration><![CDATA[TYPE ST_SerialCommReadData :
+STRUCT
+	pumpingPressureMeasurement : DINT;
+	pumpingPressureSetpoint	: DINT;
+	pumpingPressureOutputPower : DINT;
+	flowMeasurement : DINT;
+	preHeaterTemperatureMeasurement : DINT;
+	preHeaterTemperatureSetpoint : DINT;
+	preHeaterTemperatureOutputPower : DINT;
+	separatorTemperatureMeasurement : DINT;
+	separatorTemperatureSetpoint : DINT;
+	separatorTemperatureOutputPower : DINT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
