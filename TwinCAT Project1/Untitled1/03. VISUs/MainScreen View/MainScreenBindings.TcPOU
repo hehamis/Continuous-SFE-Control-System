@@ -167,8 +167,8 @@ ReactorBackgroundRectangle_ToggleColor := (RectorTemperatureControlModeButton_To
 										OR (ReactorTemperatureControlPercentageTextField_TextVariable > 0) 
 										OR ((ReactorTemperatureControlPercentageTextField_TextVariable = 0) AND (GVL_IO.reactorTemperatureContactor = 1));//(ReactorTemperatureControl.bTemperatureControlSwitch) OR (ReactorTemperatureControl.iTemperatureControlPercentage > 0) OR ((ReactorTemperatureControl.iTemperatureControlPercentage = 0) AND (GVL_IO.reactorTemperatureContactor = 1));
 ReactorUpperUpperLevelReactangle_Invisible := (NOT GVL_IO.reactorLevelHigherHigh);
-ReactorUpperLevelRectangle_Invisible := (NOT GVL_IO.reactorLevelLow) OR (GVL_IO.reactorLevelHigherHigh);
-ReactorLowerLevelReactangle_Invisible := (NOT GVL_IO.reactorLevelHigh) OR (GVL_IO.reactorLevelLow);
+ReactorUpperLevelRectangle_Invisible := (NOT GVL_IO.reactorLevelHigh) OR (GVL_IO.reactorLevelHigherHigh);
+ReactorLowerLevelReactangle_Invisible := (NOT GVL_IO.reactorLevelLow);//s) OR (GVL_IO.reactorLevelLow);
 ReactorUpperLevelLamp_Variable := GVL_IO.reactorLevelHigh;
 ReactorLowerLevelLamp := GVL_IO.reactorLevelLow;
 ReactorLevelAndPressure.fillingValveOpenInterval := SlurryInValveOpenTimeTextField_TextVariable;
