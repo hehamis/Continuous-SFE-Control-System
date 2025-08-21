@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="ST_ExtractiveControlValveCommands" Id="{03f6f0f3-9c41-46ba-ad4a-a65744171dba}">
+    <Declaration><![CDATA[TYPE ST_ExtractiveControlValveCommands :
+STRUCT
+	openPercentage : DINT;
+	calibrate : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

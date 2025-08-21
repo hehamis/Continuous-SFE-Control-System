@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_Runtime" Id="{2c693863-3086-4693-805e-a6f5602c35ed}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Runtime
+VAR_INPUT
+	gotime: BOOL;
+	settime: TIME;
+	countdown: BOOL; // New input
+END_VAR
+VAR_OUTPUT
+	elapsedtime: TIME;
+	elapsed: BOOL;
+END_VAR
+VAR
+	reset: BOOL;
+	_resetTOTime : TIME;
+	initial : BOOL := TRUE;
+	presenttime: TIME;
+	lasttime: TIME;
+	cycletime: TIME;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+IF initial THEN
+	elapsedtime := _resetToTime;
+	initial := FALSE;
+END_IF
+
+presenttime:= TIME();
+IF NOT reset THEN
+(* here the test of overflow*)
+	IF (lasttime > presenttime) THEN (*overflow := true*);
+		lasttime:= DWORD_TO_TIME(NOT TIME_TO_DWORD(lasttime))+T#1MS;
+		cycletime:= presenttime+lasttime;
+	ELSE
+		cycletime:= presenttime - lasttime;
+	END_IF
+ELSE
+	elapsedtime:=_resetToTime;
+	cycletime:=t#0s;
+END_IF
+
+lasttime:=presenttime;
+
+IF gotime AND NOT countDown THEN
+		elapsedtime := elapsedtime + cycletime;
+ELSIF NOT gotime AND countdown THEN
+	IF elapsedtime > cycletime THEN
+		elapsedtime := elapsedtime - cycletime;
+	ELSE
+		elapsedtime := T#0S;
+	END_IF
+END_IF
+
+IF settime < elapsedtime THEN
+	elapsed:=TRUE;
+	elapsedtime := settime;
+ELSE
+	elapsed:=FALSE;
+END_IF
+
+reset := FALSE;]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{9de74e42-d4f9-4db3-aa91-f3dcf6ab0f8b}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	resetToTime : TIME;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+_resetToTime := resetToTime;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="resetValues" Id="{42af8755-ea1f-418c-90bb-2c804aa4483e}">
+      <Declaration><![CDATA[METHOD resetValues : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[reset := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Runtime">
+      <LineId Id="75" Count="2" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="25" Count="16" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="68" Count="3" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="44" Count="3" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="48" Count="1" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="83" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Runtime.FB_init">
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Runtime.resetValues">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

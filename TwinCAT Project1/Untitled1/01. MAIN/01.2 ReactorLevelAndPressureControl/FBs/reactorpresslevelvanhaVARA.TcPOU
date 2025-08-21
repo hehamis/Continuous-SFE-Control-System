@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="reactorpresslevelvanhaVARA" Id="{a87c0849-1d72-4184-9fe1-bd1ce778a34b}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM ReactorLevelAndPressure
+VAR
+	_iPressureScaledValue: INT; //Scaled pressure value
+	_bLevelControlSwitch : BOOL;
+	_slurryInValveCommand : BOOL;
+	_slurryOutValveCommand : BOOL;
+	_pressureIntervals : ST_PressureIntervals;
+	_extractiveControlValveCommands : ST_ExtractiveControlValveCommands;
+	_automaticExtractionParameters : ST_AutomaticExtractionParameters;
+	_decreasePumpSetpoint : BOOL;
+	_controlValveOpening : DINT;
+	_calibrateDone : BOOL;
+	levelControlMode : INT;
+	manualModeEntered : BOOL;
+	autoModeEntered : BOOL;
+	SFE_ReactorValveControl: FB_ReactorValves;
+	sLevelControlState: STRING;
+//	sLevelValveState: STRING;
+	sFillingValveState: STRING;
+	timeControlToggle: FB_toggleheartbeat;
+	
+	_extractiveOutOnOffValveCommand : BOOL;
+	
+	HandleExtractiveOutlet : FB_ExtractiveOutletHandler;
+	AutomaticExtraction : FB_AutomaticExtractionStateMachine;
+	_startAutomaticExtraction : BOOL;
+	automaticExtractionEnabled : BOOL;
+END_VAR
+VAR PERSISTENT
+	_fillingValveOpenInterval: INT;
+	_fillingValveCloseInterval: INT;	
+	PressureUpperInterVal_1: INT;
+	PressureUpperInterVal_2: INT;
+	PressureLowerInterval_1: INT;
+	PressureLowerInterval_2: INT;	
+	PressureUpperInterVal_3: INT;
+	PressureLowerInterval_3: INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Scale analog pressure
+_iPressureScaledValue := F_AnalogScale(AnalogInputRawValue := GVL_IO.reactorPressure, MaxAnalogValue := 1000);
+
+// Set control mode according to level control switch
+IF _bLevelControlSwitch THEN
+	levelControlMode := 1;
+ELSE
+	levelControlMode := 0;
+END_IF
+
+// Control logic according to level mode selection
+CASE levelControlMode OF
+	0:
+		sLevelControlState := 'MAN';
+		// Close inlet/outlet valves when manual mode entered
+		IF NOT manualModeEntered THEN
+			GVL_IO.reactorInletValve := FALSE; // Close all valves when auto mode is exited
+			GVL_IO.reactorOutletValve := FALSE;
+			autoModeEntered := FALSE;
+			manualModeEntered := TRUE;
+		END_IF
+		GVL_IO.reactorInletValve := _slurryInValveCommand;
+		GVL_IO.reactorOutletValve := _slurryOutValveCommand;
+		
+	1:
+		IF NOT autoModeEntered THEN
+			GVL_IO.reactorInletValve := TRUE; // Open inlet valve when auto mode is entered
+			manualModeEntered := FALSE;
+			autoModeEntered := TRUE;
+		END_IF
+		//LevelControl.sLevelControlState := 'AUTO';
+		sLevelControlState := 'AUTO';
+		
+		// Reactor inlet valve: auto control according to timed intervals:
+		SFE_ReactorValveControl.onOffTimeControl(
+										openInterValSecs := _fillingValveOpenInterval,
+										closeIntervalSecs := _fillingValveCloseInterval,
+										);
+		GVL_IO.reactorInletValve := SFE_ReactorValveControl.timeControlOpen;
+		// Reactor outlet valve: auto control according to pressure intervals
+		SFE_ReactorValveControl.pressureIntervalControl(
+												interval_1_condition:= GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve, // If above higher limit and filling valve open
+												pressureUpperInterval_1:= _pressureIntervals.PressureUpperInterval_1, 
+												pressureLowerInterval_1:= _pressureIntervals.PressureLowerInterval_1, 
+												interval_2_condition:= GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve,  // If above higher limit and filling valve closed
+												pressureUpperInterval_2:= _pressureIntervals.PressureUpperInterval_2, 
+												pressureLowerInterval_2:= _pressureIntervals.PressureLowerInterval_2, 
+												interval_3_condition:= NOT GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve,  // If below higher limit and reactor filling valve open
+												pressureUpperInterval_3:= _pressureIntervals.PressureUpperInterval_3, 
+												pressureLowerInterval_3:= _pressureIntervals.PressureLowerInterval_3, 
+												pressureValue:= _iPressureScaledValue, 
+												pressureReference:= DINT_TO_INT(SerialCommunicationHandler.pumpingPressureSetpoint), 
+												valveOpenCondition:= NOT (NOT GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve), 
+												forceValveClosed:= (NOT GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve),
+												);
+		GVL_IO.reactorOutletValve := SFE_ReactorValveControl.pressureControlOpen;
+END_CASE
+
+timeControlToggle(I_OpenInterValSecs := 5, I_CloseIntervalSecs := 10, O_Update => );
+
+// Automatic extraction state machine
+IF _startAutomaticExtraction AND _calibrateDone THEN
+	manualModeEntered := FALSE;
+	AutomaticExtraction(
+				parameters := _automaticExtractionParameters,
+				reactorPressure := _iPressureScaledValue,
+				decreasePumpSetpoint => _decreasePumpSetpoint,
+				extractivePumpOn => GVL_IO.reactorInletValve,
+				co2onOffValveClosed => );
+	_extractiveOutOnOffValveCommand := NOT AutomaticExtraction.co2onOffValveClosed;
+	_extractiveControlValveCommands.openPercentage := AutomaticExtraction.controlValveOpeningPercentage;
+ELSE
+	AutomaticExtraction.resetState();
+	// Close inlet/outlet valves when manual mode entered
+	IF NOT manualModeEntered THEN
+		GVL_IO.reactorInletValve := FALSE; // Close all valves when auto mode is exited
+		GVL_IO.reactorOutletValve := FALSE;
+		autoModeEntered := FALSE;
+		manualModeEntered := TRUE;
+	END_IF
+	GVL_IO.reactorInletValve := _slurryInValveCommand;
+	GVL_IO.reactorOutletValve := _slurryOutValveCommand;	
+END_IF
+
+// Extractive outlet control
+HandleExtractiveOutlet(
+					onOffValveCommand := _extractiveOutOnOffValveCommand,
+					controlValveCommands := _ExtractiveControlValveCommands,
+					onOffValveOpen => GVL_IO.extractiveOutletOnOffValve,
+					controlValveClose => GVL_IO.extractiveOutletControlValveClose,
+					controlValveOpen => GVL_IO.extractiveOutletControlValveOpen,
+					controlValveCurrentOpenPercentage => _controlValveOpening,
+					calibrateDone => _calibrateDone);
+
+					]]></ST>
+    </Implementation>
+    <LineIds Name="reactorpresslevelvanhaVARA">
+      <LineId Id="6" Count="93" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

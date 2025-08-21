@@ -89,6 +89,20 @@ VAR
 	ExtractiveOutOnOffValveButton_TextVariable : STRING;
 	ExtractiveOutOnOffValveLamp_variable : BOOL;
 	ExtractiveOutLines_ToggleColor : BOOL;
+	
+	ExtractiveOutletValveCalibrateButton_TapVariable : BOOL;
+	
+	ExtractiveOutletValveSlider_Variable : INT;
+	ExtractiveOutletValveSlider_DisableInputs : BOOL;
+	ExtractiveOutletValveCommands : ST_ExtractiveControlValveCommands;
+	autoExtractionParameterMenuButton_ToggleVariable : BOOL;
+	autoExtractionParameterMenuFrame_Invisible : BOOL;
+	
+	StartAutomaticExtractionButton_ToggleVariable : BOOL;
+	StartAutomaticExtractionButton_DeactivateInputs : BOOL;
+	ControlValveOpeningPercentageTextBox_TextVariable : DINT;
+	
+	ExtractiveOutletValveSlider_Invisible : BOOL;
 END_VAR
 VAR PERSISTENT
 	UpperIntervalSlurryOnUpperTextField_TextVariable : INT;
@@ -97,6 +111,7 @@ VAR PERSISTENT
 	LowerIntervalSlurryOnUpperTextField_TextVariable : INT;
 	LowerIntervalSlurryOnNotUpperTextField_TextVariable : INT;
 	LowerIntervalSlurryOffUpperTextField_TextVariable : INT;	
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -229,11 +244,47 @@ IF ExtractiveOutOnOffValveButton_ToggleVariable THEN
 	ExtractiveOutOnOffValveButton_TextVariable := 'CLOSE';
 ELSE
 	ExtractiveOutOnOffValveButton_TextVariable := 'OPEN';
-END_IF]]></ST>
+END_IF
+
+ExtractiveOutletValveCommands.calibrate := ExtractiveOutletValveCalibrateButton_TapVariable;
+ExtractiveOutletValveCommands.openPercentage := ExtractiveOutletValveSlider_Variable*10;
+IF ExtractiveOutletValveCommands.calibrate THEN
+	ExtractiveOutletValveSlider_Variable := 0;
+END_IF
+ExtractiveOutletValveSlider_DisableInputs := ReactorLevelAndPressure.controlValveOpeningOrClosing OR StartAutomaticExtractionButton_ToggleVariable;
+ExtractiveOutletValveSlider_Invisible := StartAutomaticExtractionButton_ToggleVariable;
+
+ReactorLevelAndPressure.ExtractiveControlValveCommands := ExtractiveOutletValveCommands;
+
+ReactorLevelAndPressure.StartAutomaticExtraction := StartAutomaticExtractionButton_ToggleVariable;
+StartAutomaticExtractionButton_DeactivateInputs := NOT ReactorLevelAndPressure.CalibrateDone;
+
+(** Auto extraction parameter menu **)
+autoExtractionParameterMenuFrame_Invisible := NOT autoExtractionParameterMenuButton_ToggleVariable;
+
+ControlValveOpeningPercentageTextBox_TextVariable := ReactorLevelAndPressure.ControlValveOpening;
+]]></ST>
     </Implementation>
     <LineIds Name="MainScreenBindings">
       <LineId Id="909" Count="128" />
       <LineId Id="802" Count="0" />
+      <LineId Id="1136" Count="0" />
+      <LineId Id="1135" Count="0" />
+      <LineId Id="1241" Count="0" />
+      <LineId Id="1349" Count="2" />
+      <LineId Id="1347" Count="0" />
+      <LineId Id="1243" Count="0" />
+      <LineId Id="1681" Count="0" />
+      <LineId Id="1242" Count="0" />
+      <LineId Id="1456" Count="0" />
+      <LineId Id="1455" Count="0" />
+      <LineId Id="1794" Count="0" />
+      <LineId Id="1563" Count="0" />
+      <LineId Id="1562" Count="0" />
+      <LineId Id="1239" Count="0" />
+      <LineId Id="1674" Count="0" />
+      <LineId Id="1673" Count="0" />
+      <LineId Id="1238" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_ControlValveStateMachine" Id="{927e7969-28c8-49a4-a417-97545e2fb919}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ControlValveStateMachine
+VAR_INPUT
+	controlValveCommands : ST_ExtractiveControlValveCommands;
+END_VAR
+VAR_OUTPUT
+	closeControlValve : BOOL;
+	openControlValve : BOOL;
+	currentControlValveOpenPercentage : INT;
+	calibrateDone : BOOL;
+END_VAR
+VAR
+	startCalibrate : BOOL;
+	RTRIG_startCalibrate : R_TRIG;
+	controlState : INT;
+	TOF_Calibration : TOF;
+	closeCommand : BOOL;
+	
+	openvalve : FB_Runtime(resetToTime := T#0S);
+	closevalve : FB_Runtime(resetToTime := T#10S);
+	start : BOOL;
+	setvalve : BOOL;
+	open : BOOL;
+	close : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Read commands from ui
+startCalibrate := controlValveCommands.calibrate;
+RTRIG_startCalibrate(CLK := startCalibrate);
+
+CASE controlState OF 
+	
+	0: // Before calibration
+		closeCommand := FALSE;
+		IF RTRIG_startCalibrate.Q THEN
+			controlState := 1;
+		END_IF
+	
+	1: // Calibrate
+		TOF_Calibration(IN := startCalibrate, PT := T#5S);
+		startCalibrate := FALSE;
+		closeCommand := TRUE;
+		IF NOT TOF_Calibration.Q THEN
+			TOF_Calibration(IN := TRUE);
+			calibrateDone := TRUE;
+			openvalve.resetValues();
+			closevalve.resetValues();
+			closeCommand := FALSE;
+			controlState := 2;
+		END_IF
+	
+	2: // Control
+		// Calculate how long control valve should open/close
+		
+		IF controlValveCommands.openPercentage > currentControlValveOpenPercentage THEN
+			open := TRUE;
+			close := FALSE;
+		ELSIF controlValveCommands.openPercentage < currentControlValveOpenPercentage THEN
+			close := FALSE;
+			close := TRUE;
+		ELSE
+			open := FALSE;
+			close := FALSE;
+		END_IF
+		openvalve(gotime := open, settime := T#10S, countdown := close, elapsedtime => , elapsed => );
+		closevalve(gotime := close, settime := T#10S, countdown := open, elapsedtime =>, elapsed => );		
+
+
+END_CASE
+
+// Calculate valve open-% according to open timer
+currentControlValveOpenPercentage := TO_INT(TIME_TO_REAL(openvalve.elapsedtime)/100);
+
+closeControlValve := closeCommand OR close;
+openControlValve := open;
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_ControlValveStateMachine">
+      <LineId Id="156" Count="14" />
+      <LineId Id="203" Count="0" />
+      <LineId Id="171" Count="7" />
+      <LineId Id="180" Count="2" />
+      <LineId Id="199" Count="0" />
+      <LineId Id="194" Count="1" />
+      <LineId Id="261" Count="0" />
+      <LineId Id="197" Count="0" />
+      <LineId Id="262" Count="0" />
+      <LineId Id="198" Count="0" />
+      <LineId Id="200" Count="2" />
+      <LineId Id="196" Count="0" />
+      <LineId Id="184" Count="9" />
+      <LineId Id="254" Count="0" />
+      <LineId Id="227" Count="0" />
+      <LineId Id="229" Count="0" />
+      <LineId Id="84" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_AutomaticExtractionStateMachine" Id="{fd3c0490-089c-4717-a34f-489c595512a4}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_AutomaticExtractionStateMachine
+VAR_INPUT
+	parameters : ST_AutomaticExtractionParameters;
+	reactorPressure : DINT;
+END_VAR
+VAR_OUTPUT
+	controlValveOpeningPercentage : DINT;
+	decreasePumpSetpoint : BOOL;
+	extractivePumpOn : BOOL;
+	co2onOffValveClosed : BOOL;
+	fillingActive : BOOL;
+END_VAR
+VAR
+	step : INT;
+	TON_FillingTimer : TON;
+	TON_WaitForValve : TON;
+	TON_WaitForPressure : TON;
+	TON_KeepExtractivePumpOn : TON;
+	startingReactorPRessure : DINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE step OF 
+	
+	0: // Extraction step
+		IF controlValveOpeningPercentage <> parameters.controlValveOpeningValue THEN
+			step := 6;
+		END_IF
+		fillingActive := FALSE;
+		// Start filling timer. When filling timer exceeded, move to filling step
+		TON_FillingTimer(
+						IN := TRUE,
+						PT := TO_TIME(parameters.fillingTime*1000));
+		IF TON_FillingTimer.Q THEN
+			TON_FillingTimer(IN := FALSE);
+			step := step + 1;
+		END_IF
+	
+	1: // Filling step: Control valve to a small opening
+		
+		fillingActive := TRUE;
+		controlValveOpeningPercentage := 20;
+		TON_WaitForValve(
+						IN := TRUE,
+						PT := T#10S);
+		IF TON_WaitForValve.Q THEN
+			TON_WaitForValve(IN := FALSE);
+			step := step + 1;
+		END_IF
+	
+	2: // Set pump setpoint 40 bars lower from current
+	
+		decreasePumpSetpoint := TRUE;
+		TON_WaitForPressure(
+							IN := TRUE,
+							PT := TO_TIME(parameters.pumpSetpointWaitTime*1000));
+		IF TON_WaitForPressure.Q THEN
+			TON_WaitForPressure(IN := FALSE);
+			step := step + 1;
+		END_IF
+	
+	3: // Close co2 on/off valve, extractive pump on: stays on for a desired time
+	
+		co2onOffValveClosed := TRUE;
+		startingReactorPressure := reactorPressure;
+		extractivePumpOn := TRUE;
+		TON_KeepExtractivePumpOn(
+								IN := TRUE,
+								PT := TO_TIME(parameters.pumpOnTime*1000));
+		IF TON_KeepExtractivePumpOn.Q THEN
+			TON_KeepExtractivePumpOn(IN := FALSE);
+			step := step + 1;
+		END_IF
+	
+	4: // Extractive pump turns off after pressure reaches the same as it was b4 turning on
+	
+		IF startingReactorPRessure = reactorPressure THEN
+			extractivePumpOn := FALSE;
+			step := step + 1;
+		END_IF
+		
+	5: // Pressure setpoint back to original (+40bar) and open on/off valve
+	
+		co2onOffValveClosed := FALSE;
+		decreasePumpSetpoint := FALSE;
+		step := step + 1;
+	
+	6: // open control valve to desired value
+	
+		controlValveOpeningPercentage := parameters.controlValveOpeningValue;
+		step := 0;
+		
+END_CASE]]></ST>
+    </Implementation>
+    <Method Name="resetState" Id="{bf1ce1ba-fd70-4c2a-963b-7e4edcae03f9}">
+      <Declaration><![CDATA[METHOD resetState : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+step := 0;
+TON_FillingTimer(IN :=FALSE);
+TON_WaitForValve(IN :=FALSE);
+TON_WaitForPressure(IN :=FALSE);
+TON_KeepExtractivePumpOn(IN :=FALSE);
+co2onOffValveClosed := FALSE;
+decreasePumpSetpoint := FALSE;
+extractivePumpOn := FALSE;
+fillingActive := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AutomaticExtractionStateMachine">
+      <LineId Id="187" Count="2" />
+      <LineId Id="275" Count="2" />
+      <LineId Id="299" Count="0" />
+      <LineId Id="190" Count="9" />
+      <LineId Id="253" Count="0" />
+      <LineId Id="298" Count="0" />
+      <LineId Id="200" Count="20" />
+      <LineId Id="254" Count="0" />
+      <LineId Id="221" Count="11" />
+      <LineId Id="255" Count="0" />
+      <LineId Id="233" Count="5" />
+      <LineId Id="249" Count="0" />
+      <LineId Id="246" Count="0" />
+      <LineId Id="239" Count="1" />
+      <LineId Id="250" Count="0" />
+      <LineId Id="241" Count="0" />
+      <LineId Id="247" Count="0" />
+      <LineId Id="251" Count="1" />
+      <LineId Id="248" Count="0" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AutomaticExtractionStateMachine.resetState">
+      <LineId Id="10" Count="0" />
+      <LineId Id="6" Count="3" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="20" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

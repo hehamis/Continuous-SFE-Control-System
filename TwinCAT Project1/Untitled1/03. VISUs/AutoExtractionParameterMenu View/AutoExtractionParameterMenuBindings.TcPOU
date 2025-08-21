@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="AutoExtractionParameterMenuBindings" Id="{71a71eb6-8556-4388-bc0b-ada801c60c6d}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM AutoExtractionParameterMenuBindings
+VAR PERSISTENT
+	autoExtractionParameters : ST_AutomaticExtractionParameters;
+	controlValveOpeningValueTextField_TextVariable : DINT;
+	refillIntervalTextField_TextVariable : DINT;
+	pumpOnTimeTextField_TextVariable : DINT;
+	pumpSetpointWaitTimeTextField_TextVariable : DINT;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[autoExtractionParameters.controlValveOpeningValue := controlValveOpeningValueTextField_TextVariable;
+autoExtractionParameters.fillingTime := refillIntervalTextField_TextVariable;
+autoExtractionParameters.pumpOnTime := pumpOnTimeTextField_TextVariable;
+autoExtractionParameters.pumpSetpointWaitTime := pumpSetpointWaitTimeTextField_TextVariable;
+
+ReactorLevelAndPressure.AutomaticExtractionParameters := autoExtractionParameters; 
+]]></ST>
+    </Implementation>
+    <LineIds Name="AutoExtractionParameterMenuBindings">
+      <LineId Id="26" Count="5" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

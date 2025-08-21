@@ -4,20 +4,41 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_ExtractiveOutletHandler
 VAR_INPUT
 	onOffValveCommand : BOOL;
+	controlValveCommands : ST_ExtractiveControlValveCommands;
 END_VAR
 VAR_OUTPUT
 	onOffValveOpen	: BOOL;
+	controlValveClose	: BOOL;
+	controlValveOpen	: BOOL;
+	controlValveCurrentOpenPercentage : DINT;
+	calibrateDone : BOOL;
 END_VAR
 VAR
+	TON_OpenValve : TOF;
+	TON_CloseValve : TOF;
+	calibrate : BOOL;
+	ControlValveStateMachine : FB_ControlValveStateMachine;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-onOffValveOpen := onOffValveCommand;]]></ST>
+onOffValveOpen := onOffValveCommand;
+
+ControlValveStateMachine(
+						controlValveCommands := controlValveCommands,
+						closeControlValve => controlValveClose,
+						openControlValve => controlValveOpen,
+						currentControlValveOpenPercentage => controlValveCurrentOpenPercentage,
+						calibrateDone => calibrateDone);]]></ST>
     </Implementation>
     <LineIds Name="FB_ExtractiveOutletHandler">
       <LineId Id="12" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="61" Count="2" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="99" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

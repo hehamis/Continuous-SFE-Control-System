@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="F_RoundToClosest" Id="{7f11ef65-8aa7-47e2-b8fb-aca6037dab01}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_RoundToClosest : UDINT
+VAR_INPUT
+	valueToBeRounded 			: UDINT;
+	increment 					: UDINT;
+	upperLimit 					: UDINT;
+END_VAR
+VAR
+	valueDividedByIncrement		: UDINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[valueDividedByIncrement := valueToBeRounded/increment;
+IF valueToBeRounded MOD increment <> 0 THEN
+	F_RoundToClosest := valueDividedByIncrement * increment + increment;
+ELSE
+	F_RoundToClosest := valueToBeRounded;
+END_IF
+IF F_RoundToClosest > upperLimit THEN
+	F_RoundToClosest := upperLimit;
+END_IF
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="F_RoundToClosest">
+      <LineId Id="7" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="24" Count="2" />
+      <LineId Id="19" Count="2" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="27" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -191,7 +191,11 @@ END_IF
 //	pumpingPressureSentSetpoint := REAL_TO_DINT(PressureControl.ReactorPressurePIDcontrol.PIDy);
 //	PressureControl.ReactorPressurePIDcontrol.PIDy;
 //ELSE
-	pumpingPressureSentSetpoint :=  _serialCommSetpoints.pumpingPressureSetSetpoint;
+	IF NOT ReactorLevelAndPressure.decreasePumpSetpoint THEN
+		pumpingPressureSentSetpoint :=  _serialCommSetpoints.pumpingPressureSetSetpoint;
+	ELSE
+		pumpingPressureSentSetpoint :=	_serialCommSetpoints.pumpingPressureSetSetpoint - 40; // Automatic extraction control
+	END_IF
 //END_IF
 fbUpdatePressureSetpoint(fbAsciiComm := fbAsciiComm, bStartSend := pumpPressureStartSend, sParameterCharacter := 'S', iValue := pumpingPressureSentSetpoint, iSlaveNo := 2);
 IF pumpingPressureSentSetpoint <> pumpingPressureSetSetpointPrev THEN
@@ -265,7 +269,11 @@ _serialCommSetpoints := SerialCommSetpoints;]]></ST>
       <LineId Id="6" Count="3" />
       <LineId Id="45" Count="3" />
       <LineId Id="10" Count="0" />
-      <LineId Id="15" Count="26" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="53" Count="2" />
+      <LineId Id="17" Count="24" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="SerialCommunicationHandler.SerialCommReadData.Get">
