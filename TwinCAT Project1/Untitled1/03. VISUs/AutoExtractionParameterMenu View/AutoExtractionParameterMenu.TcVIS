@@ -1141,7 +1141,7 @@
                     </o>
                     <o>
                       <v n="Id">4134387352L</v>
-                      <v n="Value">"NONE"</v>
+                      <v n="Value">"LINEBREAK"</v>
                     </o>
                     <o>
                       <v n="Id">1603690730L</v>
@@ -1189,11 +1189,11 @@
                     </o>
                     <o>
                       <v n="Id">2134141914L</v>
-                      <v n="Value">44</v>
+                      <v n="Value">45</v>
                     </o>
                     <o>
                       <v n="Id">390574330L</v>
-                      <v n="Value">"Pump setpoint wait time"</v>
+                      <v n="Value">"Pump setpoint wait time (s)"</v>
                     </o>
                     <o>
                       <v n="Id">3729828405L</v>
@@ -1236,7 +1236,7 @@
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
-                      <v n="Value">"815"</v>
+                      <v n="Value">"958"</v>
                     </o>
                   </l>
                 </o>
@@ -1781,11 +1781,11 @@
                     </o>
                     <o>
                       <v n="Id">1649127785L</v>
-                      <v n="Value">294</v>
+                      <v n="Value">297</v>
                     </o>
                     <o>
                       <v n="Id">357335551L</v>
-                      <v n="Value">89</v>
+                      <v n="Value">90</v>
                     </o>
                     <o>
                       <v n="Id">2422045748L</v>

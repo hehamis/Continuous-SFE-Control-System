@@ -56,6 +56,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"2385"</v>
+              <v n="TextDefault">"%i kg"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"853"</v>
               <v n="TextDefault">"%i l/min"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -101,6 +106,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"748"</v>
+              <v n="TextDefault">"AUTOMATIC EXTRACTION"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"482"</v>
               <v n="TextDefault">"Bias (%)"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -113,6 +123,11 @@
             <o>
               <v n="TextID">"308"</v>
               <v n="TextDefault">"Closed time"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"631"</v>
+              <v n="TextDefault">"CO2"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -143,6 +158,16 @@
             <o>
               <v n="TextID">"459"</v>
               <v n="TextDefault">"CO2 pump"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"580"</v>
+              <v n="TextDefault">"CO2 pump pressure"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"981"</v>
+              <v n="TextDefault">"CO2 PUMP PRESSURE CONTROL"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -183,6 +208,11 @@
             <o>
               <v n="TextID">"353"</v>
               <v n="TextDefault">"Data acquisition"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"18"</v>
+              <v n="TextDefault">"DATA ACQUISITION"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -276,6 +306,16 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"667"</v>
+              <v n="TextDefault">"Pre-heater temperature"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"183"</v>
+              <v n="TextDefault">"PRE-HEATER TEMPERATURE CONTROL"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"795"</v>
               <v n="TextDefault">"Pressure"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -301,8 +341,18 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"958"</v>
+              <v n="TextDefault">"Pump setpoint wait time (s)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"951"</v>
               <v n="TextDefault">"Reactor"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"599"</v>
+              <v n="TextDefault">"REACTOR TEMPERATURE CONTROL"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -338,6 +388,21 @@
             <o>
               <v n="TextID">"970"</v>
               <v n="TextDefault">"Separator"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"301"</v>
+              <v n="TextDefault">"Separator temperature"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"802"</v>
+              <v n="TextDefault">"SEPARATOR TEMPERATURE CONTROL"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"906"</v>
+              <v n="TextDefault">"SERIAL BUS SETPOINTS"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
