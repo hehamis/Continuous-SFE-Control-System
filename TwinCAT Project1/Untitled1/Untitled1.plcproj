@@ -31,12 +31,23 @@
     <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\FBs\FB_ReactorTemperatureControlStateMachine.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\FBs\ReactorTemperature.TcPOU">
+    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\ReactorTemperature.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\ReactorTemperatureControl.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs\ST_AutomaticExtractionParameters.TcDUT">
       <SubType>Code</SubType>
-      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs\ST_ExtractiveControlValveCommands.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs\ST_PressureIntervals.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_AutomaticExtractionStateMachine.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_ControlValveStateMachine.TcPOU">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_ExtractiveOutletHandler.TcPOU">
       <SubType>Code</SubType>
@@ -44,15 +55,14 @@
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_ReactorValves.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\ReactorLevelAndPressure.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_Runtime.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\ST_PressureIntervals.TcDUT">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\F_RoundToClosest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\ReactorLevelAndPressureControl.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\ReactorLevelAndPressure.TcPOU">
       <SubType>Code</SubType>
-      <ExcludeFromBuild>true</ExcludeFromBuild>
     </Compile>
     <Compile Include="01. MAIN\01.3 DataAcquisition\01.3.1 OPC\ReadWriteOPCvariables.TcPOU">
       <SubType>Code</SubType>
@@ -108,6 +118,13 @@
     <Compile Include="02. MAIN_Fast\MAIN_Fast.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="03. VISUs\AutoExtractionParameterMenu View\AutoExtractionParameterMenu.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="03. VISUs\AutoExtractionParameterMenu View\AutoExtractionParameterMenuBindings.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="03. VISUs\MainScreen View\MainScreen.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
@@ -160,6 +177,18 @@
     <Compile Include="PlcTaskFast.TcTTO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Trash\PressureAndLevelControl\ReactorLevelAndPressureControl.TcPOU">
+      <SubType>Code</SubType>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="Trash\PressureAndLevelControl\reactorpresslevelvanhaVARA.TcPOU">
+      <SubType>Code</SubType>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="Trash\TemperatureControl\ReactorTemperatureControl.TcPOU">
+      <SubType>Code</SubType>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
     <Compile Include="Trash\TemperatureControl\vanhat\FB_TemperaturePIDControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -211,6 +240,7 @@
     <Folder Include="01. MAIN\01.1 ReactorTemperatureControl\DUTs" />
     <Folder Include="01. MAIN\01.2 ReactorLevelAndPressureControl" />
     <Folder Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs" />
+    <Folder Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs" />
     <Folder Include="01. MAIN\01.3 DataAcquisition" />
     <Folder Include="01. MAIN\01.3 DataAcquisition\01.3.1 OPC" />
     <Folder Include="01. MAIN\01.3 DataAcquisition\01.3.2 RunMATLAB\FBs" />
@@ -226,6 +256,7 @@
     <Folder Include="02. MAIN_Fast\02.1 Background" />
     <Folder Include="03. VISUs\IMAGES" />
     <Folder Include="03. VISUs\MainScreen View" />
+    <Folder Include="03. VISUs\AutoExtractionParameterMenu View" />
     <Folder Include="03. VISUs\PidParameterMenu View" />
     <Folder Include="04. GVLs" />
     <Folder Include="01. MAIN" />

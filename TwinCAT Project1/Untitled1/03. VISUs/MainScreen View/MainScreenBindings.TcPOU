@@ -182,7 +182,7 @@ ReactorLevelAndPressure.SlurryInValveCommand := SlurryInValveControlModeButton_T
 SlurryInLine1_ToggleColor := GVL_IO.reactorInletValve;
 SlurryInLine2_ToggleColor := GVL_IO.reactorInletValve;
 
-SlurryInValveControlModeButton_Invisible := ReactorLevelAndPressure.sLevelControlState = 'AUTO';
+SlurryInValveControlModeButton_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;//ReactorLevelAndPressure.sLevelControlState = 'AUTO';
 ReactorPressureTextField_TextVariable := ReactorLevelAndPressure.iPressureScaledValue;
 PressureIntervals.PressureUpperInterVal_1 := UpperIntervalSlurryOnUpperTextField_TextVariable;
 PressureIntervals.PressureUpperInterVal_2 := UpperIntervalSlurryOnNotUpperTextField_TextVariable;
@@ -200,7 +200,7 @@ SlurryOutLine2_ToggleColor := GVL_IO.reactorOutletValve;
 SlurryOutLine3_ToggleColor := GVL_IO.reactorOutletValve;
 SlurryOutTriangle_ToggleColor := GVL_IO.reactorOutletValve;
 SlurryOutValveLamp_Variable := GVL_IO.reactorOutletValve;
-SlurryOutValveButton_Invisible := ReactorLevelAndPressure.sLevelControlState = 'AUTO';
+SlurryOutValveButton_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;//ReactorLevelAndPressure.sLevelControlState = 'AUTO';
 //SlurryOutValveButton_TextVariable := ReactorLevelAndPressure.sLevelValveState;
 SlurryOutValveButton_ToggleColor := GVL_IO.reactorOutletValve;
 ReactorLevelAndPressure.SlurryOutValveCommand := SlurryOutValveButton_ToggleVariable;// OUTPUT

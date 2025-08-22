@@ -6,6 +6,16 @@
         <o xml:space="preserve" t="GlobalTextListObject">
           <l n="TextList" t="ArrayList" cet="TextListRow">
             <o>
+              <v n="TextID">"201"</v>
+              <v n="TextDefault">"%10f"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"816"</v>
+              <v n="TextDefault">"%10i"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"574"</v>
               <v n="TextDefault">"%2.0f"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -13,6 +23,11 @@
             <o>
               <v n="TextID">"759"</v>
               <v n="TextDefault">"%2f"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"136"</v>
+              <v n="TextDefault">"%f"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -61,6 +76,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"633"</v>
+              <v n="TextDefault">"%s AUTOMATIC EXTRACTION"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"917"</v>
               <v n="TextDefault">"&amp;i"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -83,6 +103,11 @@
             <o>
               <v n="TextID">"482"</v>
               <v n="TextDefault">"Bias (%)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"549"</v>
+              <v n="TextDefault">"CALIBRATE"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -138,6 +163,11 @@
             <o>
               <v n="TextID">"153"</v>
               <v n="TextDefault">"Control"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"862"</v>
+              <v n="TextDefault">"Control valve extraction value (%)"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -211,6 +241,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"296"</v>
+              <v n="TextDefault">"PARAM"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"810"</v>
               <v n="TextDefault">"PB"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -251,8 +286,33 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"698"</v>
+              <v n="TextDefault">"Pump on time (s)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"926"</v>
+              <v n="TextDefault">"Pump ontime (s)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"815"</v>
+              <v n="TextDefault">"Pump setpoint wait time"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"951"</v>
               <v n="TextDefault">"Reactor"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"223"</v>
+              <v n="TextDefault">"Refill interval (s)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"422"</v>
+              <v n="TextDefault">"Refill time (s)"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -313,6 +373,16 @@
             <o>
               <v n="TextID">"155"</v>
               <v n="TextDefault">"Slurry OUT"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"354"</v>
+              <v n="TextDefault">"Slurry outlet valve intervals"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"575"</v>
+              <v n="TextDefault">"START AUTOMATIC EXTRACTION"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>

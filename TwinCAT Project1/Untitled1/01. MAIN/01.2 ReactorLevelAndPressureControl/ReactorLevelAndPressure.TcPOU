@@ -16,7 +16,7 @@ VAR
 	levelControlMode : INT;
 	manualModeEntered : BOOL;
 	autoModeEntered : BOOL;
-	SFE_ReactorValveControl: FB_ReactorValves;
+	SlurryOutValveControl: FB_ReactorValves;
 	sLevelControlState: STRING;
 //	sLevelValveState: STRING;
 	sFillingValveState: STRING;
@@ -46,6 +46,8 @@ _iPressureScaledValue := F_AnalogScale(AnalogInputRawValue := GVL_IO.reactorPres
 // Automatic extraction state machine
 IF _startAutomaticExtraction AND _calibrateDone THEN
 	manualModeEntered := FALSE;
+	
+	// Automatic extraction
 	AutomaticExtraction(
 				parameters := _automaticExtractionParameters,
 				reactorPressure := _iPressureScaledValue,
@@ -55,7 +57,8 @@ IF _startAutomaticExtraction AND _calibrateDone THEN
 	_extractiveOutOnOffValveCommand := NOT AutomaticExtraction.co2onOffValveClosed;
 	_extractiveControlValveCommands.openPercentage := AutomaticExtraction.controlValveOpeningPercentage;
 	
-	SFE_ReactorValveControl.pressureIntervalControl(
+	// Slurry outlet valve control
+	SlurryOutValveControl.pressureIntervalControl(
 										interval_1_condition:= GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve, // If above higher limit and filling valve open
 										pressureUpperInterval_1:= _pressureIntervals.PressureUpperInterval_1, 
 										pressureLowerInterval_1:= _pressureIntervals.PressureLowerInterval_1, 
@@ -70,7 +73,7 @@ IF _startAutomaticExtraction AND _calibrateDone THEN
 										valveOpenCondition:= NOT (NOT GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve), 
 										forceValveClosed:= (NOT GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve),
 										);
-	GVL_IO.reactorOutletValve := SFE_ReactorValveControl.pressureControlOpen;
+	GVL_IO.reactorOutletValve := SlurryOutValveControl.pressureControlOpen;
 	
 ELSE
 	AutomaticExtraction.resetState();
@@ -279,31 +282,12 @@ _startAutomaticExtraction := StartAutomaticExtraction;]]></ST>
       </Set>
     </Property>
     <LineIds Name="ReactorLevelAndPressure">
-      <LineId Id="682" Count="1" />
-      <LineId Id="928" Count="1" />
-      <LineId Id="933" Count="0" />
-      <LineId Id="992" Count="0" />
-      <LineId Id="938" Count="1" />
-      <LineId Id="937" Count="0" />
-      <LineId Id="943" Count="3" />
-      <LineId Id="934" Count="0" />
-      <LineId Id="1184" Count="0" />
-      <LineId Id="1187" Count="14" />
-      <LineId Id="1186" Count="0" />
-      <LineId Id="1185" Count="0" />
-      <LineId Id="940" Count="1" />
-      <LineId Id="983" Count="8" />
-      <LineId Id="935" Count="0" />
-      <LineId Id="788" Count="0" />
-      <LineId Id="787" Count="0" />
-      <LineId Id="789" Count="0" />
-      <LineId Id="792" Count="0" />
-      <LineId Id="857" Count="0" />
-      <LineId Id="793" Count="0" />
-      <LineId Id="891" Count="1" />
-      <LineId Id="1028" Count="0" />
-      <LineId Id="1065" Count="0" />
-      <LineId Id="858" Count="1" />
+      <LineId Id="1276" Count="5" />
+      <LineId Id="1331" Count="1" />
+      <LineId Id="1282" Count="8" />
+      <LineId Id="1335" Count="0" />
+      <LineId Id="1291" Count="39" />
+      <LineId Id="859" Count="0" />
     </LineIds>
     <LineIds Name="ReactorLevelAndPressure.AutomaticExtractionParameters.Set">
       <LineId Id="5" Count="0" />
