@@ -4,6 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_ControlValveStateMachine
 VAR_INPUT
 	controlValveCommands : ST_ExtractiveControlValveCommands;
+	controlValveParameters : ST_ExtractiveControlValveParameters;
 END_VAR
 VAR_OUTPUT
 	closeControlValve : BOOL;
@@ -40,7 +41,7 @@ CASE controlState OF
 		END_IF
 	
 	1: // Calibrate
-		TOF_Calibration(IN := startCalibrate, PT := T#5S);
+		TOF_Calibration(IN := startCalibrate, PT := TO_TIME(controlValveParameters.calibrationTimeMs));
 		startCalibrate := FALSE;
 		closeCommand := TRUE;
 		IF NOT TOF_Calibration.Q THEN
@@ -65,8 +66,8 @@ CASE controlState OF
 			open := FALSE;
 			close := FALSE;
 		END_IF
-		openvalve(gotime := open, settime := T#10S, countdown := close, elapsedtime => , elapsed => );
-		closevalve(gotime := close, settime := T#10S, countdown := open, elapsedtime =>, elapsed => );		
+		openvalve(gotime := open, settime := TO_TIME(controlValveParameters.timeToFullyOpenMs), countdown := close, elapsedtime => , elapsed => );
+		closevalve(gotime := close, settime := TO_TIME(controlValveParameters.timeToFullyOpenMs), countdown := open, elapsedtime =>, elapsed => );		
 
 
 END_CASE

@@ -9,6 +9,7 @@ VAR
 	_slurryOutValveCommand : BOOL;
 	_pressureIntervals : ST_PressureIntervals;
 	_extractiveControlValveCommands : ST_ExtractiveControlValveCommands;
+	_ExtractiveControlValveParameters : ST_ExtractiveControlValveParameters;
 	_automaticExtractionParameters : ST_AutomaticExtractionParameters;
 	_decreasePumpSetpoint : BOOL;
 	_controlValveOpening : DINT;
@@ -92,6 +93,7 @@ END_IF
 HandleExtractiveOutlet(
 					onOffValveCommand := _extractiveOutOnOffValveCommand,
 					controlValveCommands := _ExtractiveControlValveCommands,
+					controlValveParameters := _ExtractiveControlValveParameters,
 					onOffValveOpen => GVL_IO.extractiveOutletOnOffValve,
 					controlValveClose => GVL_IO.extractiveOutletControlValveClose,
 					controlValveOpen => GVL_IO.extractiveOutletControlValveOpen,
@@ -182,6 +184,18 @@ END_VAR
           <ST><![CDATA[IF NOT _startAutomaticExtraction THEN
 	_ExtractiveControlValveCommands := ExtractiveControlValveCommands;
 END_IF]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="ExtractiveControlValveParameters" Id="{bb956caa-eeb6-470f-a093-928f6c7d6265}">
+      <Declaration><![CDATA[PROPERTY ExtractiveControlValveParameters : ST_ExtractiveControlValveParameters]]></Declaration>
+      <Set Name="Set" Id="{4b282e61-efe3-4f89-8e8a-75e12ec61769}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_ExtractiveControlValveParameters := ExtractiveControlValveParameters;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -286,7 +300,9 @@ _startAutomaticExtraction := StartAutomaticExtraction;]]></ST>
       <LineId Id="1331" Count="1" />
       <LineId Id="1282" Count="8" />
       <LineId Id="1335" Count="0" />
-      <LineId Id="1291" Count="39" />
+      <LineId Id="1291" Count="33" />
+      <LineId Id="1336" Count="0" />
+      <LineId Id="1325" Count="5" />
       <LineId Id="859" Count="0" />
     </LineIds>
     <LineIds Name="ReactorLevelAndPressure.AutomaticExtractionParameters.Set">
@@ -317,6 +333,10 @@ _startAutomaticExtraction := StartAutomaticExtraction;]]></ST>
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
       <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorLevelAndPressure.ExtractiveControlValveParameters.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="ReactorLevelAndPressure.ExtractiveOutOnOffValveCommand.Set">
       <LineId Id="5" Count="0" />

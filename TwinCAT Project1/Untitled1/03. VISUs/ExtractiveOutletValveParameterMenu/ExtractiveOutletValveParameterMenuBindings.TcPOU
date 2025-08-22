@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="ExtractiveOutletValveParameterMenuBindings" Id="{e0e1f055-7792-4626-bb90-c0508d8abc71}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM ExtractiveOutletValveParameterMenuBindings
+VAR PERSISTENT
+	extractionValveParameters : ST_ExtractiveControlValveParameters;
+	calibrationTimeTextField_TextVariable : DINT;
+	fullOpenTimeTextField_TextVariable : DINT;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+extractionValveParameters.calibrationTimeMs := calibrationTimeTextField_TextVariable;
+extractionValveParameters.timeToFullyOpenMs := fullOpenTimeTextField_TextVariable;
+
+ReactorLevelAndPressure.ExtractiveControlValveParameters := extractionValveParameters; 
+]]></ST>
+    </Implementation>
+    <LineIds Name="ExtractiveOutletValveParameterMenuBindings">
+      <LineId Id="53" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

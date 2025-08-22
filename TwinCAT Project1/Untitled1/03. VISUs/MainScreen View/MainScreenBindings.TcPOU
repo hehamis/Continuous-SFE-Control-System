@@ -111,7 +111,9 @@ VAR PERSISTENT
 	LowerIntervalSlurryOnUpperTextField_TextVariable : INT;
 	LowerIntervalSlurryOnNotUpperTextField_TextVariable : INT;
 	LowerIntervalSlurryOffUpperTextField_TextVariable : INT;	
-	
+
+	ControlValveParameterMenuFrame_Invisible : BOOL;	
+	ControlValveParameterMenuButton_ToggleVariable : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -263,6 +265,8 @@ StartAutomaticExtractionButton_DeactivateInputs := NOT ReactorLevelAndPressure.C
 autoExtractionParameterMenuFrame_Invisible := NOT autoExtractionParameterMenuButton_ToggleVariable;
 
 ControlValveOpeningPercentageTextBox_TextVariable := ReactorLevelAndPressure.ControlValveOpening;
+
+ControlValveParameterMenuFrame_Invisible := NOT ControlValveParameterMenuButton_ToggleVariable;
 ]]></ST>
     </Implementation>
     <LineIds Name="MainScreenBindings">
@@ -284,6 +288,8 @@ ControlValveOpeningPercentageTextBox_TextVariable := ReactorLevelAndPressure.Con
       <LineId Id="1239" Count="0" />
       <LineId Id="1674" Count="0" />
       <LineId Id="1673" Count="0" />
+      <LineId Id="1910" Count="0" />
+      <LineId Id="1909" Count="0" />
       <LineId Id="1238" Count="0" />
     </LineIds>
   </POU>
