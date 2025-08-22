@@ -9,6 +9,7 @@ Id;Default
 23;%i *C
 756;%i bar
 291;%i C
+2385;%i kg
 853;%i l/min
 684;%i sec
 71;%i °C
@@ -18,15 +19,20 @@ Id;Default
 561;1: %i bar
 352;2: %i bar
 662;3: %i bar
+748;AUTOMATIC EXTRACTION
 482;Bias (%)
 549;CALIBRATE
+292;Calibration time (ms)
 308;Closed time
+631;CO2
 740;CO2 + extractive
 99;CO2 + extractive OUT
 622;CO2 flow
 64;CO2 IN
 506;CO2 OUT
 459;CO2 pump
+580;CO2 pump pressure
+981;CO2 PUMP PRESSURE CONTROL
 905;CO2+extractive
 480;CO2+extractive OUT
 757;Contactor
@@ -35,9 +41,11 @@ Id;Default
 219;Cycle time (%)
 416;Cycle time (s)
 353;Data acquisition
+18;DATA ACQUISITION
 985;EXIT
 273;Extractive
 444;Flow
+612;Full open time (ms)
 154;Label
 334;Lower
 744;Lower interval
@@ -53,12 +61,16 @@ Id;Default
 443;Percentage (%)
 457;PID
 797;Pre-heater
+667;Pre-heater temperature
+183;PRE-HEATER TEMPERATURE CONTROL
 795;Pressure
 113;Program name prefix
 698;Pump on time (s)
 926;Pump ontime (s)
 815;Pump setpoint wait time
+958;Pump setpoint wait time (s)
 951;Reactor
+599;REACTOR TEMPERATURE CONTROL
 223;Refill interval (s)
 422;Refill time (s)
 579;Screen
@@ -66,6 +78,9 @@ Id;Default
 465;Screen2
 89;sec
 970;Separator
+301;Separator temperature
+802;SEPARATOR TEMPERATURE CONTROL
+906;SERIAL BUS SETPOINTS
 160;Setpoint
 833;Slurry IN
 336;Slurry in + upper

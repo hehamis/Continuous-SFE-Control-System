@@ -3,6 +3,8 @@ ImagePool; ;TEST;test.svg;
 ImagePool; ;SW_OPENED;switch_opened.png;
 ImagePool; ;SW_CLOSED;switch_closed.png;
 ImagePool; ;LOGO;univlogo.png;
+ImagePool; ;univ_oulu_logo;univ_oulu_logo.png;
+ImagePool; ;university-of-oulu-logo;university-of-oulu-logo.svg;
 __VisualizationStyle; ;RadioButtonUnchecked;radiobuttonunchecked.svg;
 __VisualizationStyle; ;RadioButtonChecked;radiobuttonchecked.svg;
 __VisualizationStyle; ;CheckboxUnchecked;checkboxunchecked.svg;

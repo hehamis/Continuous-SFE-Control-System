@@ -121,6 +121,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"292"</v>
+              <v n="TextDefault">"Calibration time (ms)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"308"</v>
               <v n="TextDefault">"Closed time"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -228,6 +233,11 @@
             <o>
               <v n="TextID">"444"</v>
               <v n="TextDefault">"Flow"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"612"</v>
+              <v n="TextDefault">"Full open time (ms)"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
