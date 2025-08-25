@@ -147,7 +147,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"AutoExtractionParameterMenuBindings.refillIntervalTextField_TextVariable"</v>
+                      <v n="Value">"ExtractiveOutletValveParameterMenuBindings.calibrationTimeTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -168,7 +168,7 @@
                       <v n="InputBoxVariable">""</v>
                       <v n="InputType">"VisuDialogs.Numpad"</v>
                       <v n="InputBoxMin">"1"</v>
-                      <v n="InputBoxMax">"999"</v>
+                      <v n="InputBoxMax">"999999"</v>
                       <v n="InputBoxDialogTitle">""</v>
                       <v n="Password">false</v>
                       <v n="UseTextOutputVariable">true</v>
@@ -646,7 +646,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"AutoExtractionParameterMenuBindings.pumpSetpointWaitTimeTextField_TextVariable"</v>
+                      <v n="Value">"ExtractiveOutletValveParameterMenuBindings.fullOpenTimeTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -667,7 +667,7 @@
                       <v n="InputBoxVariable">""</v>
                       <v n="InputType">"VisuDialogs.Numpad"</v>
                       <v n="InputBoxMin">"0"</v>
-                      <v n="InputBoxMax">"999"</v>
+                      <v n="InputBoxMax">"999999"</v>
                       <v n="InputBoxDialogTitle">""</v>
                       <v n="Password">false</v>
                       <v n="UseTextOutputVariable">true</v>
@@ -922,10 +922,10 @@
               <d n="FbMethods" t="CaseInsensitiveHashtable" ckt="String" cvt="Guid">
                 <v>FB_Init</v>
                 <v>e50e3827-81f1-42ba-8461-29f96b1dc314</v>
-                <v>FB_Reinit</v>
-                <v>62f6c9ee-e352-4998-a761-8894e1eae962</v>
                 <v>FB_Exit</v>
                 <v>f25b02c9-0532-4a99-a7c1-37390d3d4703</v>
+                <v>FB_Reinit</v>
+                <v>62f6c9ee-e352-4998-a761-8894e1eae962</v>
               </d>
               <v n="FbName">"NotImportant"</v>
               <v n="FbGuid">{961f5c30-25f3-4a9e-a136-5ac3f6944135}</v>

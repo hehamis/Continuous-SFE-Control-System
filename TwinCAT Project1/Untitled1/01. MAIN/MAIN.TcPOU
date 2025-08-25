@@ -22,8 +22,10 @@ VariablePersistence();
 SerialCommunicationHandler();
 
 MainScreenBindings();
-PidParameterMenuBindings();
-AutoExtractionParameterMenuBindings();]]></ST>
+ParameterViewBindings();
+//PidParameterMenuBindings();
+//AutoExtractionParameterMenuBindings();
+//ExtractiveOutletValveParameterMenuBindings();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="189" Count="2" />
@@ -32,8 +34,10 @@ AutoExtractionParameterMenuBindings();]]></ST>
       <LineId Id="234" Count="0" />
       <LineId Id="194" Count="5" />
       <LineId Id="201" Count="1" />
+      <LineId Id="256" Count="0" />
       <LineId Id="246" Count="0" />
       <LineId Id="245" Count="0" />
+      <LineId Id="251" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

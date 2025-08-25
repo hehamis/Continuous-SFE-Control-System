@@ -34,6 +34,9 @@
     <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\ReactorTemperature.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs\E_AutomaticExtractionState.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs\ST_AutomaticExtractionParameters.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -121,6 +124,13 @@
     <Compile Include="02. MAIN_Fast\MAIN_Fast.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="03. VISUs\03.02 Parameter View\ParameterView.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="03. VISUs\03.02 Parameter View\ParameterViewBindings.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="03. VISUs\AutoExtractionParameterMenu View\AutoExtractionParameterMenu.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
@@ -135,28 +145,20 @@
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
-    <Compile Include="03. VISUs\MainScreen View\MainScreen.TcVIS">
+    <Compile Include="03. VISUs\03.01 MainScreen View\MainScreen.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
       <ExcludeFromBuild>true</ExcludeFromBuild>
     </Compile>
-    <Compile Include="03. VISUs\MainScreen View\MainScreenBindings.TcPOU">
+    <Compile Include="03. VISUs\03.01 MainScreen View\MainScreenBindings.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="03. VISUs\MainScreen View\MainScreen_1.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-      <ExcludeFromBuild>false</ExcludeFromBuild>
-    </Compile>
-    <Compile Include="03. VISUs\MainScreen View\MainScreen_1_1.TcVIS">
+    <Compile Include="03. VISUs\03.01 MainScreen View\MainScreen_1.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
     </Compile>
-    <Compile Include="03. VISUs\MainScreen View\Valve.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-    </Compile>
-    <Compile Include="03. VISUs\MainScreen View\ValveDiagonal.TcVIS">
+    <Compile Include="03. VISUs\03.01 MainScreen View\MainScreen_1_1.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
@@ -168,6 +170,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="03. VISUs\SerialCommVisuTest.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="03. VISUs\User Controls\Valve.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="03. VISUs\User Controls\ValveDiagonal.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
@@ -190,6 +200,11 @@
     </Compile>
     <Compile Include="PlcTaskFast.TcTTO">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Trash\LevelControlParamMenu.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
     </Compile>
     <Compile Include="Trash\PressureAndLevelControl\ReactorLevelAndPressureControl.TcPOU">
       <SubType>Code</SubType>
@@ -239,11 +254,6 @@
     <Compile Include="03. VISUs\ImagePool.TcIPO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="03. VISUs\LevelControlParamMenu.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-      <ExcludeFromBuild>true</ExcludeFromBuild>
-    </Compile>
     <Compile Include="VISU_TASK.TcTTO">
       <SubType>Code</SubType>
     </Compile>
@@ -269,9 +279,11 @@
     <Folder Include="01. MAIN\Common\ITFs" />
     <Folder Include="02. MAIN_Fast\02.1 Background" />
     <Folder Include="03. VISUs\IMAGES" />
-    <Folder Include="03. VISUs\MainScreen View" />
+    <Folder Include="03. VISUs\03.01 MainScreen View" />
     <Folder Include="03. VISUs\AutoExtractionParameterMenu View" />
     <Folder Include="03. VISUs\ExtractiveOutletValveParameterMenu" />
+    <Folder Include="03. VISUs\03.02 Parameter View" />
+    <Folder Include="03. VISUs\User Controls" />
     <Folder Include="03. VISUs\PidParameterMenu View" />
     <Folder Include="04. GVLs" />
     <Folder Include="01. MAIN" />

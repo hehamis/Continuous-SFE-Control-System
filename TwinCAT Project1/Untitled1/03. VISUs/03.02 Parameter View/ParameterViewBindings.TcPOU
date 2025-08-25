@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="ParameterViewBindings" Id="{26036d62-e7e5-4820-8b8f-a5aa825cf944}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM ParameterViewBindings
+VAR
+	reactorTemperaturePidParameters : ST_PidParameters;
+	autoExtractionParameters : ST_AutomaticExtractionParameters;
+	extractionValveParameters : ST_ExtractiveControlValveParameters;
+END_VAR
+VAR PERSISTENT
+	PbTextField_TextVariable : INT := 9;
+	TiTextField_TextVariable : INT := 300;
+	TdTextField_TextVariable : INT := 900;
+	IterationTimeTextField_TextVariable : INT := 6;
+	BiasTextField_TextVariable : INT;
+	
+	controlValveOpeningValueTextField_TextVariable : DINT;
+	refillIntervalTextField_TextVariable : DINT;
+	pumpOnTimeTextField_TextVariable : DINT;
+	pumpSetpointWaitTimeTextField_TextVariable : DINT;
+	
+	calibrationTimeTextField_TextVariable : DINT;
+	fullOpenTimeTextField_TextVariable : DINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+reactorTemperaturePidParameters.PB := PbTextField_TextVariable;
+reactorTemperaturePidParameters.Ti := TiTextField_TextVariable;
+reactorTemperaturePidParameters.Td := TdTextField_TextVariable;
+reactorTemperaturePidParameters.Iterationtime := IterationTimeTextField_TextVariable;
+reactorTemperaturePidParameters.Bias := BiasTextField_TextVariable;
+ReactorTemperature.pidControllerParameters := reactorTemperaturePidParameters;
+
+autoExtractionParameters.controlValveOpeningValue := controlValveOpeningValueTextField_TextVariable;
+autoExtractionParameters.fillingTime := refillIntervalTextField_TextVariable;
+autoExtractionParameters.pumpOnTime := pumpOnTimeTextField_TextVariable;
+autoExtractionParameters.pumpSetpointWaitTime := pumpSetpointWaitTimeTextField_TextVariable;
+ReactorLevelAndPressure.AutomaticExtractionParameters := autoExtractionParameters; 
+
+
+extractionValveParameters.calibrationTimeMs := calibrationTimeTextField_TextVariable;
+extractionValveParameters.timeToFullyOpenMs := fullOpenTimeTextField_TextVariable;
+ReactorLevelAndPressure.ExtractiveControlValveParameters := extractionValveParameters; 
+]]></ST>
+    </Implementation>
+    <LineIds Name="ParameterViewBindings">
+      <LineId Id="31" Count="11" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="45" Count="3" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="44" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="E_AutomaticExtractionState" Id="{4f6d5abb-7cc1-48dc-88f2-3a80d66f4e1e}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'to_string'}
+TYPE E_AutomaticExtractionState :
+(
+	AUTO_EXTRACTION := 0,
+	REDUCING_CONTROL_VALVE := 1,
+	REDUCING_CO2_PUMP_SETPOINT := 2,
+	FILLING_ACTIVE := 3,
+	TURNING_EXTRACTIVE_PUMP_OFF := 4,
+	INCREASING_CO2_PUMP_SETPOINT := 5,
+	OPENING_CONTROL_VALVE_TO_SETPOINT := 6,
+	MANUAL_EXTRACTION := 7
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

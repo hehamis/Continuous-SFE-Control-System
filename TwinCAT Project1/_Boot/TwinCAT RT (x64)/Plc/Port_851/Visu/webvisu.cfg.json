@@ -4,7 +4,7 @@
 	"PlcAddress": "851",
 	"UseLocalHost": true,
 	"Application": "Port_851",
-	"StartVisu": "MainScreen_1",
+	"StartVisu": "MainScreen_1_1",
 	"BestFit": false,
 	"LogLevel": "INFO",
 	"CommBufferSize": 50000,

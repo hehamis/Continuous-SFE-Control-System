@@ -29,6 +29,9 @@ VAR
 	AutomaticExtraction : FB_AutomaticExtractionStateMachine;
 	_startAutomaticExtraction : BOOL;
 	automaticExtractionEnabled : BOOL;
+	
+	_automaticExtractionState : E_AutomaticExtractionState;
+	
 END_VAR
 VAR PERSISTENT
 	_fillingValveOpenInterval: INT;
@@ -44,7 +47,6 @@ END_VAR]]></Declaration>
       <ST><![CDATA[// Scale analog pressure
 _iPressureScaledValue := F_AnalogScale(AnalogInputRawValue := GVL_IO.reactorPressure, MaxAnalogValue := 1000);
 
-// Automatic extraction state machine
 IF _startAutomaticExtraction AND _calibrateDone THEN
 	manualModeEntered := FALSE;
 	
@@ -54,7 +56,8 @@ IF _startAutomaticExtraction AND _calibrateDone THEN
 				reactorPressure := _iPressureScaledValue,
 				decreasePumpSetpoint => _decreasePumpSetpoint,
 				extractivePumpOn => GVL_IO.reactorInletValve,
-				co2onOffValveClosed => );
+				co2onOffValveClosed => ,
+				automaticExtractionState => _automaticExtractionState);
 	_extractiveOutOnOffValveCommand := NOT AutomaticExtraction.co2onOffValveClosed;
 	_extractiveControlValveCommands.openPercentage := AutomaticExtraction.controlValveOpeningPercentage;
 	
@@ -86,7 +89,10 @@ ELSE
 		manualModeEntered := TRUE;
 	END_IF
 	GVL_IO.reactorInletValve := _slurryInValveCommand;
-	GVL_IO.reactorOutletValve := _slurryOutValveCommand;	
+	GVL_IO.reactorOutletValve := _slurryOutValveCommand;
+
+	_automaticExtractionState := E_AutomaticExtractionState.MANUAL_EXTRACTION;
+	
 END_IF
 
 // Extractive outlet control
@@ -113,6 +119,18 @@ END_VAR
 _automaticExtractionParameters := AutomaticExtractionParameters;]]></ST>
         </Implementation>
       </Set>
+    </Property>
+    <Property Name="automaticExtractionState" Id="{6405940a-3fdd-4150-8d77-d2c9ba3b9f2d}">
+      <Declaration><![CDATA[PROPERTY automaticExtractionState : E_AutomaticExtractionState]]></Declaration>
+      <Get Name="Get" Id="{3dbfd90a-1f39-428e-a838-55a53fa67dba}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+automaticExtractionState := _automaticExtractionSTate;]]></ST>
+        </Implementation>
+      </Get>
     </Property>
     <Property Name="bLevelControlSwitch" Id="{157d05c6-890c-4007-9267-879a33c29919}">
       <Declaration><![CDATA[PROPERTY bLevelControlSwitch : BOOL]]></Declaration>
@@ -296,16 +314,26 @@ _startAutomaticExtraction := StartAutomaticExtraction;]]></ST>
       </Set>
     </Property>
     <LineIds Name="ReactorLevelAndPressure">
-      <LineId Id="1276" Count="5" />
+      <LineId Id="1276" Count="1" />
+      <LineId Id="1279" Count="2" />
       <LineId Id="1331" Count="1" />
-      <LineId Id="1282" Count="8" />
+      <LineId Id="1282" Count="5" />
+      <LineId Id="1375" Count="0" />
+      <LineId Id="1288" Count="2" />
       <LineId Id="1335" Count="0" />
-      <LineId Id="1291" Count="33" />
+      <LineId Id="1291" Count="27" />
+      <LineId Id="1380" Count="1" />
+      <LineId Id="1379" Count="0" />
+      <LineId Id="1319" Count="5" />
       <LineId Id="1336" Count="0" />
       <LineId Id="1325" Count="5" />
       <LineId Id="859" Count="0" />
     </LineIds>
     <LineIds Name="ReactorLevelAndPressure.AutomaticExtractionParameters.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorLevelAndPressure.automaticExtractionState.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
