@@ -87,6 +87,7 @@ Id;Default
 1136;REACTOR TEMPERATURE PID CONTROLLER
 223;Refill interval (s)
 422;Refill time (s)
+0;RESET
 222;SAFETY RESET
 579;Screen
 31;Screen1

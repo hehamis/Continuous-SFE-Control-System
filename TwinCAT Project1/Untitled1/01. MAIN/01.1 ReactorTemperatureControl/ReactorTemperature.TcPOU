@@ -140,8 +140,10 @@ upperTemperature := _upperTemperature;]]></ST>
       <LineId Id="5" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="49" Count="0" />
-      <LineId Id="35" Count="1" />
-      <LineId Id="50" Count="2" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="51" Count="1" />
     </LineIds>
     <LineIds Name="ReactorTemperature.autoControlSelected.Set">
       <LineId Id="5" Count="0" />

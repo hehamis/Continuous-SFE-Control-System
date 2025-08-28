@@ -106,6 +106,12 @@
     <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\ST_SerialCommSetpoints.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\01.6 Safety\Handlers\FB_HandleUiEstop.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.6 Safety\Safety.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\Common\FBs\FB_ToggleHeartBeat.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -124,26 +130,20 @@
     <Compile Include="02. MAIN_Fast\MAIN_Fast.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="03. VISUs\03.02 Parameter View\ParameterView.TcVIS">
+    <Compile Include="03. VISUs\03.02 Process View\ProcessViewBindings.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="03. VISUs\03.02 Process View\ProcessView.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
-    <Compile Include="03. VISUs\03.02 Parameter View\ParameterViewBindings.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="03. VISUs\AutoExtractionParameterMenu View\AutoExtractionParameterMenu.TcVIS">
+    <Compile Include="03. VISUs\03.03 Parameter View\ParameterView.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+      <ExcludeFromBuild>false</ExcludeFromBuild>
     </Compile>
-    <Compile Include="03. VISUs\AutoExtractionParameterMenu View\AutoExtractionParameterMenuBindings.TcPOU">
+    <Compile Include="03. VISUs\03.03 Parameter View\ParameterViewBindings.TcPOU">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="03. VISUs\ExtractiveOutletValveParameterMenu\ExtractiveOutletValveParameterMenuBindings.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="03. VISUs\ExtractiveOutletValveParameterMenu\ExtractiveOutletValveParameterMenu.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
     <Compile Include="03. VISUs\03.01 MainScreen View\MainScreen.TcVIS">
       <SubType>Code</SubType>
@@ -161,13 +161,6 @@
     <Compile Include="03. VISUs\03.01 MainScreen View\MainScreen_1_1.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-    </Compile>
-    <Compile Include="03. VISUs\PidParameterMenu View\PidParameterMenu.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-    </Compile>
-    <Compile Include="03. VISUs\PidParameterMenu View\PidParameterMenuBindings.TcPOU">
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="03. VISUs\SerialCommVisuTest.TcVIS">
       <SubType>Code</SubType>
@@ -201,10 +194,31 @@
     <Compile Include="PlcTaskFast.TcTTO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Trash\AutoExtractionParameterMenu View\AutoExtractionParameterMenu.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="Trash\AutoExtractionParameterMenu View\AutoExtractionParameterMenuBindings.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Trash\ExtractiveOutletValveParameterMenu\ExtractiveOutletValveParameterMenu.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="Trash\ExtractiveOutletValveParameterMenu\ExtractiveOutletValveParameterMenuBindings.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Trash\LevelControlParamMenu.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
       <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="Trash\PidParameterMenu View\PidParameterMenu.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="Trash\PidParameterMenu View\PidParameterMenuBindings.TcPOU">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Trash\PressureAndLevelControl\ReactorLevelAndPressureControl.TcPOU">
       <SubType>Code</SubType>
@@ -273,22 +287,31 @@
     <Folder Include="01. MAIN\01.5 SerialCommunicationHandler" />
     <Folder Include="01. MAIN\01.5 SerialCommunicationHandler\FUNs" />
     <Folder Include="01. MAIN\01.5 SerialCommunicationHandler\FBs" />
+    <Folder Include="01. MAIN\01.6 Safety\Handlers" />
     <Folder Include="01. MAIN\Common" />
     <Folder Include="01. MAIN\Common\FUNs" />
     <Folder Include="01. MAIN\Common\FBs" />
     <Folder Include="01. MAIN\Common\ITFs" />
+    <Folder Include="01. MAIN\01.6 Safety" />
     <Folder Include="02. MAIN_Fast\02.1 Background" />
     <Folder Include="03. VISUs\IMAGES" />
     <Folder Include="03. VISUs\03.01 MainScreen View" />
-    <Folder Include="03. VISUs\AutoExtractionParameterMenu View" />
-    <Folder Include="03. VISUs\ExtractiveOutletValveParameterMenu" />
-    <Folder Include="03. VISUs\03.02 Parameter View" />
+    <Folder Include="03. VISUs\03.03 Parameter View" />
+    <Folder Include="03. VISUs\03.02 Process View" />
     <Folder Include="03. VISUs\User Controls" />
-    <Folder Include="03. VISUs\PidParameterMenu View" />
     <Folder Include="04. GVLs" />
     <Folder Include="01. MAIN" />
     <Folder Include="02. MAIN_Fast" />
     <Folder Include="Trash" />
+    <Folder Include="Trash\AutoExtractionParameterMenu View">
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Folder>
+    <Folder Include="Trash\ExtractiveOutletValveParameterMenu">
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Folder>
+    <Folder Include="Trash\PidParameterMenu View">
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Folder>
     <Folder Include="Trash\PressureAndLevelControl" />
     <Folder Include="Trash\SerialCommunications" />
     <Folder Include="Trash\TemperatureControl" />

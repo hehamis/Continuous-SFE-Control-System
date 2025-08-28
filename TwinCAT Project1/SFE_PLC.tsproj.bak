@@ -145,6 +145,11 @@
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
+							<Name>GVL_IO.reactorLevelLow</Name>
+							<Comment><![CDATA[ Low slurry level]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>GVL_IO.reactorTemperatureUpper</Name>
 							<Comment><![CDATA[ Reactor temperature]]></Comment>
 							<Type>INT</Type>
@@ -153,11 +158,6 @@
 							<Name>GVL_IO.reactorTemperatureLower</Name>
 							<Comment><![CDATA[ Reactor temperature lower]]></Comment>
 							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.reactorLevelLow</Name>
-							<Comment><![CDATA[ Low slurry level]]></Comment>
-							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.reactorLevelHigh</Name>

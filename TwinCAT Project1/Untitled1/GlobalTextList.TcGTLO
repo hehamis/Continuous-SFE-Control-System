@@ -446,6 +446,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"0"</v>
+              <v n="TextDefault">"RESET"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"222"</v>
               <v n="TextDefault">"SAFETY RESET"</v>
               <l n="LanguageTexts" t="ArrayList" />
