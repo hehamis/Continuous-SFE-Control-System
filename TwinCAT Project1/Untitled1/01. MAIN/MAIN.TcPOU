@@ -20,8 +20,11 @@ DataAcquisition();
 VariablePersistence();
 // Serial communications
 SerialCommunicationHandler();
+// Safety
+Safety();
 
 MainScreenBindings();
+ProcessViewBindings();
 ParameterViewBindings();
 //PidParameterMenuBindings();
 //AutoExtractionParameterMenuBindings();
@@ -33,7 +36,9 @@ ParameterViewBindings();
       <LineId Id="193" Count="0" />
       <LineId Id="234" Count="0" />
       <LineId Id="194" Count="5" />
+      <LineId Id="262" Count="1" />
       <LineId Id="201" Count="1" />
+      <LineId Id="261" Count="0" />
       <LineId Id="256" Count="0" />
       <LineId Id="246" Count="0" />
       <LineId Id="245" Count="0" />
