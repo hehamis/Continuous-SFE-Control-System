@@ -4,269 +4,87 @@
     <Declaration><![CDATA[PROGRAM MainScreenBindings
 VAR
 	PercentageLabel_Invisible : BOOL;
-	ReactorLowerTemperatureTextField_TextVariable : INT;
-	UpperTemperatureTextField_TextVariable : INT;
 	ReactorTemperatureSetpointTextField_TextVariable : INT;
 	RectorTemperatureControlModeButton_ToggleVariable : BOOL;
-	
-	ReactorUpperTemperatureTextField_TextVariable : INT;
 	RectorTemperatureControlModeButton_TextVariable : STRING; 
-	
-	SlurryOutValveLamp_Variable : BOOL;
-	
 	ReactorTemperatureControlPercentageTextField_TextVariable : INT;
 	ReactorTemperatureControlPercentageTextField_Invisible : BOOL;
-	ReactorTemperatureContactorButton_ToggleColor : BOOL;
-	ReactorTemperatureContactorButton_Invisible : BOOL;
-	ReactorTemperatureContactorButton_ToggleVariable : BOOL;
-	PidParamMenuButton_ToggleVariable : BOOL;
 	PidParamMenuButton_Invisible : BOOL;
-	PidParamMenuFrame_Invisible : BOOL;
-	ReactorTemperatureContactorClosedLine_Invisible : BOOL;
-	ReactorTemperatureContactorOpenLine_Invisible : BOOL;
-	ReactorTemperatureContactorLamp_Variable : BOOL;
-	ReactorBackgroundRectangle_ToggleColor : BOOL;
-	ReactorUpperUpperLevelReactangle_Invisible : BOOL;
-	ReactorUpperLevelRectangle_Invisible : BOOL;
-	ReactorLowerLevelReactangle_Invisible : BOOL;
-	ReactorUpperLevelLamp_Variable : BOOL;
-	ReactorLowerLevelLamp : BOOL;
-	SlurryInValveOpenTimeTextField_TextVariable : INT;
-	SlurryInValveClosedTimeTextField_TextVariable : INT;
-	SlurryInValveFrame_valve_toggleColor : BOOL;
-	SlurryInValveFrame_valve_tapVariable : BOOL;
-	SlurryInValveLamp_Variable : BOOL;
-	SlurryInValveControlModeButton_ToggleColor : BOOL;
-	SlurryInValveControlModeButton_ToggleVariable : BOOL;
-	SlurryInValveControlModeButton_TextVariable : STRING;
-	SlurryInLine1_ToggleColor : BOOL;
-	SlurryInLine2_ToggleColor : BOOL;
-
-	SlurryInValveControlModeButton_Invisible : BOOL;
-	ReactorPressureTextField_TextVariable : INT;
-	SlurryOutValveFrame_valve_toggleColor : BOOL;
-	SlurryOutValveFrame_valve_tapVariable : BOOL;
-	SlurryInArrow_ToggleColor : BOOL;
-	SlurryOutLine1_ToggleColor : BOOL;
-	SlurryOutLine2_ToggleColor : BOOL;
-	SlurryOutLine3_ToggleColor : BOOL;
-	SlurryOutTriangle_ToggleColor : BOOL;
-	SlurryOutValveButton_Invisible : BOOL;
-	SlurryOutValveButton_TextVariable : STRING;
-	SlurryOutValveButton_ToggleColor : BOOL;
-	SlurryOutValveButton_ToggleVariable : BOOL;
-	
-	SlurryOutControlModeButton_TextVariable : STRING;
-	SlurryOutControlModeButton_ToggleColor  : BOOL;
-	SlurryOutControlModeButton_ToggleVariable : BOOL;
-	
+	ProcessViewFrame_SwtichFrameVariable : INT;
 	StartMatlabButton_TextVariable : STRING;
 	StartMatlabButton_Color : DWORD;
 	StartMatlabButton_DeactivateInputs  : BOOL;
 	StartMatlabButton_ToggleVariable : BOOL;
-	
 	ProgramNamePrefixTextField_TextVariable : STRING;
-	PreHeaterTemperatureTextField_TextVariable : DINT;
 	PreHeaterTemperatureSetpointTextField_TextVariable : DINT;
-	Co2FlowTextField_TextVariable : DINT;
-	Co2PressureTextField_TextVariable : DINT;
 	Co2PressureSetpointTextField_TextVariable : DINT;
-	SeperatorTemperatureTextField_TextVariable : DINT;
 	SeparatorTemperatureSetpointTextField_TextVariable : DINT;
-	
 	PressureIntervals : ST_PressureIntervals;
-	
 	serialCommReadData : ST_SerialCommReadData;
 	serialCommSetpoints : ST_SerialCommSetpoints;
 	SeparatorTemperatureSetpointTextField_WriteAvariable : DINT;
 	PreHeaterTemperatureSetpointTextField_WriteAvariable : DINT;
 	Co2PressureSetpointTextField_WriteAvariable : DINT;
-	
-	ExtractiveOutletOnOff_Valve_ToggleColor : BOOL;
-	ExtractiveOutletOnOff_Valve_TapVariable : BOOL;
-	ExtractiveOutOnOffValveButton_ToggleVariable : BOOL;
-	ExtractiveOutOnOffValveButton_ToggleColor : BOOL;
 	ExtractiveOutOnOffValveButton_TextVariable : STRING;
-	ExtractiveOutOnOffValveLamp_variable : BOOL;
-	ExtractiveOutLines_ToggleColor : BOOL;
-	
-	ExtractiveOutletValveCalibrateButton_TapVariable : BOOL;
-	
-	ExtractiveOutletValveSlider_Variable : INT;
-	ExtractiveOutletValveSlider_DisableInputs : BOOL;
-	ExtractiveOutletValveCommands : ST_ExtractiveControlValveCommands;
 	autoExtractionParameterMenuButton_ToggleVariable : BOOL;
 	autoExtractionParameterMenuFrame_Invisible : BOOL;
-	
 	StartAutomaticExtractionButton_ToggleVariable : BOOL;
 	StartAutomaticExtractionButton_DeactivateInputs : BOOL;
-	ControlValveOpeningPercentageTextBox_TextVariable : DINT;
-	
-	ExtractiveOutletValveSlider_Invisible : BOOL;
-	
-	StateLabel_TextVariable : STRING;
-	ControlValveParameterMenuFrame_Invisible : BOOL;	
-	ControlValveParameterMenuButton_ToggleVariable : BOOL;
-	
 	CalibrationDoneIndicatorRectangle_ToggleColor : BOOL;
 	ReactorHeatingActiveIndicatorRectangle_ToggleColor : BOOL;
 	Co2PumpRunningIndicatorRectangle_ToggleColor : BOOL;
-	
 	ParameterViewFrame_Invisible : BOOL;
-END_VAR
-VAR PERSISTENT
-	UpperIntervalSlurryOnUpperTextField_TextVariable : INT;
-	UpperIntervalSlurryOnNotUpperTextField_TextVariable : INT;
-	UpperIntervalSlurryOffUpperTextField_TextVariable : INT;
-	LowerIntervalSlurryOnUpperTextField_TextVariable : INT;
-	LowerIntervalSlurryOnNotUpperTextField_TextVariable : INT;
-	LowerIntervalSlurryOffUpperTextField_TextVariable : INT;	
-
 	StopAutomaticExtractionButton_DeactivateInputs : BOOL;
+	StopButtonEllipse_Tapvariable : BOOL;
+	ResetButtonRectangle_Tapvariable : BOOL;
+	StopButtonEllipse_ToggleColor : BOOL;
+	ResetButtonRectangle_Invisible : BOOL;
 END_VAR
+
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF RectorTemperatureControlModeButton_ToggleVariable THEN
+      <ST><![CDATA[
+// ReactorTemoeratureControlModeButton
+IF RectorTemperatureControlModeButton_ToggleVariable THEN
 	RectorTemperatureControlModeButton_TextVariable := 'AUTO';
 ELSE
 	RectorTemperatureControlModeButton_TextVariable := 'MAN';
 END_IF
-
-(*** Outlet valve HMI state ***)
-IF GVL_IO.reactorOutletValve = 1 THEN
-	//LevelControl.sLevelValveState := 'CLOSE';
-	MainScreenBindings.SlurryOutValveButton_TextVariable := 'CLOSE';
-//	sLevelValveState := 'CLOSE';
-END_IF
-IF GVL_IO.reactorOutletValve = 0 THEN
-	//LevelControl.sLevelValveState := 'OPEN';
-	MainScreenBindings.SlurryOutValveButton_TextVariable := 'OPEN';
-//	sLevelValveState := 'OPEN';
-END_IF
-
-(*** Inlet valve HMI state ***)
-IF NOT GVL_IO.reactorInletValve THEN
-	//PressureControl.sFillingValveState := 'OPEN';
-	MainScreenBindings.SlurryInValveControlModeButton_TextVariable := 'OPEN';
-//	sFillingValveState := 'OPEN';
-ELSE
-	//PressureControl.sFillingValveState := 'CLOSE';
-	MainScreenBindings.SlurryInValveControlModeButton_TextVariable := 'CLOSE';
-//	sFillingValveState := 'CLOSE';
-END_IF
-
-
-
-
-PercentageLabel_Invisible := RectorTemperatureControlModeButton_ToggleVariable;//ReactorTemperatureControl.bTemperatureControlSwitch;
-ReactorLowerTemperatureTextField_TextVariable := ReactorTemperature.lowerTemperature;//ReactorTemperatureControl.iTemperatureDisplayValue;
-ReactorUpperTemperatureTextField_TextVariable := ReactorTemperature.upperTemperature;//ReactorTemperatureControl.iTemperatureLowerDisplayValue;
-ReactorTemperature.temperatureSetpoint := ReactorTemperatureSetpointTextField_TextVariable;//ReactorTemperatureSetpointTextField_TextVariable := ReactorTemperature.temperatureSetpoint;//ReactorTemperatureControl.iTemperatureSetpoint;
-//RectorTemperatureControlModeButton_TextVariable := ReactorTemperatureControl.sTemperatureControlState;
 ReactorTemperature.autoControlSelected := RectorTemperatureControlModeButton_ToggleVariable;//ReactorTemperatureControl.bTemperatureControlSwitch := RectorTemperatureControlModeButton_ToggleVariable;// OUTPUT
+
+// PercentageLabel
+PercentageLabel_Invisible := RectorTemperatureControlModeButton_ToggleVariable;//ReactorTemperatureControl.bTemperatureControlSwitch;
+
+//ReactorTemperatureSetpointTextField
+ReactorTemperature.temperatureSetpoint := ReactorTemperatureSetpointTextField_TextVariable;//ReactorTemperatureSetpointTextField_TextVariable := ReactorTemperature.temperatureSetpoint;//ReactorTemperatureControl.iTemperatureSetpoint;
+
+//ReactorTemperatureControlPercentageTextField
 ReactorTemperature.manualControlPercentage := ReactorTemperatureControlPercentageTextField_TextVariable;//ReactorTemperatureControlPercentageTextField_TextVariable := ReactorTemperature.manualControlPercentage;//ReactorTemperatureControl.iTemperatureControlPercentage;
 ReactorTemperatureControlPercentageTextField_Invisible := RectorTemperatureControlModeButton_ToggleVariable; //ReactorTemperatureControl.bTemperatureControlSwitch;
-ReactorTemperatureContactorButton_Invisible := ReactorTemperatureControlPercentageTextField_TextVariable > 0 OR RectorTemperatureControlModeButton_ToggleVariable; //ReactorTemperatureControl.iTemperatureControlPercentage > 0 OR ReactorTemperatureControl.bTemperatureControlSwitch= 1;
-ReactorTemperature.temperatureContactorCommand := ReactorTemperatureContactorButton_ToggleVariable;//GVL_IO.reactorTemperatureContactor := ReactorTemperatureContactorButton_ToggleVariable;// OUTPUT
+
 //ReactorTemperatureControl.bPIDcontrolParameterMenu := PidParamMenuButton_ToggleVariable;// OUTPUT
 PidParamMenuButton_Invisible := RectorTemperatureControlModeButton_ToggleVariable;//ReactorTemperatureControl.bTemperatureControlSwitch;
-PidParamMenuFrame_Invisible := NOT PidParamMenuButton_ToggleVariable OR RectorTemperatureControlModeButton_ToggleVariable;//NOT PidParamMenuButton_ToggleVariable OR ReactorTemperatureControl.bTemperatureControlSwitch;//NOT ReactorTemperatureControl.bPIDcontrolParameterMenu OR ReactorTemperatureControl.bTemperatureControlSwitch;
-ReactorTemperatureContactorClosedLine_Invisible := NOT GVL_IO.reactorTemperatureContactor;
-ReactorTemperatureContactorOpenLine_Invisible := GVL_IO.reactorTemperatureContactor;
-ReactorTemperatureContactorLamp_Variable := GVL_IO.reactorTemperatureContactor;
-ReactorBackgroundRectangle_ToggleColor := (RectorTemperatureControlModeButton_ToggleVariable) 
-										OR (ReactorTemperatureControlPercentageTextField_TextVariable > 0) 
-										OR ((ReactorTemperatureControlPercentageTextField_TextVariable = 0) AND (GVL_IO.reactorTemperatureContactor = 1));//(ReactorTemperatureControl.bTemperatureControlSwitch) OR (ReactorTemperatureControl.iTemperatureControlPercentage > 0) OR ((ReactorTemperatureControl.iTemperatureControlPercentage = 0) AND (GVL_IO.reactorTemperatureContactor = 1));
-ReactorUpperUpperLevelReactangle_Invisible := (NOT GVL_IO.reactorLevelHigherHigh);
-ReactorUpperLevelRectangle_Invisible := (NOT GVL_IO.reactorLevelHigh) OR (GVL_IO.reactorLevelHigherHigh);
-ReactorLowerLevelReactangle_Invisible := (NOT GVL_IO.reactorLevelLow);//s) OR (GVL_IO.reactorLevelLow);
-ReactorUpperLevelLamp_Variable := GVL_IO.reactorLevelHigh;
-ReactorLowerLevelLamp := GVL_IO.reactorLevelLow;
-ReactorLevelAndPressure.fillingValveOpenInterval := SlurryInValveOpenTimeTextField_TextVariable;
-ReactorLevelAndPressure.fillingValveCloseInterval := SlurryInValveClosedTimeTextField_TextVariable;
-SlurryInValveFrame_valve_toggleColor := GVL_IO.reactorInletValve;
-//GVL_IO.reactorInletValve := SlurryInValveFrame_valve_tapVariable; // OUTPUT
-SlurryInValveLamp_Variable := GVL_IO.reactorInletValve;
-SlurryInValveControlModeButton_ToggleColor := GVL_IO.reactorInletValve;
-//SlurryInValveControlModeButton_TextVariable := ReactorLevelAndPressure.sFillingValveState;
-ReactorLevelAndPressure.SlurryInValveCommand := SlurryInValveControlModeButton_ToggleVariable;
-SlurryInLine1_ToggleColor := GVL_IO.reactorInletValve;
-SlurryInLine2_ToggleColor := GVL_IO.reactorInletValve;
 
-SlurryInValveControlModeButton_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;//ReactorLevelAndPressure.sLevelControlState = 'AUTO';
-ReactorPressureTextField_TextVariable := ReactorLevelAndPressure.iPressureScaledValue;
-PressureIntervals.PressureUpperInterVal_1 := UpperIntervalSlurryOnUpperTextField_TextVariable;
-PressureIntervals.PressureUpperInterVal_2 := UpperIntervalSlurryOnNotUpperTextField_TextVariable;
-PressureIntervals.PressureUpperInterVal_3 := UpperIntervalSlurryOffUpperTextField_TextVariable;
-PressureIntervals.PressureLowerInterval_1 := LowerIntervalSlurryOnUpperTextField_TextVariable;
-PressureIntervals.PressureLowerInterval_2 := LowerIntervalSlurryOnNotUpperTextField_TextVariable;
-PressureIntervals.PressureLowerInterval_3 := LowerIntervalSlurryOffUpperTextField_TextVariable;
-ReactorLevelAndPressure.PressureIntervals := PressureIntervals;
-
-SlurryOutValveFrame_valve_toggleColor := GVL_IO.reactorOutletValve;
-//GVL_IO.reactorOutletValve := SlurryOutValveFrame_valve_tapVariable;// OUTPUT
-SlurryInArrow_ToggleColor := GVL_IO.reactorInletValve;
-SlurryOutLine1_ToggleColor := GVL_IO.reactorOutletValve;
-SlurryOutLine2_ToggleColor := GVL_IO.reactorOutletValve;
-SlurryOutLine3_ToggleColor := GVL_IO.reactorOutletValve;
-SlurryOutTriangle_ToggleColor := GVL_IO.reactorOutletValve;
-SlurryOutValveLamp_Variable := GVL_IO.reactorOutletValve;
-SlurryOutValveButton_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;//ReactorLevelAndPressure.sLevelControlState = 'AUTO';
-//SlurryOutValveButton_TextVariable := ReactorLevelAndPressure.sLevelValveState;
-SlurryOutValveButton_ToggleColor := GVL_IO.reactorOutletValve;
-ReactorLevelAndPressure.SlurryOutValveCommand := SlurryOutValveButton_ToggleVariable;// OUTPUT
-
-SlurryOutControlModeButton_TextVariable := ReactorLevelAndPressure.sLevelControlState;
-SlurryOutControlModeButton_ToggleColor := SlurryOutControlModeButton_ToggleVariable;//ReactorLevelAndPressure.bLevelControlSwitch;
-ReactorLevelAndPressure.bLevelControlSwitch := SlurryOutControlModeButton_ToggleVariable; // TARKISTA? // OUTPUT
-
+// StartMatlabButton
 StartMatlabButton_TextVariable := RunMATLAB.sMatlabRunningState;
 StartMatlabButton_Color := RunMATLAB.dMatlabBtnColor;
 StartMatlabButton_DeactivateInputs := RunMATLAB.dMatlabBtnColor = 16#FFFFFF00;
 RunMATLAB.MatlabBtn := StartMatlabButton_ToggleVariable; // OUTPUT
+
+// ProgramNamePrefixTextField
 GVL_OPC.OPC_ProgramNamePrefix := ProgramNamePrefixTextField_TextVariable;  // OUTPUT
 
+// Setpoints via serial comm
 serialCommReadData := SerialCommunicationHandler.SerialCommReadData;
-
 serialCommSetpoints.separatorTemperatureSetSetpoint := SeparatorTemperatureSetpointTextField_WriteAvariable;
 serialCommSetpoints.preHeaterTemperatureSetSetpoint := PreHeaterTemperatureSetpointTextField_WriteAvariable;
 serialCommSetpoints.pumpingPressureSetSetpoint := Co2PressureSetpointTextField_WriteAvariable;
-
 SerialCommunicationHandler.SerialCommSetpoints := serialCommSetpoints; 
-
-
-PreHeaterTemperatureTextField_TextVariable := serialCommReadData.preHeaterTemperatureMeasurement;
 PreHeaterTemperatureSetpointTextField_TextVariable := serialCommReadData.preHeaterTemperatureSetpoint;
-Co2FlowTextField_TextVariable := serialCommReadData.flowMeasurement;
-Co2PressureTextField_TextVariable := serialCommReadData.pumpingPressureMeasurement;
 Co2PressureSetpointTextField_TextVariable := serialCommReadData.pumpingPressureSetpoint;
-SeperatorTemperatureTextField_TextVariable := serialCommReadData.separatorTemperatureMeasurement;
 SeparatorTemperatureSetpointTextField_TextVariable := serialCommReadData.separatorTemperatureSetpoint;
 
-PidParamMenuFrame_Invisible := NOT PidParamMenuButton_ToggleVariable OR RectorTemperatureControlModeButton_ToggleVariable;//NOT PidParamMenuButton_ToggleVariable OR ReactorTemperatureControl.bTemperatureControlSwitch;//NOT ReactorTemperatureControl.bPIDcontrolParameterMenu OR ReactorTemperatureControl.bTemperatureControlSwitch;
-
-ExtractiveOutletOnOff_Valve_ToggleColor := GVL_IO.extractiveOutletOnOffValve;
-//ReactorLevelAndPressure.ExtractiveOutOnOffValveCommand := ExtractiveOutletOnOff_Valve_TapVariable;
-ReactorLevelAndPressure.ExtractiveOutOnOffValveCommand := ExtractiveOutOnOffValveButton_ToggleVariable ;
-ExtractiveOutOnOffValveButton_ToggleColor := GVL_IO.extractiveOutletOnOffValve; 
-ExtractiveOutOnOffValveLamp_variable := GVL_IO.extractiveOutletOnOffValve;
-ExtractiveOutLines_ToggleColor  := GVL_IO.extractiveOutletOnOffValve;
-IF ExtractiveOutOnOffValveButton_ToggleVariable THEN
-	ExtractiveOutOnOffValveButton_TextVariable := 'CLOSE';
-ELSE
-	ExtractiveOutOnOffValveButton_TextVariable := 'OPEN';
-END_IF
-
-ExtractiveOutletValveCommands.calibrate := ExtractiveOutletValveCalibrateButton_TapVariable;
-ExtractiveOutletValveCommands.openPercentage := ExtractiveOutletValveSlider_Variable*10;
-IF ExtractiveOutletValveCommands.calibrate THEN
-	ExtractiveOutletValveSlider_Variable := 0;
-END_IF
-ExtractiveOutletValveSlider_DisableInputs := ReactorLevelAndPressure.controlValveOpeningOrClosing OR StartAutomaticExtractionButton_ToggleVariable;
-ExtractiveOutletValveSlider_Invisible := StartAutomaticExtractionButton_ToggleVariable;
-
-ReactorLevelAndPressure.ExtractiveControlValveCommands := ExtractiveOutletValveCommands;
-
+// StartAutomaticExtractionButton
 ReactorLevelAndPressure.StartAutomaticExtraction := StartAutomaticExtractionButton_ToggleVariable
 													AND ReactorLevelAndPressure.CalibrateDone 
 													AND NOT ReactorHeatingActiveIndicatorRectangle_ToggleColor
@@ -276,45 +94,84 @@ IF NOT (ReactorLevelAndPressure.CalibrateDone AND NOT ReactorHeatingActiveIndica
 		AND NOT Co2PumpRunningIndicatorRectangle_ToggleColor) THEN
 	StartAutomaticExtractionButton_ToggleVariable := FALSE;
 END_IF
-
 StartAutomaticExtractionButton_DeactivateInputs := StartAutomaticExtractionButton_ToggleVariable 
 													OR NOT ReactorLevelAndPressure.CalibrateDone 
 													OR ReactorHeatingActiveIndicatorRectangle_ToggleColor
 													OR Co2PumpRunningIndicatorRectangle_ToggleColor;
+
+// StopAutomaticExtractionButton
 StopAutomaticExtractionButton_DeactivateInputs := NOT StartAutomaticExtractionButton_ToggleVariable 
 													OR NOT ReactorLevelAndPressure.CalibrateDone 
 													OR ReactorHeatingActiveIndicatorRectangle_ToggleColor
 													OR Co2PumpRunningIndicatorRectangle_ToggleColor; 
 
-(** Auto extraction parameter menu **)
+// autoExtractionParameterMenuFrame
 autoExtractionParameterMenuFrame_Invisible := NOT autoExtractionParameterMenuButton_ToggleVariable;
 
-ControlValveOpeningPercentageTextBox_TextVariable := ReactorLevelAndPressure.ControlValveOpening;
 
-ControlValveParameterMenuFrame_Invisible := NOT ControlValveParameterMenuButton_ToggleVariable;
-
-StateLabel_TextVariable := TO_STRING(ReactorLevelAndPressure.automaticExtractionState);
-
+// CalibrationDoneIndicatiorRectangle
 CalibrationDoneIndicatorRectangle_ToggleColor := NOT ReactorLevelAndPressure.CalibrateDone;
-ReactorHeatingActiveIndicatorRectangle_ToggleColor := NOT (MainScreenBindings.ReactorTemperatureContactorLamp_Variable 
+
+// ReactorHeatingActiveIndicatorRectangle
+ReactorHeatingActiveIndicatorRectangle_ToggleColor := NOT (ProcessViewBindings.ReactorTemperatureContactorLamp_Variable 
 														OR MainScreenBindings.RectorTemperatureControlModeButton_ToggleVariable 
 														OR MainScreenBindings.ReactorTemperatureControlPercentageTextField_TextVariable > 0);
+// Co2PumpRunningIndicatorRectangle
 Co2PumpRunningIndicatorRectangle_ToggleColor := NOT (serialCommReadData.pumpingPressureSetpoint >= 70);
 
-(** Parameter view frame **)
-ParameterViewFrame_Invisible := NOT autoExtractionParameterMenuButton_ToggleVariable;]]></ST>
+// ProcessViewFrame
+IF ProcessViewBindings.autoExtractionParameterMenuButton_ToggleVariable THEN
+	ProcessViewFrame_SwtichFrameVariable := 1;
+ELSE
+	ProcessViewFrame_SwtichFrameVariable := 0;
+END_IF
+
+// StopButtonEllipse_
+Safety.buttonPressed := StopButtonEllipse_TapVariable;
+StopButtonEllipse_ToggleColor := Safety.stop;
+
+//  ResetButtonRectangle
+Safety.resetPressed := ResetButtonRectangle_TapVariable;
+ResetButtonRectangle_Invisible := NOT Safety.stop;
+
+// Reset setpoints if stop button pressed
+IF Safety.stop THEN
+	ReactorTemperatureSetpointTextField_TextVariable := 0;
+	SeparatorTemperatureSetpointTextField_WriteAvariable := 0;
+	PreHeaterTemperatureSetpointTextField_WriteAvariable := 0;
+	Co2PressureSetpointTextField_WriteAvariable := 0;
+	RectorTemperatureControlModeButton_ToggleVariable := FALSE;
+	ReactorTemperatureControlPercentageTextField_TextVariable := 0;
+END_IF
+
+
+]]></ST>
     </Implementation>
     <LineIds Name="MainScreenBindings">
-      <LineId Id="909" Count="128" />
-      <LineId Id="802" Count="0" />
-      <LineId Id="1136" Count="0" />
-      <LineId Id="1135" Count="0" />
-      <LineId Id="1241" Count="0" />
-      <LineId Id="1349" Count="2" />
-      <LineId Id="1347" Count="0" />
-      <LineId Id="1243" Count="0" />
-      <LineId Id="1681" Count="0" />
-      <LineId Id="1242" Count="0" />
+      <LineId Id="2712" Count="0" />
+      <LineId Id="2562" Count="0" />
+      <LineId Id="909" Count="4" />
+      <LineId Id="2716" Count="0" />
+      <LineId Id="2713" Count="0" />
+      <LineId Id="940" Count="1" />
+      <LineId Id="2714" Count="0" />
+      <LineId Id="943" Count="1" />
+      <LineId Id="2715" Count="0" />
+      <LineId Id="945" Count="0" />
+      <LineId Id="947" Count="1" />
+      <LineId Id="950" Count="2" />
+      <LineId Id="1001" Count="5" />
+      <LineId Id="2720" Count="0" />
+      <LineId Id="2719" Count="0" />
+      <LineId Id="1007" Count="0" />
+      <LineId Id="2721" Count="0" />
+      <LineId Id="1008" Count="1" />
+      <LineId Id="1011" Count="2" />
+      <LineId Id="1015" Count="0" />
+      <LineId Id="1019" Count="0" />
+      <LineId Id="1022" Count="0" />
+      <LineId Id="1024" Count="0" />
+      <LineId Id="2722" Count="0" />
       <LineId Id="1456" Count="0" />
       <LineId Id="1455" Count="0" />
       <LineId Id="2286" Count="1" />
@@ -322,29 +179,48 @@ ParameterViewFrame_Invisible := NOT autoExtractionParameterMenuButton_ToggleVari
       <LineId Id="2295" Count="1" />
       <LineId Id="2294" Count="0" />
       <LineId Id="2298" Count="1" />
-      <LineId Id="2293" Count="0" />
       <LineId Id="1794" Count="0" />
       <LineId Id="2159" Count="1" />
       <LineId Id="2156" Count="0" />
+      <LineId Id="2724" Count="0" />
+      <LineId Id="2723" Count="0" />
       <LineId Id="2289" Count="2" />
       <LineId Id="2288" Count="0" />
       <LineId Id="1563" Count="0" />
       <LineId Id="1562" Count="0" />
       <LineId Id="1239" Count="0" />
       <LineId Id="1674" Count="0" />
-      <LineId Id="1673" Count="0" />
-      <LineId Id="1910" Count="0" />
-      <LineId Id="1909" Count="0" />
-      <LineId Id="2029" Count="0" />
       <LineId Id="2026" Count="0" />
       <LineId Id="2151" Count="0" />
       <LineId Id="2150" Count="0" />
+      <LineId Id="2726" Count="0" />
+      <LineId Id="2725" Count="0" />
       <LineId Id="2152" Count="0" />
       <LineId Id="2157" Count="1" />
+      <LineId Id="2727" Count="0" />
       <LineId Id="2154" Count="0" />
       <LineId Id="2025" Count="0" />
       <LineId Id="1238" Count="0" />
+      <LineId Id="2434" Count="3" />
+      <LineId Id="2431" Count="0" />
+      <LineId Id="2563" Count="0" />
       <LineId Id="2282" Count="0" />
+      <LineId Id="2565" Count="0" />
+      <LineId Id="2729" Count="0" />
+      <LineId Id="2734" Count="0" />
+      <LineId Id="2728" Count="0" />
+      <LineId Id="2570" Count="0" />
+      <LineId Id="2735" Count="0" />
+      <LineId Id="2731" Count="0" />
+      <LineId Id="2730" Count="0" />
+      <LineId Id="2572" Count="1" />
+      <LineId Id="2575" Count="2" />
+      <LineId Id="2585" Count="0" />
+      <LineId Id="2587" Count="0" />
+      <LineId Id="2574" Count="0" />
+      <LineId Id="2583" Count="0" />
+      <LineId Id="2569" Count="0" />
+      <LineId Id="2428" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

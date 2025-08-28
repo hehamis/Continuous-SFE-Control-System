@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="ProcessViewBindings" Id="{05fb8a5e-9220-453a-b57f-12f2d1eedc57}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM ProcessViewBindings
+VAR
+	ReactorLowerTemperatureTextField_TextVariable : INT;
+	
+	ReactorUpperTemperatureTextField_TextVariable : INT;
+	
+	ReactorTemperatureContactorButton_Invisible : BOOL;
+	ReactorTemperatureContactorButton_ToggleVariable : BOOL;
+
+	ReactorTemperatureContactorClosedLine_Invisible : BOOL;
+	ReactorTemperatureContactorOpenLine_Invisible : BOOL;
+	ReactorTemperatureContactorLamp_Variable : BOOL;
+	ReactorBackgroundRectangle_ToggleColor : BOOL;
+
+
+
+	ReactorUpperLevelLamp_Variable : BOOL;
+	ReactorLowerLevelLamp : BOOL;
+
+
+	SlurryInValveFrame_valve_toggleColor : BOOL;
+	SlurryInValveFrame_valve_tapVariable : BOOL;
+
+	SlurryInValveControlModeButton_ToggleColor : BOOL;
+	SlurryInValveControlModeButton_ToggleVariable : BOOL;
+	SlurryInValveControlModeButton_TextVariable : STRING;
+
+	SlurryInValveControlModeButton_Invisible : BOOL;
+	ReactorPressureTextField_TextVariable : INT;
+	SlurryOutValveFrame_valve_toggleColor : BOOL;
+	SlurryOutValveFrame_valve_tapVariable : BOOL;
+	SlurryInArrow_ToggleColor : BOOL;
+	SlurryOutLine1_ToggleColor : BOOL;
+
+
+	SlurryOutValveButton_Invisible : BOOL;
+	SlurryOutValveButton_TextVariable : STRING;
+	SlurryOutValveButton_ToggleColor : BOOL;
+	SlurryOutValveButton_ToggleVariable : BOOL;
+	
+	PreHeaterTemperatureTextField_TextVariable : DINT;
+	Co2FlowTextField_TextVariable : DINT;
+	Co2PressureTextField_TextVariable : DINT;
+
+	SeperatorTemperatureTextField_TextVariable : DINT;
+	
+	PressureIntervals : ST_PressureIntervals;
+	
+	serialCommReadData : ST_SerialCommReadData;
+
+	ExtractiveOutletOnOff_Valve_ToggleColor : BOOL;
+	ExtractiveOutletOnOff_Valve_TapVariable : BOOL;
+	ExtractiveOutletOnOff_Valve_Invisible : BOOL;
+	ExtractiveOutOnOffValveButton_ToggleVariable : BOOL;
+	ExtractiveOutOnOffValveButton_ToggleColor : BOOL;
+	ExtractiveOutOnOffValveButton_TextVariable : STRING;
+	ExtractiveOutLines_ToggleColor : BOOL;
+	
+	ExtractiveOutletValveCalibrateButton_TapVariable : BOOL;
+	
+	ExtractiveOutletValveSlider_Variable : INT;
+	ExtractiveOutletValveSlider_DisableInputs : BOOL;
+	ExtractiveOutletValveCommands : ST_ExtractiveControlValveCommands;
+	autoExtractionParameterMenuButton_ToggleVariable : BOOL;
+	
+	ControlValveOpeningPercentageTextBox_TextVariable : DINT;
+	
+	ExtractiveOutletValveSlider_Invisible : BOOL;
+	
+	StateLabel_TextVariable : STRING;
+
+
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+IF GVL_IO.reactorOutletValve = 1 THEN
+	SlurryOutValveButton_TextVariable := 'CLOSE';
+END_IF
+IF GVL_IO.reactorOutletValve = 0 THEN
+	SlurryOutValveButton_TextVariable := 'OPEN';
+END_IF
+
+IF NOT GVL_IO.reactorInletValve THEN
+	SlurryInValveControlModeButton_TextVariable := 'OPEN';
+ELSE
+	SlurryInValveControlModeButton_TextVariable := 'CLOSE';
+END_IF
+
+// ReactorLowerTemperatureTextField
+ReactorLowerTemperatureTextField_TextVariable := ReactorTemperature.lowerTemperature;//ReactorTemperatureControl.iTemperatureDisplayValue;
+
+// ReactorUpperTemperatureTextField
+ReactorUpperTemperatureTextField_TextVariable := ReactorTemperature.upperTemperature;//ReactorTemperatureControl.iTemperatureLowerDisplayValue;
+
+// ReactorTemperatureContactorButton
+ReactorTemperature.temperatureContactorCommand := ReactorTemperatureContactorButton_ToggleVariable;//GVL_IO.reactorTemperatureContactor := ReactorTemperatureContactorButton_ToggleVariable;// OUTPUT
+
+// ReactorTemperatureContactorClosedLine
+ReactorTemperatureContactorClosedLine_Invisible := NOT GVL_IO.reactorTemperatureContactor;
+
+// ReactorTemperatureContactorOpenLine
+ReactorTemperatureContactorOpenLine_Invisible := GVL_IO.reactorTemperatureContactor;
+
+// ReactorTemperatureContactorLamp
+ReactorTemperatureContactorLamp_Variable := GVL_IO.reactorTemperatureContactor;
+
+// ReactorUpperLevelLamp
+ReactorUpperLevelLamp_Variable := GVL_IO.reactorLevelHigh;
+
+// ReactorLowerLevelLamp
+ReactorLowerLevelLamp := GVL_IO.reactorLevelLow;
+
+// SlurryInValveFrame
+SlurryInValveFrame_valve_toggleColor := GVL_IO.reactorInletValve;
+
+// SlurryInValveControlModeButton
+SlurryInValveControlModeButton_ToggleColor := GVL_IO.reactorInletValve;
+ReactorLevelAndPressure.SlurryInValveCommand := SlurryInValveControlModeButton_ToggleVariable;
+SlurryInValveControlModeButton_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;//ReactorLevelAndPressure.sLevelControlState = 'AUTO';
+
+// ReactorPressureTextField
+ReactorPressureTextField_TextVariable := ReactorLevelAndPressure.iPressureScaledValue;
+
+ReactorLevelAndPressure.PressureIntervals := PressureIntervals;
+
+// SlurryOutValveFrame_valve
+SlurryOutValveFrame_valve_toggleColor := GVL_IO.reactorOutletValve;
+
+// SlurryInArrow
+SlurryInArrow_ToggleColor := GVL_IO.reactorInletValve;
+
+// SlurryOutLine1
+SlurryOutLine1_ToggleColor := GVL_IO.reactorOutletValve;
+
+// SlurryOutValveButton
+SlurryOutValveButton_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;//ReactorLevelAndPressure.sLevelControlState = 'AUTO';
+SlurryOutValveButton_ToggleColor := GVL_IO.reactorOutletValve;
+ReactorLevelAndPressure.SlurryOutValveCommand := SlurryOutValveButton_ToggleVariable;// OUTPUT
+
+// Measurements via serial comm
+serialCommReadData := SerialCommunicationHandler.SerialCommReadData;
+PreHeaterTemperatureTextField_TextVariable := serialCommReadData.preHeaterTemperatureMeasurement;
+Co2FlowTextField_TextVariable := serialCommReadData.flowMeasurement;
+Co2PressureTextField_TextVariable := serialCommReadData.pumpingPressureMeasurement;
+SeperatorTemperatureTextField_TextVariable := serialCommReadData.separatorTemperatureMeasurement;
+
+// ExtractiveOutletOnOff_Valve
+ExtractiveOutletOnOff_Valve_ToggleColor := GVL_IO.extractiveOutletOnOffValve;
+ExtractiveOutletOnOff_Valve_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;
+
+// ExtractiveOutOnOffValveButton
+ReactorLevelAndPressure.ExtractiveOutOnOffValveCommand := ExtractiveOutOnOffValveButton_ToggleVariable ;
+ExtractiveOutOnOffValveButton_ToggleColor := GVL_IO.extractiveOutletOnOffValve; 
+IF ExtractiveOutOnOffValveButton_ToggleVariable THEN
+	ExtractiveOutOnOffValveButton_TextVariable := 'CLOSE';
+ELSE
+	ExtractiveOutOnOffValveButton_TextVariable := 'OPEN';
+END_IF
+
+// ExtractiveOutLines
+ExtractiveOutLines_ToggleColor  := GVL_IO.extractiveOutletOnOffValve;
+
+// ExtractiveOutletValveCalibrateButton
+ExtractiveOutletValveCommands.calibrate := ExtractiveOutletValveCalibrateButton_TapVariable;
+
+// ExtractiveOutletValveSlider
+ExtractiveOutletValveCommands.openPercentage := ExtractiveOutletValveSlider_Variable*10;
+IF ExtractiveOutletValveCommands.calibrate THEN
+	ExtractiveOutletValveSlider_Variable := 0;
+END_IF
+ExtractiveOutletValveSlider_DisableInputs := ReactorLevelAndPressure.controlValveOpeningOrClosing OR MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;
+ExtractiveOutletValveSlider_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;
+
+// Send valve commands to controller
+ReactorLevelAndPressure.ExtractiveControlValveCommands := ExtractiveOutletValveCommands;
+
+// ControlValveOpeningPercentageTextBox
+ControlValveOpeningPercentageTextBox_TextVariable := ReactorLevelAndPressure.ControlValveOpening;
+
+// StateLabel
+StateLabel_TextVariable := TO_STRING(ReactorLevelAndPressure.automaticExtractionState);
+
+// Close all valves if stop initiated
+IF Safety.stop THEN
+	ExtractiveOutOnOffValveButton_ToggleVariable := FALSE;
+	SlurryInValveControlModeButton_ToggleVariable := FALSE;
+	 ExtractiveOutOnOffValveButton_ToggleVariable := FALSE;
+	ReactorTemperatureContactorButton_ToggleVariable := FALSE;
+END_IF
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="ProcessViewBindings">
+      <LineId Id="100" Count="1" />
+      <LineId Id="103" Count="0" />
+      <LineId Id="105" Count="1" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="112" Count="1" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="121" Count="1" />
+      <LineId Id="126" Count="1" />
+      <LineId Id="565" Count="1" />
+      <LineId Id="128" Count="0" />
+      <LineId Id="567" Count="0" />
+      <LineId Id="134" Count="1" />
+      <LineId Id="568" Count="0" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="570" Count="0" />
+      <LineId Id="569" Count="0" />
+      <LineId Id="140" Count="0" />
+      <LineId Id="572" Count="0" />
+      <LineId Id="571" Count="0" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="144" Count="0" />
+      <LineId Id="147" Count="1" />
+      <LineId Id="574" Count="0" />
+      <LineId Id="573" Count="0" />
+      <LineId Id="401" Count="0" />
+      <LineId Id="575" Count="0" />
+      <LineId Id="151" Count="1" />
+      <LineId Id="576" Count="0" />
+      <LineId Id="154" Count="1" />
+      <LineId Id="157" Count="0" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="577" Count="1" />
+      <LineId Id="162" Count="0" />
+      <LineId Id="168" Count="1" />
+      <LineId Id="580" Count="0" />
+      <LineId Id="170" Count="1" />
+      <LineId Id="581" Count="0" />
+      <LineId Id="172" Count="1" />
+      <LineId Id="583" Count="0" />
+      <LineId Id="582" Count="0" />
+      <LineId Id="174" Count="0" />
+      <LineId Id="584" Count="0" />
+      <LineId Id="178" Count="1" />
+      <LineId Id="181" Count="1" />
+      <LineId Id="192" Count="1" />
+      <LineId Id="591" Count="0" />
+      <LineId Id="203" Count="0" />
+      <LineId Id="205" Count="1" />
+      <LineId Id="208" Count="0" />
+      <LineId Id="594" Count="0" />
+      <LineId Id="212" Count="1" />
+      <LineId Id="487" Count="0" />
+      <LineId Id="597" Count="0" />
+      <LineId Id="596" Count="0" />
+      <LineId Id="215" Count="1" />
+      <LineId Id="601" Count="3" />
+      <LineId Id="598" Count="0" />
+      <LineId Id="605" Count="0" />
+      <LineId Id="217" Count="1" />
+      <LineId Id="600" Count="0" />
+      <LineId Id="224" Count="1" />
+      <LineId Id="607" Count="0" />
+      <LineId Id="606" Count="0" />
+      <LineId Id="226" Count="3" />
+      <LineId Id="491" Count="0" />
+      <LineId Id="490" Count="0" />
+      <LineId Id="609" Count="0" />
+      <LineId Id="232" Count="1" />
+      <LineId Id="610" Count="0" />
+      <LineId Id="256" Count="1" />
+      <LineId Id="259" Count="2" />
+      <LineId Id="611" Count="0" />
+      <LineId Id="476" Count="1" />
+      <LineId Id="483" Count="1" />
+      <LineId Id="486" Count="0" />
+      <LineId Id="485" Count="0" />
+      <LineId Id="482" Count="0" />
+      <LineId Id="403" Count="0" />
+      <LineId Id="93" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

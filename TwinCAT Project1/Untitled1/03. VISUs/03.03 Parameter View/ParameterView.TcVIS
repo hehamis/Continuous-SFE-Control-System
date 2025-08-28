@@ -325,7 +325,7 @@
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MainScreenBindings.autoExtractionParameterMenuButton_ToggleVariable"</v>
+                          <v n="Value">"ProcessViewBindings.autoExtractionParameterMenuButton_ToggleVariable"</v>
                         </o>
                       </l>
                     </o>
@@ -376,7 +376,7 @@
                     </o>
                     <o>
                       <v n="Id">1647042231L</v>
-                      <v n="Value">"NOT MainScreenBindings.autoExtractionParameterMenuButton_ToggleVariable"</v>
+                      <v n="Value">"NOT ProcessViewBindings.autoExtractionParameterMenuButton_ToggleVariable"</v>
                     </o>
                     <o>
                       <v n="Id">2812299069L</v>
@@ -1993,7 +1993,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"MainScreenBindings.UpperIntervalSlurryOnUpperTextField_TextVariable"</v>
+                      <v n="Value">"ParameterViewBindings.UpperIntervalSlurryOnUpperTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -2170,7 +2170,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"MainScreenBindings.UpperIntervalSlurryOnNotUpperTextField_TextVariable"</v>
+                      <v n="Value">"ParameterViewBindings.UpperIntervalSlurryOnNotUpperTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -2347,7 +2347,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"MainScreenBindings.LowerIntervalSlurryOnUpperTextField_TextVariable"</v>
+                      <v n="Value">"ParameterViewBindings.LowerIntervalSlurryOnUpperTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
@@ -2524,7 +2524,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"MainScreenBindings.LowerIntervalSlurryOnNotUpperTextField_TextVariable"</v>
+                      <v n="Value">"ParameterViewBindings.LowerIntervalSlurryOnNotUpperTextField_TextVariable"</v>
                     </o>
                     <o>
                       <v n="Id">823443203L</v>
