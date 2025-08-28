@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="Safety" Id="{00b82d62-043d-415c-8b07-0526678ef84c}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Safety
+VAR
+	uiEstopHandler : FB_HandleUiEstop;
+	
+	// Local variables
+	_buttonPressed : BOOL;
+	_resetPressed : BOOL;
+	_stop : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+uiEstopHandler(
+			button := _buttonPressed,
+			reset := _resetPressed,
+			stop => _stop);]]></ST>
+    </Implementation>
+    <Property Name="buttonPressed" Id="{d57cd45c-8045-45ca-af28-9cdd67208558}">
+      <Declaration><![CDATA[PROPERTY buttonPressed : BOOL]]></Declaration>
+      <Set Name="Set" Id="{56101d58-a3ce-4e36-84d9-8c35a89552bc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_buttonPressed := buttonPressed;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="resetPressed" Id="{14ce5e0c-efc5-4e06-9c3e-b535b2438c4d}">
+      <Declaration><![CDATA[PROPERTY resetPressed : BOOL]]></Declaration>
+      <Set Name="Set" Id="{caed11da-48d4-4d5c-8e6c-97fb8799be26}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_resetPressed := resetPressed;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="stop" Id="{347c660b-db44-463f-a2db-6e1c26aa510a}">
+      <Declaration><![CDATA[PROPERTY stop : BOOL]]></Declaration>
+      <Get Name="Get" Id="{390803f4-119a-4c0f-af61-0772ee41a204}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+stop := _stop;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="Safety">
+      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="2" />
+    </LineIds>
+    <LineIds Name="Safety.buttonPressed.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Safety.resetPressed.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Safety.stop.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

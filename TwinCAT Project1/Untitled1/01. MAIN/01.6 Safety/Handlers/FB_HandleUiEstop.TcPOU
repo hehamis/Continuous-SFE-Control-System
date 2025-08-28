@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_HandleUiEstop" Id="{494017d8-bd6a-437d-bc9e-5e9024c1895e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_HandleUiEstop
+VAR_INPUT
+	button : BOOL;
+	reset : BOOL;
+END_VAR
+VAR_OUTPUT
+	stop : BOOL;
+END_VAR
+VAR
+	RTRIG_ButtonPressed : R_TRIG;
+	RTRIG_resetPressed : R_TRIG;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+RTRIG_ButtonPressed(CLK := button);
+IF RTRIG_ButtonPressed.Q THEN
+	stop := TRUE;
+END_IF
+
+RTRIG_resetPressed(CLK := reset);
+IF RTRIG_resetPressed.q THEN
+	stop := FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_HandleUiEstop">
+      <LineId Id="13" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="14" Count="2" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="24" Count="2" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
