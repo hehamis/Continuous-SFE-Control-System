@@ -107,6 +107,11 @@ ReactorTemperatureContactorOpenLine_Invisible := GVL_IO.reactorTemperatureContac
 // ReactorTemperatureContactorLamp
 ReactorTemperatureContactorLamp_Variable := GVL_IO.reactorTemperatureContactor;
 
+// ReactorBackgroundRectangle
+ReactorBackgroundRectangle_ToggleColor := GVL_IO.reactorTemperatureContactor 
+											OR MainScreenBindings.RectorTemperatureControlModeButton_ToggleVariable
+											OR MainScreenBindings.ReactorTemperatureControlPercentageTextField_TextVariable > 0;
+
 // ReactorUpperLevelLamp
 ReactorUpperLevelLamp_Variable := GVL_IO.reactorLevelHigh;
 
@@ -218,6 +223,9 @@ END_IF
       <LineId Id="572" Count="0" />
       <LineId Id="571" Count="0" />
       <LineId Id="141" Count="0" />
+      <LineId Id="685" Count="0" />
+      <LineId Id="684" Count="0" />
+      <LineId Id="686" Count="2" />
       <LineId Id="144" Count="0" />
       <LineId Id="147" Count="1" />
       <LineId Id="574" Count="0" />
