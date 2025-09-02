@@ -44,6 +44,11 @@ CASE controlState OF
 		TOF_Calibration(IN := startCalibrate, PT := TO_TIME(controlValveParameters.calibrationTimeMs));
 		startCalibrate := FALSE;
 		closeCommand := TRUE;
+		IF controlValveCommands.stopCalibration THEN
+			TOF_Calibration(IN := FALSE);
+			startCalibrate := FALSE;
+			controlState := 0;
+		END_IF
 		IF NOT TOF_Calibration.Q THEN
 			TOF_Calibration(IN := TRUE);
 			calibrateDone := TRUE;
@@ -84,6 +89,10 @@ openControlValve := open;
     <LineIds Name="FB_ControlValveStateMachine">
       <LineId Id="156" Count="14" />
       <LineId Id="203" Count="0" />
+      <LineId Id="288" Count="1" />
+      <LineId Id="291" Count="0" />
+      <LineId Id="293" Count="0" />
+      <LineId Id="290" Count="0" />
       <LineId Id="171" Count="7" />
       <LineId Id="180" Count="2" />
       <LineId Id="199" Count="0" />

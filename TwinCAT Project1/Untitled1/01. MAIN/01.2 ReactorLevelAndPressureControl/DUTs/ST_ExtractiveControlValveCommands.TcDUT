@@ -5,6 +5,7 @@
 STRUCT
 	openPercentage : DINT;
 	calibrate : BOOL;
+	stopCalibration : BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

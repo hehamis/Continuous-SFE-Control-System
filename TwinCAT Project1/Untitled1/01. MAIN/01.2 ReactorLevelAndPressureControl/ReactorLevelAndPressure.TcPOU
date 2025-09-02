@@ -96,6 +96,7 @@ ELSE
 END_IF
 
 // Extractive outlet control
+_extractiveControlValveCommands.stopCalibration := Safety.stop;
 HandleExtractiveOutlet(
 					onOffValveCommand := _extractiveOutOnOffValveCommand,
 					controlValveCommands := _ExtractiveControlValveCommands,
@@ -324,7 +325,9 @@ _startAutomaticExtraction := StartAutomaticExtraction;]]></ST>
       <LineId Id="1291" Count="27" />
       <LineId Id="1380" Count="1" />
       <LineId Id="1379" Count="0" />
-      <LineId Id="1319" Count="5" />
+      <LineId Id="1319" Count="2" />
+      <LineId Id="1423" Count="0" />
+      <LineId Id="1322" Count="2" />
       <LineId Id="1336" Count="0" />
       <LineId Id="1325" Count="5" />
       <LineId Id="859" Count="0" />
