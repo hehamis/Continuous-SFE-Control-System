@@ -194,6 +194,7 @@ IF Safety.stop THEN
 	SlurryInValveControlModeButton_ToggleVariable := FALSE;
 	 ExtractiveOutOnOffValveButton_ToggleVariable := FALSE;
 	ReactorTemperatureContactorButton_ToggleVariable := FALSE;
+	SlurryOutValveButton_ToggleVariable := FALSE;
 END_IF
 
 ]]></ST>
@@ -282,6 +283,7 @@ END_IF
       <LineId Id="483" Count="1" />
       <LineId Id="486" Count="0" />
       <LineId Id="485" Count="0" />
+      <LineId Id="761" Count="0" />
       <LineId Id="482" Count="0" />
       <LineId Id="403" Count="0" />
       <LineId Id="93" Count="0" />
