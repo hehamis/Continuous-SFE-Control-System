@@ -1984,7 +1984,7 @@ Bit1: Value smaller than Limit2]]></Comment>
 								<Entry Name="Status__TxPDO Toggle" Index="#x6000" Sub="#x10">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Value" Index="#x6000" Sub="#x11" Flags="#x00040000">
+								<Entry Name="Reactor pressure" Index="#x6000" Sub="#x11" Flags="#x00040000">
 									<Type>INT</Type>
 								</Entry>
 							</Pdo>
@@ -2164,7 +2164,7 @@ Bit1: Value smaller than Limit2]]></Comment>
 				<Link VarA="PlcTask Inputs^GVL_IO.reactorTemperatureUpper" VarB="RTD Inputs Channel 1^Reactor upper temperature"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 14 (EL3154)">
-				<Link VarA="PlcTask Inputs^GVL_IO.reactorPressure" VarB="AI Standard Channel 1^Value"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.reactorPressure" VarB="AI Standard Channel 1^Reactor pressure"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 3 (EL2008)">
 				<Link VarA="PlcTask Outputs^GVL_IO.reactorInletValve" VarB="Channel 2^Reactor inlet valve"/>
