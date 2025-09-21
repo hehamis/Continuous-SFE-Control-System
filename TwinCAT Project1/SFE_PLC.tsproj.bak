@@ -96,7 +96,7 @@
 	</ImageDatas>
 	<Project ProjectGUID="{0ADE88E8-E664-404D-A997-0DA20A78A45A}" Target64Bit="true" ShowHideConfigurations="#x106">
 		<System>
-			<Settings MaxCpus="16">
+			<Settings MaxCpus="4" NonWinCpus="1">
 				<Cpu CpuId="3"/>
 			</Settings>
 			<Licenses>
@@ -354,7 +354,7 @@
 								<Entry Name="Status__TxPDO Toggle" Index="#x1800" Sub="#x09">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Value" Index="#x6000" Sub="#x11" Flags="#x00050000">
+								<Entry Name="Reactor upper temperature" Index="#x6000" Sub="#x11" Flags="#x00050000">
 									<Type>INT</Type>
 								</Entry>
 							</Pdo>
@@ -383,7 +383,7 @@
 								<Entry Name="Status__TxPDO Toggle" Index="#x1801" Sub="#x09">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Value" Index="#x6010" Sub="#x11" Flags="#x00050000">
+								<Entry Name="Reactor lower temperature" Index="#x6010" Sub="#x11" Flags="#x00050000">
 									<Type>INT</Type>
 								</Entry>
 							</Pdo>
@@ -1910,12 +1910,12 @@
 							<SyncMan>001001000000010004000000000000000100001000010000</SyncMan>
 							<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 							<Pdo Name="Channel 1" Index="#x1a00" Flags="#x0011" SyncMan="0">
-								<Entry Name="Input" Index="#x6000" Sub="#x01">
+								<Entry Name="Reactor low level" Index="#x6000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 2" Index="#x1a01" Flags="#x0011" SyncMan="0">
-								<Entry Name="Input" Index="#x6010" Sub="#x01">
+								<Entry Name="Reactor high level" Index="#x6010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -2160,20 +2160,20 @@ Bit1: Value smaller than Limit2]]></Comment>
 	<Mappings>
 		<OwnerA Name="TIPC^Untitled1^Untitled1 Instance">
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 11 (EL3204)">
-				<Link VarA="PlcTask Inputs^GVL_IO.reactorTemperatureLower" VarB="RTD Inputs Channel 2^Value"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.reactorTemperatureUpper" VarB="RTD Inputs Channel 1^Value"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.reactorTemperatureLower" VarB="RTD Inputs Channel 2^Reactor lower temperature"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.reactorTemperatureUpper" VarB="RTD Inputs Channel 1^Reactor upper temperature"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 14 (EL3154)">
 				<Link VarA="PlcTask Inputs^GVL_IO.reactorPressure" VarB="AI Standard Channel 1^Value"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 3 (EL2008)">
-				<Link VarA="PlcTask Outputs^GVL_IO.reactorInletValve" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.reactorOutletValve" VarB="Channel 3^Output"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.reactorTemperatureContactor" VarB="Channel 1^Output"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.reactorInletValve" VarB="Channel 2^Reactor inlet valve"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.reactorOutletValve" VarB="Channel 3^Reactor outlet valve"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.reactorTemperatureContactor" VarB="Channel 1^Reactor temperature contactor"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 5 (EL1004)">
-				<Link VarA="PlcTask Inputs^GVL_IO.reactorLevelHigh" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.reactorLevelLow" VarB="Channel 1^Input"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.reactorLevelHigh" VarB="Channel 2^Reactor high level"/>
+				<Link VarA="PlcTask Inputs^GVL_IO.reactorLevelLow" VarB="Channel 1^Reactor low level"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 6 (EL6021)">
 				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 0"/>
