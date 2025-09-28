@@ -190,9 +190,8 @@ StateLabel_TextVariable := TO_STRING(ReactorLevelAndPressure.automaticExtraction
 
 // Close all valves if stop initiated
 IF Safety.stop THEN
-	ExtractiveOutOnOffValveButton_ToggleVariable := FALSE;
 	SlurryInValveControlModeButton_ToggleVariable := FALSE;
-	 ExtractiveOutOnOffValveButton_ToggleVariable := FALSE;
+//	ExtractiveOutOnOffValveButton_ToggleVariable := FALSE;
 	ReactorTemperatureContactorButton_ToggleVariable := FALSE;
 	SlurryOutValveButton_ToggleVariable := FALSE;
 END_IF
@@ -280,7 +279,7 @@ END_IF
       <LineId Id="259" Count="2" />
       <LineId Id="611" Count="0" />
       <LineId Id="476" Count="1" />
-      <LineId Id="483" Count="1" />
+      <LineId Id="484" Count="0" />
       <LineId Id="486" Count="0" />
       <LineId Id="485" Count="0" />
       <LineId Id="761" Count="0" />
