@@ -72,7 +72,12 @@ CASE controlState OF
 			close := FALSE;
 		END_IF
 		openvalve(gotime := open, settime := TO_TIME(controlValveParameters.timeToFullyOpenMs), countdown := close, elapsedtime => , elapsed => );
-		closevalve(gotime := close, settime := TO_TIME(controlValveParameters.timeToFullyOpenMs), countdown := open, elapsedtime =>, elapsed => );		
+		closevalve(gotime := close, settime := TO_TIME(controlValveParameters.timeToFullyOpenMs), countdown := open, elapsedtime =>, elapsed => );	
+		
+		// Monitor calibrate command, return to calibration step
+		IF RTRIG_startCalibrate.Q THEN
+			controlState := 1;
+		END_IF	
 
 
 END_CASE
@@ -103,7 +108,12 @@ openControlValve := open;
       <LineId Id="198" Count="0" />
       <LineId Id="200" Count="2" />
       <LineId Id="196" Count="0" />
-      <LineId Id="184" Count="9" />
+      <LineId Id="184" Count="1" />
+      <LineId Id="320" Count="0" />
+      <LineId Id="323" Count="0" />
+      <LineId Id="321" Count="1" />
+      <LineId Id="319" Count="0" />
+      <LineId Id="186" Count="7" />
       <LineId Id="254" Count="0" />
       <LineId Id="227" Count="0" />
       <LineId Id="229" Count="0" />
