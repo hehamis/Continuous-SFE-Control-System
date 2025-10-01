@@ -197,7 +197,10 @@ END_IF
 		pumpingPressureSentSetpoint :=	80;//_serialCommSetpoints.pumpingPressureSetSetpoint - 40; // Automatic extraction control
 	END_IF
 //END_IF
-fbUpdatePressureSetpoint(fbAsciiComm := fbAsciiComm, bStartSend := pumpPressureStartSend, sParameterCharacter := 'S', iValue := pumpingPressureSentSetpoint, iSlaveNo := 2);
+fbUpdatePressureSetpoint(fbAsciiComm := fbAsciiComm, 
+						bStartSend := pumpPressureStartSend, sParameterCharacter := 'S', 
+						iValue := pumpingPressureSentSetpoint, 
+						iSlaveNo := 2);
 IF pumpingPressureSentSetpoint <> pumpingPressureSetSetpointPrev THEN
 	pumpPressureStartSend := TRUE;
 	fbAsciiComm.StopSend(stop := TRUE);
@@ -205,7 +208,11 @@ IF pumpingPressureSentSetpoint <> pumpingPressureSetSetpointPrev THEN
 	//ReceiveStep := 2;
 END_IF
 // Update preheater temperature setpoint
-fbUpdatePreHeaterTemperatureSetpoint(fbAsciiComm := fbAsciiComm, bStartSend := preHeaterTemperatureStartSend, sParameterCharacter := 'S', iValue := _serialCommSetpoints.preHeaterTemperatureSetSetpoint, iSlaveNo := 4);
+fbUpdatePreHeaterTemperatureSetpoint(fbAsciiComm := fbAsciiComm, 
+									bStartSend := preHeaterTemperatureStartSend, 
+									sParameterCharacter := 'S', 
+									iValue := _serialCommSetpoints.preHeaterTemperatureSetSetpoint, 
+									iSlaveNo := 4);
 IF _serialCommSetpoints.preHeaterTemperatureSetSetpoint <> preHeaterTemperatureSetSetpointPrev THEN
 	preHeaterTemperatureStartSend := TRUE;
 	fbAsciiComm.StopSend(stop := TRUE);
@@ -213,7 +220,11 @@ IF _serialCommSetpoints.preHeaterTemperatureSetSetpoint <> preHeaterTemperatureS
 	//ReceiveStep := 6;
 END_IF
 // Update preheater temperature setpoint
-fbUpdateSeparatorTemperatureSetpoint(fbAsciiComm := fbAsciiComm, bStartSend := separatorTemperatureStartSend, sParameterCharacter := 'S', iValue := _serialCommSetpoints.separatorTemperatureSetSetpoint, iSlaveNo := 5);
+fbUpdateSeparatorTemperatureSetpoint(fbAsciiComm := fbAsciiComm, 
+									bStartSend := separatorTemperatureStartSend, 
+									sParameterCharacter := 'S', 
+									iValue := _serialCommSetpoints.separatorTemperatureSetSetpoint, 
+									iSlaveNo := 5);
 IF _serialCommSetpoints.separatorTemperatureSetSetpoint <> separatorTemperatureSetSetpointPrev THEN
 	separatorTemperatureStartSend := TRUE;
 	fbAsciiComm.StopSend(stop := TRUE);
@@ -273,7 +284,13 @@ _serialCommSetpoints := SerialCommSetpoints;]]></ST>
       <LineId Id="52" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="53" Count="2" />
-      <LineId Id="17" Count="24" />
+      <LineId Id="17" Count="1" />
+      <LineId Id="59" Count="2" />
+      <LineId Id="19" Count="7" />
+      <LineId Id="62" Count="3" />
+      <LineId Id="27" Count="7" />
+      <LineId Id="66" Count="3" />
+      <LineId Id="35" Count="6" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="SerialCommunicationHandler.SerialCommReadData.Get">
