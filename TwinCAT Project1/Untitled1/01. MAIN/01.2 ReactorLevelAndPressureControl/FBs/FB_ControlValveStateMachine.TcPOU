@@ -9,7 +9,7 @@ END_VAR
 VAR_OUTPUT
 	closeControlValve : BOOL;
 	openControlValve : BOOL;
-	currentControlValveOpenPercentage : INT;
+	currentControlValveOpenPercentage : DINT;
 	calibrateDone : BOOL;
 END_VAR
 VAR
@@ -19,8 +19,8 @@ VAR
 	TOF_Calibration : TOF;
 	closeCommand : BOOL;
 	
-	openvalve : FB_Runtime(resetToTime := T#0S);
-	closevalve : FB_Runtime(resetToTime := T#10S);
+	openvalve : FB_Runtime;//(resetToTime := T#0S);
+	closevalve : FB_Runtime;//(resetToTime := TO_TIME(controlValveParameters.timeToFullyOpenMs));
 	start : BOOL;
 	setvalve : BOOL;
 	open : BOOL;
@@ -71,8 +71,18 @@ CASE controlState OF
 			open := FALSE;
 			close := FALSE;
 		END_IF
-		openvalve(gotime := open, settime := TO_TIME(controlValveParameters.timeToFullyOpenMs), countdown := close, elapsedtime => , elapsed => );
-		closevalve(gotime := close, settime := TO_TIME(controlValveParameters.timeToFullyOpenMs), countdown := open, elapsedtime =>, elapsed => );	
+		openvalve(
+				gotime := open, 
+				settime := TO_TIME(controlValveParameters.timeToFullyOpenMs),
+				resetToTime :=  T#0S,
+				countdown := close, 
+				elapsedtime => , elapsed => );
+		closevalve(
+				gotime := close, 
+				settime := TO_TIME(controlValveParameters.timeToFullyOpenMs),
+			 	resetToTime := TO_TIME(controlValveParameters.timeToFullyOpenMs),
+				countdown := open, elapsedtime =>, 
+				elapsed => );	
 		
 		// Monitor calibrate command, return to calibration step
 		IF RTRIG_startCalibrate.Q THEN
@@ -83,7 +93,7 @@ CASE controlState OF
 END_CASE
 
 // Calculate valve open-% according to open timer
-currentControlValveOpenPercentage := TO_INT(TIME_TO_REAL(openvalve.elapsedtime)/100);
+currentControlValveOpenPercentage := TO_DINT(TIME_TO_REAL(openvalve.elapsedtime)/100);
 
 closeControlValve := closeCommand OR close;
 openControlValve := open;
@@ -108,7 +118,16 @@ openControlValve := open;
       <LineId Id="198" Count="0" />
       <LineId Id="200" Count="2" />
       <LineId Id="196" Count="0" />
-      <LineId Id="184" Count="1" />
+      <LineId Id="184" Count="0" />
+      <LineId Id="350" Count="0" />
+      <LineId Id="349" Count="0" />
+      <LineId Id="353" Count="0" />
+      <LineId Id="351" Count="1" />
+      <LineId Id="185" Count="0" />
+      <LineId Id="357" Count="0" />
+      <LineId Id="356" Count="0" />
+      <LineId Id="360" Count="0" />
+      <LineId Id="358" Count="1" />
       <LineId Id="320" Count="0" />
       <LineId Id="323" Count="0" />
       <LineId Id="321" Count="1" />

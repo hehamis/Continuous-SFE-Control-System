@@ -6,6 +6,7 @@ VAR_INPUT
 	gotime: BOOL;
 	settime: TIME;
 	countdown: BOOL; // New input
+	resetToTime : TIME;
 END_VAR
 VAR_OUTPUT
 	elapsedtime: TIME;
@@ -23,6 +24,8 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
+_resetToTime := ResetToTime; 
+
 IF initial THEN
 	elapsedtime := _resetToTime;
 	initial := FALSE;
@@ -63,19 +66,6 @@ END_IF
 
 reset := FALSE;]]></ST>
     </Implementation>
-    <Method Name="FB_init" Id="{9de74e42-d4f9-4db3-aa91-f3dcf6ab0f8b}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	resetToTime : TIME;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[
-_resetToTime := resetToTime;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="resetValues" Id="{42af8755-ea1f-418c-90bb-2c804aa4483e}">
       <Declaration><![CDATA[METHOD resetValues : BOOL
 ]]></Declaration>
@@ -84,6 +74,7 @@ _resetToTime := resetToTime;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Runtime">
+      <LineId Id="105" Count="1" />
       <LineId Id="75" Count="2" />
       <LineId Id="80" Count="0" />
       <LineId Id="78" Count="0" />
@@ -99,10 +90,6 @@ _resetToTime := resetToTime;]]></ST>
       <LineId Id="9" Count="0" />
       <LineId Id="84" Count="0" />
       <LineId Id="83" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Runtime.FB_init">
-      <LineId Id="9" Count="0" />
-      <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="FB_Runtime.resetValues">
       <LineId Id="5" Count="0" />
