@@ -261,6 +261,16 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"145"</v>
+              <v n="TextDefault">"Filling pump wait time"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"214"</v>
+              <v n="TextDefault">"Filling pump wait time (s)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"444"</v>
               <v n="TextDefault">"Flow"</v>
               <l n="LanguageTexts" t="ArrayList" />

@@ -72,6 +72,7 @@ VAR
 	
 	StateLabel_TextVariable : STRING;
 
+	ExtractiveOnOffValveValues : ST_ExtractiveOnOffValveValues;
 
 END_VAR]]></Declaration>
     <Implementation>
@@ -153,12 +154,15 @@ Co2PressureTextField_TextVariable := serialCommReadData.pumpingPressureMeasureme
 SeperatorTemperatureTextField_TextVariable := serialCommReadData.separatorTemperatureMeasurement;
 
 // ExtractiveOutletOnOff_Valve
-ExtractiveOutletOnOff_Valve_ToggleColor := GVL_IO.extractiveOutletOnOffValve;
+ExtractiveOutletOnOff_Valve_ToggleColor :=  ExtractiveOnOffValveValues.open;//GVL_IO.extractiveOutletOnOffValve;
 ExtractiveOutletOnOff_Valve_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;
+
+// Get extractive on/off valve values
+ExtractiveOnOffValveValues := ReactorLevelAndPressure.ExtractiveOnOffValveValues;
 
 // ExtractiveOutOnOffValveButton
 ReactorLevelAndPressure.ExtractiveOutOnOffValveCommand := ExtractiveOutOnOffValveButton_ToggleVariable ;
-ExtractiveOutOnOffValveButton_ToggleColor := GVL_IO.extractiveOutletOnOffValve; 
+ExtractiveOutOnOffValveButton_ToggleColor := ExtractiveOnOffValveValues.open; //GVL_IO.extractiveOutletOnOffValve; 
 IF ExtractiveOutOnOffValveButton_ToggleVariable THEN
 	ExtractiveOutOnOffValveButton_TextVariable := 'CLOSE';
 ELSE
@@ -166,7 +170,7 @@ ELSE
 END_IF
 
 // ExtractiveOutLines
-ExtractiveOutLines_ToggleColor  := GVL_IO.extractiveOutletOnOffValve;
+ExtractiveOutLines_ToggleColor  := ExtractiveOnOffValveValues.open;//GVL_IO.extractiveOutletOnOffValve;
 
 // ExtractiveOutletValveCalibrateButton
 ExtractiveOutletValveCommands.calibrate := ExtractiveOutletValveCalibrateButton_TapVariable;
@@ -177,7 +181,7 @@ IF ExtractiveOutletValveCommands.calibrate THEN
 	ExtractiveOutletValveSlider_Variable := 0;
 END_IF
 ExtractiveOutletValveSlider_DisableInputs := ReactorLevelAndPressure.controlValveOpeningOrClosing OR MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;
-ExtractiveOutletValveSlider_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;
+ExtractiveOutletValveSlider_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable OR NOT ReactorLevelAndPressure.CalibrateDone;
 
 // Send valve commands to controller
 ReactorLevelAndPressure.ExtractiveControlValveCommands := ExtractiveOutletValveCommands;
@@ -258,6 +262,7 @@ END_IF
       <LineId Id="594" Count="0" />
       <LineId Id="212" Count="1" />
       <LineId Id="487" Count="0" />
+      <LineId Id="834" Count="2" />
       <LineId Id="597" Count="0" />
       <LineId Id="596" Count="0" />
       <LineId Id="215" Count="1" />

@@ -19,6 +19,7 @@ VAR PERSISTENT
 	refillIntervalTextField_TextVariable : DINT;
 	pumpOnTimeTextField_TextVariable : DINT;
 	pumpSetpointWaitTimeTextField_TextVariable : DINT;
+	refillPumpWaitTimeTextField_TextVariable : DINT;
 	
 	calibrationTimeTextField_TextVariable : DINT;
 	fullOpenTimeTextField_TextVariable : DINT;
@@ -45,6 +46,7 @@ autoExtractionParameters.controlValveOpeningValue := controlValveOpeningValueTex
 autoExtractionParameters.fillingTime := refillIntervalTextField_TextVariable;
 autoExtractionParameters.pumpOnTime := pumpOnTimeTextField_TextVariable;
 autoExtractionParameters.pumpSetpointWaitTime := pumpSetpointWaitTimeTextField_TextVariable;
+autoExtractionParameters.pumpWaitTime := refillPumpWaitTimeTextField_TextVariable;
 ReactorLevelAndPressure.AutomaticExtractionParameters := autoExtractionParameters; 
 
 // Slurry outlet pressure intervals
@@ -67,6 +69,7 @@ ReactorLevelAndPressure.ExtractiveControlValveParameters := extractionValveParam
       <LineId Id="31" Count="6" />
       <LineId Id="72" Count="0" />
       <LineId Id="38" Count="4" />
+      <LineId Id="119" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="82" Count="7" />
       <LineId Id="81" Count="0" />
