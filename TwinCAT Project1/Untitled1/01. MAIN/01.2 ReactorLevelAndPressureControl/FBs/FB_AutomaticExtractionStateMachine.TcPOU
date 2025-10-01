@@ -4,7 +4,10 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_AutomaticExtractionStateMachine
 VAR_INPUT
 	parameters : ST_AutomaticExtractionParameters;
+	controlValveFullOpenTime : DINT;
 	reactorPressure : DINT;
+	pumpPressure : DINT;
+	pumpSetpoint : DINT;
 END_VAR
 VAR_OUTPUT
 	controlValveOpeningPercentage : DINT;
@@ -20,6 +23,9 @@ VAR
 	TON_WaitForPressure : TON;
 	TON_KeepExtractivePumpOn : TON;
 	startingReactorPRessure : DINT;
+	startingPumpSetpoint : DINT;
+	TON_FillingPumpWaitTimer : TON;
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -36,35 +42,49 @@ END_VAR
 						PT := TO_TIME(parameters.fillingTime*1000));
 		IF TON_FillingTimer.Q THEN
 			TON_FillingTimer(IN := FALSE);
+			startingPumpSetpoint := pumpSetpoint;// Log setpoint at the moment filling procedure starts
 			automaticExtractionState := automaticExtractionState + 1;
 		END_IF
-	
+		
 	E_AutomaticExtractionState.REDUCING_CONTROL_VALVE: // Filling step: Control valve to a small opening
 		
 		fillingActive := TRUE;
 		controlValveOpeningPercentage := 20;
 		TON_WaitForValve(
 						IN := TRUE,
-						PT := T#10S);
+						PT := TO_TIME(1000));//controlValveFullOpenTime*1000));
 		IF TON_WaitForValve.Q THEN
 			TON_WaitForValve(IN := FALSE);
 			automaticExtractionState := automaticExtractionState + 1;
-		END_IF
-	
-	E_AutomaticExtractionState.REDUCING_CO2_PUMP_SETPOINT: // Set pump setpoint 40 bars lower from current
+		END_IF		
+	E_AutomaticExtractionState.REDUCING_CO2_PUMP_SETPOINT: // Set pump setpoint to 80 bar
 	
 		decreasePumpSetpoint := TRUE;
-		TON_WaitForPressure(
-							IN := TRUE,
-							PT := TO_TIME(parameters.pumpSetpointWaitTime*1000));
-		IF TON_WaitForPressure.Q THEN
+//		TON_WaitForPressure(
+//							IN := TRUE,
+//							PT := TO_TIME(parameters.pumpSetpointWaitTime*1000));
+//		IF TON_WaitForPressure.Q THEN
+//			TON_WaitForPressure(IN := FALSE);
+//			co2onOffValveClosed := TRUE;  // Close co2 on/off valve
+//			automaticExtractionState := automaticExtractionState + 1;
+//		END_IF
+		IF pumpPressure <= startingPumpSetpoint THEN
 			TON_WaitForPressure(IN := FALSE);
-			automaticExtractionState := automaticExtractionState + 1;
+			automaticExtractionState := automaticExtractionState + 1;			
+		END_IF
+		
+	E_AutomaticExtractionState.CLOSING_ON_OFF_VALVE:
+	
+		co2onOffValveClosed := TRUE;  // Close co2 on/off valve
+		TON_FillingPumpWaitTimer(IN := TRUE, PT := TO_TIME(parameters.pumpWaitTime*1000));
+		IF TON_FillingPumpWaitTimer.Q THEN
+			TON_FillingPumpWaitTimer(IN := FALSE);
+			automaticExtractionState := automaticExtractionState + 1;		
 		END_IF
 	
-	E_AutomaticExtractionState.FILLING_ACTIVE: // Close co2 on/off valve, extractive pump on: stays on for a desired time
+	E_AutomaticExtractionState.FILLING_ACTIVE: //  extractive pump on: stays on for a desired time
 	
-		co2onOffValveClosed := TRUE;
+//		co2onOffValveClosed := TRUE;
 		startingReactorPressure := reactorPressure;
 		extractivePumpOn := TRUE;
 		TON_KeepExtractivePumpOn(
@@ -114,7 +134,27 @@ fillingActive := FALSE;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_AutomaticExtractionStateMachine">
-      <LineId Id="340" Count="69" />
+      <LineId Id="340" Count="12" />
+      <LineId Id="455" Count="0" />
+      <LineId Id="353" Count="1" />
+      <LineId Id="453" Count="0" />
+      <LineId Id="443" Count="9" />
+      <LineId Id="430" Count="0" />
+      <LineId Id="432" Count="2" />
+      <LineId Id="478" Count="6" />
+      <LineId Id="466" Count="0" />
+      <LineId Id="458" Count="0" />
+      <LineId Id="463" Count="0" />
+      <LineId Id="461" Count="1" />
+      <LineId Id="487" Count="2" />
+      <LineId Id="497" Count="0" />
+      <LineId Id="492" Count="0" />
+      <LineId Id="491" Count="0" />
+      <LineId Id="496" Count="0" />
+      <LineId Id="494" Count="1" />
+      <LineId Id="378" Count="2" />
+      <LineId Id="441" Count="0" />
+      <LineId Id="382" Count="27" />
       <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AutomaticExtractionStateMachine.resetState">

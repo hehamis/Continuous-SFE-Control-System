@@ -5,6 +5,7 @@
 STRUCT
 	fillingTime : DINT;
 	pumpSetpointWaitTime : DINT;
+	pumpWaitTime : DINT;
 	pumpOnTime	: DINT;
 	controlValveOpeningValue : DINT;
 END_STRUCT
