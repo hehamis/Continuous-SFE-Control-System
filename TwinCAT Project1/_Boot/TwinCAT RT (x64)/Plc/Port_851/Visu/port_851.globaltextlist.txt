@@ -50,6 +50,8 @@ Id;Default
 985;EXIT
 273;Extractive
 849;Filling pump ontime (s)
+145;Filling pump wait time
+214;Filling pump wait time (s)
 444;Flow
 612;Full open time (ms)
 611;HEATING

@@ -2147,8 +2147,10 @@ Bit1: Value smaller than Limit2]]></Comment>
 				<Link VarA="PlcTask Inputs^GVL_IO.reactorPressure" VarB="AI Standard Channel 1^Reactor pressure"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 3 (EL2008)">
-				<Link VarA="PlcTask Outputs^GVL_IO.reactorInletValve" VarB="Channel 2^Reactor inlet valve"/>
-				<Link VarA="PlcTask Outputs^GVL_IO.reactorOutletValve" VarB="Channel 3^Reactor outlet valve"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.extractiveOutletControlValveClose" VarB="Channel 5^Extractive outlet control valve close button"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.extractiveOutletControlValveOpen" VarB="Channel 4^Extractive outlet control valve open button"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.reactorInletValve" VarB="Channel 2^Slurry inlet valve"/>
+				<Link VarA="PlcTask Outputs^GVL_IO.reactorOutletValve" VarB="Channel 3^Slurry outlet valve"/>
 				<Link VarA="PlcTask Outputs^GVL_IO.reactorTemperatureContactor" VarB="Channel 1^Reactor temperature contactor"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 5 (EL1004)">

@@ -46,6 +46,9 @@
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs\ST_ExtractiveControlValveParameters.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs\ST_ExtractiveOnOffValveValues.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs\ST_PressureIntervals.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -62,6 +65,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_Runtime.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_ValveTrigger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\F_RoundToClosest.TcPOU">
