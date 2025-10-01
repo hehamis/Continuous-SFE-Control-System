@@ -32,6 +32,11 @@ VAR
 	
 	_automaticExtractionState : E_AutomaticExtractionState;
 	
+	serialCommData : ST_SerialCommReadData;
+	
+	RTRIG_SetPressureReference : R_TRIG;
+	pressureReference : INT;
+	_extractiveOnOffValveValues : ST_ExtractiveOnOffValveValues;
 END_VAR
 VAR PERSISTENT
 	_fillingValveOpenInterval: INT;
@@ -47,13 +52,19 @@ END_VAR]]></Declaration>
       <ST><![CDATA[// Scale analog pressure
 _iPressureScaledValue := F_AnalogScale(AnalogInputRawValue := GVL_IO.reactorPressure, MaxAnalogValue := 1000);
 
+// Get serial comm setpoints
+serialCommData := SerialCommunicationHandler.SerialCommReadData; 
+
 IF _startAutomaticExtraction AND _calibrateDone THEN
 	manualModeEntered := FALSE;
 	
 	// Automatic extraction
 	AutomaticExtraction(
 				parameters := _automaticExtractionParameters,
+				controlValveFullOpenTime := _ExtractiveControlValveParameters.timeToFullyOpenMs,
 				reactorPressure := _iPressureScaledValue,
+				pumpPressure := serialCommData.pumpingPressureMeasurement,
+				pumpSetpoint := SerialCommData.pumpingPressureSetpoint,
 				decreasePumpSetpoint => _decreasePumpSetpoint,
 				extractivePumpOn => GVL_IO.reactorInletValve,
 				co2onOffValveClosed => ,
@@ -62,18 +73,22 @@ IF _startAutomaticExtraction AND _calibrateDone THEN
 	_extractiveControlValveCommands.openPercentage := AutomaticExtraction.controlValveOpeningPercentage;
 	
 	// Slurry outlet valve control
+	RTRIG_SetPressureReference(CLK := _automaticExtractionState = E_AutomaticExtractionState.FILLING_ACTIVE);
+	IF RTRIG_SetPressureReference.Q THEN
+		pressureReference :=  _iPressureScaledValue;
+	END_IF
 	SlurryOutValveControl.pressureIntervalControl(
-										interval_1_condition:= GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve, // If above higher limit and filling valve open
+										interval_1_condition:= GVL_IO.reactorInletValve,// GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve, // If above higher limit and filling valve open
 										pressureUpperInterval_1:= _pressureIntervals.PressureUpperInterval_1, 
 										pressureLowerInterval_1:= _pressureIntervals.PressureLowerInterval_1, 
-										interval_2_condition:= GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve,  // If above higher limit and filling valve closed
+										interval_2_condition:= FALSE,//GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve,  // If above higher limit and filling valve closed
 										pressureUpperInterval_2:= _pressureIntervals.PressureUpperInterval_2, 
 										pressureLowerInterval_2:= _pressureIntervals.PressureLowerInterval_2, 
-										interval_3_condition:= NOT GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve,  // If below higher limit and reactor filling valve open
+										interval_3_condition:= FALSE,//NOT GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve,  // If below higher limit and reactor filling valve open
 										pressureUpperInterval_3:= _pressureIntervals.PressureUpperInterval_3, 
 										pressureLowerInterval_3:= _pressureIntervals.PressureLowerInterval_3, 
-										pressureValue:= _iPressureScaledValue, 
-										pressureReference:= DINT_TO_INT(SerialCommunicationHandler.pumpingPressureSetpoint), 
+										pressureValue:= _iPressureScaledValue,  
+										pressureReference:= pressureReference,//_iPressureScaledValue,//DINT_TO_INT(SerialCommunicationHandler.pumpingPressureSetpoint), 
 										valveOpenCondition:= NOT (NOT GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve), 
 										forceValveClosed:= (NOT GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve),
 										);
@@ -101,12 +116,13 @@ HandleExtractiveOutlet(
 					onOffValveCommand := _extractiveOutOnOffValveCommand,
 					controlValveCommands := _ExtractiveControlValveCommands,
 					controlValveParameters := _ExtractiveControlValveParameters,
-					onOffValveOpen => GVL_IO.extractiveOutletOnOffValve,
+					onOffValveOpen => ,
+					onOffValveButtonCommand => GVL_IO.extractiveOutletOnOffValve,
 					controlValveClose => GVL_IO.extractiveOutletControlValveClose,
 					controlValveOpen => GVL_IO.extractiveOutletControlValveOpen,
 					controlValveCurrentOpenPercentage => _controlValveOpening,
 					calibrateDone => _calibrateDone);
-
+_extractiveOnOffValveValues.open := HandleExtractiveOutlet.onOffValveOpen;
 					]]></ST>
     </Implementation>
     <Property Name="AutomaticExtractionParameters" Id="{30db7c23-a067-400b-9e09-a227b67a6ab4}">
@@ -218,6 +234,18 @@ _ExtractiveControlValveParameters := ExtractiveControlValveParameters;]]></ST>
         </Implementation>
       </Set>
     </Property>
+    <Property Name="ExtractiveOnOffValveValues" Id="{50523ea0-c94e-4846-a787-c1142eb03a88}">
+      <Declaration><![CDATA[PROPERTY ExtractiveOnOffValveValues : ST_ExtractiveOnOffValveValues]]></Declaration>
+      <Get Name="Get" Id="{c8c9e1ec-2584-42a6-9608-d5c9b20f91fd}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+ExtractiveOnOffValveValues := _extractiveOnOffValveValues;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="ExtractiveOutOnOffValveCommand" Id="{461a6a9f-281d-484c-948f-8a31cb53f17c}">
       <Declaration><![CDATA[PROPERTY ExtractiveOutOnOffValveCommand : BOOL]]></Declaration>
       <Set Name="Set" Id="{56f473f2-6b90-480e-9099-0f83e1c5bbdc}">
@@ -316,12 +344,23 @@ _startAutomaticExtraction := StartAutomaticExtraction;]]></ST>
     </Property>
     <LineIds Name="ReactorLevelAndPressure">
       <LineId Id="1276" Count="1" />
+      <LineId Id="1468" Count="0" />
+      <LineId Id="1467" Count="0" />
+      <LineId Id="1472" Count="0" />
       <LineId Id="1279" Count="2" />
       <LineId Id="1331" Count="1" />
-      <LineId Id="1282" Count="5" />
+      <LineId Id="1282" Count="1" />
+      <LineId Id="1482" Count="0" />
+      <LineId Id="1284" Count="0" />
+      <LineId Id="1474" Count="0" />
+      <LineId Id="1465" Count="0" />
+      <LineId Id="1285" Count="2" />
       <LineId Id="1375" Count="0" />
       <LineId Id="1288" Count="2" />
       <LineId Id="1335" Count="0" />
+      <LineId Id="1475" Count="0" />
+      <LineId Id="1478" Count="0" />
+      <LineId Id="1480" Count="1" />
       <LineId Id="1291" Count="27" />
       <LineId Id="1380" Count="1" />
       <LineId Id="1379" Count="0" />
@@ -329,6 +368,7 @@ _startAutomaticExtraction := StartAutomaticExtraction;]]></ST>
       <LineId Id="1423" Count="0" />
       <LineId Id="1322" Count="2" />
       <LineId Id="1336" Count="0" />
+      <LineId Id="1483" Count="0" />
       <LineId Id="1325" Count="5" />
       <LineId Id="859" Count="0" />
     </LineIds>
@@ -366,6 +406,10 @@ _startAutomaticExtraction := StartAutomaticExtraction;]]></ST>
       <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="ReactorLevelAndPressure.ExtractiveControlValveParameters.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorLevelAndPressure.ExtractiveOnOffValveValues.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
