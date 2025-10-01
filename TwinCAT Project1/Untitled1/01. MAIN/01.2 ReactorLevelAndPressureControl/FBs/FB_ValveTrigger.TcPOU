@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_ValveTrigger" Id="{d21c66e5-bf67-4754-af17-31e8688193c8}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ValveTrigger
+VAR_INPUT
+	openCommand : BOOL;
+END_VAR
+VAR_OUTPUT
+	buttonCommand : BOOL;
+	isOpen : BOOL;
+END_VAR
+VAR
+	RTRIG_OpenCommand : R_TRIG;
+	FTRIG_OpenCommand : F_TRIG;
+	TON_ResetButton : TON;
+	prevState : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+RTRIG_OpenCommand(CLK := openCommand);
+FTRIG_OpenCommand(CLK := openCommand);
+
+IF RTRIG_OpenCommand.q OR FTRIG_OpenCommand.q THEN
+	isOpen := NOT isOpen;
+END_IF
+
+buttonCommand := isOpen <> prevState;
+
+TON_ResetButton(IN := isOpen <> prevState, PT := T#100MS);
+IF TON_ResetButton.q THEN
+	buttonCommand := FALSE;
+	prevState := isOpen;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_ValveTrigger">
+      <LineId Id="13" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="27" Count="1" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="26" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="ST_ExtractiveOnOffValveValues" Id="{45d9709c-00d9-43c5-be85-060be4de78ac}">
+    <Declaration><![CDATA[TYPE ST_ExtractiveOnOffValveValues :
+STRUCT
+	open : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

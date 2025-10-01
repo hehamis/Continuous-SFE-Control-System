@@ -8,7 +8,8 @@ VAR_INPUT
 	controlValveParameters : ST_ExtractiveControlValveParameters;
 END_VAR
 VAR_OUTPUT
-	onOffValveOpen	: BOOL;
+	onOffValveOpen : BOOL;
+	onOffValveButtonCommand	: BOOL;
 	controlValveClose	: BOOL;
 	controlValveOpen	: BOOL;
 	controlValveCurrentOpenPercentage : DINT;
@@ -19,11 +20,16 @@ VAR
 	TON_CloseValve : TOF;
 	calibrate : BOOL;
 	ControlValveStateMachine : FB_ControlValveStateMachine;
+	onOffValveButton : FB_ValveTrigger;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-onOffValveOpen := onOffValveCommand;
+      <ST><![CDATA[//onOffValveOpen := onOffValveCommand;
+onOffValveButton(
+			openCommand := onOffValveCommand);
+onOffValveButtonCommand := onOffValveButton.buttonCommand;
+onOffValveOpen := onOffValveButton.isOpen;
+
 
 ControlValveStateMachine(
 						controlValveCommands := controlValveCommands,
@@ -34,14 +40,9 @@ ControlValveStateMachine(
 						calibrateDone => calibrateDone);]]></ST>
     </Implementation>
     <LineIds Name="FB_ExtractiveOutletHandler">
-      <LineId Id="12" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="44" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="61" Count="0" />
-      <LineId Id="118" Count="0" />
-      <LineId Id="62" Count="1" />
-      <LineId Id="80" Count="0" />
+      <LineId Id="163" Count="3" />
+      <LineId Id="175" Count="1" />
+      <LineId Id="167" Count="6" />
       <LineId Id="99" Count="0" />
     </LineIds>
   </POU>
