@@ -194,7 +194,7 @@ END_IF
 	IF NOT ReactorLevelAndPressure.decreasePumpSetpoint THEN
 		pumpingPressureSentSetpoint :=  _serialCommSetpoints.pumpingPressureSetSetpoint;
 	ELSE
-		pumpingPressureSentSetpoint :=	_serialCommSetpoints.pumpingPressureSetSetpoint - 40; // Automatic extraction control
+		pumpingPressureSentSetpoint :=	80;//_serialCommSetpoints.pumpingPressureSetSetpoint - 40; // Automatic extraction control
 	END_IF
 //END_IF
 fbUpdatePressureSetpoint(fbAsciiComm := fbAsciiComm, bStartSend := pumpPressureStartSend, sParameterCharacter := 'S', iValue := pumpingPressureSentSetpoint, iSlaveNo := 2);
