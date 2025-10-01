@@ -1,20 +1,27 @@
 clear all, close all
 %% Datan lataus (muuta päivämäärä ja nimi halutuksi)
-load('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab\2024_11_19_10_55_41.408 (200bar_paprikaajo_1h_40c_10%pitoisuus)/Valve_data.mat')
-load('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab\2024_11_19_10_55_41.408 (200bar_paprikaajo_1h_40c_10%pitoisuus)/P_data.mat')
-load('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab\2024_11_19_10_55_41.408 (200bar_paprikaajo_1h_40c_10%pitoisuus)/F_data.mat')
-load('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab\2024_11_19_10_55_41.408 (200bar_paprikaajo_1h_40c_10%pitoisuus)/T_data.mat')
+load('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab\2025_9_11_12_48_21.647 (lohisuolimassa_200bar_2ajo)/Valve_data.mat')
+load('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab\2025_9_11_12_48_21.647 (lohisuolimassa_200bar_2ajo)/P_data.mat')
+load('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab\2025_9_11_12_48_21.647 (lohisuolimassa_200bar_2ajo)/F_data.mat')
+load('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab\2025_9_11_12_48_21.647 (lohisuolimassa_200bar_2ajo)/T_data.mat')
 Pst = 200; % paineen setpoint
-Tst = 40; % lämpötilan setpoint
+Tst = 45; % lämpötilan setpoint
 %% CO2 keskivirtaus ja kokonaiskulutus
-ajo = find(F_data(:,1) > 0); %CO2 pumppujen käynnissä olo aika
-F = (F_data(ajo(1):ajo(end),1))./100;
 
-jajo1 = find(T_data(:,1) == T_data(:,2)); %jatkuvatoiminen ajo
+ajost = find(F_data(:,1) > 0); %CO2 pumput käynnistyy
+if P_data(end,2) == 80
+    ajosto = find(P_data(:,2) == 80); %CO2 pumput pysähtyy
+else
+    ajosto = find(P_data(:,2) == Pst);
+end
+F = (F_data(ajost(1):ajosto(end),1))./100;
+
+% jajo1 = find(T_data(:,1) == T_data(:,2)); %jatkuvatoiminen ajo
+jajo1 = find(P_data(:,2) == 160);
 jajo2 = find(P_data(:,2) == Pst);
 jF = (F_data(jajo1(1):jajo2(end),1))./100;
 %% Minuuttien lasku CO2 kierrolle ja jatkuvatoimiselle ajolle
-k = size(F_data(ajo(1):ajo(end),6));
+k = size(F_data(ajost(1):ajosto(end),6));
 f = k(:,1);
 M = 0;
 for i = 1:f-1
@@ -61,12 +68,14 @@ plot(P(:,1),'b'); hold on; plot(P(:,2),'r'); hold off;
 %% reaktorin lämpötila
 t = find(T_data(:,2) == Tst);
 T = T_data(t(1):t(end),1);
+TO = T_data(t(1),1); % Alku lämpötila
+Tmax = max(T_data(t(1):t(end),1)); % Lämpötila maksimi
 T0 = T - T(1); Tst0 = Tst - T(1); % lämpötilat lähtemään nollasta (ei toimi jos alkulämpötila setpointtia korkeampi)
 Rtl = find(T0 == round(Tst0*0.1));
 Rtu = find(T0 == round(Tst0*0.9));
 Rt = min(Rtu) - min(Rtl); % nousuaika (sec) (ei välttämättä toimi jos aloitus lämpötila liian lähella setpointtia)
 Os = max(T) - Tst; % setpointin ylitys (*C)
-% c = ;
+keskilampotila = mean(T);
 Tc = max(find(T < Tst*0.632)); % aikavakio (sec)
 figure(3);
 plot(T_data(:,1),'b'); hold on; plot(T_data(:,2),'r');

@@ -1,5 +1,5 @@
 close, clear all;
-load('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab\2024_11_26_10_5_7.751 (Särmäkuisma 1)/F_data.mat')
+load('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab\2025_4_15_9_6_13.382 (150425_1)/F_data.mat')
 e = [];
 k = size(F_data(:,7));
 f = k(:,1);
