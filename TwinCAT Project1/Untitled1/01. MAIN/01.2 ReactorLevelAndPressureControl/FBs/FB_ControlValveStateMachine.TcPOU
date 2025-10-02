@@ -11,6 +11,7 @@ VAR_OUTPUT
 	openControlValve : BOOL;
 	currentControlValveOpenPercentage : DINT;
 	calibrateDone : BOOL;
+	test : real;
 END_VAR
 VAR
 	startCalibrate : BOOL;
@@ -92,8 +93,11 @@ CASE controlState OF
 
 END_CASE
 
-// Calculate valve open-% according to open timer
-currentControlValveOpenPercentage := TO_DINT(TIME_TO_REAL(openvalve.elapsedtime)/100);
+// Calculate valve open-% according to open timer¨
+IF controlValveParameters.timeToFullyOpenMs > 0 THEN
+	currentControlValveOpenPercentage := TO_DINT(((TIME_TO_REAL(openvalve.elapsedtime)) /(controlValveParameters.timeToFullyOpenMs)*100));// TO_DINT(TIME_TO_REAL(openvalve.elapsedtime)/100);
+	test := TO_DINT(TIME_TO_REAL(openvalve.elapsedtime));
+END_IF
 
 closeControlValve := closeCommand OR close;
 openControlValve := open;
@@ -132,7 +136,12 @@ openControlValve := open;
       <LineId Id="323" Count="0" />
       <LineId Id="321" Count="1" />
       <LineId Id="319" Count="0" />
-      <LineId Id="186" Count="7" />
+      <LineId Id="186" Count="4" />
+      <LineId Id="391" Count="0" />
+      <LineId Id="191" Count="0" />
+      <LineId Id="390" Count="0" />
+      <LineId Id="393" Count="0" />
+      <LineId Id="192" Count="1" />
       <LineId Id="254" Count="0" />
       <LineId Id="227" Count="0" />
       <LineId Id="229" Count="0" />
