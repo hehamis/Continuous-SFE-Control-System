@@ -14,17 +14,7 @@ VAR
 	
 
 	ReceiveStep: INT;
-	ProcessVariableRead : BOOL;
-	SetpointRead : BOOL;
-	ProcessVariableReceived : BOOL;
-	SetpointReceived : BOOL;
-	SendStep: INT;
 	pumpPressureStartSend: BOOL;
-	start3: BOOL;
-	received3: BOOL;
-	start4: BOOL;
-	received4: BOOL;
-	Setpoint: STRING;
 	
 	fbUpdatePressureSetpoint: FB_UpdateSetpoint;
 	pumpingPressureMeasurement: DINT;
@@ -33,28 +23,20 @@ VAR
 	pumpingPressureSetSetpointPrev: DINT;
 	tonMessageUpdate: TON;
 	rTrigMessageNotUpdated: R_TRIG;
-	OutputPowerRead: BOOL;
-	OutputPowerReceived: BOOL;
 	pumpingPressureOutputPower: DINT;
-	testi: BOOL;
 	flowMeasurement: DINT;
 	preHeaterTemperatureMeasurement: DINT;
 	preHeaterTemperatureSetpoint: DINT;
-	preHeaterTemperatureOutputPower: DINT;
 	fbUpdatePreHeaterTemperatureSetpoint: FB_UpdateSetpoint;
-	preHeaterTemperatureSetSetpoint: DINT;
 	preHeaterTemperatureSetSetpointPrev: DINT;
 	preHeaterTemperatureStartSend: BOOL;
 	separatorTemperatureMeasurement: DINT;
 	separatorTemperatureSetpoint: DINT;
-	separatorTemperatureOutputPower: DINT;
 	fbUpdateSeparatorTemperatureSetpoint: FB_UpdateSetpoint;
 	separatorTemperatureStartSend: BOOL;
-	separatorTemperatureSetSetpoint: DINT;
 	separatorTemperatureSetSetpointPrev: DINT;
 	
 	pumpingPressureSentSetpoint : DINT;
-	ReactorPressureSetpoint: DINT;
 	
 	_serialCommSetpoints : ST_SerialCommSetpoints;
 	_serialCommReadData : ST_SerialCommReadData;
@@ -216,7 +198,7 @@ fbUpdatePreHeaterTemperatureSetpoint(fbAsciiComm := fbAsciiComm,
 IF _serialCommSetpoints.preHeaterTemperatureSetSetpoint <> preHeaterTemperatureSetSetpointPrev THEN
 	preHeaterTemperatureStartSend := TRUE;
 	fbAsciiComm.StopSend(stop := TRUE);
-	preHeaterTemperatureSetSetpointPrev := preHeaterTemperatureSetSetpoint;
+	preHeaterTemperatureSetSetpointPrev := _serialCommSetpoints.preHeaterTemperatureSetSetpoint;
 	//ReceiveStep := 6;
 END_IF
 // Update preheater temperature setpoint
@@ -228,7 +210,7 @@ fbUpdateSeparatorTemperatureSetpoint(fbAsciiComm := fbAsciiComm,
 IF _serialCommSetpoints.separatorTemperatureSetSetpoint <> separatorTemperatureSetSetpointPrev THEN
 	separatorTemperatureStartSend := TRUE;
 	fbAsciiComm.StopSend(stop := TRUE);
-	separatorTemperatureSetSetpointPrev := separatorTemperatureSetSetpoint;
+	separatorTemperatureSetSetpointPrev := _serialCommSetpoints.separatorTemperatureSetSetpoint;
 	//ReceiveStep := 10;
 END_IF
 
