@@ -106,6 +106,9 @@
     <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\SerialCommunicationHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\SerialCommunicationHandler_1.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\ST_SerialCommReadData.TcDUT">
       <SubType>Code</SubType>
     </Compile>
