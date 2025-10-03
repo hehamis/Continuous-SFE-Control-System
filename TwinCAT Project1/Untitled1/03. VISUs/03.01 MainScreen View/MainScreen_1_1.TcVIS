@@ -7024,8 +7024,8 @@
                 <v>78c2043d-446c-4fe8-b7a6-7da7ed4f153f</v>
                 <v>ContainsPoint</v>
                 <v>1a05296b-abb9-4244-9866-b3aa153778cd</v>
-                <v>SetStaticState</v>
-                <v>283e647e-9694-4d1f-a1b3-3de069195511</v>
+                <v>HasInputAccess</v>
+                <v>3d668faf-6c6a-471b-ade7-ba043c5cc07b</v>
                 <v>HasInputAccessIntern</v>
                 <v>67545eb7-2035-4350-907c-972072de3bfc</v>
                 <v>GetTooltip</v>
@@ -7044,12 +7044,12 @@
                 <v>b2b13d38-d5b7-4e95-a779-aa1716e6b49a</v>
                 <v>SetClientData</v>
                 <v>2ecfd608-9aec-4f94-a0a0-eec2af74adaa</v>
+                <v>HasVisibilityAccessIntern</v>
+                <v>781d102b-c816-4251-925e-3a97ea26b067</v>
                 <v>GetInstance</v>
                 <v>698d740e-5c8a-45d8-8ac7-d0ada513b01f</v>
                 <v>GetClientData</v>
                 <v>9513d573-4a31-4864-ba82-206292d538cc</v>
-                <v>Destruct</v>
-                <v>438da58a-93a8-4980-a2c6-5440606d8cc7</v>
                 <v>Paint</v>
                 <v>8c7ab2db-4b56-4b96-8958-decc34565fd0</v>
                 <v>GetElementArray</v>
@@ -7064,10 +7064,10 @@
                 <v>eb4d4f29-2f35-42a3-8762-ab19e0b1deaf</v>
                 <v>Initialize</v>
                 <v>67a1f0d8-c8c7-4452-83e2-7591cf6a6dcc</v>
-                <v>HasInputAccess</v>
-                <v>3d668faf-6c6a-471b-ade7-ba043c5cc07b</v>
-                <v>HasVisibilityAccessIntern</v>
-                <v>781d102b-c816-4251-925e-3a97ea26b067</v>
+                <v>Destruct</v>
+                <v>438da58a-93a8-4980-a2c6-5440606d8cc7</v>
+                <v>SetStaticState</v>
+                <v>283e647e-9694-4d1f-a1b3-3de069195511</v>
                 <v>GetSurroundingRect</v>
                 <v>fe64a38c-1701-45e8-8298-717425e1b7c3</v>
                 <v>GetResult</v>
@@ -7106,10 +7106,10 @@
               <d n="FbMethods" t="CaseInsensitiveHashtable_1" ckt="String" cvt="Guid">
                 <v>FB_Init</v>
                 <v>61b8063d-15ee-4b0a-b378-0b515ffdb671</v>
-                <v>FB_Exit</v>
-                <v>3b6fe8d2-2fd1-429d-8b5c-11b1b7da797f</v>
                 <v>FB_Reinit</v>
                 <v>71a0fdd8-b6e2-413f-addc-5aa83758421b</v>
+                <v>FB_Exit</v>
+                <v>3b6fe8d2-2fd1-429d-8b5c-11b1b7da797f</v>
               </d>
               <v n="FbName">"NotImportant"</v>
               <v n="FbGuid">{2102feda-6b65-473b-a8c9-584ed275b976}</v>
