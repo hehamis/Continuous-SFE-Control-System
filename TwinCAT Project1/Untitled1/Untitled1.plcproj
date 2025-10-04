@@ -311,7 +311,9 @@
     <Folder Include="04. GVLs" />
     <Folder Include="01. MAIN" />
     <Folder Include="02. MAIN_Fast" />
-    <Folder Include="Trash" />
+    <Folder Include="Trash">
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Folder>
     <Folder Include="Trash\AutoExtractionParameterMenu View">
       <ExcludeFromBuild>true</ExcludeFromBuild>
     </Folder>
