@@ -154,20 +154,10 @@
     <Compile Include="03. VISUs\03.03 Parameter View\ParameterViewBindings.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="03. VISUs\03.01 MainScreen View\MainScreen.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-      <ExcludeFromBuild>true</ExcludeFromBuild>
-    </Compile>
     <Compile Include="03. VISUs\03.01 MainScreen View\MainScreenBindings.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="03. VISUs\03.01 MainScreen View\MainScreen_1.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-      <ExcludeFromBuild>true</ExcludeFromBuild>
-    </Compile>
-    <Compile Include="03. VISUs\03.01 MainScreen View\MainScreen_1_1.TcVIS">
+    <Compile Include="03. VISUs\03.01 MainScreen View\MainScreen.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
@@ -218,6 +208,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Trash\LevelControlParamMenu.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="Trash\MainScreen_1.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="Trash\MainScreen_OLD.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
       <ExcludeFromBuild>true</ExcludeFromBuild>
