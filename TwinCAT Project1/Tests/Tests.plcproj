@@ -25,11 +25,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DUTs" />
-    <Folder Include="GVLs" />
+    <Folder Include="FBs to test" />
+    <Folder Include="FBs to test\ITFs" />
     <Folder Include="Unit Tests\FB tests" />
     <Folder Include="Unit Tests\Mocks" />
-    <Folder Include="VISUs" />
     <Folder Include="Unit Tests" />
   </ItemGroup>
   <ItemGroup>
