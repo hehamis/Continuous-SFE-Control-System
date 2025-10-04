@@ -25,9 +25,6 @@
     <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\FBs\FB_PidControllerRelayOutput.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\FBs\FB_PIDrelayOutput.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\FBs\FB_ReactorTemperatureControlStateMachine.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -205,6 +202,9 @@
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
     <Compile Include="Trash\ExtractiveOutletValveParameterMenu\ExtractiveOutletValveParameterMenuBindings.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Trash\FB_PIDrelayOutput.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Trash\LevelControlParamMenu.TcVIS">

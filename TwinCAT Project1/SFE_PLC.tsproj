@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.22">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.22" TcProjectVariant="Simulation">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom" AutoDeleteType="true">EL6inData22B</Name>
@@ -114,10 +114,24 @@
 				<Task Id="5" Priority="1" CycleTime="20000" AmsPort="352" AdtTasks="true">
 					<Name>PlcTaskFast</Name>
 				</Task>
+				<Task Id="6" Priority="21" CycleTime="100000" AmsPort="353" AdtTasks="true">
+					<Name>PlcTask1</Name>
+				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{F1DA8C98-B70B-4E0D-AFB2-4F0E6AE5FF49}" Name="Untitled1" PrjFilePath="Untitled1\Untitled1.plcproj" TmcFilePath="Untitled1\Untitled1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
+				<ProjectVariant PvUseDisable="true">
+					<Variant>
+						<Name>Complete</Name>
+						<Name>Simulation</Name>
+						<Disable>0</Disable>
+					</Variant>
+					<Variant>
+						<Name>Tests</Name>
+						<Disable>1</Disable>
+					</Variant>
+				</ProjectVariant>
 				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Untitled1\Untitled1.tmc">
 					<Name>Untitled1 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
@@ -248,10 +262,22 @@
 					</TaskPouOids>
 				</Instance>
 			</Project>
+			<Project File="Tests.xti"/>
 		</Plc>
 		<Io>
 			<Device Id="1" Disabled="true" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="5.86.83.4.2.1" RemoteName="Device 1 (EtherCAT)" InfoImageId="2">
 				<Name>Device 1 (EtherCAT)</Name>
+				<ProjectVariant PvUseDisable="true">
+					<Variant>
+						<Name>Complete</Name>
+						<Disable>0</Disable>
+					</Variant>
+					<Variant>
+						<Name>Simulation</Name>
+						<Name>Tests</Name>
+						<Disable>1</Disable>
+					</Variant>
+				</ProjectVariant>
 				<AddressInfo>
 					<Ccat>
 						<Address>-801112064</Address>
@@ -2136,6 +2162,20 @@ Bit1: Value smaller than Limit2]]></Comment>
 				<EtherCAT/>
 			</Device>
 		</Io>
+		<Variants SpecificLocalBootFolder="true">
+			<Variant>
+				<Name>Complete</Name>
+				<Desc><![CDATA[Uses "main" PLC project, I/O included]]></Desc>
+			</Variant>
+			<Variant>
+				<Name>Simulation</Name>
+				<Desc><![CDATA[Uses "main" PLC project, I/O excluded]]></Desc>
+			</Variant>
+			<Variant>
+				<Name>Tests</Name>
+				<Desc><![CDATA[Uses Tests PLC project]]></Desc>
+			</Variant>
+		</Variants>
 	</Project>
 	<Mappings>
 		<OwnerA Name="TIPC^Untitled1^Untitled1 Instance">
