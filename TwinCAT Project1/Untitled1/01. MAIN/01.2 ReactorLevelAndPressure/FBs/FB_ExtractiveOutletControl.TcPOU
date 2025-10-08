@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="FB_ExtractiveOutletHandler" Id="{c4646b40-ee7c-48e1-846d-cd0fb4b976bb}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_ExtractiveOutletHandler
+  <POU Name="FB_ExtractiveOutletControl" Id="{c4646b40-ee7c-48e1-846d-cd0fb4b976bb}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ExtractiveOutletControl
 VAR_INPUT
 	onOffValveCommand : BOOL;
 	controlValveCommands : ST_ExtractiveControlValveCommands;
@@ -39,7 +39,7 @@ ControlValveStateMachine(
 						currentControlValveOpenPercentage => controlValveCurrentOpenPercentage,
 						calibrateDone => calibrateDone);]]></ST>
     </Implementation>
-    <LineIds Name="FB_ExtractiveOutletHandler">
+    <LineIds Name="FB_ExtractiveOutletControl">
       <LineId Id="163" Count="3" />
       <LineId Id="175" Count="1" />
       <LineId Id="167" Count="6" />

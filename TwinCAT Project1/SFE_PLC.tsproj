@@ -154,6 +154,11 @@
 					<Vars VarGrpType="1" ContextId="1" AreaNo="16">
 						<Name>PlcTask Inputs</Name>
 						<Var>
+							<Name>GVL_IO.reactorLevelHigherHigh</Name>
+							<Comment><![CDATA[ Higher high slurry level]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>GVL_IO.reactorTemperatureUpper</Name>
 							<Comment><![CDATA[ Reactor temperature]]></Comment>
 							<Type>INT</Type>
@@ -162,11 +167,6 @@
 							<Name>GVL_IO.reactorTemperatureLower</Name>
 							<Comment><![CDATA[ Reactor temperature lower]]></Comment>
 							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.reactorLevelHigherHigh</Name>
-							<Comment><![CDATA[ Higher high slurry level]]></Comment>
-							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.reactorLevelLow</Name>

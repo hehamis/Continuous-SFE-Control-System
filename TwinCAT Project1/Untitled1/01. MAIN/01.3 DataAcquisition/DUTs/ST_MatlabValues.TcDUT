@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="ST_MatlabValues" Id="{ad16869e-07dd-4441-9827-6786b290a1b7}">
+    <Declaration><![CDATA[TYPE ST_MatlabValues :
+STRUCT
+	matlabRunningState: STRING(35); // Matlab run state in str
+	matlabBtnPrevented: BOOL;
+	matlabBtnState		: BOOL;
+	matlabBtnColor : DWORD;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

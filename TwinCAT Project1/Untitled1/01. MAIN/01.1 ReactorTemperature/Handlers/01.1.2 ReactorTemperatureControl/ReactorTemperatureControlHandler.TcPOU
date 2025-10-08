@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="ReactorTemperatureControlHandler" Id="{2f294f64-1505-41f8-b499-1db2df7abb98}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ReactorTemperatureControlHandler
+VAR_INPUT
+	_pidControllerParameters : ST_PidParameters;
+	_manualControlPercentage : INT;
+	_upperTemperature : INT;
+	_lowerTemperature : INT;
+	_temperatureSetpoint : INT;
+	_autoControlSelected : BOOL;
+	_temperatureContactorCommand : BOOL;
+END_VAR
+VAR_OUTPUT
+	_temperatureContactor : BOOL;
+END_VAR
+VAR
+	TemperatureControlStateMachine : FB_ReactorTemperatureControlStateMachine;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+TemperatureControlStateMachine(temperatureMeasurement := TO_REAL(_upperTemperature),
+							temperatureSetpoint := TO_REAL(_temperatureSetpoint),
+							pidParameters := _pidControllerParameters,
+							manualControlPercentage := _manualControlPercentage,
+							autoControlSelected := _autoControlSelected,
+							relayOn => _temperatureContactor);
+
+IF _autoControlSelected OR (NOT _autoControlSelected AND _manualControlPercentage > 0) THEN
+	_temperatureContactor := TemperatureControlStateMachine.relayOn;
+ELSE
+	_temperatureContactor := _temperatureContactorCommand;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="ReactorTemperatureControlHandler">
+      <LineId Id="10" Count="11" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

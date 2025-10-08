@@ -3,8 +3,7 @@
   <GVL Name="GVL_IO" Id="{86a3f261-87c7-445b-99f5-4f998ed6afb1}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
-	//Test
-	{attribute 'OPC.UA.DA' := '1'}
+
 	reactorTemperatureContactor AT %Q* : BOOL; // Temperature contactor
 	reactorTemperatureUpper AT %I*: INT; // Reactor temperature
 	reactorTemperatureLower AT %I*: INT; // Reactor temperature lower
@@ -15,10 +14,10 @@ VAR_GLOBAL
 	reactorOutletValve AT %Q*: BOOL;  // Reactor outlet valve
 	reactorPressure AT %I*: INT; // Reactor pressure raw analog value
 	reactorInletValve AT %Q*: BOOL; // Filling valve
-	
 	extractiveOutletOnOffValve AT %Q* : BOOL;
 	extractiveOutletControlValveOpen AT %Q* : BOOL;
 	extractiveOutletControlValveClose AT %Q* : BOOL;
+	
 END_VAR
 ]]></Declaration>
   </GVL>

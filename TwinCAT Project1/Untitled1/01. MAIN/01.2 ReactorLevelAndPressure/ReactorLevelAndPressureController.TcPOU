@@ -1,8 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="ReactorLevelAndPressure" Id="{a387b85d-f129-4119-abd4-456930450f01}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM ReactorLevelAndPressure
+  <POU Name="ReactorLevelAndPressureController" Id="{a387b85d-f129-4119-abd4-456930450f01}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM ReactorLevelAndPressureController
+VAR_INPUT
+	serialCommData : ST_SerialCommReadData;
+	stop : BOOL;
+	levelHigh : BOOL;
+END_VAR
+VAR_OUTPUT
+	slurryInletValve : BOOL;
+	slurryOutletValve : BOOL;
+	extractiveOutletOnOffValve : BOOL;
+	extractiveOutletControlValveClose : BOOL;
+	extractiveOutletControlValveOpen : BOOL;
+END_VAR
 VAR
+	
+	// Handlers to call
+	HandlePressureSensorScaling : PressureSensorScalingHandler;
+	HandleAutomaticExtraction : AutomaticExtractionHandler;
+	HandleExtractiveOutlet : ExtractiveOutletHandler;
+
 	_iPressureScaledValue: INT; //Scaled pressure value
 	_bLevelControlSwitch : BOOL;
 	_slurryInValveCommand : BOOL;
@@ -19,20 +37,12 @@ VAR
 	autoModeEntered : BOOL;
 	SlurryOutValveControl: FB_ReactorValves;
 	sLevelControlState: STRING;
-//	sLevelValveState: STRING;
-	sFillingValveState: STRING;
-	timeControlToggle: FB_toggleheartbeat;
+	sFillingValveState: STRING;;
 	
 	_extractiveOutOnOffValveCommand : BOOL;
-	
-	HandleExtractiveOutlet : FB_ExtractiveOutletHandler;
-	AutomaticExtraction : FB_AutomaticExtractionStateMachine;
 	_startAutomaticExtraction : BOOL;
-	automaticExtractionEnabled : BOOL;
 	
 	_automaticExtractionState : E_AutomaticExtractionState;
-	
-	serialCommData : ST_SerialCommReadData;
 	
 	RTRIG_SetPressureReference : R_TRIG;
 	pressureReference : INT;
@@ -41,88 +51,115 @@ END_VAR
 VAR PERSISTENT
 	_fillingValveOpenInterval: INT;
 	_fillingValveCloseInterval: INT;	
-	PressureUpperInterVal_1: INT;
-	PressureUpperInterVal_2: INT;
-	PressureLowerInterval_1: INT;
-	PressureLowerInterval_2: INT;	
-	PressureUpperInterVal_3: INT;
-	PressureLowerInterval_3: INT;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Scale analog pressure
-_iPressureScaledValue := F_AnalogScale(AnalogInputRawValue := GVL_IO.reactorPressure, MaxAnalogValue := 1000);
-
-// Get serial comm setpoints
-serialCommData := SerialCommunicationHandler.SerialCommReadData; 
-
-IF _startAutomaticExtraction AND _calibrateDone THEN
-	manualModeEntered := FALSE;
-	
-	// Automatic extraction
-	AutomaticExtraction(
-				parameters := _automaticExtractionParameters,
-				controlValveFullOpenTime := _ExtractiveControlValveParameters.timeToFullyOpenMs,
-				reactorPressure := _iPressureScaledValue,
-				pumpPressure := serialCommData.pumpingPressureMeasurement,
-				pumpSetpoint := SerialCommData.pumpingPressureSetpoint,
-				decreasePumpSetpoint => _decreasePumpSetpoint,
-				extractivePumpOn => GVL_IO.reactorInletValve,
-				co2onOffValveClosed => ,
-				automaticExtractionState => _automaticExtractionState);
-	_extractiveOutOnOffValveCommand := NOT AutomaticExtraction.co2onOffValveClosed;
-	_extractiveControlValveCommands.openPercentage := AutomaticExtraction.controlValveOpeningPercentage;
-	
-	// Slurry outlet valve control
-	RTRIG_SetPressureReference(CLK := _automaticExtractionState = E_AutomaticExtractionState.FILLING_ACTIVE);
-	IF RTRIG_SetPressureReference.Q THEN
-		pressureReference :=  _iPressureScaledValue;
-	END_IF
-	SlurryOutValveControl.pressureIntervalControl(
-										interval_1_condition:= GVL_IO.reactorInletValve,// GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve, // If above higher limit and filling valve open
-										pressureUpperInterval_1:= _pressureIntervals.PressureUpperInterval_1, 
-										pressureLowerInterval_1:= _pressureIntervals.PressureLowerInterval_1, 
-										interval_2_condition:= FALSE,//GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve,  // If above higher limit and filling valve closed
-										pressureUpperInterval_2:= _pressureIntervals.PressureUpperInterval_2, 
-										pressureLowerInterval_2:= _pressureIntervals.PressureLowerInterval_2, 
-										interval_3_condition:= FALSE,//NOT GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve,  // If below higher limit and reactor filling valve open
-										pressureUpperInterval_3:= _pressureIntervals.PressureUpperInterval_3, 
-										pressureLowerInterval_3:= _pressureIntervals.PressureLowerInterval_3, 
-										pressureValue:= _iPressureScaledValue,  
-										pressureReference:= pressureReference,//_iPressureScaledValue,//DINT_TO_INT(SerialCommunicationHandler.pumpingPressureSetpoint), 
-										valveOpenCondition:= NOT (NOT GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve), 
-										forceValveClosed:= (NOT GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve),
-										);
-	GVL_IO.reactorOutletValve := SlurryOutValveControl.pressureControlOpen;
-	
-ELSE
-	AutomaticExtraction.resetState();
-	// Close inlet/outlet valves when manual mode entered
-	IF NOT manualModeEntered THEN
-		GVL_IO.reactorInletValve := FALSE; // Close all valves when auto mode is exited
-		GVL_IO.reactorOutletValve := FALSE;
-		autoModeEntered := FALSE;
-		manualModeEntered := TRUE;
-	END_IF
-	GVL_IO.reactorInletValve := _slurryInValveCommand;
-	GVL_IO.reactorOutletValve := _slurryOutValveCommand;
-
-	_automaticExtractionState := E_AutomaticExtractionState.MANUAL_EXTRACTION;
-	
-END_IF
-
-// Extractive outlet control
-_extractiveControlValveCommands.stopCalibration := Safety.stop;
+      <ST><![CDATA[
+HandlePressureSensorScaling(
+						reactorPressureSensor := GVL_IO.reactorPressure,
+						PressureScaledValue => _iPressureScaledValue);
+						
+HandleAutomaticExtraction(
+						automaticExtractionParameters := _automaticExtractionParameters,
+						extractiveControlValveParameters := _extractiveControlValveParameters,
+						pressureScaledValue := _iPressureScaledValue,
+						serialCommData := serialCommData,
+						extractiveControlValveCommands := _extractiveControlValveCommands,
+						pressureIntervals := _pressureIntervals,
+						reactorLevelHigh := levelHigh,
+						startAutomaticExtraction := _startAutomaticExtraction,
+						calibrateDone := _calibrateDone,
+						slurryInValveCommand := _slurryInValveCommand,
+						slurryOutValveCommand := _slurryOutValveCommand ,
+						decreasePumpSetpoint => _decreasePumpSetpoint,
+						reactorInletValve => slurryInletValve,
+						automaticExtractionState => _automaticExtractionState,
+						extractiveOutOnOffValveAutoCommand => ,
+						controlValveAutoOpenPercentage => ,
+						reactorOutletValve => slurryOutletValve);
+						
 HandleExtractiveOutlet(
-					onOffValveCommand := _extractiveOutOnOffValveCommand,
-					controlValveCommands := _ExtractiveControlValveCommands,
-					controlValveParameters := _ExtractiveControlValveParameters,
-					onOffValveOpen => ,
-					onOffValveButtonCommand => GVL_IO.extractiveOutletOnOffValve,
-					controlValveClose => GVL_IO.extractiveOutletControlValveClose,
-					controlValveOpen => GVL_IO.extractiveOutletControlValveOpen,
-					controlValveCurrentOpenPercentage => _controlValveOpening,
-					calibrateDone => _calibrateDone);
-_extractiveOnOffValveValues.open := HandleExtractiveOutlet.onOffValveOpen;
+					stop := stop,
+					extractiveControlValveCommands := _ExtractiveControlValveCommands,
+					extractiveControlValveParameters := _ExtractiveControlValveParameters,
+					extractiveOutOnOffValveCommand := (_extractiveOutOnOffValveCommand AND (_automaticExtractionState = E_AutomaticExtractionState.MANUAL_EXTRACTION)) OR 
+														((_automaticExtractionState <> E_AutomaticExtractionState.MANUAL_EXTRACTION) AND HandleAutomaticExtraction.extractiveOutOnOffValveAutoCommand),
+					autoExtractionControlValveValue := HandleAutomaticExtraction.controlValveAutoOpenPercentage,
+					autoExtractionStarted := _automaticExtractionState <> E_AutomaticExtractionState.MANUAL_EXTRACTION,
+					controlValveOpeningPercentage => _controlValveOpening,
+					extractiveOnOffValveValues => _extractiveOnOffValveValues,
+					calibrateDone => _calibrateDone,
+					openOnOffValve => extractiveOutletOnOffValve,
+					closeExtractiveOutletValve => extractiveOutletControlValveClose,
+					openExtractiveOutletValve => extractiveOutletControlValveOpen);
+
+//IF _startAutomaticExtraction AND _calibrateDone THEN
+//	manualModeEntered := FALSE;
+	
+//	// Automatic extraction
+//	AutomaticExtraction(
+//				parameters := _automaticExtractionParameters,
+//				controlValveFullOpenTime := _ExtractiveControlValveParameters.timeToFullyOpenMs,
+//				reactorPressure := _iPressureScaledValue,
+//				pumpPressure := serialCommData.pumpingPressureMeasurement,
+//				pumpSetpoint := SerialCommData.pumpingPressureSetpoint,
+//				decreasePumpSetpoint => _decreasePumpSetpoint,
+//				extractivePumpOn => GVL_IO.reactorInletValve,
+//				co2onOffValveClosed => ,
+//				automaticExtractionState => _automaticExtractionState);
+//	_extractiveOutOnOffValveCommand := NOT AutomaticExtraction.co2onOffValveClosed;
+//	_extractiveControlValveCommands.openPercentage := AutomaticExtraction.controlValveOpeningPercentage;
+	
+//	// Slurry outlet valve control
+//	RTRIG_SetPressureReference(CLK := _automaticExtractionState = E_AutomaticExtractionState.FILLING_ACTIVE);
+//	IF RTRIG_SetPressureReference.Q THEN
+//		pressureReference :=  _iPressureScaledValue;
+//	END_IF
+//	SlurryOutValveControl.pressureIntervalControl(
+//										interval_1_condition:= GVL_IO.reactorInletValve,// GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve, // If above higher limit and filling valve open
+//										pressureUpperInterval_1:= _pressureIntervals.PressureUpperInterval_1, 
+//										pressureLowerInterval_1:= _pressureIntervals.PressureLowerInterval_1, 
+//										interval_2_condition:= FALSE,//GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve,  // If above higher limit and filling valve closed
+//										pressureUpperInterval_2:= _pressureIntervals.PressureUpperInterval_2, 
+//										pressureLowerInterval_2:= _pressureIntervals.PressureLowerInterval_2, 
+//										interval_3_condition:= FALSE,//NOT GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve,  // If below higher limit and reactor filling valve open
+//										pressureUpperInterval_3:= _pressureIntervals.PressureUpperInterval_3, 
+//										pressureLowerInterval_3:= _pressureIntervals.PressureLowerInterval_3, 
+//										pressureValue:= _iPressureScaledValue,  
+//										pressureReference:= pressureReference,//_iPressureScaledValue,//DINT_TO_INT(SerialCommunicationHandler.pumpingPressureSetpoint), 
+//										valveOpenCondition:= NOT (NOT GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve), 
+//										forceValveClosed:= (NOT GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve),
+//										);
+//	GVL_IO.reactorOutletValve := SlurryOutValveControl.pressureControlOpen;
+	
+//ELSE
+//	AutomaticExtraction.resetState();
+//	// Close inlet/outlet valves when manual mode entered
+//	IF NOT manualModeEntered THEN
+//		GVL_IO.reactorInletValve := FALSE; // Close all valves when auto mode is exited
+//		GVL_IO.reactorOutletValve := FALSE;
+//		autoModeEntered := FALSE;
+//		manualModeEntered := TRUE;
+//	END_IF
+//	GVL_IO.reactorInletValve := _slurryInValveCommand;
+//	GVL_IO.reactorOutletValve := _slurryOutValveCommand;
+
+//	_automaticExtractionState := E_AutomaticExtractionState.MANUAL_EXTRACTION;
+	
+//END_IF
+
+//// Extractive outlet control
+//_extractiveControlValveCommands.stopCalibration := Safety.stop;
+//HandleExtractiveOutlet(
+//					onOffValveCommand := _extractiveOutOnOffValveCommand,
+//					controlValveCommands := _ExtractiveControlValveCommands,
+//					controlValveParameters := _ExtractiveControlValveParameters,
+//					onOffValveOpen => ,
+//					onOffValveButtonCommand => GVL_IO.extractiveOutletOnOffValve,
+//					controlValveClose => GVL_IO.extractiveOutletControlValveClose,
+//					controlValveOpen => GVL_IO.extractiveOutletControlValveOpen,
+//					controlValveCurrentOpenPercentage => _controlValveOpening,
+//					calibrateDone => _calibrateDone);
+//_extractiveOnOffValveValues.open := HandleExtractiveOutlet.onOffValveOpen;
 					]]></ST>
     </Implementation>
     <Property Name="AutomaticExtractionParameters" Id="{30db7c23-a067-400b-9e09-a227b67a6ab4}">
@@ -342,11 +379,23 @@ _startAutomaticExtraction := StartAutomaticExtraction;]]></ST>
         </Implementation>
       </Set>
     </Property>
-    <LineIds Name="ReactorLevelAndPressure">
-      <LineId Id="1276" Count="1" />
-      <LineId Id="1468" Count="0" />
-      <LineId Id="1467" Count="0" />
-      <LineId Id="1472" Count="0" />
+    <LineIds Name="ReactorLevelAndPressureController">
+      <LineId Id="1534" Count="3" />
+      <LineId Id="1539" Count="6" />
+      <LineId Id="1547" Count="7" />
+      <LineId Id="1556" Count="1" />
+      <LineId Id="1584" Count="0" />
+      <LineId Id="1558" Count="0" />
+      <LineId Id="1562" Count="1" />
+      <LineId Id="1565" Count="3" />
+      <LineId Id="1580" Count="0" />
+      <LineId Id="1569" Count="0" />
+      <LineId Id="1628" Count="0" />
+      <LineId Id="1585" Count="0" />
+      <LineId Id="1581" Count="0" />
+      <LineId Id="1570" Count="0" />
+      <LineId Id="1582" Count="0" />
+      <LineId Id="1578" Count="1" />
       <LineId Id="1279" Count="2" />
       <LineId Id="1331" Count="1" />
       <LineId Id="1282" Count="1" />
@@ -372,76 +421,76 @@ _startAutomaticExtraction := StartAutomaticExtraction;]]></ST>
       <LineId Id="1325" Count="5" />
       <LineId Id="859" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.AutomaticExtractionParameters.Set">
+    <LineIds Name="ReactorLevelAndPressureController.AutomaticExtractionParameters.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.automaticExtractionState.Get">
+    <LineIds Name="ReactorLevelAndPressureController.automaticExtractionState.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.bLevelControlSwitch.Set">
+    <LineIds Name="ReactorLevelAndPressureController.bLevelControlSwitch.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.CalibrateDone.Get">
+    <LineIds Name="ReactorLevelAndPressureController.CalibrateDone.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.ControlValveOpening.Get">
+    <LineIds Name="ReactorLevelAndPressureController.ControlValveOpening.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.controlValveOpeningOrClosing.Get">
+    <LineIds Name="ReactorLevelAndPressureController.controlValveOpeningOrClosing.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.decreasePumpSetpoint.Get">
+    <LineIds Name="ReactorLevelAndPressureController.decreasePumpSetpoint.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.ExtractiveControlValveCommands.Set">
+    <LineIds Name="ReactorLevelAndPressureController.ExtractiveControlValveCommands.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
       <LineId Id="8" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.ExtractiveControlValveParameters.Set">
+    <LineIds Name="ReactorLevelAndPressureController.ExtractiveControlValveParameters.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.ExtractiveOnOffValveValues.Get">
+    <LineIds Name="ReactorLevelAndPressureController.ExtractiveOnOffValveValues.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.ExtractiveOutOnOffValveCommand.Set">
+    <LineIds Name="ReactorLevelAndPressureController.ExtractiveOutOnOffValveCommand.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.fillingValveCloseInterval.Set">
+    <LineIds Name="ReactorLevelAndPressureController.fillingValveCloseInterval.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.fillingValveOpenInterval.Set">
+    <LineIds Name="ReactorLevelAndPressureController.fillingValveOpenInterval.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.iPressureScaledValue.Get">
+    <LineIds Name="ReactorLevelAndPressureController.iPressureScaledValue.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.PressureIntervals.Set">
+    <LineIds Name="ReactorLevelAndPressureController.PressureIntervals.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.SlurryInValveCommand.Set">
+    <LineIds Name="ReactorLevelAndPressureController.SlurryInValveCommand.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.SlurryOutValveCommand.Set">
+    <LineIds Name="ReactorLevelAndPressureController.SlurryOutValveCommand.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorLevelAndPressure.StartAutomaticExtraction.Set">
+    <LineIds Name="ReactorLevelAndPressureController.StartAutomaticExtraction.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>

@@ -19,103 +19,121 @@
     </CompilerDefines>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\DUTs\ST_PidParameters.TcDUT">
+    <Compile Include="01. MAIN\01.1 ReactorTemperature\DUTs\ST_PidParameters.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\FBs\FB_PidControllerRelayOutput.TcPOU">
+    <Compile Include="01. MAIN\01.1 ReactorTemperature\FBs\FB_PidControllerRelayOutput.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\FBs\FB_ReactorTemperatureControlStateMachine.TcPOU">
+    <Compile Include="01. MAIN\01.1 ReactorTemperature\FBs\FB_ReactorTemperatureControlStateMachine.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.1 ReactorTemperatureControl\ReactorTemperature.TcPOU">
+    <Compile Include="01. MAIN\01.1 ReactorTemperature\Handlers\01.1.1 TemperatureSensorScaling\TemperatureSensorScalingHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs\E_AutomaticExtractionState.TcDUT">
+    <Compile Include="01. MAIN\01.1 ReactorTemperature\Handlers\01.1.2 ReactorTemperatureControl\ReactorTemperatureControlHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs\ST_AutomaticExtractionParameters.TcDUT">
+    <Compile Include="01. MAIN\01.1 ReactorTemperature\ReactorTemperatureController.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs\ST_ExtractiveControlValveCommands.TcDUT">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\DUTs\E_AutomaticExtractionState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs\ST_ExtractiveControlValveParameters.TcDUT">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\DUTs\ST_AutomaticExtractionParameters.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs\ST_ExtractiveOnOffValveValues.TcDUT">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\DUTs\ST_ExtractiveControlValveCommands.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs\ST_PressureIntervals.TcDUT">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\DUTs\ST_ExtractiveControlValveParameters.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_AutomaticExtractionStateMachine.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\DUTs\ST_ExtractiveOnOffValveValues.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_ControlValveStateMachine.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\DUTs\ST_PressureIntervals.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_ExtractiveOutletHandler.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\FBs\FB_AutomaticExtractionStateMachine.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_ReactorValves.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\FBs\FB_ControlValveStateMachine.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_Runtime.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\FBs\FB_ExtractiveOutletControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\FB_ValveTrigger.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\FBs\FB_ReactorValves.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs\F_RoundToClosest.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\FBs\FB_Runtime.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressureControl\ReactorLevelAndPressure.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\FBs\FB_ValveTrigger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.3 DataAcquisition\01.3.1 OPC\ReadWriteOPCvariables.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\FBs\F_RoundToClosest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.3 DataAcquisition\01.3.2 RunMATLAB\FBs\FB_HeartBeat.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\Handlers\01.2.1 PressureSensorScaling\PressureSensorScalingHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.3 DataAcquisition\01.3.2 RunMATLAB\RunMATLAB.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\Handlers\01.2.2 AutomaticExtraction\AutomaticExtractionHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.3 DataAcquisition\DataAcquisition.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\Handlers\01.2.3 ExtractiveOutlet\ExtractiveOutletHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.4 VariablePersistence\VariablePersistence.TcPOU">
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\ReactorLevelAndPressureController.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\FBs\FB_SerialCom.TcPOU">
+    <Compile Include="01. MAIN\01.3 DataAcquisition\DataAcquisitionController.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\FBs\FB_UpdateSetpoint.TcPOU">
+    <Compile Include="01. MAIN\01.3 DataAcquisition\DUTs\ST_MatlabValues.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\FUNs\F_AsciiNumberConvert.TcPOU">
+    <Compile Include="01. MAIN\01.3 DataAcquisition\FBs\FB_HeartBeat.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\FUNs\F_NumberAsciiConvert.TcPOU">
+    <Compile Include="01. MAIN\01.3 DataAcquisition\Handlers\01.3.1 OpcTagWriting\OpcTagWritingHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\SerialCommunicationHandler.TcPOU">
+    <Compile Include="01. MAIN\01.3 DataAcquisition\Handlers\01.3.2 Matlab\MatlabHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\SerialCommunicationHandler_1.TcPOU">
+    <Compile Include="01. MAIN\01.4 VariablePersistence\VariablePersistenceController.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\ST_SerialCommReadData.TcDUT">
+    <Compile Include="01. MAIN\01.5 SerialCommunication\DUTs\ST_SerialCommReadData.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.5 SerialCommunicationHandler\ST_SerialCommSetpoints.TcDUT">
+    <Compile Include="01. MAIN\01.5 SerialCommunication\DUTs\ST_SerialCommSetpoints.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.6 Safety\Handlers\FB_HandleUiEstop.TcPOU">
+    <Compile Include="01. MAIN\01.5 SerialCommunication\FBs\FB_SerialCom.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.6 Safety\Safety.TcPOU">
+    <Compile Include="01. MAIN\01.5 SerialCommunication\FBs\FB_UpdateSetpoint.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.5 SerialCommunication\FUNs\F_AsciiNumberConvert.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.5 SerialCommunication\FUNs\F_NumberAsciiConvert.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.5 SerialCommunication\Handlers\01.5.1 SerialData\SerialDataHandler.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.5 SerialCommunication\SerialCommunicationController.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.6 Safety\Handlers\01.6.1 UiEstop\UiEstopHandler.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.6 Safety\SafetyController.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="01. MAIN\Common\FBs\FB_ToggleHeartBeat.TcPOU">
@@ -130,7 +148,7 @@
     <Compile Include="01. MAIN\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="02. MAIN_Fast\02.1 Background\BackgroundEL.TcPOU">
+    <Compile Include="02. MAIN_Fast\02.1 BackgroundEL\BackgroundElController.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="02. MAIN_Fast\MAIN_Fast.TcPOU">
@@ -155,10 +173,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="03. VISUs\03.01 MainScreen View\MainScreen.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-    </Compile>
-    <Compile Include="03. VISUs\SerialCommVisuTest.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
@@ -237,6 +251,32 @@
       <SubType>Code</SubType>
       <ExcludeFromBuild>true</ExcludeFromBuild>
     </Compile>
+    <Compile Include="Trash\ReadWriteOPCvariables.TcPOU">
+      <SubType>Code</SubType>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="Trash\RunMATLAB.TcPOU">
+      <SubType>Code</SubType>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="Trash\SerialCommunicationHandler_1.TcPOU">
+      <SubType>Code</SubType>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="Trash\SerialCommVisuTest.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="Trash\SerialCommVisuTest_1.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="Trash\ST_MainScreenBindingsOutputs.TcDUT">
+      <SubType>Code</SubType>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
     <Compile Include="Trash\TemperatureControl\ReactorTemperatureControl.TcPOU">
       <SubType>Code</SubType>
       <ExcludeFromBuild>true</ExcludeFromBuild>
@@ -282,27 +322,40 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="01. MAIN\01.1 ReactorTemperatureControl" />
-    <Folder Include="01. MAIN\01.1 ReactorTemperatureControl\FBs" />
-    <Folder Include="01. MAIN\01.1 ReactorTemperatureControl\DUTs" />
-    <Folder Include="01. MAIN\01.2 ReactorLevelAndPressureControl" />
-    <Folder Include="01. MAIN\01.2 ReactorLevelAndPressureControl\FBs" />
-    <Folder Include="01. MAIN\01.2 ReactorLevelAndPressureControl\DUTs" />
+    <Folder Include="01. MAIN\01.1 ReactorTemperature" />
+    <Folder Include="01. MAIN\01.1 ReactorTemperature\FBs" />
+    <Folder Include="01. MAIN\01.1 ReactorTemperature\DUTs" />
+    <Folder Include="01. MAIN\01.1 ReactorTemperature\Handlers" />
+    <Folder Include="01. MAIN\01.1 ReactorTemperature\Handlers\01.1.2 ReactorTemperatureControl" />
+    <Folder Include="01. MAIN\01.1 ReactorTemperature\Handlers\01.1.1 TemperatureSensorScaling" />
+    <Folder Include="01. MAIN\01.2 ReactorLevelAndPressure" />
+    <Folder Include="01. MAIN\01.2 ReactorLevelAndPressure\FBs" />
+    <Folder Include="01. MAIN\01.2 ReactorLevelAndPressure\DUTs" />
+    <Folder Include="01. MAIN\01.2 ReactorLevelAndPressure\Handlers" />
+    <Folder Include="01. MAIN\01.2 ReactorLevelAndPressure\Handlers\01.2.1 PressureSensorScaling" />
+    <Folder Include="01. MAIN\01.2 ReactorLevelAndPressure\Handlers\01.2.2 AutomaticExtraction" />
+    <Folder Include="01. MAIN\01.2 ReactorLevelAndPressure\Handlers\01.2.3 ExtractiveOutlet" />
     <Folder Include="01. MAIN\01.3 DataAcquisition" />
-    <Folder Include="01. MAIN\01.3 DataAcquisition\01.3.1 OPC" />
-    <Folder Include="01. MAIN\01.3 DataAcquisition\01.3.2 RunMATLAB\FBs" />
-    <Folder Include="01. MAIN\01.3 DataAcquisition\01.3.2 RunMATLAB" />
+    <Folder Include="01. MAIN\01.3 DataAcquisition\FBs" />
+    <Folder Include="01. MAIN\01.3 DataAcquisition\Handlers" />
+    <Folder Include="01. MAIN\01.3 DataAcquisition\DUTs" />
+    <Folder Include="01. MAIN\01.3 DataAcquisition\Handlers\01.3.1 OpcTagWriting" />
+    <Folder Include="01. MAIN\01.3 DataAcquisition\Handlers\01.3.2 Matlab" />
     <Folder Include="01. MAIN\01.4 VariablePersistence" />
-    <Folder Include="01. MAIN\01.5 SerialCommunicationHandler" />
-    <Folder Include="01. MAIN\01.5 SerialCommunicationHandler\FUNs" />
-    <Folder Include="01. MAIN\01.5 SerialCommunicationHandler\FBs" />
+    <Folder Include="01. MAIN\01.5 SerialCommunication" />
+    <Folder Include="01. MAIN\01.5 SerialCommunication\FUNs" />
+    <Folder Include="01. MAIN\01.5 SerialCommunication\FBs" />
+    <Folder Include="01. MAIN\01.5 SerialCommunication\Handlers" />
+    <Folder Include="01. MAIN\01.5 SerialCommunication\DUTs" />
+    <Folder Include="01. MAIN\01.5 SerialCommunication\Handlers\01.5.1 SerialData" />
     <Folder Include="01. MAIN\01.6 Safety\Handlers" />
+    <Folder Include="01. MAIN\01.6 Safety\Handlers\01.6.1 UiEstop" />
     <Folder Include="01. MAIN\Common" />
     <Folder Include="01. MAIN\Common\FUNs" />
     <Folder Include="01. MAIN\Common\FBs" />
     <Folder Include="01. MAIN\Common\ITFs" />
     <Folder Include="01. MAIN\01.6 Safety" />
-    <Folder Include="02. MAIN_Fast\02.1 Background" />
+    <Folder Include="02. MAIN_Fast\02.1 BackgroundEL" />
     <Folder Include="03. VISUs\IMAGES" />
     <Folder Include="03. VISUs\03.01 MainScreen View" />
     <Folder Include="03. VISUs\03.03 Parameter View" />

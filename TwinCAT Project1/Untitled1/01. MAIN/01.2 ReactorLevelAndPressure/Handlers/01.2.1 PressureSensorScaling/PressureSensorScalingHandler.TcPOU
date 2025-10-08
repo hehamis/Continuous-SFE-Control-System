@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="PressureSensorScalingHandler" Id="{6fd29d96-6b31-457b-8b2a-d64db9a9e64b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PressureSensorScalingHandler
+VAR_INPUT
+	reactorPressureSensor : INT;
+END_VAR
+VAR_OUTPUT
+	PressureScaledValue : INT;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// Scale analog pressure
+PressureScaledValue := F_AnalogScale(AnalogInputRawValue := reactorPressureSensor, MaxAnalogValue := 1000);]]></ST>
+    </Implementation>
+    <LineIds Name="PressureSensorScalingHandler">
+      <LineId Id="25" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

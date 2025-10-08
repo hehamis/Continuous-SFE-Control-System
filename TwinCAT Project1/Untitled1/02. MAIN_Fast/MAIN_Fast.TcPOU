@@ -16,7 +16,7 @@ which have a small process image (3 or 5 data bytes only)
 *)
 
 (* background communication with the EL6001 terminal *)
-BackgroundEL();
+BackgroundElController();
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN_Fast">

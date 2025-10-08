@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="AutomaticExtractionHandler" Id="{ec88763c-043a-4a7d-95c9-7a3b27e7942b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AutomaticExtractionHandler
+VAR_INPUT
+	automaticExtractionParameters : ST_AutomaticExtractionParameters;
+	extractiveControlValveParameters : ST_ExtractiveControlValveParameters;	
+	pressureScaledValue: INT; //Scaled pressure value 
+	serialCommData : ST_SerialCommReadData;
+	extractiveControlValveCommands : ST_ExtractiveControlValveCommands;
+	pressureIntervals : ST_PressureIntervals;
+	reactorLevelHigh : BOOL;
+	startAutomaticExtraction : BOOL;
+	calibrateDone : BOOL;
+	slurryInValveCommand : BOOL;
+	slurryOutValveCommand : BOOL;
+END_VAR
+VAR_OUTPUT
+	decreasePumpSetpoint : BOOL;
+	reactorInletValve : BOOL;
+	automaticExtractionState : E_AutomaticExtractionState;
+	extractiveOutOnOffValveAutoCommand : BOOL;
+	reactorOutletValve : BOOL;
+	controlValveAutoOpenPercentage : DINT;
+END_VAR
+VAR
+	levelControlMode : INT;
+	manualModeEntered : BOOL;
+	autoModeEntered : BOOL;
+	SlurryOutValveControl: FB_ReactorValves;
+	sLevelControlState: STRING;
+//	sLevelValveState: STRING;
+	sFillingValveState: STRING;
+	timeControlToggle: FB_toggleheartbeat;
+	
+	
+	HandleExtractiveOutlet : FB_ExtractiveOutletControl;
+	AutomaticExtraction : FB_AutomaticExtractionStateMachine;
+	automaticExtractionEnabled : BOOL;
+	
+	RTRIG_SetPressureReference : R_TRIG;
+	pressureReference : INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF startAutomaticExtraction AND calibrateDone THEN
+	manualModeEntered := FALSE;
+	
+	// Automatic extraction
+	AutomaticExtraction(
+				parameters := automaticExtractionParameters,
+				controlValveFullOpenTime := extractiveControlValveParameters.timeToFullyOpenMs,
+				reactorPressure := pressureScaledValue,
+				pumpPressure := serialCommData.pumpingPressureMeasurement,
+				pumpSetpoint := SerialCommData.pumpingPressureSetpoint,
+				decreasePumpSetpoint => decreasePumpSetpoint,
+				extractivePumpOn => reactorInletValve,
+				co2onOffValveClosed => ,
+				automaticExtractionState => automaticExtractionState);
+	extractiveOutOnOffValveAutoCommand := NOT AutomaticExtraction.co2onOffValveClosed;
+	controlValveAutoOpenPercentage := AutomaticExtraction.controlValveOpeningPercentage;
+	
+	// Slurry outlet valve control
+	RTRIG_SetPressureReference(CLK := automaticExtractionState = E_AutomaticExtractionState.FILLING_ACTIVE);
+	IF RTRIG_SetPressureReference.Q THEN
+		pressureReference :=  pressureScaledValue;
+	END_IF
+	SlurryOutValveControl.pressureIntervalControl(
+										interval_1_condition:= reactorInletValve,// GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve, // If above higher limit and filling valve open
+										pressureUpperInterval_1:= pressureIntervals.PressureUpperInterval_1, 
+										pressureLowerInterval_1:= pressureIntervals.PressureLowerInterval_1, 
+										interval_2_condition:= FALSE,//GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve,  // If above higher limit and filling valve closed
+										pressureUpperInterval_2:= pressureIntervals.PressureUpperInterval_2, 
+										pressureLowerInterval_2:= pressureIntervals.PressureLowerInterval_2, 
+										interval_3_condition:= FALSE,//NOT GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve,  // If below higher limit and reactor filling valve open
+										pressureUpperInterval_3:= pressureIntervals.PressureUpperInterval_3, 
+										pressureLowerInterval_3:= pressureIntervals.PressureLowerInterval_3, 
+										pressureValue:= pressureScaledValue,  
+										pressureReference:= pressureReference,//_iPressureScaledValue,//DINT_TO_INT(SerialCommunicationHandler.pumpingPressureSetpoint), 
+										valveOpenCondition:= NOT (NOT reactorLevelHigh AND NOT reactorInletValve), 
+										forceValveClosed:= (NOT reactorLevelHigh AND NOT reactorInletValve),
+										);
+	reactorOutletValve := SlurryOutValveControl.pressureControlOpen;
+	
+ELSE
+	AutomaticExtraction.resetState();
+	// Close inlet/outlet valves when manual mode entered
+	IF NOT manualModeEntered THEN
+		reactorInletValve := FALSE; // Close all valves when auto mode is exited
+		reactorOutletValve := FALSE;
+		autoModeEntered := FALSE;
+		manualModeEntered := TRUE;
+	END_IF
+	reactorInletValve := slurryInValveCommand;
+	reactorOutletValve := slurryOutValveCommand;
+
+	automaticExtractionState := E_AutomaticExtractionState.MANUAL_EXTRACTION;
+	
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="AutomaticExtractionHandler">
+      <LineId Id="1263" Count="52" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

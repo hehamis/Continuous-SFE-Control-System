@@ -3,27 +3,27 @@
   <GVL Name="GVL_OPC" Id="{ff69d8bd-4aa9-4fbf-a8cd-ee3ab3220a99}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
-	{attribute 'OPC.UA.DA' := '1'}
-	OPC_TemperatureContactor : BOOL; // Temperature contactor
-	OPC_ReactorTemperature : INT; // Reactor temperature
-	OPC_ReactorPressure : INT; // Reactor pressure
-	OPC_ReactorTemperatureSetpoint: INT; // Reactr temperature setpoint
-	OPC_SlurryInletValve: BOOL;
-	OPC_SlurryOutletValve: BOOL;
 	
-	OPC_PumpingPressure: DINT;
-	OPC_PumpingPressureSetpoint: DINT;
+	{attribute 'OPC.UA.DA' := '1'} OPC_TemperatureContactor : BOOL; // Temperature contactor
+	{attribute 'OPC.UA.DA' := '1'} OPC_ReactorTemperature : INT; // Reactor temperature
+	{attribute 'OPC.UA.DA' := '1'} OPC_ReactorPressure : INT; // Reactor pressure
+	{attribute 'OPC.UA.DA' := '1'} OPC_ReactorTemperatureSetpoint: INT; // Reactr temperature setpoint
+	{attribute 'OPC.UA.DA' := '1'} OPC_SlurryInletValve: BOOL;
+	{attribute 'OPC.UA.DA' := '1'} OPC_SlurryOutletValve: BOOL;
 	
-	OPC_PreHeaterTemperature: DINT;
-	OPC_PreHeaterTemperatureSetpoint: DINT;
+	{attribute 'OPC.UA.DA' := '1'} OPC_PumpingPressure: DINT;
+	{attribute 'OPC.UA.DA' := '1'} OPC_PumpingPressureSetpoint: DINT;
 	
-	OPC_SeparatorTemperature: DINT;
-	OPC_SeparatorTemperatureSetpoint: DINT;
+	{attribute 'OPC.UA.DA' := '1'} OPC_PreHeaterTemperature: DINT;
+	{attribute 'OPC.UA.DA' := '1'} OPC_PreHeaterTemperatureSetpoint: DINT;
 	
-	OPC_CO2VolumetricFlow: DINT;
+	{attribute 'OPC.UA.DA' := '1'} OPC_SeparatorTemperature: DINT;
+	{attribute 'OPC.UA.DA' := '1'} OPC_SeparatorTemperatureSetpoint: DINT;
+	
+	{attribute 'OPC.UA.DA' := '1'} OPC_CO2VolumetricFlow: DINT;
 	
 	// Program name 
-	OPC_ProgramNamePrefix: STRING;
+	{attribute 'OPC.UA.DA' := '1'} OPC_ProgramNamePrefix: STRING;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

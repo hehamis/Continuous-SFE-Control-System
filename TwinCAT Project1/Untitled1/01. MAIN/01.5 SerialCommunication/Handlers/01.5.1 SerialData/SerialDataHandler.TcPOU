@@ -1,12 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="SerialCommunicationHandler" Id="{a12e14a2-3147-4be8-a768-485775d9f2f3}" SpecialFunc="None">
+  <POU Name="SerialDataHandler" Id="{7a6eeffd-2b00-4a35-9c62-0c113b742252}" SpecialFunc="None">
     <Declaration><![CDATA[(*
 Based on SerialCom_InfoSys_Sample1 (v2.0)
 This sample sends and receives a string via serial communication.
 Three hardware interfaces are used: Pc COM port, EL terminal, KL terminal
 *)
-PROGRAM SerialCommunicationHandler
+FUNCTION_BLOCK SerialDataHandler
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+	_serialCommSetpoints : ST_SerialCommSetpoints;
+	_serialCommReadData : ST_SerialCommReadData;
+END_VAR
 VAR
 	//fbEL6001	: FB_SerialCom;
 	
@@ -38,8 +44,6 @@ VAR
 	
 	pumpingPressureSentSetpoint : DINT;
 	
-	_serialCommSetpoints : ST_SerialCommSetpoints;
-	_serialCommReadData : ST_SerialCommReadData;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -51,11 +55,9 @@ fbAsciiComm(TxBuffer:=TxBufferEL, RxBuffer:=RxBufferEL);
 ReceiveData();
 
 // Send data
-SendData();
-
-]]></ST>
+SendData();]]></ST>
     </Implementation>
-    <Method Name="ReceiveData" Id="{a1d1417a-4770-4ed6-b544-11e727bb2173}">
+    <Method Name="ReceiveData" Id="{12cfa127-b265-447a-9ca9-a9463d93cf42}">
       <Declaration><![CDATA[METHOD ReceiveData : BOOL
 VAR_INPUT
 END_VAR
@@ -157,7 +159,7 @@ IF rTrigMessageNotUpdated.Q THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="SendData" Id="{c2d14a5a-3c02-453c-8582-99fffae2c5c3}">
+    <Method Name="SendData" Id="{72906f50-3262-4e2e-aa41-270674672771}">
       <Declaration><![CDATA[METHOD SendData : BOOL
 VAR_INPUT
 END_VAR
@@ -170,7 +172,7 @@ IF pumpPressureStartSend OR preHeaterTemperatureStartSend OR separatorTemperatur
 END_IF
 
 // Update pressure setpoint
-IF NOT ReactorLevelAndPressure.decreasePumpSetpoint THEN
+IF NOT ReactorLevelAndPressureController.decreasePumpSetpoint THEN
 	pumpingPressureSentSetpoint :=  _serialCommSetpoints.pumpingPressureSetSetpoint;
 ELSE
 	pumpingPressureSentSetpoint :=	80;//_serialCommSetpoints.pumpingPressureSetSetpoint - 40; // Automatic extraction control
@@ -212,48 +214,15 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Property Name="SerialCommReadData" Id="{d42acb96-3051-4cc7-8cb4-b52d07a7c56e}">
-      <Declaration><![CDATA[PROPERTY SerialCommReadData : ST_SerialCommReadData]]></Declaration>
-      <Get Name="Get" Id="{105c5e16-d13b-4fb0-aa53-f0fcec0675c4}">
-        <Declaration><![CDATA[
-VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[
-SerialCommReadData := _serialCommReadData;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="SerialCommSetpoints" Id="{4e41ad63-edad-44ba-93f9-12f80b085bc1}">
-      <Declaration><![CDATA[PROPERTY SerialCommSetpoints : ST_SerialCommSetpoints]]></Declaration>
-      <Set Name="Set" Id="{5976fbf0-0c84-4fcb-9fc5-5b4c8068c325}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[
-_serialCommSetpoints := SerialCommSetpoints;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
-    <LineIds Name="SerialCommunicationHandler">
-      <LineId Id="935" Count="0" />
-      <LineId Id="676" Count="1" />
-      <LineId Id="937" Count="0" />
-      <LineId Id="936" Count="0" />
-      <LineId Id="939" Count="0" />
-      <LineId Id="941" Count="0" />
-      <LineId Id="940" Count="0" />
-      <LineId Id="942" Count="0" />
-      <LineId Id="938" Count="0" />
-      <LineId Id="5" Count="0" />
+    <LineIds Name="SerialDataHandler">
+      <LineId Id="43" Count="7" />
+      <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="SerialCommunicationHandler.ReceiveData">
+    <LineIds Name="SerialDataHandler.ReceiveData">
       <LineId Id="6" Count="92" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="SerialCommunicationHandler.SendData">
+    <LineIds Name="SerialDataHandler.SendData">
       <LineId Id="6" Count="3" />
       <LineId Id="45" Count="0" />
       <LineId Id="73" Count="0" />
@@ -276,14 +245,6 @@ _serialCommSetpoints := SerialCommSetpoints;]]></ST>
       <LineId Id="35" Count="3" />
       <LineId Id="40" Count="1" />
       <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="SerialCommunicationHandler.SerialCommReadData.Get">
-      <LineId Id="6" Count="0" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="SerialCommunicationHandler.SerialCommSetpoints.Set">
-      <LineId Id="5" Count="0" />
-      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

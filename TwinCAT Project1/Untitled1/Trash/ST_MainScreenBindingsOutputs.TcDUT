@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="ST_MainScreenBindingsOutputs" Id="{8ea2186d-1b54-4c55-88ef-ddb698820db9}">
+    <Declaration><![CDATA[TYPE ST_MainScreenBindingsOutputs :
+STRUCT
+	autoControlSelected : BOOL;// ReactorTemperatureController.autoControlSelected
+	temperatureSetpoint : DINT; //ReactorTemperature.temperatureSetpoint
+	manualControlPercentage : DINT;// ReactorTemperature.manualControlPercentage
+	MatlabBtn : BOOL;//RunMATLAB.MatlabBtn
+	OPC_ProgramNamePrefix : STRING;//GVL_OPC.OPC_ProgramNamePrefix
+	StartAutomaticExtraction : BOOL;//ReactorLevelAndPressure.StartAutomaticExtraction
+	estopButtonPressed : BOOL;; //Safety.buttonPressed
+	estopResetPressed : BOOL; //Safety.resetPressed
+	serialCommSetpoints : ST_SerialCommSetpoints;// SerialCommunicationController.SerialCommSetpoints
+	
+	// ProcessViewBindings in
+	GVL_IO.reactorOutletValve
+	GVL_IO.reactorInletValve
+	ReactorTemperatureController.lowerTemperature
+	ReactorTemperatureController.upperTemperature
+	GVL_IO.reactorTemperatureContactor
+	GVL_IO.reactorLevelHigh
+	GVL_IO.reactorLevelLow
+	ReactorLevelAndPressureController.iPressureScaledValue
+	SerialCommunicationController.SerialCommReadData
+	ReactorLevelAndPressureController.ExtractiveOnOffValveValues
+	ReactorLevelAndPressureController.CalibrateDone
+	ReactorLevelAndPressureController.ControlValveOpening
+	ReactorLevelAndPressureController.automaticExtractionState
+	SafetyController.stop
+
+	
+	// ProcessViewBindings out
+	ReactorTemperatureController.temperatureContactorCommand
+	ReactorLevelAndPressureController.SlurryInValveCommand
+	ReactorLevelAndPressureController.PressureIntervals
+	ReactorLevelAndPressureController.SlurryOutValveCommand
+	ReactorLevelAndPressureController.ExtractiveOutOnOffValveCommand
+	ExtractiveOutletValveCommands.calibrate
+	ReactorLevelAndPressureController.ExtractiveControlValveCommands
+	
+	//Parametersettingsbindings in
+	
+	// parametersettings out
+	ReactorTemperatureController.pidControllerParameters
+	ReactorLevelAndPressureController.AutomaticExtractionParameters
+	ReactorLevelAndPressureController.PressureIntervals
+	ReactorLevelAndPressureController.ExtractiveControlValveParameters
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="Safety" Id="{00b82d62-043d-415c-8b07-0526678ef84c}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM Safety
+  <POU Name="SafetyController" Id="{00b82d62-043d-415c-8b07-0526678ef84c}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM SafetyController
 VAR
-	uiEstopHandler : FB_HandleUiEstop;
+	uiEstopHandler : UiEstopHandler;
 	
 	// Local variables
 	_buttonPressed : BOOL;
@@ -54,20 +54,20 @@ stop := _stop;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <LineIds Name="Safety">
+    <LineIds Name="SafetyController">
       <LineId Id="7" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="2" />
     </LineIds>
-    <LineIds Name="Safety.buttonPressed.Set">
+    <LineIds Name="SafetyController.buttonPressed.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="Safety.resetPressed.Set">
+    <LineIds Name="SafetyController.resetPressed.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="Safety.stop.Get">
+    <LineIds Name="SafetyController.stop.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>

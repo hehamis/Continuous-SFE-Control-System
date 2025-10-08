@@ -9,9 +9,9 @@ END_VAR
       <ST><![CDATA[
 GVL_OPC.OPC_ReactorTemperature := GVL_IO.reactorTemperatureUpper;
 GVL_OPC.OPC_TemperatureContactor := GVL_IO.reactorTemperatureContactor;
-GVL_OPC.OPC_ReactorPressure := ReactorLevelAndPressure.iPressureScaledValue;//ReactorLevelAndPressureControl.iPressureScaledValue;
-IF ReactorTemperature._autoControlSelected THEN//ReactorTemperatureControl.bTempCon THEN
-	GVL_OPC.OPC_ReactorTemperatureSetpoint := REAL_TO_INT(ReactorTemperature._temperatureSetpoint);//REAL_TO_INT(ReactorTemperatureControl.iTemperatureSetpoint);
+GVL_OPC.OPC_ReactorPressure := ReactorLevelAndPressureController.iPressureScaledValue;//ReactorLevelAndPressureControl.iPressureScaledValue;
+IF ReactorTemperatureController._autoControlSelected THEN//ReactorTemperatureControl.bTempCon THEN
+	GVL_OPC.OPC_ReactorTemperatureSetpoint := REAL_TO_INT(ReactorTemperatureController._temperatureSetpoint);//REAL_TO_INT(ReactorTemperatureControl.iTemperatureSetpoint);
 ELSE
 	GVL_OPC.OPC_ReactorTemperatureSetpoint := 0;
 END_IF

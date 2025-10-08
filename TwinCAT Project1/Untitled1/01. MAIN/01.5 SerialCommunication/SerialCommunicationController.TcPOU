@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="SerialCommunicationController" Id="{a12e14a2-3147-4be8-a768-485775d9f2f3}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM SerialCommunicationController
+VAR
+	// Handlers to call
+	HandleSerialCommunication : SerialDataHandler;
+	
+	// Local variables
+	_serialCommSetpoints : ST_SerialCommSetpoints;
+	_serialCommReadData : ST_SerialCommReadData;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+HandleSerialCommunication(
+						_serialCommSetpoints => _serialCommSetpoints,
+						_serialCommReadData => _serialCommReadData);
+]]></ST>
+    </Implementation>
+    <Property Name="SerialCommReadData" Id="{d42acb96-3051-4cc7-8cb4-b52d07a7c56e}">
+      <Declaration><![CDATA[PROPERTY SerialCommReadData : ST_SerialCommReadData]]></Declaration>
+      <Get Name="Get" Id="{105c5e16-d13b-4fb0-aa53-f0fcec0675c4}">
+        <Declaration><![CDATA[
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+SerialCommReadData := _serialCommReadData;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="SerialCommSetpoints" Id="{4e41ad63-edad-44ba-93f9-12f80b085bc1}">
+      <Declaration><![CDATA[PROPERTY SerialCommSetpoints : ST_SerialCommSetpoints]]></Declaration>
+      <Set Name="Set" Id="{5976fbf0-0c84-4fcb-9fc5-5b4c8068c325}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_serialCommSetpoints := SerialCommSetpoints;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="SerialCommunicationController">
+      <LineId Id="935" Count="0" />
+      <LineId Id="938" Count="0" />
+      <LineId Id="983" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="SerialCommunicationController.SerialCommReadData.Get">
+      <LineId Id="6" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="SerialCommunicationController.SerialCommSetpoints.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

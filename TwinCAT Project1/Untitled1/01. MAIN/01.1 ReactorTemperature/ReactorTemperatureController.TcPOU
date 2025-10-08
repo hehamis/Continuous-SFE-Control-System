@@ -1,9 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="ReactorTemperature" Id="{b264a75d-055d-45ef-ac02-67880535c654}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM ReactorTemperature
+  <POU Name="ReactorTemperatureController" Id="{b264a75d-055d-45ef-ac02-67880535c654}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM ReactorTemperatureController
+VAR_INPUT
+	temperatureUpper : INT;
+	temperatureLower : INT;
+END_VAR
+VAR_OUTPUT
+	contactor : BOOL;
+END_VAR
 VAR
-	TemperatureControlStateMachine : FB_ReactorTemperatureControlStateMachine;
+	
+	// Handlers to call
+	HandleTemperatureSensorScaling : TemperatureSensorScalingHandler;
+	HandleReactorTemperatureControl : ReactorTemperatureControlHandler;
+	
+	// Internal variables
 	_pidControllerParameters : ST_PidParameters;
 	_manualControlPercentage : INT;
 	_upperTemperature : INT;
@@ -16,23 +28,22 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-_upperTemperature	:= GVL_IO.reactorTemperatureUpper/10;
-_lowerTemperature := GVL_IO.reactorTemperatureLower/10;
-GVL_IO.reactorTemperatureContactor := _temperatureContactor;
-
-// Temperature PID control logic
-TemperatureControlStateMachine(temperatureMeasurement := TO_REAL(_upperTemperature),
-							temperatureSetpoint := TO_REAL(_temperatureSetpoint),
-							pidParameters := _pidControllerParameters,
-							manualControlPercentage := _manualControlPercentage,
-							autoControlSelected := _autoControlSelected,
-							relayOn => _temperatureContactor);
-
-IF _autoControlSelected OR (NOT _autoControlSelected AND _manualControlPercentage > 0) THEN
-	_temperatureContactor := TemperatureControlStateMachine.relayOn;
-ELSE
-	_temperatureContactor := _temperatureContactorCommand;
-END_IF]]></ST>
+HandleTemperatureSensorScaling(
+						upperTemperatureSensor := GVL_IO.reactorTemperatureUpper,
+						lowerTemperatureSensor := GVL_IO.reactorTemperatureLower,
+						upperTemperatureValue => _upperTemperature,
+						lowerTemperatureValue => _lowerTemperature);
+						
+HandleReactorTemperatureControl(
+						_pidControllerParameters := _pidControllerParameters,
+						_manualControlPercentage := _manualControlPercentage,
+						_upperTemperature := _upperTemperature,
+						_lowerTemperature := _lowerTemperature,
+						_temperatureSetpoint := _temperatureSetpoint,
+						_autoControlSelected := _autoControlSelected,
+						_temperatureContactorCommand := _temperatureContactorCommand ,
+						_temperatureContactor => contactor);
+]]></ST>
     </Implementation>
     <Property Name="autoControlSelected" Id="{7f26212f-80c2-4e14-963e-4ce92499c181}">
       <Declaration><![CDATA[PROPERTY autoControlSelected : BOOL]]></Declaration>
@@ -131,49 +142,40 @@ upperTemperature := _upperTemperature;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <LineIds Name="ReactorTemperature">
-      <LineId Id="19" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="13" Count="5" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="49" Count="0" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="67" Count="0" />
-      <LineId Id="36" Count="0" />
-      <LineId Id="51" Count="1" />
+    <LineIds Name="ReactorTemperatureController">
+      <LineId Id="170" Count="0" />
+      <LineId Id="155" Count="14" />
+      <LineId Id="52" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorTemperature.autoControlSelected.Set">
+    <LineIds Name="ReactorTemperatureController.autoControlSelected.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorTemperature.lowerTemperature.Get">
+    <LineIds Name="ReactorTemperatureController.lowerTemperature.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorTemperature.manualControlPercentage.Set">
+    <LineIds Name="ReactorTemperatureController.manualControlPercentage.Set">
       <LineId Id="5" Count="1" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorTemperature.pidControllerParameters.Set">
+    <LineIds Name="ReactorTemperatureController.pidControllerParameters.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorTemperature.temperatureContactor.Get">
+    <LineIds Name="ReactorTemperatureController.temperatureContactor.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorTemperature.temperatureContactorCommand.Set">
+    <LineIds Name="ReactorTemperatureController.temperatureContactorCommand.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorTemperature.temperatureSetpoint.Set">
+    <LineIds Name="ReactorTemperatureController.temperatureSetpoint.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="ReactorTemperature.upperTemperature.Get">
+    <LineIds Name="ReactorTemperatureController.upperTemperature.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>

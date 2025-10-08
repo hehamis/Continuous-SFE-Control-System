@@ -2,46 +2,141 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="MAIN" Id="{dec5b1ca-8e16-4f49-8efb-57a750654862}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
-VAR
-	rInput: REAL;
-END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Control functions
+      <ST><![CDATA[
+(*** CONTROLLERS: MAIN LOGIC MODULARIZED ***)
 
-//ReactorTemperatureControl();
-ReactorTemperature();
+// Reactor temperature
+ReactorTemperatureController(
+						temperatureUpper := GVL_IO.reactorTemperatureUpper,
+						temperatureLower := GVL_IO.reactorTemperatureLower,
+						contactor => GVL_IO.reactorTemperatureContactor);
 
-ReactorLevelAndPressure();
-//ReactorLevelAndPressureControl();
-// MATLAB functions
-DataAcquisition();
-// Persist set variables
-VariablePersistence();
-// Serial communications
-SerialCommunicationHandler();
+// Reactor level/pressure
+ReactorLevelAndPressureController(
+					serialCommData := SerialCommunicationController.SerialCommReadData,
+					stop := SafetyController.stop,
+					levelHigh := GVL_IO.reactorLevelHigh,
+					slurryInletValve => GVL_IO.reactorInletValve,
+					slurryOutletValve => GVL_IO.reactorOutletValve,
+					extractiveOutletOnOffValve => GVL_IO.extractiveOutletOnOffValve,
+					extractiveOutletControlValveClose => GVL_IO.extractiveOutletControlValveClose,
+					extractiveOutletControlValveOpen => GVL_IO.extractiveOutletControlValveOpen);
+					
+// Data acquisition
+DataAcquisitionController();
+
+// Persistent data saving
+VariablePersistenceController();
+
+// Serial communication
+SerialCommunicationController();
+
 // Safety
-Safety();
+SafetyController();
 
-MainScreenBindings();
-ProcessViewBindings();
+(*** VISUALIZATION BINDINGS: DATA TRANSFER FROM/TO UI ***)
+
+// MainScreen in
+MainScreenBindings(
+				matlabValues := DataAcquisitionController.MatlabHmiValues,
+				SerialCommReadData := SerialCommunicationController.SerialCommReadData,
+				CalibrateDone := ReactorLevelAndPressureController.CalibrateDone,
+				Stop :=  SafetyController.stop);
+// MainScreen out
+ReactorTemperatureController.autoControlSelected := MainScreenBindings.autoControlSelected;
+ReactorTemperatureController.temperatureSetpoint := MainScreenBindings.temperatureSetpoint;
+ReactorTemperatureController.manualControlPercentage := MainScreenBindings.temperaturePidManualControlPercentage;
+DataAcquisitionController.MatlabBtn := MainScreenBindings.matlabBtn;
+GVL_OPC.OPC_ProgramNamePrefix := MainScreenBindings.programNamePrefix;
+ReactorLevelAndPressureController.StartAutomaticExtraction := MainScreenBindings.startAutomaticExtraction;
+SafetyController.buttonPressed := MainScreenBindings.estopButtonPressed;
+SafetyController.resetPressed := MainScreenBindings.estopResetPressed;
+SerialCommunicationController.SerialCommSetpoints := MainScreenBindings.serialCommSetpoints;
+	
+//ProcessView in			
+ProcessViewBindings(
+				reactorOutletValve := GVL_IO.reactorOutletValve,
+				reactorInletValve := GVL_IO.reactorInletValve,
+				lowerTemperature := ReactorTemperatureController.lowerTemperature,
+				upperTemperature := ReactorTemperatureController.upperTemperature,
+				reactorTemperatureContactor := GVL_IO.reactorTemperatureContactor,
+				reactorLevelHigh := GVL_IO.reactorLevelHigh,
+				reactorLevelLow := GVL_IO.reactorLevelLow,
+				iPressureScaledValue := ReactorLevelAndPressureController.iPressureScaledValue,
+				SerialCommReadData := SerialCommunicationController.SerialCommReadData,
+				ExtractiveOnOffValveValues := ReactorLevelAndPressureController.ExtractiveOnOffValveValues,
+				CalibrateDone := ReactorLevelAndPressureController.CalibrateDone,
+				ControlValveOpening := ReactorLevelAndPressureController.ControlValveOpening,
+				automaticExtractionState := ReactorLevelAndPressureController.automaticExtractionState,
+				stop := SafetyController.stop);
+// ProcessView out
+ReactorTemperatureController.temperatureContactorCommand := ProcessViewBindings.temperatureContactorCommand;
+ReactorLevelAndPressureController.SlurryInValveCommand := ProcessViewBindings.SlurryInValveCommand;
+ReactorLevelAndPressureController.PressureIntervals := ProcessViewBindings.PressureIntervals;
+ReactorLevelAndPressureController.SlurryOutValveCommand := ProcessViewBindings.SlurryOutValveCommand;
+ReactorLevelAndPressureController.ExtractiveOutOnOffValveCommand := ProcessViewBindings.ExtractiveOutOnOffValveCommand;
+ReactorLevelAndPressureController.ExtractiveControlValveCommands := ProcessViewBindings.ExtractiveControlValveCommands;
+	
+// ParameterView in			
 ParameterViewBindings();
-//PidParameterMenuBindings();
-//AutoExtractionParameterMenuBindings();
-//ExtractiveOutletValveParameterMenuBindings();]]></ST>
+// ParameterView out
+ReactorTemperatureController.pidControllerParameters := ParameterViewBindings.reactorTemperaturePidParameters;
+ReactorLevelAndPressureController.AutomaticExtractionParameters := ParameterViewBindings.autoExtractionParameters;
+ReactorLevelAndPressureController.PressureIntervals := ParameterViewBindings.pressureIntervals;
+ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterViewBindings.extractionValveParameters;
+]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="189" Count="2" />
-      <LineId Id="239" Count="1" />
+      <LineId Id="362" Count="0" />
+      <LineId Id="330" Count="0" />
+      <LineId Id="364" Count="0" />
+      <LineId Id="191" Count="0" />
+      <LineId Id="239" Count="0" />
+      <LineId Id="344" Count="1" />
+      <LineId Id="348" Count="0" />
+      <LineId Id="331" Count="0" />
+      <LineId Id="240" Count="0" />
       <LineId Id="193" Count="0" />
-      <LineId Id="234" Count="0" />
-      <LineId Id="194" Count="5" />
-      <LineId Id="262" Count="1" />
-      <LineId Id="201" Count="1" />
+      <LineId Id="274" Count="1" />
+      <LineId Id="349" Count="1" />
+      <LineId Id="332" Count="0" />
+      <LineId Id="353" Count="0" />
+      <LineId Id="351" Count="1" />
+      <LineId Id="354" Count="0" />
+      <LineId Id="194" Count="1" />
+      <LineId Id="336" Count="1" />
+      <LineId Id="197" Count="0" />
+      <LineId Id="338" Count="0" />
+      <LineId Id="198" Count="1" />
+      <LineId Id="342" Count="0" />
+      <LineId Id="341" Count="0" />
+      <LineId Id="263" Count="0" />
+      <LineId Id="343" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="356" Count="0" />
+      <LineId Id="355" Count="0" />
+      <LineId Id="202" Count="0" />
+      <LineId Id="268" Count="0" />
+      <LineId Id="272" Count="0" />
+      <LineId Id="270" Count="1" />
+      <LineId Id="282" Count="0" />
+      <LineId Id="288" Count="8" />
+      <LineId Id="276" Count="0" />
+      <LineId Id="357" Count="0" />
       <LineId Id="261" Count="0" />
+      <LineId Id="297" Count="9" />
+      <LineId Id="308" Count="3" />
+      <LineId Id="358" Count="0" />
+      <LineId Id="315" Count="4" />
+      <LineId Id="313" Count="0" />
+      <LineId Id="312" Count="0" />
+      <LineId Id="359" Count="0" />
       <LineId Id="256" Count="0" />
-      <LineId Id="246" Count="0" />
-      <LineId Id="245" Count="0" />
+      <LineId Id="361" Count="0" />
+      <LineId Id="323" Count="2" />
+      <LineId Id="322" Count="0" />
       <LineId Id="251" Count="0" />
     </LineIds>
   </POU>

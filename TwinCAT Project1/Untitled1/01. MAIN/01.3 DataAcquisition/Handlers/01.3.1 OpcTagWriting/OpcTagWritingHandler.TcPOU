@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="OpcTagWritingHandler" Id="{016e686a-2418-421a-bdfe-907d5d5f760a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK OpcTagWritingHandler
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	serialCommReadData : ST_SerialCommReadData;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[GVL_OPC.OPC_ReactorTemperature := GVL_IO.reactorTemperatureUpper;
+GVL_OPC.OPC_TemperatureContactor := GVL_IO.reactorTemperatureContactor;
+GVL_OPC.OPC_ReactorPressure := ReactorLevelAndPressureController.iPressureScaledValue;//ReactorLevelAndPressureControl.iPressureScaledValue;
+IF ReactorTemperatureController._autoControlSelected THEN//ReactorTemperatureControl.bTempCon THEN
+	GVL_OPC.OPC_ReactorTemperatureSetpoint := REAL_TO_INT(ReactorTemperatureController._temperatureSetpoint);//REAL_TO_INT(ReactorTemperatureControl.iTemperatureSetpoint);
+ELSE
+	GVL_OPC.OPC_ReactorTemperatureSetpoint := 0;
+END_IF
+GVL_OPC.OPC_SlurryInletValve := GVL_IO.reactorInletValve;
+GVL_OPC.OPC_SlurryOutletValve := GVL_IO.reactorOutletValve;
+
+serialCommReadData := SerialCommunicationController.serialCommReadData;
+GVL_OPC.OPC_CO2VolumetricFlow := serialCommReadData.flowMeasurement;
+GVL_OPC.OPC_PumpingPressure := serialCommReadData.pumpingPressureMeasurement;
+GVL_OPC.OPC_PumpingPressureSetpoint := serialCommReadData.pumpingPressureSetpoint;
+GVL_OPC.OPC_PreHeaterTemperature := serialCommReadData.preHeaterTemperatureMeasurement;
+GVL_OPC.OPC_PreHeaterTemperatureSetpoint := serialCommReadData.preHeaterTemperatureSetpoint;
+GVL_OPC.OPC_SeparatorTemperature := serialCommReadData.separatorTemperatureMeasurement;
+GVL_OPC.OPC_SeparatorTemperatureSetpoint := serialCommReadData.separatorTemperatureSetpoint;]]></ST>
+    </Implementation>
+    <LineIds Name="OpcTagWritingHandler">
+      <LineId Id="42" Count="9" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="52" Count="6" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

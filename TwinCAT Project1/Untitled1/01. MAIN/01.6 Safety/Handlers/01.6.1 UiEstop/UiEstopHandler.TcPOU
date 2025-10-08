@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="FB_HandleUiEstop" Id="{494017d8-bd6a-437d-bc9e-5e9024c1895e}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_HandleUiEstop
+  <POU Name="UiEstopHandler" Id="{494017d8-bd6a-437d-bc9e-5e9024c1895e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK UiEstopHandler
 VAR_INPUT
 	button : BOOL;
 	reset : BOOL;
@@ -26,7 +26,7 @@ IF RTRIG_resetPressed.q THEN
 	stop := FALSE;
 END_IF]]></ST>
     </Implementation>
-    <LineIds Name="FB_HandleUiEstop">
+    <LineIds Name="UiEstopHandler">
       <LineId Id="13" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="14" Count="2" />

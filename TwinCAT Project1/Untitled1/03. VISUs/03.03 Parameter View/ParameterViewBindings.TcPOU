@@ -2,7 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="ParameterViewBindings" Id="{26036d62-e7e5-4820-8b8f-a5aa825cf944}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM ParameterViewBindings
-VAR
+VAR_OUTPUT
 	reactorTemperaturePidParameters : ST_PidParameters;
 	autoExtractionParameters : ST_AutomaticExtractionParameters;
 	extractionValveParameters : ST_ExtractiveControlValveParameters;
@@ -39,7 +39,7 @@ reactorTemperaturePidParameters.Ti := TiTextField_TextVariable;
 reactorTemperaturePidParameters.Td := TdTextField_TextVariable;
 reactorTemperaturePidParameters.Iterationtime := IterationTimeTextField_TextVariable;
 reactorTemperaturePidParameters.Bias := BiasTextField_TextVariable;
-ReactorTemperature.pidControllerParameters := reactorTemperaturePidParameters;
+ReactorTemperatureController.pidControllerParameters := reactorTemperaturePidParameters;
 
 // Send auto extraction parameters to controller
 autoExtractionParameters.controlValveOpeningValue := controlValveOpeningValueTextField_TextVariable;
@@ -47,7 +47,7 @@ autoExtractionParameters.fillingTime := refillIntervalTextField_TextVariable;
 autoExtractionParameters.pumpOnTime := pumpOnTimeTextField_TextVariable;
 autoExtractionParameters.pumpSetpointWaitTime := pumpSetpointWaitTimeTextField_TextVariable;
 autoExtractionParameters.pumpWaitTime := refillPumpWaitTimeTextField_TextVariable;
-ReactorLevelAndPressure.AutomaticExtractionParameters := autoExtractionParameters; 
+ReactorLevelAndPressureController.AutomaticExtractionParameters := autoExtractionParameters; 
 
 // Slurry outlet pressure intervals
 PressureIntervals.PressureUpperInterVal_1 := UpperIntervalSlurryOnUpperTextField_TextVariable;
@@ -56,12 +56,12 @@ PressureIntervals.PressureUpperInterVal_3 := UpperIntervalSlurryOffUpperTextFiel
 PressureIntervals.PressureLowerInterval_1 := LowerIntervalSlurryOnUpperTextField_TextVariable;
 PressureIntervals.PressureLowerInterval_2 := LowerIntervalSlurryOnNotUpperTextField_TextVariable;
 PressureIntervals.PressureLowerInterval_3 := LowerIntervalSlurryOffUpperTextField_TextVariable;
-ReactorLevelAndPressure.PressureIntervals := PressureIntervals;
+ReactorLevelAndPressureController.PressureIntervals := PressureIntervals;
 
 // Send extraction valve parameters to controller
 extractionValveParameters.calibrationTimeMs := calibrationTimeTextField_TextVariable;
 extractionValveParameters.timeToFullyOpenMs := fullOpenTimeTextField_TextVariable;
-ReactorLevelAndPressure.ExtractiveControlValveParameters := extractionValveParameters; 
+ReactorLevelAndPressureController.ExtractiveControlValveParameters := extractionValveParameters; 
 ]]></ST>
     </Implementation>
     <LineIds Name="ParameterViewBindings">

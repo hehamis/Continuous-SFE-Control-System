@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="BackgroundEL" Id="{eae041cb-36c9-46d9-9a93-9d662044f20b}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM BackgroundEL
+  <POU Name="BackgroundElController" Id="{eae041cb-36c9-46d9-9a93-9d662044f20b}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM BackgroundElController
 VAR
 	(* background communication with the EL6001 terminal *)
 	fbEL6001Ctrl		: SerialLineControl;
@@ -36,7 +36,7 @@ IF fbEL6001Ctrl.Error THEN
 	eEL6001CtrlErrorID := fbEL6001Ctrl.ErrorID;
 END_IF]]></ST>
     </Implementation>
-    <LineIds Name="BackgroundEL">
+    <LineIds Name="BackgroundElController">
       <LineId Id="6" Count="21" />
       <LineId Id="5" Count="0" />
     </LineIds>

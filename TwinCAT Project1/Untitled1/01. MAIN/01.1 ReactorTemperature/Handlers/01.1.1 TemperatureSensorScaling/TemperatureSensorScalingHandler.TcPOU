@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="TemperatureSensorScalingHandler" Id="{be2e305c-747a-4b45-b914-00c80fe2f05c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TemperatureSensorScalingHandler
+VAR_INPUT
+	upperTemperatureSensor : INT;
+	lowerTemperatureSensor : INT;
+END_VAR
+VAR_OUTPUT
+	upperTemperatureValue : INT;
+	lowerTemperatureValue : INT;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+upperTemperatureValue	:= upperTemperatureSensor/10;
+lowerTemperatureValue := lowerTemperatureSensor/10;]]></ST>
+    </Implementation>
+    <LineIds Name="TemperatureSensorScalingHandler">
+      <LineId Id="17" Count="2" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

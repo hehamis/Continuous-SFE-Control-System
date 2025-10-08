@@ -2,6 +2,23 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="MainScreenBindings" Id="{4a3b100e-d510-409e-8f4e-7c5919608164}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MainScreenBindings
+VAR_INPUT
+	matlabValues : ST_MatlabValues;
+	SerialCommReadData : ST_SerialCommReadData;// SerialCommunicationHandler.SerialCommReadData
+	CalibrateDone : BOOL;//ReactorLevelAndPressure.CalibrateDone
+	Stop : BOOL;// Safety.stop
+END_VAR
+VAR_OUTPUT
+	autoControlSelected : BOOL;
+	temperatureSetpoint : INT;
+	temperaturePidManualControlPercentage : INT;
+	matlabBtn : BOOL;
+	programNamePrefix : STRING;
+	startAutomaticExtraction : BOOL;
+	estopButtonPressed : BOOL;
+	estopResetPressed : BOOL;
+	serialCommSetpoints : ST_SerialCommSetpoints;
+END_VAR
 VAR
 	PercentageLabel_Invisible : BOOL;
 	ReactorTemperatureSetpointTextField_TextVariable : INT;
@@ -20,8 +37,8 @@ VAR
 	Co2PressureSetpointTextField_TextVariable : DINT;
 	SeparatorTemperatureSetpointTextField_TextVariable : DINT;
 	PressureIntervals : ST_PressureIntervals;
-	serialCommReadData : ST_SerialCommReadData;
-	serialCommSetpoints : ST_SerialCommSetpoints;
+//	serialCommReadData : ST_SerialCommReadData;
+//	serialCommSetpoints : ST_SerialCommSetpoints;s
 	SeparatorTemperatureSetpointTextField_WriteAvariable : DINT;
 	PreHeaterTemperatureSetpointTextField_WriteAvariable : DINT;
 	Co2PressureSetpointTextField_WriteAvariable : DINT;
@@ -50,58 +67,58 @@ IF RectorTemperatureControlModeButton_ToggleVariable THEN
 ELSE
 	RectorTemperatureControlModeButton_TextVariable := 'MAN';
 END_IF
-ReactorTemperature.autoControlSelected := RectorTemperatureControlModeButton_ToggleVariable;//ReactorTemperatureControl.bTemperatureControlSwitch := RectorTemperatureControlModeButton_ToggleVariable;// OUTPUT
+
+autoControlSelected := RectorTemperatureControlModeButton_ToggleVariable;//ReactorTemperatureControl.bTemperatureControlSwitch := RectorTemperatureControlModeButton_ToggleVariable;// OUTPUT
 
 // PercentageLabel
 PercentageLabel_Invisible := RectorTemperatureControlModeButton_ToggleVariable;//ReactorTemperatureControl.bTemperatureControlSwitch;
 
 //ReactorTemperatureSetpointTextField
-ReactorTemperature.temperatureSetpoint := ReactorTemperatureSetpointTextField_TextVariable;//ReactorTemperatureSetpointTextField_TextVariable := ReactorTemperature.temperatureSetpoint;//ReactorTemperatureControl.iTemperatureSetpoint;
+temperatureSetpoint := ReactorTemperatureSetpointTextField_TextVariable;//ReactorTemperatureSetpointTextField_TextVariable := ReactorTemperature.temperatureSetpoint;//ReactorTemperatureControl.iTemperatureSetpoint;
 
 //ReactorTemperatureControlPercentageTextField
-ReactorTemperature.manualControlPercentage := ReactorTemperatureControlPercentageTextField_TextVariable;//ReactorTemperatureControlPercentageTextField_TextVariable := ReactorTemperature.manualControlPercentage;//ReactorTemperatureControl.iTemperatureControlPercentage;
+temperaturePidManualControlPercentage := ReactorTemperatureControlPercentageTextField_TextVariable;//ReactorTemperatureControlPercentageTextField_TextVariable := ReactorTemperature.manualControlPercentage;//ReactorTemperatureControl.iTemperatureControlPercentage;
 ReactorTemperatureControlPercentageTextField_Invisible := RectorTemperatureControlModeButton_ToggleVariable; //ReactorTemperatureControl.bTemperatureControlSwitch;
 
 //ReactorTemperatureControl.bPIDcontrolParameterMenu := PidParamMenuButton_ToggleVariable;// OUTPUT
 PidParamMenuButton_Invisible := RectorTemperatureControlModeButton_ToggleVariable;//ReactorTemperatureControl.bTemperatureControlSwitch;
 
 // StartMatlabButton
-StartMatlabButton_TextVariable := RunMATLAB.sMatlabRunningState;
-StartMatlabButton_Color := RunMATLAB.dMatlabBtnColor;
-StartMatlabButton_DeactivateInputs := RunMATLAB.dMatlabBtnColor = 16#FFFFFF00;
-RunMATLAB.MatlabBtn := StartMatlabButton_ToggleVariable; // OUTPUT
+StartMatlabButton_TextVariable := matlabValues.MatlabRunningState;
+StartMatlabButton_Color := matlabValues.MatlabBtnColor;
+StartMatlabButton_DeactivateInputs := matlabValues.MatlabBtnColor = 16#FFFFFF00;
+MatlabBtn := StartMatlabButton_ToggleVariable;//RunMATLAB.MatlabBtn := StartMatlabButton_ToggleVariable; // OUTPUT
 
 // ProgramNamePrefixTextField
-GVL_OPC.OPC_ProgramNamePrefix := ProgramNamePrefixTextField_TextVariable;  // OUTPUT
+programNamePrefix := ProgramNamePrefixTextField_TextVariable;  // OUTPUT
 
 // Setpoints via serial comm
-serialCommReadData := SerialCommunicationHandler.SerialCommReadData;
 serialCommSetpoints.separatorTemperatureSetSetpoint := SeparatorTemperatureSetpointTextField_WriteAvariable;
 serialCommSetpoints.preHeaterTemperatureSetSetpoint := PreHeaterTemperatureSetpointTextField_WriteAvariable;
 serialCommSetpoints.pumpingPressureSetSetpoint := Co2PressureSetpointTextField_WriteAvariable;
-SerialCommunicationHandler.SerialCommSetpoints := serialCommSetpoints; 
+//SerialCommunicationController.SerialCommSetpoints := serialCommSetpoints; 
 PreHeaterTemperatureSetpointTextField_TextVariable := serialCommReadData.preHeaterTemperatureSetpoint;
 Co2PressureSetpointTextField_TextVariable := serialCommReadData.pumpingPressureSetpoint;
 SeparatorTemperatureSetpointTextField_TextVariable := serialCommReadData.separatorTemperatureSetpoint;
 
 // StartAutomaticExtractionButton
-ReactorLevelAndPressure.StartAutomaticExtraction := StartAutomaticExtractionButton_ToggleVariable
-													AND ReactorLevelAndPressure.CalibrateDone 
+startAutomaticExtraction := StartAutomaticExtractionButton_ToggleVariable
+													AND CalibrateDone 
 													AND NOT ReactorHeatingActiveIndicatorRectangle_ToggleColor
 													AND NOT Co2PumpRunningIndicatorRectangle_ToggleColor;
 
-IF NOT (ReactorLevelAndPressure.CalibrateDone AND NOT ReactorHeatingActiveIndicatorRectangle_ToggleColor
+IF NOT (CalibrateDone AND NOT ReactorHeatingActiveIndicatorRectangle_ToggleColor
 		AND NOT Co2PumpRunningIndicatorRectangle_ToggleColor) THEN
 	StartAutomaticExtractionButton_ToggleVariable := FALSE;
 END_IF
 StartAutomaticExtractionButton_DeactivateInputs := StartAutomaticExtractionButton_ToggleVariable 
-													OR NOT ReactorLevelAndPressure.CalibrateDone 
+													OR NOT CalibrateDone
 													OR ReactorHeatingActiveIndicatorRectangle_ToggleColor
 													OR Co2PumpRunningIndicatorRectangle_ToggleColor;
 
 // StopAutomaticExtractionButton
 StopAutomaticExtractionButton_DeactivateInputs := NOT StartAutomaticExtractionButton_ToggleVariable 
-													OR NOT ReactorLevelAndPressure.CalibrateDone 
+													OR NOT CalibrateDone
 													OR ReactorHeatingActiveIndicatorRectangle_ToggleColor
 													OR Co2PumpRunningIndicatorRectangle_ToggleColor; 
 
@@ -110,14 +127,14 @@ autoExtractionParameterMenuFrame_Invisible := NOT autoExtractionParameterMenuBut
 
 
 // CalibrationDoneIndicatiorRectangle
-CalibrationDoneIndicatorRectangle_ToggleColor := NOT ReactorLevelAndPressure.CalibrateDone;
+CalibrationDoneIndicatorRectangle_ToggleColor := NOT ReactorLevelAndPressureController.CalibrateDone;
 
 // ReactorHeatingActiveIndicatorRectangle
 ReactorHeatingActiveIndicatorRectangle_ToggleColor := NOT (ProcessViewBindings.ReactorTemperatureContactorLamp_Variable 
 														OR MainScreenBindings.RectorTemperatureControlModeButton_ToggleVariable 
 														OR MainScreenBindings.ReactorTemperatureControlPercentageTextField_TextVariable > 0);
 // Co2PumpRunningIndicatorRectangle
-Co2PumpRunningIndicatorRectangle_ToggleColor := NOT (serialCommReadData.pumpingPressureSetpoint >= 70);
+Co2PumpRunningIndicatorRectangle_ToggleColor := NOT (serialCommReadData.pumpingPressureSetpoint > 80);
 
 // ProcessViewFrame
 IF ProcessViewBindings.autoExtractionParameterMenuButton_ToggleVariable THEN
@@ -127,19 +144,19 @@ ELSE
 END_IF
 
 // StopButtonEllipse_
-Safety.buttonPressed := StopButtonEllipse_TapVariable;
-StopButtonEllipse_ToggleColor := Safety.stop;
+estopButtonPressed := StopButtonEllipse_TapVariable;
+StopButtonEllipse_ToggleColor := Stop;
 
 //  ResetButtonRectangle
-Safety.resetPressed := ResetButtonRectangle_TapVariable;
-ResetButtonRectangle_Invisible := NOT Safety.stop;
+estopResetPressed := ResetButtonRectangle_TapVariable;
+ResetButtonRectangle_Invisible := NOT Stop;
 
 // Reset setpoints if stop button pressed
-IF Safety.stop THEN
+IF Stop THEN
 	ReactorTemperatureSetpointTextField_TextVariable := 0;
 	SeparatorTemperatureSetpointTextField_WriteAvariable := 0;
 	PreHeaterTemperatureSetpointTextField_WriteAvariable := 0;
-	Co2PressureSetpointTextField_WriteAvariable := 0;
+	Co2PressureSetpointTextField_WriteAvariable := 80;
 	RectorTemperatureControlModeButton_ToggleVariable := FALSE;
 	ReactorTemperatureControlPercentageTextField_TextVariable := 0;
 END_IF
@@ -151,6 +168,7 @@ END_IF
       <LineId Id="2712" Count="0" />
       <LineId Id="2562" Count="0" />
       <LineId Id="909" Count="4" />
+      <LineId Id="2849" Count="0" />
       <LineId Id="2716" Count="0" />
       <LineId Id="2713" Count="0" />
       <LineId Id="940" Count="1" />
@@ -165,8 +183,9 @@ END_IF
       <LineId Id="2719" Count="0" />
       <LineId Id="1007" Count="0" />
       <LineId Id="2721" Count="0" />
-      <LineId Id="1008" Count="1" />
-      <LineId Id="1011" Count="2" />
+      <LineId Id="1008" Count="0" />
+      <LineId Id="2791" Count="0" />
+      <LineId Id="1012" Count="1" />
       <LineId Id="1015" Count="0" />
       <LineId Id="1019" Count="0" />
       <LineId Id="1022" Count="0" />

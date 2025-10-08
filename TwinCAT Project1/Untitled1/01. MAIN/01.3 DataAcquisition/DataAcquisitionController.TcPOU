@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="DataAcquisitionController" Id="{8ef7b23d-377f-464a-94da-dbf13a683f44}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM DataAcquisitionController
+VAR
+	// Handlers to call
+	HandleOpcTagWriting : OpcTagWritingHandler;
+	HandleMatlab 		: MatlabHandler;
+	
+	// Local variables
+	_matlabBtn : BOOL;
+	_matlabHmiValues : ST_MatlabValues;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+HandleOpcTagWriting();
+HandleMatlab(
+			startButton := _matlabBtn,
+			hmiValues => _matlabHmiValues);]]></ST>
+    </Implementation>
+    <Property Name="MatlabBtn" Id="{12390ade-eb97-4d4a-aa0b-dfac54f1b9cf}">
+      <Declaration><![CDATA[PROPERTY MatlabBtn : BOOL]]></Declaration>
+      <Set Name="Set" Id="{4570ab4c-2c20-47c1-93a4-d240137c3a55}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_MatlabBtn := MatlabBtn;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="MatlabHmiValues" Id="{b30c06e2-1dce-4ae9-b5ea-96ee729b6002}">
+      <Declaration><![CDATA[PROPERTY MatlabHmiValues : ST_MatlabValues]]></Declaration>
+      <Get Name="Get" Id="{0be0c361-5cc2-4877-86cc-6a7832ec5f7b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+MatlabHmiValues := _matlabHmiValues;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="DataAcquisitionController">
+      <LineId Id="10" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="27" Count="2" />
+    </LineIds>
+    <LineIds Name="DataAcquisitionController.MatlabBtn.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DataAcquisitionController.MatlabHmiValues.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

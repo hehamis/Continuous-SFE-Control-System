@@ -2,6 +2,30 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="ProcessViewBindings" Id="{05fb8a5e-9220-453a-b57f-12f2d1eedc57}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM ProcessViewBindings
+VAR_INPUT
+	reactorOutletValve : BOOL;
+	reactorInletValve : BOOL;
+	lowerTemperature : INT;
+	upperTemperature : INT;
+	reactorTemperatureContactor : BOOL;
+	reactorLevelHigh : BOOL;
+	reactorLevelLow : BOOL;
+	iPressureScaledValue : INT;
+	SerialCommReadData : ST_SerialCommReadData;
+	ExtractiveOnOffValveValues : ST_ExtractiveOnOffValveValues;
+	CalibrateDone : BOOL;
+	ControlValveOpening : DINT;
+	automaticExtractionState : E_AutomaticExtractionState;
+	stop : BOOL;
+END_VAR
+VAR_OUTPUT
+	temperatureContactorCommand : BOOL;
+	SlurryInValveCommand : BOOL;
+	PressureIntervals : ST_PressureIntervals;
+	SlurryOutValveCommand : BOOL;
+	ExtractiveOutOnOffValveCommand : BOOL;
+	ExtractiveControlValveCommands : ST_ExtractiveControlValveCommands;
+END_VAR
 VAR
 	ReactorLowerTemperatureTextField_TextVariable : INT;
 	
@@ -46,10 +70,6 @@ VAR
 	Co2PressureTextField_TextVariable : DINT;
 
 	SeperatorTemperatureTextField_TextVariable : DINT;
-	
-	PressureIntervals : ST_PressureIntervals;
-	
-	serialCommReadData : ST_SerialCommReadData;
 
 	ExtractiveOutletOnOff_Valve_ToggleColor : BOOL;
 	ExtractiveOutletOnOff_Valve_TapVariable : BOOL;
@@ -63,7 +83,6 @@ VAR
 	
 	ExtractiveOutletValveSlider_Variable : INT;
 	ExtractiveOutletValveSlider_DisableInputs : BOOL;
-	ExtractiveOutletValveCommands : ST_ExtractiveControlValveCommands;
 	autoExtractionParameterMenuButton_ToggleVariable : BOOL;
 	
 	ControlValveOpeningPercentageTextBox_TextVariable : DINT;
@@ -72,82 +91,80 @@ VAR
 	
 	StateLabel_TextVariable : STRING;
 
-	ExtractiveOnOffValveValues : ST_ExtractiveOnOffValveValues;
 
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-IF GVL_IO.reactorOutletValve = 1 THEN
+IF reactorOutletValve = 1 THEN
 	SlurryOutValveButton_TextVariable := 'CLOSE';
 END_IF
-IF GVL_IO.reactorOutletValve = 0 THEN
+IF reactorOutletValve = 0 THEN
 	SlurryOutValveButton_TextVariable := 'OPEN';
 END_IF
 
-IF NOT GVL_IO.reactorInletValve THEN
+IF NOT reactorInletValve THEN
 	SlurryInValveControlModeButton_TextVariable := 'OPEN';
 ELSE
 	SlurryInValveControlModeButton_TextVariable := 'CLOSE';
 END_IF
 
 // ReactorLowerTemperatureTextField
-ReactorLowerTemperatureTextField_TextVariable := ReactorTemperature.lowerTemperature;//ReactorTemperatureControl.iTemperatureDisplayValue;
+ReactorLowerTemperatureTextField_TextVariable := lowerTemperature;//ReactorTemperatureControl.iTemperatureDisplayValue;
 
 // ReactorUpperTemperatureTextField
-ReactorUpperTemperatureTextField_TextVariable := ReactorTemperature.upperTemperature;//ReactorTemperatureControl.iTemperatureLowerDisplayValue;
+ReactorUpperTemperatureTextField_TextVariable := upperTemperature;//ReactorTemperatureControl.iTemperatureLowerDisplayValue;
 
 // ReactorTemperatureContactorButton
-ReactorTemperature.temperatureContactorCommand := ReactorTemperatureContactorButton_ToggleVariable;//GVL_IO.reactorTemperatureContactor := ReactorTemperatureContactorButton_ToggleVariable;// OUTPUT
+temperatureContactorCommand := ReactorTemperatureContactorButton_ToggleVariable;//GVL_IO.reactorTemperatureContactor := ReactorTemperatureContactorButton_ToggleVariable;// OUTPUT
 
 // ReactorTemperatureContactorClosedLine
-ReactorTemperatureContactorClosedLine_Invisible := NOT GVL_IO.reactorTemperatureContactor;
+ReactorTemperatureContactorClosedLine_Invisible := NOT reactorTemperatureContactor;
 
 // ReactorTemperatureContactorOpenLine
-ReactorTemperatureContactorOpenLine_Invisible := GVL_IO.reactorTemperatureContactor;
+ReactorTemperatureContactorOpenLine_Invisible := reactorTemperatureContactor;
 
 // ReactorTemperatureContactorLamp
-ReactorTemperatureContactorLamp_Variable := GVL_IO.reactorTemperatureContactor;
+ReactorTemperatureContactorLamp_Variable := reactorTemperatureContactor;
 
 // ReactorBackgroundRectangle
-ReactorBackgroundRectangle_ToggleColor := GVL_IO.reactorTemperatureContactor 
+ReactorBackgroundRectangle_ToggleColor := reactorTemperatureContactor 
 											OR MainScreenBindings.RectorTemperatureControlModeButton_ToggleVariable
 											OR MainScreenBindings.ReactorTemperatureControlPercentageTextField_TextVariable > 0;
 
 // ReactorUpperLevelLamp
-ReactorUpperLevelLamp_Variable := GVL_IO.reactorLevelHigh;
+ReactorUpperLevelLamp_Variable := reactorLevelHigh;
 
 // ReactorLowerLevelLamp
-ReactorLowerLevelLamp := GVL_IO.reactorLevelLow;
+ReactorLowerLevelLamp := reactorLevelLow;
 
 // SlurryInValveFrame
-SlurryInValveFrame_valve_toggleColor := GVL_IO.reactorInletValve;
+SlurryInValveFrame_valve_toggleColor := reactorInletValve;
 
 // SlurryInValveControlModeButton
-SlurryInValveControlModeButton_ToggleColor := GVL_IO.reactorInletValve;
-ReactorLevelAndPressure.SlurryInValveCommand := SlurryInValveControlModeButton_ToggleVariable;
+SlurryInValveControlModeButton_ToggleColor := reactorInletValve;
+SlurryInValveCommand := SlurryInValveControlModeButton_ToggleVariable;
 SlurryInValveControlModeButton_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;//ReactorLevelAndPressure.sLevelControlState = 'AUTO';
 
 // ReactorPressureTextField
-ReactorPressureTextField_TextVariable := ReactorLevelAndPressure.iPressureScaledValue;
+ReactorPressureTextField_TextVariable := iPressureScaledValue;
 
-ReactorLevelAndPressure.PressureIntervals := PressureIntervals;
+PressureIntervals := PressureIntervals;
 
 // SlurryOutValveFrame_valve
-SlurryOutValveFrame_valve_toggleColor := GVL_IO.reactorOutletValve;
+SlurryOutValveFrame_valve_toggleColor := reactorOutletValve;
 
 // SlurryInArrow
-SlurryInArrow_ToggleColor := GVL_IO.reactorInletValve;
+SlurryInArrow_ToggleColor := reactorInletValve;
 
 // SlurryOutLine1
-SlurryOutLine1_ToggleColor := GVL_IO.reactorOutletValve;
+SlurryOutLine1_ToggleColor := reactorOutletValve;
 
 // SlurryOutValveButton
 SlurryOutValveButton_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;//ReactorLevelAndPressure.sLevelControlState = 'AUTO';
-SlurryOutValveButton_ToggleColor := GVL_IO.reactorOutletValve;
-ReactorLevelAndPressure.SlurryOutValveCommand := SlurryOutValveButton_ToggleVariable;// OUTPUT
+SlurryOutValveButton_ToggleColor := reactorOutletValve;
+SlurryOutValveCommand := SlurryOutValveButton_ToggleVariable;// OUTPUT
 
 // Measurements via serial comm
-serialCommReadData := SerialCommunicationHandler.SerialCommReadData;
 PreHeaterTemperatureTextField_TextVariable := serialCommReadData.preHeaterTemperatureMeasurement;
 Co2FlowTextField_TextVariable := serialCommReadData.flowMeasurement;
 Co2PressureTextField_TextVariable := serialCommReadData.pumpingPressureMeasurement;
@@ -158,10 +175,10 @@ ExtractiveOutletOnOff_Valve_ToggleColor :=  ExtractiveOnOffValveValues.open;//GV
 ExtractiveOutletOnOff_Valve_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;
 
 // Get extractive on/off valve values
-ExtractiveOnOffValveValues := ReactorLevelAndPressure.ExtractiveOnOffValveValues;
+ExtractiveOnOffValveValues := ReactorLevelAndPressureController.ExtractiveOnOffValveValues;
 
 // ExtractiveOutOnOffValveButton
-ReactorLevelAndPressure.ExtractiveOutOnOffValveCommand := ExtractiveOutOnOffValveButton_ToggleVariable ;
+ExtractiveOutOnOffValveCommand := ExtractiveOutOnOffValveButton_ToggleVariable ;
 ExtractiveOutOnOffValveButton_ToggleColor := ExtractiveOnOffValveValues.open; //GVL_IO.extractiveOutletOnOffValve; 
 IF ExtractiveOutOnOffValveButton_ToggleVariable THEN
 	ExtractiveOutOnOffValveButton_TextVariable := 'CLOSE';
@@ -173,27 +190,24 @@ END_IF
 ExtractiveOutLines_ToggleColor  := ExtractiveOnOffValveValues.open;//GVL_IO.extractiveOutletOnOffValve;
 
 // ExtractiveOutletValveCalibrateButton
-ExtractiveOutletValveCommands.calibrate := ExtractiveOutletValveCalibrateButton_TapVariable;
+ExtractiveControlValveCommands.calibrate := ExtractiveOutletValveCalibrateButton_TapVariable;
 
 // ExtractiveOutletValveSlider
-ExtractiveOutletValveCommands.openPercentage := ExtractiveOutletValveSlider_Variable*10;
-IF ExtractiveOutletValveCommands.calibrate THEN
+ExtractiveControlValveCommands.openPercentage := ExtractiveOutletValveSlider_Variable*10;
+IF ExtractiveControlValveCommands.calibrate THEN
 	ExtractiveOutletValveSlider_Variable := 0;
 END_IF
-ExtractiveOutletValveSlider_DisableInputs := ReactorLevelAndPressure.controlValveOpeningOrClosing OR MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;
-ExtractiveOutletValveSlider_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable OR NOT ReactorLevelAndPressure.CalibrateDone;
-
-// Send valve commands to controller
-ReactorLevelAndPressure.ExtractiveControlValveCommands := ExtractiveOutletValveCommands;
+ExtractiveOutletValveSlider_DisableInputs := ReactorLevelAndPressureController.controlValveOpeningOrClosing OR MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;
+ExtractiveOutletValveSlider_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable OR NOT CalibrateDone;
 
 // ControlValveOpeningPercentageTextBox
-ControlValveOpeningPercentageTextBox_TextVariable := ReactorLevelAndPressure.ControlValveOpening;
+ControlValveOpeningPercentageTextBox_TextVariable := ControlValveOpening;
 
 // StateLabel
-StateLabel_TextVariable := TO_STRING(ReactorLevelAndPressure.automaticExtractionState);
+StateLabel_TextVariable := TO_STRING(automaticExtractionState);
 
 // Close all valves if stop initiated
-IF Safety.stop THEN
+IF stop THEN
 	SlurryInValveControlModeButton_ToggleVariable := FALSE;
 //	ExtractiveOutOnOffValveButton_ToggleVariable := FALSE;
 	ReactorTemperatureContactorButton_ToggleVariable := FALSE;
@@ -255,7 +269,6 @@ END_IF
       <LineId Id="178" Count="1" />
       <LineId Id="181" Count="1" />
       <LineId Id="192" Count="1" />
-      <LineId Id="591" Count="0" />
       <LineId Id="203" Count="0" />
       <LineId Id="205" Count="1" />
       <LineId Id="208" Count="0" />
@@ -277,8 +290,6 @@ END_IF
       <LineId Id="226" Count="3" />
       <LineId Id="491" Count="0" />
       <LineId Id="490" Count="0" />
-      <LineId Id="609" Count="0" />
-      <LineId Id="232" Count="1" />
       <LineId Id="610" Count="0" />
       <LineId Id="256" Count="1" />
       <LineId Id="259" Count="2" />

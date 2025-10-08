@@ -93,7 +93,7 @@ CASE controlState OF
 
 END_CASE
 
-// Calculate valve open-% according to open timer¨
+// Calculate valve open-% according to open timer
 IF controlValveParameters.timeToFullyOpenMs > 0 THEN
 	currentControlValveOpenPercentage := TO_DINT(((TIME_TO_REAL(openvalve.elapsedtime)) /(controlValveParameters.timeToFullyOpenMs)*100));// TO_DINT(TIME_TO_REAL(openvalve.elapsedtime)/100);
 	test := TO_DINT(TIME_TO_REAL(openvalve.elapsedtime));
@@ -139,7 +139,7 @@ openControlValve := open;
       <LineId Id="186" Count="4" />
       <LineId Id="391" Count="0" />
       <LineId Id="191" Count="0" />
-      <LineId Id="390" Count="0" />
+      <LineId Id="420" Count="0" />
       <LineId Id="393" Count="0" />
       <LineId Id="192" Count="1" />
       <LineId Id="254" Count="0" />

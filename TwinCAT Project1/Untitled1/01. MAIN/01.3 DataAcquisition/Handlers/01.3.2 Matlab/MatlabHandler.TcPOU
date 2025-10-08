@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="MatlabHandler" Id="{fb1ba886-602d-451e-86e9-a4c5b80d2e6c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK MatlabHandler
+VAR_INPUT
+	startButton : BOOL;
+END_VAR
+VAR_OUTPUT
+	hmiValues : ST_MatlabValues;
+END_VAR
+VAR
+	// MATLAB variables
+	bMatlabRunning	: BOOL; // Turns to TRUE over ADS from MATLAB script
+	bStopMatlab		: BOOL;
+	bMatlabStarting  : BOOL; 
+	iMatlabHeartBeatCounter : DINT;
+	HeartBeatSwitch: BOOL;
+
+	Process         	: NT_StartProcess;
+    sTargetFilePath     : STRING(255);
+    sTargetDirectory    : STRING(255);
+    sCommand        	: STRING(255);
+    bTrigger        	: BOOL := FALSE;
+    bError         		: BOOL;
+    iErrorId        	: UDINT;
+	bState				: BOOL;
+	rTrigMatlabStartBtn	: R_TRIG;
+	fTrigMatlabStartBtn	: F_TRIG;
+	fTrigMatlabStopped	: F_TRIG;
+	tonMatlabStartTImer : TON;
+	bBtnDelay			: BOOL;
+	tonMatlabStopDelay	: TON;
+	bMatlabStartTimerOn : BOOL;
+	iStartStep: INT;
+
+	heartBeat: FB_HeartBeat;
+	rTrigMatlabStopped: R_TRIG;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// Build Command String
+sCommand := '/C ';                  									// Special command indicating command string input
+sCommand := CONCAT(sCommand, 'cd / && ');      							// Add move command
+sCommand := CONCAT(sCommand, 'cd C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab && ');  // Add target file path
+sCommand := CONCAT(sCommand, 'startMatlab.py');          				// Add python script name
+ 
+// Output
+Process(
+    NETID := '130.231.170.95.1.1',                    						// Local System
+    PATHSTR := 'C:\Windows\System32\cmd.exe',   						// Path to local cmd executable
+    COMNDLINE := sCommand,          									// Comnmand to be executed
+    ERR => bError,                   									// Error Output
+    ERRID => iErrorId               				 					// Error Id Output
+);
+
+// MATLAB start process
+CASE iStartStep OF 
+	0:
+		// Wait for matlab start button press
+		hmiValues.MatlabBtnColor := 16#FF00FF00; // Green
+		hmiValues.MatlabRunningState := 'START MATLAB';
+		HeartBeatSwitch := FALSE;
+		rTrigMatlabStartBtn(CLK := startButton);
+		IF rTrigMatlabStartBtn.Q THEN
+			Process(START:=TRUE);		
+			bMatlabStarting := TRUE;	
+			iStartStep := 1;
+		END_IF
+	1:
+		// Start matlab, wait for matlab to response
+		hmiValues.MatlabBtnColor := 16#FFFFFF00; // Yellow
+		hmiValues.MatlabRunningState := 'MATLAB STARTING';
+		Process(START:=FALSE);
+		tonMatlabStartTimer(IN:= TRUE, PT := T#60S);
+		IF tonMatlabStartTimer.q THEN
+			bMatlabStarting := FALSE;
+			startButton := FALSE;
+			tonMatlabStartTimer(IN:=FALSE);
+			iStartStep := 0;
+		ELSIF bMatlabRunning AND HeartBeatSwitch THEN
+			bMatlabStarting := FALSE;
+			tonMatlabStartTimer(IN:=FALSE);
+			iStartStep := 2;			
+		END_IF
+	2:
+		// After start, wait for stop command: either from button or matlab
+		hmiValues.MatlabBtnColor := 16#FFFF0000; // Red
+		hmiValues.MatlabRunningState := 'STOP MATLAB';
+		fTrigMatlabStartBtn(CLK := startButton);
+		fTrigMatlabStopped(CLK := bMatlabRunning);
+		
+		IF fTrigMatlabStartBtn.Q  OR fTrigMatlabStopped.Q OR heartBeat.O_AlarmOn THEN
+			bStopMatlab := TRUE;
+			//MATLAB.bMatlabBtn := FALSE;
+			iStartStep := 3;
+		END_IF
+	3:
+		// Stop timer, after running return to beginning
+		hmiValues.MatlabBtnColor := 16#FFFFFF00; // Yellow
+		hmiValues.MatlabRunningState := 'MATLAB STOPPING';
+		tonMatlabStopDelay(IN:= TRUE, PT:=T#12S);
+		IF tonMatlabStopDelay.q THEN
+			bStopMatlab := FALSE;
+			bMatlabRunning := FALSE;
+			startButton := FALSE;
+			tonMatlabStopDelay(IN:= FALSE);
+			iStartStep := 0;
+		END_IF
+		
+		
+END_CASE
+
+heartBeat(
+		I_HeartBeatCheckSwitch:= HeartBeatSwitch, 
+		I_HeartBeatCheckActivation:= bMatlabRunning, 
+		I_HeartBeatCheckTime:= 10, 
+		I_HeartBeatCheckDelay:= 20, 
+		O_Running=> , 
+		O_AlarmOn=> );
+		
+// Reset program name after matlab has stopped
+rTrigMatlabStopped(CLK:= bStopMatlab);
+IF rTrigMatlabStopped.Q THEN
+	GVL_OPC.OPC_ProgramNamePrefix := '';
+END_IF
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="MatlabHandler">
+      <LineId Id="43" Count="85" />
+      <LineId Id="233" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
