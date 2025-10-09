@@ -138,7 +138,7 @@
 					<Vars VarGrpType="1">
 						<Name>PlcTaskFast Inputs</Name>
 						<Var>
-							<Name>BackgroundEL.stIn_EL6001</Name>
+							<Name>BackgroundElController.stIn_EL6001</Name>
 							<Comment><![CDATA[ linked to the EL6001 in the TwinCAT System Manager ]]></Comment>
 							<Type GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom">EL6inData22B</Type>
 						</Var>
@@ -146,7 +146,7 @@
 					<Vars VarGrpType="2" AreaNo="1">
 						<Name>PlcTaskFast Outputs</Name>
 						<Var>
-							<Name>BackgroundEL.stOut_EL6001</Name>
+							<Name>BackgroundElController.stOut_EL6001</Name>
 							<Comment><![CDATA[ linked to the EL6001 in the TwinCAT System Manager ]]></Comment>
 							<Type GUID="{D6B0A42D-897A-4B90-95E8-3C741C3CE3EE}" Namespace="Tc2_SerialCom">EL6outData22B</Type>
 						</Var>
@@ -159,6 +159,11 @@
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
+							<Name>GVL_IO.reactorLevelLow</Name>
+							<Comment><![CDATA[ Low slurry level]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>GVL_IO.reactorTemperatureUpper</Name>
 							<Comment><![CDATA[ Reactor temperature]]></Comment>
 							<Type>INT</Type>
@@ -167,11 +172,6 @@
 							<Name>GVL_IO.reactorTemperatureLower</Name>
 							<Comment><![CDATA[ Reactor temperature lower]]></Comment>
 							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.reactorLevelLow</Name>
-							<Comment><![CDATA[ Low slurry level]]></Comment>
-							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.reactorLevelHigh</Name>
@@ -2198,52 +2198,52 @@ Bit1: Value smaller than Limit2]]></Comment>
 				<Link VarA="PlcTask Inputs^GVL_IO.reactorLevelLow" VarB="Channel 1^Reactor low level"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 6 (EL6021)">
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 0"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 1" Size="8" OffsA="8"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 10" Size="8" OffsA="80"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 11" Size="8" OffsA="88"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 12" Size="8" OffsA="96"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 13" Size="8" OffsA="104"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 14" Size="8" OffsA="112"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 15" Size="8" OffsA="120"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 16" Size="8" OffsA="128"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 17" Size="8" OffsA="136"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 18" Size="8" OffsA="144"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 19" Size="8" OffsA="152"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 2" Size="8" OffsA="16"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 20" Size="8" OffsA="160"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 21" Size="8" OffsA="168"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 3" Size="8" OffsA="24"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 4" Size="8" OffsA="32"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 5" Size="8" OffsA="40"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 6" Size="8" OffsA="48"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 7" Size="8" OffsA="56"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 8" Size="8" OffsA="64"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 9" Size="8" OffsA="72"/>
-				<Link VarA="PlcTaskFast Inputs^BackgroundEL.stIn_EL6001^Status" VarB="COM TxPDO-Map Inputs^Status"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^Ctrl" VarB="COM RxPDO-Map Outputs^Ctrl"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 0"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 1" Size="8" OffsA="8"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 10" Size="8" OffsA="80"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 11" Size="8" OffsA="88"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 12" Size="8" OffsA="96"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 13" Size="8" OffsA="104"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 14" Size="8" OffsA="112"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 15" Size="8" OffsA="120"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 16" Size="8" OffsA="128"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 17" Size="8" OffsA="136"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 18" Size="8" OffsA="144"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 19" Size="8" OffsA="152"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 2" Size="8" OffsA="16"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 20" Size="8" OffsA="160"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 21" Size="8" OffsA="168"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 3" Size="8" OffsA="24"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 4" Size="8" OffsA="32"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 5" Size="8" OffsA="40"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 6" Size="8" OffsA="48"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 7" Size="8" OffsA="56"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 8" Size="8" OffsA="64"/>
-				<Link VarA="PlcTaskFast Outputs^BackgroundEL.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 9" Size="8" OffsA="72"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 0"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 1" Size="8" OffsA="8"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 10" Size="8" OffsA="80"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 11" Size="8" OffsA="88"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 12" Size="8" OffsA="96"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 13" Size="8" OffsA="104"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 14" Size="8" OffsA="112"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 15" Size="8" OffsA="120"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 16" Size="8" OffsA="128"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 17" Size="8" OffsA="136"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 18" Size="8" OffsA="144"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 19" Size="8" OffsA="152"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 2" Size="8" OffsA="16"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 20" Size="8" OffsA="160"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 21" Size="8" OffsA="168"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 3" Size="8" OffsA="24"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 4" Size="8" OffsA="32"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 5" Size="8" OffsA="40"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 6" Size="8" OffsA="48"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 7" Size="8" OffsA="56"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 8" Size="8" OffsA="64"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^D" VarB="COM TxPDO-Map Inputs^Data In 9" Size="8" OffsA="72"/>
+				<Link VarA="PlcTaskFast Inputs^BackgroundElController.stIn_EL6001^Status" VarB="COM TxPDO-Map Inputs^Status"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^Ctrl" VarB="COM RxPDO-Map Outputs^Ctrl"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 0"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 1" Size="8" OffsA="8"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 10" Size="8" OffsA="80"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 11" Size="8" OffsA="88"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 12" Size="8" OffsA="96"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 13" Size="8" OffsA="104"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 14" Size="8" OffsA="112"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 15" Size="8" OffsA="120"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 16" Size="8" OffsA="128"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 17" Size="8" OffsA="136"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 18" Size="8" OffsA="144"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 19" Size="8" OffsA="152"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 2" Size="8" OffsA="16"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 20" Size="8" OffsA="160"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 21" Size="8" OffsA="168"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 3" Size="8" OffsA="24"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 4" Size="8" OffsA="32"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 5" Size="8" OffsA="40"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 6" Size="8" OffsA="48"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 7" Size="8" OffsA="56"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 8" Size="8" OffsA="64"/>
+				<Link VarA="PlcTaskFast Outputs^BackgroundElController.stOut_EL6001^D" VarB="COM RxPDO-Map Outputs^Data Out 9" Size="8" OffsA="72"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

@@ -3,38 +3,37 @@
   <POU Name="ReactorTemperatureControlHandler" Id="{2f294f64-1505-41f8-b499-1db2df7abb98}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK ReactorTemperatureControlHandler
 VAR_INPUT
-	_pidControllerParameters : ST_PidParameters;
-	_manualControlPercentage : INT;
-	_upperTemperature : INT;
-	_lowerTemperature : INT;
-	_temperatureSetpoint : INT;
-	_autoControlSelected : BOOL;
-	_temperatureContactorCommand : BOOL;
+	pidControllerParameters : ST_PidParameters;
+	manualControlPercentage : INT;
+	upperTemperature : INT;
+	lowerTemperature : INT;
+	temperatureSetpoint : INT;
+	autoControlSelected : BOOL;
+	temperatureContactorCommand : BOOL;
 END_VAR
 VAR_OUTPUT
-	_temperatureContactor : BOOL;
+	temperatureContactor : BOOL;
 END_VAR
 VAR
 	TemperatureControlStateMachine : FB_ReactorTemperatureControlStateMachine;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-TemperatureControlStateMachine(temperatureMeasurement := TO_REAL(_upperTemperature),
-							temperatureSetpoint := TO_REAL(_temperatureSetpoint),
-							pidParameters := _pidControllerParameters,
-							manualControlPercentage := _manualControlPercentage,
-							autoControlSelected := _autoControlSelected,
-							relayOn => _temperatureContactor);
+      <ST><![CDATA[TemperatureControlStateMachine(temperatureMeasurement := TO_REAL(upperTemperature),
+							temperatureSetpoint := TO_REAL(temperatureSetpoint),
+							pidParameters := pidControllerParameters,
+							manualControlPercentage := manualControlPercentage,
+							autoControlSelected := autoControlSelected,
+							relayOn => temperatureContactor);
 
-IF _autoControlSelected OR (NOT _autoControlSelected AND _manualControlPercentage > 0) THEN
-	_temperatureContactor := TemperatureControlStateMachine.relayOn;
+IF autoControlSelected OR (NOT autoControlSelected AND manualControlPercentage > 0) THEN
+	temperatureContactor := TemperatureControlStateMachine.relayOn;
 ELSE
-	_temperatureContactor := _temperatureContactorCommand;
+	temperatureContactor := temperatureContactorCommand;
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="ReactorTemperatureControlHandler">
-      <LineId Id="10" Count="11" />
+      <LineId Id="232" Count="10" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>
