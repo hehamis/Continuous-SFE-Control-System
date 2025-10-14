@@ -154,8 +154,8 @@ ResetButtonRectangle_Invisible := NOT Stop;
 // Reset setpoints if stop button pressed
 IF Stop THEN
 	ReactorTemperatureSetpointTextField_TextVariable := 0;
-	SeparatorTemperatureSetpointTextField_WriteAvariable := 0;
-	PreHeaterTemperatureSetpointTextField_WriteAvariable := 0;
+	//SeparatorTemperatureSetpointTextField_WriteAvariable := 0;
+	//PreHeaterTemperatureSetpointTextField_WriteAvariable := 0;
 	Co2PressureSetpointTextField_WriteAvariable := 80;
 	RectorTemperatureControlModeButton_ToggleVariable := FALSE;
 	ReactorTemperatureControlPercentageTextField_TextVariable := 0;
