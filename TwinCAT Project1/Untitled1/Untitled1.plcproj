@@ -481,6 +481,9 @@
     <Content Include="03. VISUs\IMAGES\TEST.svg">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="03. VISUs\IMAGES\university-of-oulu-logo-min.png">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="03. VISUs\IMAGES\university-of-oulu-logo.svg">
       <SubType>Content</SubType>
     </Content>

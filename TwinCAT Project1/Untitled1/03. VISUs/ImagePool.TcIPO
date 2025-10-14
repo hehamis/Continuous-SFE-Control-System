@@ -4,7 +4,7 @@
     <XmlArchive>
       <Data>
         <o xml:space="preserve" t="ImagePoolObject">
-          <v n="UniqueIdGenerator">"75"</v>
+          <v n="UniqueIdGenerator">"78"</v>
           <l n="BitmapPool" t="ArrayList" cet="ImagePoolItem">
             <o>
               <v n="BitmapID">"VALVE"</v>
@@ -42,9 +42,14 @@
               <v n="ItemID">72</v>
             </o>
             <o>
+              <v n="BitmapID">"LOGO_REDUCED"</v>
+              <v n="FileID">"5ce3da45-db07-42e7-a21c-a00fff4ed8f6|03. VISUs\IMAGES\university-of-oulu-logo-min.png"</v>
+              <v n="ItemID">74</v>
+            </o>
+            <o>
               <v n="BitmapID">""</v>
               <v n="FileID">""</v>
-              <v n="ItemID">74</v>
+              <v n="ItemID">76</v>
             </o>
           </l>
           <v n="GuidInit">{4c32b3e1-ed48-43e0-b343-3450b7f4b00f}</v>
