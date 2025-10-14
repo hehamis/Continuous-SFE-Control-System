@@ -5,9 +5,9 @@ asm = NET.addAssembly('C:\TwinCAT\AdsApi\.NET\v4.0.30319\TwinCAT.Ads.dll');
 import TwinCAT.Ads.*;
 adsClt=TwinCAT.Ads.TcAdsClient;
 adsClt.Connect('5.86.83.4.1.1',851); %('10.98.76.62.1.1',851);
-matlabStartingSymbol = adsClt.ReadSymbolInfo('RunMATLAB.bMatlabStarting'); 
-matlabRunningSymbol = adsClt.ReadSymbolInfo('RunMATLAB.bMatlabRunning');
-stopMatlabSymbol = adsClt.ReadSymbolInfo('RunMATLAB.bStopMatlab');
+matlabStartingSymbol = adsClt.ReadSymbolInfo('DataAcquisitionController.HandleMatlab.bMatlabStarting'); 
+matlabRunningSymbol = adsClt.ReadSymbolInfo('DataAcquisitionController.HandleMatlab.bMatlabRunning');
+stopMatlabSymbol = adsClt.ReadSymbolInfo('DataAcquisitionController.HandleMatlab.bStopMatlab');
 stopMatlab = adsClt.ReadSymbol(stopMatlabSymbol); 
 adsClt.WriteAny(matlabStartingSymbol.IndexGroup,matlabStartingSymbol.IndexOffset,true);
 adsClt.WriteAny(matlabRunningSymbol.IndexGroup,matlabRunningSymbol.IndexOffset,true);
@@ -62,7 +62,7 @@ while stopMatlab ~= true
     while started && stopMatlab ~= true
         %% Monitor stop command from PLC and update hearbeat
         stopMatlab = adsClt.ReadSymbol(stopMatlabSymbol);
-        matlabHeartBeatSymbol = adsClt.ReadSymbolInfo('RunMATLAB.HeartBeatSwitch'); % LISÄTTY
+        matlabHeartBeatSymbol = adsClt.ReadSymbolInfo('DataAcquisitionController.HandleMatlab.HeartBeatSwitch'); % LISÄTTY
         matlabHeartBeat = adsClt.ReadSymbol(matlabHeartBeatSymbol );  % LISÄTTY
         adsClt.WriteAny(matlabHeartBeatSymbol.IndexGroup,matlabHeartBeatSymbol.IndexOffset,~matlabHeartBeat); % LISÄTTY
 
