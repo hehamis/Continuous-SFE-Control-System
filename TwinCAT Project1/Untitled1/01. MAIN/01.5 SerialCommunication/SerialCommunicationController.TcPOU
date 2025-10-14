@@ -14,8 +14,8 @@ END_VAR
     <Implementation>
       <ST><![CDATA[
 HandleSerialCommunication(
-						serialCommSetpoints => _serialCommSetpoints,
-						serialCommReadData => _serialCommReadData);
+						setpoints := _serialCommSetpoints,
+						readData => _serialCommReadData);
 ]]></ST>
     </Implementation>
     <Property Name="SerialCommReadData" Id="{d42acb96-3051-4cc7-8cb4-b52d07a7c56e}">
