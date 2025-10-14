@@ -65,25 +65,30 @@ END_VAR
 	IF RTRIG_SetPressureReference.Q THEN
 		pressureReference :=  pressureScaledValue;
 	END_IF
-	SlurryOutValveControl.pressureIntervalControl(
-										interval_1_condition:= reactorInletValve,// GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve, // If above higher limit and filling valve open
-										pressureUpperInterval_1:= pressureIntervals.PressureUpperInterval_1, 
-										pressureLowerInterval_1:= pressureIntervals.PressureLowerInterval_1, 
-										interval_2_condition:= FALSE,//GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve,  // If above higher limit and filling valve closed
-										pressureUpperInterval_2:= pressureIntervals.PressureUpperInterval_2, 
-										pressureLowerInterval_2:= pressureIntervals.PressureLowerInterval_2, 
-										interval_3_condition:= FALSE,//NOT GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve,  // If below higher limit and reactor filling valve open
-										pressureUpperInterval_3:= pressureIntervals.PressureUpperInterval_3, 
-										pressureLowerInterval_3:= pressureIntervals.PressureLowerInterval_3, 
-										pressureValue:= pressureScaledValue,  
-										pressureReference:= pressureReference,//_iPressureScaledValue,//DINT_TO_INT(SerialCommunicationHandler.pumpingPressureSetpoint), 
-										valveOpenCondition:= TRUE,//NOT (NOT reactorLevelHigh AND NOT reactorInletValve), 
-										forceValveClosed:= FALSE,//(NOT reactorLevelHigh AND NOT reactorInletValve),
-										);
-	reactorOutletValve := SlurryOutValveControl.pressureControlOpen;
+	IF automaticExtractionState = E_AutomaticExtractionState.FILLING_ACTIVE THEN
+		SlurryOutValveControl.pressureIntervalControl(
+											interval_1_condition:= reactorInletValve,// GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve, // If above higher limit and filling valve open
+											pressureUpperInterval_1:= pressureIntervals.PressureUpperInterval_1, 
+											pressureLowerInterval_1:= pressureIntervals.PressureLowerInterval_1, 
+											interval_2_condition:= FALSE,//GVL_IO.reactorLevelHigh AND NOT GVL_IO.reactorInletValve,  // If above higher limit and filling valve closed
+											pressureUpperInterval_2:= pressureIntervals.PressureUpperInterval_2, 
+											pressureLowerInterval_2:= pressureIntervals.PressureLowerInterval_2, 
+											interval_3_condition:= FALSE,//NOT GVL_IO.reactorLevelHigh AND GVL_IO.reactorInletValve,  // If below higher limit and reactor filling valve open
+											pressureUpperInterval_3:= pressureIntervals.PressureUpperInterval_3, 
+											pressureLowerInterval_3:= pressureIntervals.PressureLowerInterval_3, 
+											pressureValue:= pressureScaledValue,  
+											pressureReference:= pressureReference,//_iPressureScaledValue,//DINT_TO_INT(SerialCommunicationHandler.pumpingPressureSetpoint), 
+											valveOpenCondition:=  automaticExtractionState = E_AutomaticExtractionState.FILLING_ACTIVE,//NOT (NOT reactorLevelHigh AND NOT reactorInletValve), 
+											forceValveClosed:= FALSE,//(NOT reactorLevelHigh AND NOT reactorInletValve),
+											);
+		reactorOutletValve := SlurryOutValveControl.pressureControlOpen;
+	ELSE 
+		reactorOutletValve := FALSE;
+	END_IF
 	
 ELSE
 	AutomaticExtraction.resetState();
+	decreasePumpSetpoint := FALSE;
 	// Close inlet/outlet valves when manual mode entered
 	IF NOT manualModeEntered THEN
 		reactorInletValve := FALSE; // Close all valves when auto mode is exited
@@ -99,7 +104,15 @@ ELSE
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="AutomaticExtractionHandler">
-      <LineId Id="1263" Count="52" />
+      <LineId Id="1263" Count="20" />
+      <LineId Id="1359" Count="1" />
+      <LineId Id="1285" Count="0" />
+      <LineId Id="1357" Count="0" />
+      <LineId Id="1287" Count="13" />
+      <LineId Id="1361" Count="2" />
+      <LineId Id="1301" Count="2" />
+      <LineId Id="1364" Count="0" />
+      <LineId Id="1304" Count="11" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>
