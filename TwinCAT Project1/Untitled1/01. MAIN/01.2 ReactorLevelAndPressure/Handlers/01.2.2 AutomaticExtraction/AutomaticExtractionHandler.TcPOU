@@ -77,7 +77,7 @@ END_VAR
 										pressureLowerInterval_3:= pressureIntervals.PressureLowerInterval_3, 
 										pressureValue:= pressureScaledValue,  
 										pressureReference:= pressureReference,//_iPressureScaledValue,//DINT_TO_INT(SerialCommunicationHandler.pumpingPressureSetpoint), 
-										valveOpenCondition:= FALSE,//NOT (NOT reactorLevelHigh AND NOT reactorInletValve), 
+										valveOpenCondition:= TRUE,//NOT (NOT reactorLevelHigh AND NOT reactorInletValve), 
 										forceValveClosed:= FALSE,//(NOT reactorLevelHigh AND NOT reactorInletValve),
 										);
 	reactorOutletValve := SlurryOutValveControl.pressureControlOpen;
