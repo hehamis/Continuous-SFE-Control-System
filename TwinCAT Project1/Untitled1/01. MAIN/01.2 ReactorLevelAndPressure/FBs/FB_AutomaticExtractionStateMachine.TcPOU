@@ -24,6 +24,8 @@ VAR
 	TON_KeepExtractivePumpOn : TON;
 	startingReactorPRessure : DINT;
 	startingPumpSetpoint : DINT;
+	startingPumpPressure : DINT;
+	endingPumpPressure : DINT;
 	TON_FillingPumpWaitTimer : TON;
 	
 END_VAR
@@ -79,25 +81,27 @@ END_VAR
 		TON_FillingPumpWaitTimer(IN := TRUE, PT := TO_TIME(parameters.pumpWaitTime*1000));
 		IF TON_FillingPumpWaitTimer.Q THEN
 			TON_FillingPumpWaitTimer(IN := FALSE);
+			startingReactorPressure := reactorPressure;
+			startingPumpPressure := pumpPressure;
 			automaticExtractionState := automaticExtractionState + 1;		
 		END_IF
 	
 	E_AutomaticExtractionState.FILLING_ACTIVE: //  extractive pump on: stays on for a desired time
 	
 //		co2onOffValveClosed := TRUE;
-		startingReactorPressure := reactorPressure;
 		extractivePumpOn := TRUE;
 		TON_KeepExtractivePumpOn(
 								IN := TRUE,
 								PT := TO_TIME(parameters.pumpOnTime*1000));
 		IF TON_KeepExtractivePumpOn.Q THEN
 			TON_KeepExtractivePumpOn(IN := FALSE);
+			endingPumpPressure := pumpPressure;
 			automaticExtractionState := automaticExtractionState + 1;
 		END_IF
 	
 	E_AutomaticExtractionState.TURNING_EXTRACTIVE_PUMP_OFF: // Extractive pump turns off after pressure reaches the same as it was b4 turning on
 	
-		IF startingReactorPRessure = reactorPressure THEN
+		IF (startingReactorPRessure + (startingPumpPressure - endingPumpPressure)) <= reactorPressure THEN
 			extractivePumpOn := FALSE;
 			automaticExtractionState := automaticExtractionState + 1;
 		END_IF
@@ -151,10 +155,14 @@ fillingActive := FALSE;]]></ST>
       <LineId Id="492" Count="0" />
       <LineId Id="491" Count="0" />
       <LineId Id="496" Count="0" />
+      <LineId Id="524" Count="0" />
+      <LineId Id="526" Count="0" />
       <LineId Id="494" Count="1" />
       <LineId Id="378" Count="2" />
       <LineId Id="441" Count="0" />
-      <LineId Id="382" Count="27" />
+      <LineId Id="383" Count="5" />
+      <LineId Id="528" Count="0" />
+      <LineId Id="389" Count="20" />
       <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AutomaticExtractionStateMachine.resetState">
