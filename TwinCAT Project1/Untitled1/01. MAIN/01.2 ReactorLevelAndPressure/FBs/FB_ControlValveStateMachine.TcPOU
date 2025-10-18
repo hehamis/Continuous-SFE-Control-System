@@ -16,6 +16,7 @@ END_VAR
 VAR
 	startCalibrate : BOOL;
 	RTRIG_startCalibrate : R_TRIG;
+	RTRIG_requireCalibration : R_TRIG;
 	controlState : INT;
 	TOF_Calibration : TOF;
 	closeCommand : BOOL;
@@ -32,11 +33,13 @@ END_VAR
       <ST><![CDATA[// Read commands from ui
 startCalibrate := controlValveCommands.calibrate;
 RTRIG_startCalibrate(CLK := startCalibrate);
+RTRIG_requireCalibration(CLK := controlValveCommands.requireCalibration);
 
 CASE controlState OF 
 	
 	0: // Before calibration
 		closeCommand := FALSE;
+		calibrateDone := FALSE;
 		IF RTRIG_startCalibrate.Q THEN
 			controlState := 1;
 		END_IF
@@ -89,6 +92,13 @@ CASE controlState OF
 		IF RTRIG_startCalibrate.Q THEN
 			controlState := 1;
 		END_IF	
+		// Return to pre-calibration step if stop issued
+		IF RTRIG_requireCalibration.Q THEN
+			controlState := 0;
+			close := FALSE;
+			open := FALSE;
+			startCalibrate := FALSE;
+		END_IF
 
 
 END_CASE
@@ -106,7 +116,11 @@ openControlValve := open;
 ]]></ST>
     </Implementation>
     <LineIds Name="FB_ControlValveStateMachine">
-      <LineId Id="156" Count="14" />
+      <LineId Id="156" Count="2" />
+      <LineId Id="448" Count="0" />
+      <LineId Id="159" Count="4" />
+      <LineId Id="447" Count="0" />
+      <LineId Id="164" Count="6" />
       <LineId Id="203" Count="0" />
       <LineId Id="288" Count="1" />
       <LineId Id="291" Count="0" />
@@ -136,6 +150,13 @@ openControlValve := open;
       <LineId Id="323" Count="0" />
       <LineId Id="321" Count="1" />
       <LineId Id="319" Count="0" />
+      <LineId Id="457" Count="0" />
+      <LineId Id="452" Count="0" />
+      <LineId Id="456" Count="0" />
+      <LineId Id="453" Count="0" />
+      <LineId Id="455" Count="0" />
+      <LineId Id="458" Count="0" />
+      <LineId Id="454" Count="0" />
       <LineId Id="186" Count="4" />
       <LineId Id="391" Count="0" />
       <LineId Id="191" Count="0" />

@@ -21,6 +21,8 @@ END_VAR
 VAR
 	pressureReference : INT;
 	ExtractiveOutletControl : FB_ExtractiveOutletControl;
+	RTRIG_AutomaticExtractionStopped : R_TRIG;
+	RTRIG_EstopPRessed : R_TRIG;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -30,6 +32,10 @@ extractiveControlValveCommands.stopCalibration := stop;
 IF autoExtractionStarted THEN
 	extractiveControlValveCommands.openPercentage := autoExtractionControlValveValue;
 END_IF
+
+RTRIG_AutomaticExtractionStopped(CLK := NOT autoExtractionStarted);
+RTRIG_EstopPRessed(CLK := stop);
+extractiveControlValveCommands.requireCalibration := RTRIG_AutomaticExtractionStopped.Q OR RTRIG_EstopPRessed.q;
 
 ExtractiveOutletControl(
 					onOffValveCommand := extractiveOutOnOffValveCommand,
@@ -48,6 +54,10 @@ extractiveOnOffValveValues.open := ExtractiveOutletControl.onOffValveOpen;]]></S
       <LineId Id="197" Count="0" />
       <LineId Id="182" Count="0" />
       <LineId Id="221" Count="3" />
+      <LineId Id="249" Count="0" />
+      <LineId Id="247" Count="0" />
+      <LineId Id="251" Count="0" />
+      <LineId Id="246" Count="0" />
       <LineId Id="198" Count="0" />
       <LineId Id="183" Count="9" />
       <LineId Id="199" Count="0" />
