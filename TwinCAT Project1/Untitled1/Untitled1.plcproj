@@ -43,6 +43,9 @@
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\DUTs\ST_AutomaticExtractionParameters.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\DUTs\ST_AutomaticExtractionValues.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\DUTs\ST_ExtractiveControlValveCommands.TcDUT">
       <SubType>Code</SubType>
     </Compile>

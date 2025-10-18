@@ -16,6 +16,7 @@ VAR_OUTPUT
 	co2onOffValveClosed : BOOL;
 	fillingActive : BOOL;
 	automaticExtractionState : E_AutomaticExtractionState;
+	automaticExtractionValues : ST_AutomaticExtractionValues;
 END_VAR
 VAR
 	TON_FillingTimer : TON;
@@ -119,6 +120,58 @@ END_VAR
 		
 END_CASE]]></ST>
     </Implementation>
+    <Method Name="getCurrentTimer" Id="{a3ee8146-ea9a-4d24-ba76-03659dc48839}">
+      <Declaration><![CDATA[METHOD getCurrentTimer : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+CASE automaticExtractionState OF 
+	
+	E_AutomaticExtractionState.AUTO_EXTRACTION: // Extraction step
+
+		automaticExtractionValues.currentTimer := TON_FillingTimer.PT;
+		automaticExtractionValues.elapsedTime := TON_FillingTimer.ET;
+		automaticExtractionValues.timeVisible := TRUE;
+		
+	E_AutomaticExtractionState.REDUCING_CONTROL_VALVE: // Filling step: Control valve to a small opening
+		
+		automaticExtractionValues.currentTimer := TON_WaitForValve.PT;
+		automaticExtractionValues.elapsedTime := TON_WaitForValve.ET;
+		automaticExtractionValues.timeVisible := TRUE;
+	
+	E_AutomaticExtractionState.REDUCING_CO2_PUMP_SETPOINT: // Set pump setpoint to 80 bar
+
+		automaticExtractionValues.timeVisible := FALSE;	
+		
+	E_AutomaticExtractionState.CLOSING_ON_OFF_VALVE:
+	
+		automaticExtractionValues.currentTimer := TON_FillingPumpWaitTimer.PT;
+		automaticExtractionValues.elapsedTime := TON_FillingPumpWaitTimer.ET;
+		automaticExtractionValues.timeVisible := TRUE;
+
+	E_AutomaticExtractionState.FILLING_ACTIVE: //  extractive pump on: stays on for a desired time
+	
+		automaticExtractionValues.currentTimer := TON_KeepExtractivePumpOn.PT;
+		automaticExtractionValues.elapsedTime := TON_KeepExtractivePumpOn.ET;
+		automaticExtractionValues.timeVisible := TRUE;
+	
+	E_AutomaticExtractionState.TURNING_EXTRACTIVE_PUMP_OFF: // Extractive pump turns off after pressure reaches the same as it was b4 turning on
+
+		automaticExtractionValues.timeVisible := FALSE;	
+		
+	E_AutomaticExtractionState.INCREASING_CO2_PUMP_SETPOINT: // Pressure setpoint back to original (+40bar) and open on/off valve
+
+		automaticExtractionValues.timeVisible := FALSE;	
+	
+	E_AutomaticExtractionState.OPENING_CONTROL_VALVE_TO_SETPOINT: // open control valve to desired value
+
+		automaticExtractionValues.timeVisible := FALSE;	
+
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="resetState" Id="{bf1ce1ba-fd70-4c2a-963b-7e4edcae03f9}">
       <Declaration><![CDATA[METHOD resetState : BOOL
 VAR_INPUT
@@ -164,6 +217,38 @@ fillingActive := FALSE;]]></ST>
       <LineId Id="528" Count="0" />
       <LineId Id="389" Count="20" />
       <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AutomaticExtractionStateMachine.getCurrentTimer">
+      <LineId Id="92" Count="0" />
+      <LineId Id="6" Count="2" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="94" Count="1" />
+      <LineId Id="22" Count="2" />
+      <LineId Id="99" Count="1" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="33" Count="1" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="49" Count="1" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="106" Count="1" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="111" Count="1" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="73" Count="1" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="80" Count="1" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="86" Count="1" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_AutomaticExtractionStateMachine.resetState">
       <LineId Id="10" Count="0" />

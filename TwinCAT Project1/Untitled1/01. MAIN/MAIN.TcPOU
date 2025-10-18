@@ -27,8 +27,10 @@ ReactorLevelAndPressureController(
 // Data acquisition
 DataAcquisitionController();
 
+{IF NOT defined (Simulation)}
 // Persistent data saving
 VariablePersistenceController();
+{END_IF}
 
 // Serial communication
 SerialCommunicationController();
@@ -43,7 +45,9 @@ MainScreenBindings(
 				matlabValues := DataAcquisitionController.MatlabHmiValues,
 				SerialCommReadData := SerialCommunicationController.SerialCommReadData,
 				CalibrateDone := ReactorLevelAndPressureController.CalibrateDone,
-				Stop :=  SafetyController.stop);
+				Stop :=  SafetyController.stop,
+				ReactorPressure := ReactorLevelAndPressureController.iPressureScaledValue,
+				OnOffValvePressureLimit := ParameterViewBindings.onOffValvePressureLimit);
 // MainScreen out
 ReactorTemperatureController.autoControlSelected := MainScreenBindings.autoControlSelected;
 ReactorTemperatureController.temperatureSetpoint := MainScreenBindings.temperatureSetpoint;
@@ -70,7 +74,9 @@ ProcessViewBindings(
 				CalibrateDone := ReactorLevelAndPressureController.CalibrateDone,
 				ControlValveOpening := ReactorLevelAndPressureController.ControlValveOpening,
 				automaticExtractionState := ReactorLevelAndPressureController.automaticExtractionState,
-				stop := SafetyController.stop);
+				stop := SafetyController.stop,
+				onOffValvePressureLimit := ParameterViewBindings.onOffValvePressureLimit,
+				AutomaticExtractionValues := ReactorLevelAndPressureController.AutomaticExtractionValues);
 // ProcessView out
 ReactorTemperatureController.temperatureContactorCommand := ProcessViewBindings.temperatureContactorCommand;
 ReactorLevelAndPressureController.SlurryInValveCommand := ProcessViewBindings.SlurryInValveCommand;
@@ -106,8 +112,10 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterV
       <LineId Id="351" Count="1" />
       <LineId Id="354" Count="0" />
       <LineId Id="194" Count="1" />
+      <LineId Id="366" Count="0" />
       <LineId Id="336" Count="1" />
       <LineId Id="197" Count="0" />
+      <LineId Id="367" Count="0" />
       <LineId Id="338" Count="0" />
       <LineId Id="198" Count="1" />
       <LineId Id="342" Count="0" />
@@ -121,6 +129,7 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterV
       <LineId Id="268" Count="0" />
       <LineId Id="272" Count="0" />
       <LineId Id="270" Count="1" />
+      <LineId Id="370" Count="1" />
       <LineId Id="282" Count="0" />
       <LineId Id="288" Count="8" />
       <LineId Id="276" Count="0" />
@@ -128,6 +137,8 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterV
       <LineId Id="261" Count="0" />
       <LineId Id="297" Count="9" />
       <LineId Id="308" Count="3" />
+      <LineId Id="369" Count="0" />
+      <LineId Id="373" Count="0" />
       <LineId Id="358" Count="0" />
       <LineId Id="315" Count="4" />
       <LineId Id="313" Count="0" />

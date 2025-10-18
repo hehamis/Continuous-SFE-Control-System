@@ -43,6 +43,7 @@ VAR
 	_startAutomaticExtraction : BOOL;
 	
 	_automaticExtractionState : E_AutomaticExtractionState;
+	_automaticExtractionValues : ST_AutomaticExtractionValues;
 	
 	RTRIG_SetPressureReference : R_TRIG;
 	pressureReference : INT;
@@ -75,7 +76,8 @@ HandleAutomaticExtraction(
 						automaticExtractionState => _automaticExtractionState,
 						extractiveOutOnOffValveAutoCommand => ,
 						controlValveAutoOpenPercentage => ,
-						reactorOutletValve => slurryOutletValve);
+						reactorOutletValve => slurryOutletValve,
+						automaticExtractionValues => _automaticExtractionValues);
 						
 HandleExtractiveOutlet(
 					stop := stop,
@@ -183,6 +185,18 @@ END_VAR
         <Implementation>
           <ST><![CDATA[
 automaticExtractionState := _automaticExtractionSTate;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="AutomaticExtractionValues" Id="{7f4d11a0-f795-4f71-802d-589f306f93a9}">
+      <Declaration><![CDATA[PROPERTY AutomaticExtractionValues : ST_AutomaticExtractionValues]]></Declaration>
+      <Get Name="Get" Id="{25ce779e-140f-4a83-8f99-8465573a1082}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+AutomaticExtractionValues := _automaticExtractionValues;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -386,6 +400,7 @@ _startAutomaticExtraction := StartAutomaticExtraction;]]></ST>
       <LineId Id="1556" Count="1" />
       <LineId Id="1584" Count="0" />
       <LineId Id="1558" Count="0" />
+      <LineId Id="1679" Count="0" />
       <LineId Id="1562" Count="1" />
       <LineId Id="1565" Count="3" />
       <LineId Id="1580" Count="0" />
@@ -426,6 +441,10 @@ _startAutomaticExtraction := StartAutomaticExtraction;]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="ReactorLevelAndPressureController.automaticExtractionState.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorLevelAndPressureController.AutomaticExtractionValues.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>

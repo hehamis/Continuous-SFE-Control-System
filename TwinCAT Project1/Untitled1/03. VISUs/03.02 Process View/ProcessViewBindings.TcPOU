@@ -17,6 +17,8 @@ VAR_INPUT
 	ControlValveOpening : DINT;
 	automaticExtractionState : E_AutomaticExtractionState;
 	stop : BOOL;
+	onOffValvePressureLimit : DINT;
+	AutomaticExtractionValues : ST_AutomaticExtractionValues;
 END_VAR
 VAR_OUTPUT
 	temperatureContactorCommand : BOOL;
@@ -75,6 +77,7 @@ VAR
 	ExtractiveOutletOnOff_Valve_TapVariable : BOOL;
 	ExtractiveOutletOnOff_Valve_Invisible : BOOL;
 	ExtractiveOutOnOffValveButton_ToggleVariable : BOOL;
+	ExtractiveOutOnOffValveButton_DisableInputs : BOOL;
 	ExtractiveOutOnOffValveButton_ToggleColor : BOOL;
 	ExtractiveOutOnOffValveButton_TextVariable : STRING;
 	ExtractiveOutLines_ToggleColor : BOOL;
@@ -91,11 +94,13 @@ VAR
 	
 	StateLabel_TextVariable : STRING;
 
+	CurrentTimeLabel_TextVariable : STRING;
+	ElapsedTimeLabel_TextVariable : STRING;
+	TimeLabels_Invisible : BOOL;
 
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-IF reactorOutletValve = 1 THEN
+      <ST><![CDATA[IF reactorOutletValve = 1 THEN
 	SlurryOutValveButton_TextVariable := 'CLOSE';
 END_IF
 IF reactorOutletValve = 0 THEN
@@ -178,13 +183,14 @@ ExtractiveOutletOnOff_Valve_Invisible := MainScreenBindings.StartAutomaticExtrac
 ExtractiveOnOffValveValues := ReactorLevelAndPressureController.ExtractiveOnOffValveValues;
 
 // ExtractiveOutOnOffValveButton
-ExtractiveOutOnOffValveCommand := ExtractiveOutOnOffValveButton_ToggleVariable ;
+ExtractiveOutOnOffValveCommand := ExtractiveOutOnOffValveButton_ToggleVariable;
 ExtractiveOutOnOffValveButton_ToggleColor := ExtractiveOnOffValveValues.open; //GVL_IO.extractiveOutletOnOffValve; 
 IF ExtractiveOutOnOffValveButton_ToggleVariable THEN
 	ExtractiveOutOnOffValveButton_TextVariable := 'CLOSE';
 ELSE
 	ExtractiveOutOnOffValveButton_TextVariable := 'OPEN';
 END_IF
+ExtractiveOutOnOffValveButton_DisableInputs := NOT ExtractiveOnOffValveValues.open AND (iPressureScaledValue < onOffValvePressureLimit);
 
 // ExtractiveOutLines
 ExtractiveOutLines_ToggleColor  := ExtractiveOnOffValveValues.open;//GVL_IO.extractiveOutletOnOffValve;
@@ -214,93 +220,15 @@ IF stop THEN
 	SlurryOutValveButton_ToggleVariable := FALSE;
 END_IF
 
+// CurrentTImeLabel
+CurrentTimeLabel_TextVariable := TO_STRING(TO_DINT(AutomaticExtractionValues.currentTimer)/1000);
+ElapsedTimeLabel_TextVariable := TO_STRING(TO_DINT(AutomaticExtractionValues.elapsedTime)/1000);
+TimeLabels_Invisible := NOT AutomaticExtractionValues.timeVisible;
+
 ]]></ST>
     </Implementation>
     <LineIds Name="ProcessViewBindings">
-      <LineId Id="100" Count="1" />
-      <LineId Id="103" Count="0" />
-      <LineId Id="105" Count="1" />
-      <LineId Id="108" Count="0" />
-      <LineId Id="110" Count="0" />
-      <LineId Id="112" Count="1" />
-      <LineId Id="115" Count="0" />
-      <LineId Id="117" Count="0" />
-      <LineId Id="119" Count="0" />
-      <LineId Id="121" Count="1" />
-      <LineId Id="126" Count="1" />
-      <LineId Id="565" Count="1" />
-      <LineId Id="128" Count="0" />
-      <LineId Id="567" Count="0" />
-      <LineId Id="134" Count="1" />
-      <LineId Id="568" Count="0" />
-      <LineId Id="136" Count="0" />
-      <LineId Id="139" Count="0" />
-      <LineId Id="570" Count="0" />
-      <LineId Id="569" Count="0" />
-      <LineId Id="140" Count="0" />
-      <LineId Id="572" Count="0" />
-      <LineId Id="571" Count="0" />
-      <LineId Id="141" Count="0" />
-      <LineId Id="685" Count="0" />
-      <LineId Id="684" Count="0" />
-      <LineId Id="686" Count="2" />
-      <LineId Id="144" Count="0" />
-      <LineId Id="147" Count="1" />
-      <LineId Id="574" Count="0" />
-      <LineId Id="573" Count="0" />
-      <LineId Id="401" Count="0" />
-      <LineId Id="575" Count="0" />
-      <LineId Id="151" Count="1" />
-      <LineId Id="576" Count="0" />
-      <LineId Id="154" Count="1" />
-      <LineId Id="157" Count="0" />
-      <LineId Id="161" Count="0" />
-      <LineId Id="577" Count="1" />
-      <LineId Id="162" Count="0" />
-      <LineId Id="168" Count="1" />
-      <LineId Id="580" Count="0" />
-      <LineId Id="170" Count="1" />
-      <LineId Id="581" Count="0" />
-      <LineId Id="172" Count="1" />
-      <LineId Id="583" Count="0" />
-      <LineId Id="582" Count="0" />
-      <LineId Id="174" Count="0" />
-      <LineId Id="584" Count="0" />
-      <LineId Id="178" Count="1" />
-      <LineId Id="181" Count="1" />
-      <LineId Id="192" Count="1" />
-      <LineId Id="203" Count="0" />
-      <LineId Id="205" Count="1" />
-      <LineId Id="208" Count="0" />
-      <LineId Id="594" Count="0" />
-      <LineId Id="212" Count="1" />
-      <LineId Id="487" Count="0" />
-      <LineId Id="834" Count="2" />
-      <LineId Id="597" Count="0" />
-      <LineId Id="596" Count="0" />
-      <LineId Id="215" Count="1" />
-      <LineId Id="601" Count="3" />
-      <LineId Id="598" Count="0" />
-      <LineId Id="605" Count="0" />
-      <LineId Id="217" Count="1" />
-      <LineId Id="600" Count="0" />
-      <LineId Id="224" Count="1" />
-      <LineId Id="607" Count="0" />
-      <LineId Id="606" Count="0" />
-      <LineId Id="226" Count="3" />
-      <LineId Id="491" Count="0" />
-      <LineId Id="490" Count="0" />
-      <LineId Id="610" Count="0" />
-      <LineId Id="256" Count="1" />
-      <LineId Id="259" Count="2" />
-      <LineId Id="611" Count="0" />
-      <LineId Id="476" Count="1" />
-      <LineId Id="484" Count="0" />
-      <LineId Id="486" Count="0" />
-      <LineId Id="485" Count="0" />
-      <LineId Id="761" Count="0" />
-      <LineId Id="482" Count="0" />
-      <LineId Id="403" Count="0" />
+      <LineId Id="1131" Count="124" />
       <LineId Id="93" Count="0" />
     </LineIds>
   </POU>

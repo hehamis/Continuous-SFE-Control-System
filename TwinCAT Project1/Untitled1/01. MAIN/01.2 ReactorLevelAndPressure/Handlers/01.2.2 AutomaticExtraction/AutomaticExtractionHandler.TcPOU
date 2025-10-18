@@ -22,6 +22,7 @@ VAR_OUTPUT
 	extractiveOutOnOffValveAutoCommand : BOOL;
 	reactorOutletValve : BOOL;
 	controlValveAutoOpenPercentage : DINT;
+	automaticExtractionValues : ST_AutomaticExtractionValues;
 END_VAR
 VAR
 	levelControlMode : INT;
@@ -56,7 +57,8 @@ END_VAR
 				decreasePumpSetpoint => decreasePumpSetpoint,
 				extractivePumpOn => reactorInletValve,
 				co2onOffValveClosed => ,
-				automaticExtractionState => automaticExtractionState);
+				automaticExtractionState => automaticExtractionState,
+				automaticExtractionValues => automaticExtractionValues);
 	extractiveOutOnOffValveAutoCommand := NOT AutomaticExtraction.co2onOffValveClosed;
 	controlValveAutoOpenPercentage := AutomaticExtraction.controlValveOpeningPercentage;
 	
@@ -100,11 +102,16 @@ ELSE
 	reactorOutletValve := slurryOutValveCommand;
 
 	automaticExtractionState := E_AutomaticExtractionState.MANUAL_EXTRACTION;
+	automaticExtractionValues.timeVisible := FALSE;
 	
-END_IF]]></ST>
+END_IF
+
+automaticExtraction.getCurrentTimer();]]></ST>
     </Implementation>
     <LineIds Name="AutomaticExtractionHandler">
-      <LineId Id="1263" Count="20" />
+      <LineId Id="1263" Count="13" />
+      <LineId Id="1410" Count="0" />
+      <LineId Id="1277" Count="6" />
       <LineId Id="1359" Count="1" />
       <LineId Id="1285" Count="0" />
       <LineId Id="1357" Count="0" />
@@ -112,8 +119,12 @@ END_IF]]></ST>
       <LineId Id="1361" Count="2" />
       <LineId Id="1301" Count="2" />
       <LineId Id="1364" Count="0" />
-      <LineId Id="1304" Count="11" />
+      <LineId Id="1304" Count="10" />
+      <LineId Id="1408" Count="0" />
+      <LineId Id="1315" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="1407" Count="0" />
+      <LineId Id="1405" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

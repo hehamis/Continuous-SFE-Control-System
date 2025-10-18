@@ -86,8 +86,18 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"532"</v>
+              <v n="TextDefault">"%s s"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"917"</v>
               <v n="TextDefault">"&amp;i"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1053"</v>
+              <v n="TextDefault">"/"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -221,8 +231,23 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"237"</v>
+              <v n="TextDefault">"Control valve calibration time (ms)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"862"</v>
               <v n="TextDefault">"Control valve extraction value (%)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"299"</v>
+              <v n="TextDefault">"Control valve full open time (ms)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"446"</v>
+              <v n="TextDefault">"Control vavle full open time (ms)"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -253,6 +278,11 @@
             <o>
               <v n="TextID">"273"</v>
               <v n="TextDefault">"Extractive"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"707"</v>
+              <v n="TextDefault">"EXTRACTIVE OUTLET"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -313,6 +343,16 @@
             <o>
               <v n="TextID">"351"</v>
               <v n="TextDefault">"ON/OFF"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"603"</v>
+              <v n="TextDefault">"On/off valve pressure limit"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"856"</v>
+              <v n="TextDefault">"On/off valve pressure limit (bar)"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>

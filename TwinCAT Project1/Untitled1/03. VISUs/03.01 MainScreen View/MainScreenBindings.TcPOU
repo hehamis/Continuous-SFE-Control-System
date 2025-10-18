@@ -6,7 +6,9 @@ VAR_INPUT
 	matlabValues : ST_MatlabValues;
 	SerialCommReadData : ST_SerialCommReadData;// SerialCommunicationHandler.SerialCommReadData
 	CalibrateDone : BOOL;//ReactorLevelAndPressure.CalibrateDone
-	Stop : BOOL;// Safety.stop
+	Stop : BOOL;// Safety.stop¨
+	ReactorPressure : DINT;
+	OnOffValvePressureLimit : DINT;
 END_VAR
 VAR_OUTPUT
 	autoControlSelected : BOOL;
@@ -134,7 +136,7 @@ ReactorHeatingActiveIndicatorRectangle_ToggleColor := NOT (ProcessViewBindings.R
 														OR MainScreenBindings.RectorTemperatureControlModeButton_ToggleVariable 
 														OR MainScreenBindings.ReactorTemperatureControlPercentageTextField_TextVariable > 0);
 // Co2PumpRunningIndicatorRectangle
-Co2PumpRunningIndicatorRectangle_ToggleColor := NOT (serialCommReadData.pumpingPressureSetpoint > 80);
+Co2PumpRunningIndicatorRectangle_ToggleColor := (ReactorPressure < OnOffValvePressureLimit) OR serialCommReadData.pumpingPressureSetpoint <= 80;
 
 // ProcessViewFrame
 IF ProcessViewBindings.autoExtractionParameterMenuButton_ToggleVariable THEN
