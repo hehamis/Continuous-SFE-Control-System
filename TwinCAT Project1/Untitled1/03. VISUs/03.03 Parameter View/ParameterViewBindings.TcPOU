@@ -7,6 +7,7 @@ VAR_OUTPUT
 	autoExtractionParameters : ST_AutomaticExtractionParameters;
 	extractionValveParameters : ST_ExtractiveControlValveParameters;
 	pressureIntervals : ST_PressureIntervals;
+	onOffValvePressureLimit : DINT;
 END_VAR
 VAR PERSISTENT
 	PbTextField_TextVariable : INT := 9;
@@ -15,16 +16,17 @@ VAR PERSISTENT
 	IterationTimeTextField_TextVariable : INT := 6;
 	BiasTextField_TextVariable : INT;
 	
-	controlValveOpeningValueTextField_TextVariable : DINT;
-	refillIntervalTextField_TextVariable : DINT;
-	pumpOnTimeTextField_TextVariable : DINT;
+	controlValveOpeningValueTextField_TextVariable : DINT := 50;
+	refillIntervalTextField_TextVariable : DINT := 300;
+	pumpOnTimeTextField_TextVariable : DINT := 15;
 	pumpSetpointWaitTimeTextField_TextVariable : DINT;
-	refillPumpWaitTimeTextField_TextVariable : DINT;
+	refillPumpWaitTimeTextField_TextVariable : DINT := 5;
 	
-	calibrationTimeTextField_TextVariable : DINT;
-	fullOpenTimeTextField_TextVariable : DINT;
+	calibrationTimeTextField_TextVariable : DINT := 26000;
+	fullOpenTimeTextField_TextVariable : DINT := 26000;
+	onOffValvePressureLimitTextField_TextVariable : DINT := 35;
 	
-	UpperIntervalSlurryOnUpperTextField_TextVariable : INT;
+	UpperIntervalSlurryOnUpperTextField_TextVariable : INT := 40;
 	UpperIntervalSlurryOnNotUpperTextField_TextVariable : INT;
 	UpperIntervalSlurryOffUpperTextField_TextVariable : INT;
 	LowerIntervalSlurryOnUpperTextField_TextVariable : INT;
@@ -61,7 +63,10 @@ ReactorLevelAndPressureController.PressureIntervals := PressureIntervals;
 // Send extraction valve parameters to controller
 extractionValveParameters.calibrationTimeMs := calibrationTimeTextField_TextVariable;
 extractionValveParameters.timeToFullyOpenMs := fullOpenTimeTextField_TextVariable;
-ReactorLevelAndPressureController.ExtractiveControlValveParameters := extractionValveParameters; 
+ReactorLevelAndPressureController.ExtractiveControlValveParameters := extractionValveParameters;
+
+// On/off valve pressure limit
+onOffValvePressureLimit := onOffValvePressureLimitTextField_TextVariable;
 ]]></ST>
     </Implementation>
     <LineIds Name="ParameterViewBindings">
@@ -75,6 +80,9 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := extraction
       <LineId Id="81" Count="0" />
       <LineId Id="45" Count="3" />
       <LineId Id="50" Count="0" />
+      <LineId Id="152" Count="0" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="153" Count="0" />
       <LineId Id="44" Count="0" />
     </LineIds>
   </POU>
