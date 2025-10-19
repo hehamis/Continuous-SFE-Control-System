@@ -8,20 +8,31 @@ VAR_OUTPUT
 END_VAR
 VAR
 	serialCommReadData : ST_SerialCommReadData;
+	onOffValveValues : ST_ExtractiveOnOffValveValues;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[GVL_OPC.OPC_ReactorTemperature := GVL_IO.reactorTemperatureUpper;
+      <ST><![CDATA[
+// Reactor temperature
+GVL_OPC.OPC_ReactorTemperature := GVL_IO.reactorTemperatureUpper;
 GVL_OPC.OPC_TemperatureContactor := GVL_IO.reactorTemperatureContactor;
-GVL_OPC.OPC_ReactorPressure := ReactorLevelAndPressureController.iPressureScaledValue;//ReactorLevelAndPressureControl.iPressureScaledValue;
-IF ReactorTemperatureController._autoControlSelected THEN//ReactorTemperatureControl.bTempCon THEN
-	GVL_OPC.OPC_ReactorTemperatureSetpoint := REAL_TO_INT(ReactorTemperatureController._temperatureSetpoint);//REAL_TO_INT(ReactorTemperatureControl.iTemperatureSetpoint);
+IF ReactorTemperatureController._autoControlSelected THEN
+	GVL_OPC.OPC_ReactorTemperatureSetpoint := REAL_TO_INT(ReactorTemperatureController._temperatureSetpoint);
 ELSE
 	GVL_OPC.OPC_ReactorTemperatureSetpoint := 0;
 END_IF
+
+// Reactor pressure
+GVL_OPC.OPC_ReactorPressure := ReactorLevelAndPressureController.iPressureScaledValue;
+
+// Valves
 GVL_OPC.OPC_SlurryInletValve := GVL_IO.reactorInletValve;
 GVL_OPC.OPC_SlurryOutletValve := GVL_IO.reactorOutletValve;
+onOffValveValues := ReactorLevelAndPressureController.ExtractiveOnOffValveValues;
+GVL_OPC.OPC_ExtractiveOutletOnOffValve := onOffValveValues.open;
+GVL_OPC.OPC_ExtractiveControlValveOpening := TO_INT(ReactorLevelAndPressureController.ControlValveOpening);
 
+// Serial comm data
 serialCommReadData := SerialCommunicationController.serialCommReadData;
 GVL_OPC.OPC_CO2VolumetricFlow := serialCommReadData.flowMeasurement;
 GVL_OPC.OPC_PumpingPressure := serialCommReadData.pumpingPressureMeasurement;
@@ -32,7 +43,20 @@ GVL_OPC.OPC_SeparatorTemperature := serialCommReadData.separatorTemperatureMeasu
 GVL_OPC.OPC_SeparatorTemperatureSetpoint := serialCommReadData.separatorTemperatureSetpoint;]]></ST>
     </Implementation>
     <LineIds Name="OpcTagWritingHandler">
-      <LineId Id="42" Count="9" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="42" Count="1" />
+      <LineId Id="45" Count="4" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="50" Count="1" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="75" Count="0" />
       <LineId Id="59" Count="0" />
       <LineId Id="52" Count="6" />
       <LineId Id="9" Count="0" />

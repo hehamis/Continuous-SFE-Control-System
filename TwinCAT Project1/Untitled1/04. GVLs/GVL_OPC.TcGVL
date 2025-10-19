@@ -10,6 +10,8 @@ VAR_GLOBAL
 	{attribute 'OPC.UA.DA' := '1'} OPC_ReactorTemperatureSetpoint: INT; // Reactr temperature setpoint
 	{attribute 'OPC.UA.DA' := '1'} OPC_SlurryInletValve: BOOL;
 	{attribute 'OPC.UA.DA' := '1'} OPC_SlurryOutletValve: BOOL;
+	{attribute 'OPC.UA.DA' := '1'} OPC_ExtractiveOutletOnOffValve: BOOL;
+	{attribute 'OPC.UA.DA' := '1'} OPC_ExtractiveControlValveOpening: INT;
 	
 	{attribute 'OPC.UA.DA' := '1'} OPC_PumpingPressure: DINT;
 	{attribute 'OPC.UA.DA' := '1'} OPC_PumpingPressureSetpoint: DINT;
