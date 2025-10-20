@@ -19,7 +19,6 @@ VAR_OUTPUT
 	openExtractiveOutletValve : BOOL;
 END_VAR
 VAR
-	pressureReference : INT;
 	ExtractiveOutletControl : FB_ExtractiveOutletControl;
 	RTRIG_AutomaticExtractionStopped : R_TRIG;
 	RTRIG_EstopPRessed : R_TRIG;

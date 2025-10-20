@@ -32,21 +32,12 @@ VAR
 	_decreasePumpSetpoint : BOOL;
 	_controlValveOpening : DINT;
 	_calibrateDone : BOOL;
-	levelControlMode : INT;
-	manualModeEntered : BOOL;
-	autoModeEntered : BOOL;
-	SlurryOutValveControl: FB_ReactorValves;
-	sLevelControlState: STRING;
-	sFillingValveState: STRING;;
 	
 	_extractiveOutOnOffValveCommand : BOOL;
 	_startAutomaticExtraction : BOOL;
 	
 	_automaticExtractionState : E_AutomaticExtractionState;
 	_automaticExtractionValues : ST_AutomaticExtractionValues;
-	
-	RTRIG_SetPressureReference : R_TRIG;
-	pressureReference : INT;
 	_extractiveOnOffValveValues : ST_ExtractiveOnOffValveValues;
 END_VAR
 VAR PERSISTENT

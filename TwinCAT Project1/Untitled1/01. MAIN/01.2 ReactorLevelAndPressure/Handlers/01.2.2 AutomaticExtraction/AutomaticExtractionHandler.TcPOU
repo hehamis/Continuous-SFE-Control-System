@@ -25,20 +25,10 @@ VAR_OUTPUT
 	automaticExtractionValues : ST_AutomaticExtractionValues;
 END_VAR
 VAR
-	levelControlMode : INT;
 	manualModeEntered : BOOL;
 	autoModeEntered : BOOL;
 	SlurryOutValveControl: FB_ReactorValves;
-	sLevelControlState: STRING;
-//	sLevelValveState: STRING;
-	sFillingValveState: STRING;
-	timeControlToggle: FB_toggleheartbeat;
-	
-	
-	HandleExtractiveOutlet : FB_ExtractiveOutletControl;
 	AutomaticExtraction : FB_AutomaticExtractionStateMachine;
-	automaticExtractionEnabled : BOOL;
-	
 	RTRIG_SetPressureReference : R_TRIG;
 	pressureReference : INT;
 END_VAR
