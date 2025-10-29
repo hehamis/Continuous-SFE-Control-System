@@ -15,6 +15,7 @@ END_VAR
       <ST><![CDATA[
 // Reactor temperature
 GVL_OPC.OPC_ReactorTemperature := GVL_IO.reactorTemperatureUpper;
+GVL_OPC.OPC_ReactorLowerTemperature := GVL_IO.reactorTemperatureLower;
 GVL_OPC.OPC_TemperatureContactor := GVL_IO.reactorTemperatureContactor;
 IF ReactorTemperatureController._autoControlSelected THEN
 	GVL_OPC.OPC_ReactorTemperatureSetpoint := REAL_TO_INT(ReactorTemperatureController._temperatureSetpoint);
@@ -45,7 +46,9 @@ GVL_OPC.OPC_SeparatorTemperatureSetpoint := serialCommReadData.separatorTemperat
     <LineIds Name="OpcTagWritingHandler">
       <LineId Id="69" Count="0" />
       <LineId Id="68" Count="0" />
-      <LineId Id="42" Count="1" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="43" Count="0" />
       <LineId Id="45" Count="4" />
       <LineId Id="72" Count="0" />
       <LineId Id="71" Count="0" />

@@ -6,6 +6,7 @@ VAR_GLOBAL
 	
 	{attribute 'OPC.UA.DA' := '1'} OPC_TemperatureContactor : BOOL; // Temperature contactor
 	{attribute 'OPC.UA.DA' := '1'} OPC_ReactorTemperature : INT; // Reactor temperature
+	{attribute 'OPC.UA.DA' := '1'} OPC_ReactorLowerTemperature : INT; // Reactor temperature
 	{attribute 'OPC.UA.DA' := '1'} OPC_ReactorPressure : INT; // Reactor pressure
 	{attribute 'OPC.UA.DA' := '1'} OPC_ReactorTemperatureSetpoint: INT; // Reactr temperature setpoint
 	{attribute 'OPC.UA.DA' := '1'} OPC_SlurryInletValve: BOOL;
