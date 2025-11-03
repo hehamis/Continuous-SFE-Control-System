@@ -3,12 +3,17 @@
   <POU Name="TESTS_MAIN" Id="{37444d31-f80d-4c75-941a-8a7910e91182}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM TESTS_MAIN
 VAR
+	startTests : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[
+IF startTests THEN
+	TcUnit.RUN();
+END_IF]]></ST>
     </Implementation>
     <LineIds Name="TESTS_MAIN">
+      <LineId Id="7" Count="2" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

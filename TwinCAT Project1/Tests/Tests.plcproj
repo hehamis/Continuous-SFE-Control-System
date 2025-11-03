@@ -17,7 +17,16 @@
     <LibraryReferences>{d108dbf5-6d23-4fab-aded-6288be91c939}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FBs to test\FBs\AutomaticFlowControlHandler.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FBs to test\FBs\FB_MovingAverage.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlcTask.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Unit Tests\FB tests\FB_AutomaticFlowControlHandler_Test.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Unit Tests\TESTS_MAIN.TcPOU">
@@ -27,6 +36,7 @@
   <ItemGroup>
     <Folder Include="FBs to test" />
     <Folder Include="FBs to test\ITFs" />
+    <Folder Include="FBs to test\FBs" />
     <Folder Include="Unit Tests\FB tests" />
     <Folder Include="Unit Tests\Mocks" />
     <Folder Include="Unit Tests" />

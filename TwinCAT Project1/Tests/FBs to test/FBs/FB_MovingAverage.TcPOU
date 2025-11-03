@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_MovingAverage" Id="{cdf6d608-8afa-439a-aa6b-e559d78477c6}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MovingAverage
+VAR_OUTPUT
+	ready : BOOL;
+	value : REAL;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="reset" Id="{3dca5d5e-bc3a-4171-815b-b38295299472}">
+      <Declaration><![CDATA[METHOD reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="startCalculation" Id="{2cdab5be-80e6-49cf-bfa3-f2f6f32391de}">
+      <Declaration><![CDATA[METHOD startCalculation : BOOL
+VAR_INPUT
+	start : BOOL;
+	measurement : REAL;
+	intervalSecs : INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_MovingAverage">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MovingAverage.reset">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MovingAverage.startCalculation">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
