@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_MovingAverage_Test" Id="{37b413a4-f223-4570-9474-bb8c477d7df3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MovingAverage_Test EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+calculationShouldBeReadyWhenTimePassed();
+calculationShouldNotBeReadyBeforeTimePassed();
+movingAverageOfThreePlusTwoPlusOneShouldBeTwo();
+resetMethodCallShouldResetValue();]]></ST>
+    </Implementation>
+    <Method Name="calculationShouldBeReadyWhenTimePassed" Id="{6eb0e18c-3c4c-41df-9aec-1ae6efb07c6f}">
+      <Declaration><![CDATA[METHOD calculationShouldBeReadyWhenTimePassed : BOOL
+VAR
+	movingAverage : FB_MovingAverage;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('calculationShouldBeReadyWhenTimePassed');
+movingAverage.startCalculation(TRUE, 0, 1, T#3S);
+AssertEquals_BOOL(Expected := TRUE, Actual :=  movingAverage.ready, Message := 'Moving average calculation not ready after time passed');
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="calculationShouldNotBeReadyBeforeTimePassed" Id="{0d5beb96-f79e-4026-9737-489b3f97c409}">
+      <Declaration><![CDATA[METHOD calculationShouldNotBeReadyBeforeTimePassed : BOOL
+VAR
+	movingAverage : FB_MovingAverage;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('calculationShouldNotBeReadyBeforeTimePassed');
+movingAverage.startCalculation(TRUE, 0, 1, T#0S);
+AssertEquals_BOOL(Expected := FALSE, Actual :=  movingAverage.ready, Message := 'Moving average calculation ready before time passed');
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="movingAverageOfThreePlusTwoPlusOneShouldBeTwo" Id="{6fbf797b-777c-48ee-9f5a-eb7f5971efd2}">
+      <Declaration><![CDATA[METHOD movingAverageOfThreePlusTwoPlusOneShouldBeTwo
+VAR
+	movingAverage : FB_MovingAverage;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('movingAverageOfThreePlusTwoPlusOneShouldBeTwo');
+movingAverage.startCalculation(TRUE, 3, 3000, T#0S);
+movingAverage.startCalculation(TRUE, 2, 3000, T#1S);
+movingAverage.startCalculation(TRUE, 1, 3000, T#2S);
+AssertEquals_REAL(Expected := 2, Actual := movingAverage.value, 0, Message := 'Moving average calculation not equal to two!');
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="resetMethodCallShouldResetValue" Id="{a1bce5bc-4342-4398-8196-3d4fc31f55c7}">
+      <Declaration><![CDATA[METHOD resetMethodCallShouldResetValue
+VAR
+	movingAverage : FB_MovingAverage;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('resetMethodCallShouldResetValue');
+movingAverage.startCalculation(start := TRUE, measurement := 50, intervalSecs := 0, dtime := T#3S);
+movingAverage.reset();
+AssertEquals_REAL(0, movingAverage.value, 0, 'Reset did not reset value!'); 
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_MovingAverage_Test">
+      <LineId Id="10" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="24" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MovingAverage_Test.calculationShouldBeReadyWhenTimePassed">
+      <LineId Id="14" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_MovingAverage_Test.calculationShouldNotBeReadyBeforeTimePassed">
+      <LineId Id="18" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="12" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MovingAverage_Test.movingAverageOfThreePlusTwoPlusOneShouldBeTwo">
+      <LineId Id="8" Count="2" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MovingAverage_Test.resetMethodCallShouldResetValue">
+      <LineId Id="6" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

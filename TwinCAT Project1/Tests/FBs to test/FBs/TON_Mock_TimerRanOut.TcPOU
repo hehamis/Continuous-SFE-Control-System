@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="TON_Mock_TimerRanOut" Id="{e4eaacbd-35c4-4076-9dfd-55b2686f215b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TON_Mock_TimerRanOut IMPLEMENTS I_TON
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+    _mockQ : BOOL := TRUE;
+    _mockET : TIME := T#0S;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Call" Id="{838dc7fc-3948-44ca-b936-b6c5d5e25610}">
+      <Declaration><![CDATA[ 
+METHOD Call : BOOL
+VAR_INPUT
+	IN	: BOOL;
+	PT	: TIME;
+END_VAR
+VAR_OUTPUT
+	Q : BOOL;
+	ET : TIME;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Simulate timer behavior for unit testing
+IF IN THEN
+	_mockQ := TRUE;  // Simulate timer has finished
+ELSE
+	_mockQ := FALSE;
+END_IF
+_mockET := PT;  // Pretend elapsed time matches preset
+Q := _mockQ;
+ET := _mockET;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="TON_Mock_TimerRanOut">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="TON_Mock_TimerRanOut.Call">
+      <LineId Id="9" Count="2" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="33" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

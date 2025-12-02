@@ -17,16 +17,25 @@
     <LibraryReferences>{d108dbf5-6d23-4fab-aded-6288be91c939}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FBs to test\FBs\AutomaticFlowControlHandler.TcPOU">
+    <Compile Include="FBs to test\FBs\FB_MovingAverage.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FBs to test\FBs\FB_MovingAverage.TcPOU">
+    <Compile Include="FBs to test\FBs\I_TON.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FBs to test\FBs\TON_Mock_TimerRanOut.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FBs to test\FBs\TON_Wrapper.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Unit Tests\FB tests\FB_AutomaticFlowControlHandler_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Unit Tests\FB tests\FB_MovingAverage_Test.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Unit Tests\TESTS_MAIN.TcPOU">

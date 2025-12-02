@@ -4,17 +4,31 @@
     <Declaration><![CDATA[PROGRAM TESTS_MAIN
 VAR
 	startTests : BOOL;
+	
+	// FBs to test
+	fbMovingAverageTest : FB_MovingAverage_Test;
+	movingavg : FB_MovingAverage;
+	meas : REAL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
 IF startTests THEN
 	TcUnit.RUN();
-END_IF]]></ST>
+	movingavg.startCalculation(
+							start := TRUE,
+							measurement := meas,
+							intervalSecs := 3000,
+							dTime := T#10MS);
+END_IF
+]]></ST>
     </Implementation>
     <LineIds Name="TESTS_MAIN">
       <LineId Id="7" Count="2" />
+      <LineId Id="31" Count="3" />
+      <LineId Id="30" Count="0" />
       <LineId Id="2" Count="0" />
+      <LineId Id="27" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

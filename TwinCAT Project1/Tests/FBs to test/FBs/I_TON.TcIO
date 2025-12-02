@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <Itf Name="I_TON" Id="{c35ce537-1cdb-4771-94f0-a11275d8a7fd}">
+    <Declaration><![CDATA[INTERFACE I_TON
+]]></Declaration>
+    <Method Name="Call" Id="{c2319847-c804-4882-b015-76d5423b84a2}">
+      <Declaration><![CDATA[METHOD Call : BOOL
+VAR_INPUT
+    IN 	: BOOL;
+    PT 	: TIME;
+END_VAR
+VAR_OUTPUT
+	Q 	: BOOL;
+	ET 	: TIME;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

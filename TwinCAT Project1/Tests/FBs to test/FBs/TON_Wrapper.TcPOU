@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="TON_Wrapper" Id="{d29dc3bb-fcc7-4177-b77e-d087a4341de6}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TON_Wrapper implements I_TON
+VAR
+    {attribute 'hide'} _ton : TON;
+    {attribute 'hide'} _q 	: BOOL;
+   	{attribute 'hide'} _et 	: TIME;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Call" Id="{79924cb8-d06d-4c5a-9852-6be0b3cb3d4c}">
+      <Declaration><![CDATA[ 
+METHOD Call : BOOL
+VAR_INPUT
+	IN	: BOOL;
+	PT	: TIME;
+END_VAR
+VAR_OUTPUT
+	Q 	: BOOL;
+	ET 	: TIME;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+_ton(IN := IN, PT := PT);
+Q := _ton.Q;
+ET := _ton.ET;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="TON_Wrapper">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="TON_Wrapper.Call">
+      <LineId Id="9" Count="2" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -7,8 +7,11 @@ VAR_OUTPUT
 	value : REAL;
 END_VAR
 VAR
-END_VAR
-]]></Declaration>
+    sum           : REAL;
+    count         : UDINT;
+    running       : BOOL;
+    elapsedTime   : TIME;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
@@ -18,27 +21,78 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[
+value := 0;
+ready := FALSE;
+sum := 0;
+count := 0;
+running := FALSE;
+elapsedTime := T#0S;]]></ST>
       </Implementation>
     </Method>
     <Method Name="startCalculation" Id="{2cdab5be-80e6-49cf-bfa3-f2f6f32391de}">
       <Declaration><![CDATA[METHOD startCalculation : BOOL
 VAR_INPUT
-	start : BOOL;
-	measurement : REAL;
-	intervalSecs : INT;
+    start : BOOL;
+    measurement : REAL;
+    intervalSecs : INT;
+    dtime : TIME;   // ✅ caller passes elapsed time (mockable!)
+END_VAR
+VAR
+    intervalTime : TIME;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[intervalTime := INT_TO_TIME(intervalSecs);
+
+// Start edge
+IF start AND NOT running THEN
+    running := TRUE;
+    //ready := FALSE;
+    sum := 0.0;
+    count := 0;
+    elapsedTime := T#0S;
+END_IF
+
+// Only run if active
+IF running THEN
+    // Accumulate data
+    sum := sum + measurement;
+    count := count + 1;
+
+    // Simulate time passing
+    elapsedTime := elapsedTime + dtime;
+
+    // Check interval completion
+    IF elapsedTime >= intervalTime THEN
+        IF count > 0 THEN
+            value := sum / count;
+        ELSE
+            value := 0.0;
+        END_IF
+
+        ready := TRUE;
+        running := FALSE;
+
+        startCalculation := TRUE;  // pulse TRUE one cycle
+        RETURN;
+    END_IF
+END_IF
+
+startCalculation := FALSE;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_MovingAverage">
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_MovingAverage.reset">
+      <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="12" Count="2" />
+      <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="FB_MovingAverage.startCalculation">
+      <LineId Id="103" Count="35" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
