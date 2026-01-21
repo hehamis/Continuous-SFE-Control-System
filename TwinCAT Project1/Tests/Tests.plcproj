@@ -17,25 +17,28 @@
     <LibraryReferences>{d108dbf5-6d23-4fab-aded-6288be91c939}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FBs to test\FBs\FB_ConsumptionCalculator.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FBs to test\FBs\FB_MovingAverage.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FBs to test\FBs\I_TON.TcIO">
+    <Compile Include="FBs to test\ITFs\I_TON.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FBs to test\FBs\TON_Mock_TimerRanOut.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FBs to test\FBs\TON_Wrapper.TcPOU">
+    <Compile Include="FBs to test\Wrappers\TON_Wrapper.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Unit Tests\FB tests\FB_AutomaticFlowControlHandler_Test.TcPOU">
+    <Compile Include="Unit Tests\FB tests\FB_ConsumptionCalculator_Test.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Unit Tests\FB tests\FB_MovingAverage_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Unit Tests\Mocks\TON_Mock_TimerRanOut.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Unit Tests\TESTS_MAIN.TcPOU">
@@ -46,6 +49,7 @@
     <Folder Include="FBs to test" />
     <Folder Include="FBs to test\ITFs" />
     <Folder Include="FBs to test\FBs" />
+    <Folder Include="FBs to test\Wrappers" />
     <Folder Include="Unit Tests\FB tests" />
     <Folder Include="Unit Tests\Mocks" />
     <Folder Include="Unit Tests" />

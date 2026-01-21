@@ -61,7 +61,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[
 TEST('resetMethodCallShouldResetValue');
-movingAverage.startCalculation(start := TRUE, measurement := 50, intervalSecs := 0, dtime := T#3S);
+movingAverage.startCalculation(start := TRUE, measurement := 50, intervalMs := 0, dtime := T#3S);
 movingAverage.reset();
 AssertEquals_REAL(0, movingAverage.value, 0, 'Reset did not reset value!'); 
 TEST_FINISHED();]]></ST>

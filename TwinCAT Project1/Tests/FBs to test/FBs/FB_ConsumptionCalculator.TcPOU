@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_ConsumptionCalculator" Id="{63cec99f-4d10-42e9-916c-b9d1bf4cf7fa}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ConsumptionCalculator
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+	sum : REAL;
+END_VAR
+VAR
+    running       : BOOL;
+    elapsedTime   : TIME;
+	RTRIG_Started : R_TRIG;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="calculate" Id="{6ec4bf84-1c05-4759-9ccd-9c5136c91915}">
+      <Declaration><![CDATA[METHOD calculate : BOOL
+VAR_INPUT
+	start : BOOL;
+	valuePerSec : REAL;
+    intervalMs : INT;
+    dtime : TIME;   
+END_VAR
+VAR
+    intervalTime : TIME;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[intervalTime := INT_TO_TIME(intervalMs);
+RTRIG_Started(CLK := start);
+// Start edge
+IF RTRIG_Started.q THEN
+    running := TRUE;
+    sum := 0.0;
+    elapsedTime := T#0S;
+END_IF
+
+IF NOT start THEN
+	running := FALSE;
+END_IF
+
+IF running THEN
+	// Simulate time passing
+	elapsedTime := elapsedTime + dtime;
+	IF elapsedTime >= intervalTime THEN
+		sum := sum + valuePerSec*(intervalMs/1000);
+		elapsedTime := T#0S;
+	END_IF 	
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="reset" Id="{3a15dc05-77fa-4e69-99b8-7f8aca08106a}">
+      <Declaration><![CDATA[METHOD reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+sum := 0;
+running := FALSE;
+elapsedTime := T#0S;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_ConsumptionCalculator">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ConsumptionCalculator.calculate">
+      <LineId Id="155" Count="21" />
+      <LineId Id="20" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ConsumptionCalculator.reset">
+      <LineId Id="11" Count="1" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

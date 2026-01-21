@@ -35,14 +35,14 @@ elapsedTime := T#0S;]]></ST>
 VAR_INPUT
     start : BOOL;
     measurement : REAL;
-    intervalSecs : INT;
+    intervalMs : INT;
     dtime : TIME;   // ✅ caller passes elapsed time (mockable!)
 END_VAR
 VAR
     intervalTime : TIME;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[intervalTime := INT_TO_TIME(intervalSecs);
+        <ST><![CDATA[intervalTime := INT_TO_TIME(intervalMs);
 
 // Start edge
 IF start AND NOT running THEN
@@ -92,7 +92,7 @@ startCalculation := FALSE;]]></ST>
       <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="FB_MovingAverage.startCalculation">
-      <LineId Id="103" Count="35" />
+      <LineId Id="157" Count="35" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

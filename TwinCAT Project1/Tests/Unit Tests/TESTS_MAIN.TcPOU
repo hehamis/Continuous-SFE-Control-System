@@ -1,13 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="TESTS_MAIN" Id="{37444d31-f80d-4c75-941a-8a7910e91182}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM TESTS_MAIN
+    <Declaration><![CDATA[ PROGRAM TESTS_MAIN
 VAR
 	startTests : BOOL;
 	
 	// FBs to test
 	fbMovingAverageTest : FB_MovingAverage_Test;
+	fbConsumptionCalculatorTest : FB_ConsumptionCalculator_Test;
 	movingavg : FB_MovingAverage;
+	consumptioncalc : FB_ConsumptionCalculator;
 	meas : REAL;
 END_VAR
 ]]></Declaration>
@@ -18,8 +20,13 @@ IF startTests THEN
 	movingavg.startCalculation(
 							start := TRUE,
 							measurement := meas,
-							intervalSecs := 3000,
+							intervalMs := 10000,
 							dTime := T#10MS);
+	consumptioncalc.calculate(
+							start := TRUE,
+							valuePerSec := movingavg.value/60,
+							intervalMs := 10000,
+							dtime := T#10MS);
 END_IF
 ]]></ST>
     </Implementation>
@@ -27,6 +34,7 @@ END_IF
       <LineId Id="7" Count="2" />
       <LineId Id="31" Count="3" />
       <LineId Id="30" Count="0" />
+      <LineId Id="46" Count="4" />
       <LineId Id="2" Count="0" />
       <LineId Id="27" Count="0" />
     </LineIds>
