@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="ReactorFlowController" Id="{610f8bfd-64ff-403d-a02a-9c006717ec6e}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM ReactorFlowController
+VAR_INPUT
+	serialCommData : ST_SerialCommReadData;
+END_VAR
+VAR
+	
+	// Handlers to call
+	HandleCo2MeanFlowCalculation : FB_Co2MeanFlowCalculationHandler;
+	HandleCo2Consumption : FB_Co2consumptionHandler;
+	
+	// Local variables
+	_meanReactorFlow : REAL;
+	_flowControlParameters : ST_FlowControlParameters;
+	_consumedCo2Amount : REAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+HandleCo2MeanFlowCalculation(
+				serialCommData := serialCommData,
+				flowControlParameters := _flowControlParameters,
+				meanReactorFlow => _meanReactorFlow);
+				
+HandleCo2Consumption(
+				meanFlow := _meanReactorFlow,
+				flowControlParameters := _flowControlParameters,
+				consumedCo2Amount => _consumedCo2Amount);]]></ST>
+    </Implementation>
+    <Property Name="ConsumedCo2Amount" Id="{15d55ab9-92af-4bd7-9af9-6676fe5e9820}">
+      <Declaration><![CDATA[PROPERTY ConsumedCo2Amount : REAL]]></Declaration>
+      <Get Name="Get" Id="{7cb71c26-fc41-4127-ad9c-30da31ebea17}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+ConsumedCo2Amount := _consumedCo2Amount;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="FlowControlParameters" Id="{3952f682-48f7-4a6b-97c4-f9cb206094ff}">
+      <Declaration><![CDATA[PROPERTY FlowControlParameters : ST_FlowControlParameters]]></Declaration>
+      <Set Name="Set" Id="{bb7ee2b7-b99b-4b22-a116-ec0a74f99722}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_flowControlParameters := FlowControlParameters;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="MeanReactorFlow" Id="{54cf3119-bfc4-4992-9290-14785dcc2c4c}">
+      <Declaration><![CDATA[PROPERTY MeanReactorFlow : REAL]]></Declaration>
+      <Get Name="Get" Id="{d74e12b3-eeff-426f-95ec-b4d7bd07139c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+MeanReactorFlow := _meanReactorFlow;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="ReactorFlowController">
+      <LineId Id="42" Count="0" />
+      <LineId Id="39" Count="2" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="43" Count="2" />
+      <LineId Id="47" Count="1" />
+    </LineIds>
+    <LineIds Name="ReactorFlowController.ConsumedCo2Amount.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorFlowController.FlowControlParameters.Set">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorFlowController.MeanReactorFlow.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

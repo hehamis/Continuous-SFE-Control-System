@@ -91,6 +91,24 @@
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\ReactorLevelAndPressureController.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\DUTs\ST_FlowControlParameters.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FB_ConsumptionCalculator.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FB_MovingAverage.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\Handlers\01.3.1 Co2MeanFlowCalculation\FB_Co2MeanFlowCalculationHandler.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\Handlers\01.3.2 Co2Consumption\FB_Co2ConsumptionHandler.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\ReactorFlowController.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\01.4 DataAcquisition\DataAcquisitionController.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -100,10 +118,10 @@
     <Compile Include="01. MAIN\01.4 DataAcquisition\FBs\FB_HeartBeat.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.4 DataAcquisition\Handlers\01.3.1 OpcTagWriting\OpcTagWritingHandler.TcPOU">
+    <Compile Include="01. MAIN\01.4 DataAcquisition\Handlers\01.4.1 OpcTagWriting\OpcTagWritingHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="01. MAIN\01.4 DataAcquisition\Handlers\01.3.2 Matlab\MatlabHandler.TcPOU">
+    <Compile Include="01. MAIN\01.4 DataAcquisition\Handlers\01.4.2 Matlab\MatlabHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="01. MAIN\01.6 VariablePersistence\VariablePersistenceController.TcPOU">
@@ -338,12 +356,17 @@
     <Folder Include="01. MAIN\01.2 ReactorLevelAndPressure\Handlers\01.2.1 PressureSensorScaling" />
     <Folder Include="01. MAIN\01.2 ReactorLevelAndPressure\Handlers\01.2.2 AutomaticExtraction" />
     <Folder Include="01. MAIN\01.2 ReactorLevelAndPressure\Handlers\01.2.3 ExtractiveOutlet" />
+    <Folder Include="01. MAIN\01.3 ReactorFlow\FBs" />
+    <Folder Include="01. MAIN\01.3 ReactorFlow\Handlers" />
+    <Folder Include="01. MAIN\01.3 ReactorFlow\DUTs" />
+    <Folder Include="01. MAIN\01.3 ReactorFlow\Handlers\01.3.1 Co2MeanFlowCalculation" />
+    <Folder Include="01. MAIN\01.3 ReactorFlow\Handlers\01.3.2 Co2Consumption" />
     <Folder Include="01. MAIN\01.4 DataAcquisition" />
     <Folder Include="01. MAIN\01.4 DataAcquisition\FBs" />
     <Folder Include="01. MAIN\01.4 DataAcquisition\Handlers" />
     <Folder Include="01. MAIN\01.4 DataAcquisition\DUTs" />
-    <Folder Include="01. MAIN\01.4 DataAcquisition\Handlers\01.3.1 OpcTagWriting" />
-    <Folder Include="01. MAIN\01.4 DataAcquisition\Handlers\01.3.2 Matlab" />
+    <Folder Include="01. MAIN\01.4 DataAcquisition\Handlers\01.4.1 OpcTagWriting" />
+    <Folder Include="01. MAIN\01.4 DataAcquisition\Handlers\01.4.2 Matlab" />
     <Folder Include="01. MAIN\01.6 VariablePersistence" />
     <Folder Include="01. MAIN\01.5 SerialCommunication" />
     <Folder Include="01. MAIN\01.5 SerialCommunication\FUNs" />

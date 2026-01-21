@@ -19,6 +19,8 @@ VAR_INPUT
 	stop : BOOL;
 	onOffValvePressureLimit : DINT;
 	AutomaticExtractionValues : ST_AutomaticExtractionValues;
+	MeanReactorFlow	: REAL;
+	ConsumedCo2Value : REAL;
 END_VAR
 VAR_OUTPUT
 	temperatureContactorCommand : BOOL;
@@ -98,6 +100,7 @@ VAR
 	ElapsedTimeLabel_TextVariable : STRING;
 	TimeLabels_Invisible : BOOL;
 
+	MeanFlowLabel_TextVariable : dint;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF reactorOutletValve = 1 THEN
@@ -225,11 +228,13 @@ CurrentTimeLabel_TextVariable := TO_STRING(TO_DINT(AutomaticExtractionValues.cur
 ElapsedTimeLabel_TextVariable := TO_STRING(TO_DINT(AutomaticExtractionValues.elapsedTime)/1000);
 TimeLabels_Invisible := NOT AutomaticExtractionValues.timeVisible;
 
-]]></ST>
+// MeanFlowLabel
+MeanFlowLabel_TextVariable := TO_DINT(MeanReactorFlow);]]></ST>
     </Implementation>
     <LineIds Name="ProcessViewBindings">
       <LineId Id="1131" Count="124" />
       <LineId Id="93" Count="0" />
+      <LineId Id="1353" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

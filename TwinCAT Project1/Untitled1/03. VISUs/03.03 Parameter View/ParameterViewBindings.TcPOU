@@ -8,6 +8,7 @@ VAR_OUTPUT
 	extractionValveParameters : ST_ExtractiveControlValveParameters;
 	pressureIntervals : ST_PressureIntervals;
 	onOffValvePressureLimit : DINT;
+	flowControlParameters : ST_FlowControlParameters;
 END_VAR
 VAR PERSISTENT
 	PbTextField_TextVariable : INT := 9;
@@ -32,6 +33,8 @@ VAR PERSISTENT
 	LowerIntervalSlurryOnUpperTextField_TextVariable : INT;
 	LowerIntervalSlurryOnNotUpperTextField_TextVariable : INT;
 	LowerIntervalSlurryOffUpperTextField_TextVariable : INT;	
+	
+	movingAvgIntervalTextField_TextVariable : INT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[
@@ -67,7 +70,10 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := extraction
 
 // On/off valve pressure limit
 onOffValvePressureLimit := onOffValvePressureLimitTextField_TextVariable;
-]]></ST>
+
+// Flow control parameters
+
+flowControlParameters.movingAvgDurationSecs := movingAvgIntervalTextField_TextVariable;]]></ST>
     </Implementation>
     <LineIds Name="ParameterViewBindings">
       <LineId Id="71" Count="0" />
@@ -83,7 +89,10 @@ onOffValvePressureLimit := onOffValvePressureLimitTextField_TextVariable;
       <LineId Id="152" Count="0" />
       <LineId Id="151" Count="0" />
       <LineId Id="153" Count="0" />
+      <LineId Id="185" Count="0" />
       <LineId Id="44" Count="0" />
+      <LineId Id="188" Count="0" />
+      <LineId Id="187" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

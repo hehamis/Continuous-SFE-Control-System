@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="ST_FlowControlParameters" Id="{59ca25a8-fcff-4997-971e-1b24e2fd5571}">
+    <Declaration><![CDATA[TYPE ST_FlowControlParameters :
+STRUCT
+	movingAvgDurationSecs : INT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

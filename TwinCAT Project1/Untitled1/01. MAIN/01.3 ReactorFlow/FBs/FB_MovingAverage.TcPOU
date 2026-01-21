@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_MovingAverage" Id="{5b33b8cb-1b28-4a06-8942-c20d4180274b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MovingAverage
+VAR_OUTPUT
+	ready : BOOL;
+	value : REAL;
+END_VAR
+VAR
+    sum           : REAL;
+    count         : UDINT;
+    running       : BOOL;
+    elapsedTime   : TIME;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="reset" Id="{562c45dc-fb13-4d5c-915f-7e73a235a0fc}">
+      <Declaration><![CDATA[METHOD reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+value := 0;
+ready := FALSE;
+sum := 0;
+count := 0;
+running := FALSE;
+elapsedTime := T#0S;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="startCalculation" Id="{da1d87c2-27a2-4715-8755-d34140487d52}">
+      <Declaration><![CDATA[METHOD startCalculation : BOOL
+VAR_INPUT
+    start : BOOL;
+    measurement : REAL;
+    intervalMs : INT;
+    dtime : TIME;   // ✅ caller passes elapsed time (mockable!)
+END_VAR
+VAR
+    intervalTime : TIME;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[intervalTime := INT_TO_TIME(intervalMs);
+
+// Start edge
+IF start AND NOT running THEN
+    running := TRUE;
+    //ready := FALSE;
+    sum := 0.0;
+    count := 0;
+    elapsedTime := T#0S;
+END_IF
+
+// Only run if active
+IF running THEN
+    // Accumulate data
+    sum := sum + measurement;
+    count := count + 1;
+
+    // Simulate time passing
+    elapsedTime := elapsedTime + dtime;
+
+    // Check interval completion
+    IF elapsedTime >= intervalTime THEN
+        IF count > 0 THEN
+            value := sum / count;
+        ELSE
+            value := 0.0;
+        END_IF
+
+        ready := TRUE;
+        running := FALSE;
+
+        startCalculation := TRUE;  // pulse TRUE one cycle
+        RETURN;
+    END_IF
+END_IF
+
+startCalculation := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_MovingAverage">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MovingAverage.reset">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="12" Count="2" />
+      <LineId Id="11" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MovingAverage.startCalculation">
+      <LineId Id="157" Count="35" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

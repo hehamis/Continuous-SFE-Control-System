@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_Co2MeanFlowCalculationHandler" Id="{9379d561-bf83-45df-82f1-1ed2e63f5583}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Co2MeanFlowCalculationHandler
+VAR_INPUT
+	serialCommData : ST_SerialCommReadData;
+	flowControlParameters : ST_FlowControlParameters;
+END_VAR
+VAR_OUTPUT
+	meanReactorFlow : REAL;
+END_VAR
+VAR
+	reactorFlow : REAL;
+	flowMovingAvg : FB_MovingAverage;
+	parameters : ST_FlowControlParameters;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+reactorFlow := serialCommData.flowMeasurement;
+
+// Calculate mean flow 
+flowMovingAvg.startCalculation(
+							start := TRUE,
+							measurement := reactorFlow,
+							intervalMs := flowControlParameters.movingAvgDurationSecs*1000,
+							dtime := T#10MS);
+
+meanReactorFlow := flowMovingAvg.value;]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Co2MeanFlowCalculationHandler">
+      <LineId Id="12" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="19" Count="3" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="41" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

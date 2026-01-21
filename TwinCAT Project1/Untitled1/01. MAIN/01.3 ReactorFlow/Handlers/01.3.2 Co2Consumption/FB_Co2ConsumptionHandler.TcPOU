@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_Co2ConsumptionHandler" Id="{21a94a87-e497-4368-ab09-e83da1788240}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Co2ConsumptionHandler
+VAR_INPUT
+	meanFlow : REAL;
+	flowControlParameters : ST_FlowControlParameters;
+END_VAR
+VAR_OUTPUT
+	consumedCo2Amount : REAL;
+END_VAR
+VAR
+	consumptionCalculator : FB_ConsumptionCalculator;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+consumptionCalculator.calculate(
+							start := TRUE,
+							valuePerSec := meanFlow/60,
+							intervalMs := flowControlParameters.movingAvgDurationSecs,
+							dtime := T#10MS);
+							
+consumedCo2Amount := consumptionCalculator.sum;
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Co2ConsumptionHandler">
+      <LineId Id="15" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="17" Count="3" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
