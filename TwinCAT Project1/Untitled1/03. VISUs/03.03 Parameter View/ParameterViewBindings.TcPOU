@@ -34,7 +34,7 @@ VAR PERSISTENT
 	LowerIntervalSlurryOnNotUpperTextField_TextVariable : INT;
 	LowerIntervalSlurryOffUpperTextField_TextVariable : INT;	
 	
-	movingAvgIntervalTextField_TextVariable : INT;
+	movingAvgIntervalTextField_TextVariable : INT := 5;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[
