@@ -15,6 +15,7 @@ VAR
 	_meanReactorFlow : REAL;
 	_flowControlParameters : ST_FlowControlParameters;
 	_consumedCo2Amount : REAL;
+	_flowControlCommands : ST_FlowControlCommands;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -27,6 +28,7 @@ HandleCo2MeanFlowCalculation(
 HandleCo2Consumption(
 				meanFlow := _meanReactorFlow,
 				flowControlParameters := _flowControlParameters,
+				resetInput := _flowControlCommands.resetCo2Consumption,
 				consumedCo2Amount => _consumedCo2Amount);]]></ST>
     </Implementation>
     <Property Name="ConsumedCo2Amount" Id="{15d55ab9-92af-4bd7-9af9-6676fe5e9820}">
@@ -40,6 +42,18 @@ END_VAR
 ConsumedCo2Amount := _consumedCo2Amount;]]></ST>
         </Implementation>
       </Get>
+    </Property>
+    <Property Name="FlowControlCommands" Id="{06bb8475-5eea-42cb-9fdb-40ae1ea8f78d}">
+      <Declaration><![CDATA[PROPERTY FlowControlCommands : ST_FlowControlCommands]]></Declaration>
+      <Set Name="Set" Id="{f79b2c5f-cdd2-4a83-8b38-9e3160ac7049}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_flowControlCommands := FlowControlCommands;]]></ST>
+        </Implementation>
+      </Set>
     </Property>
     <Property Name="FlowControlParameters" Id="{3952f682-48f7-4a6b-97c4-f9cb206094ff}">
       <Declaration><![CDATA[PROPERTY FlowControlParameters : ST_FlowControlParameters]]></Declaration>
@@ -70,9 +84,15 @@ MeanReactorFlow := _meanReactorFlow;]]></ST>
       <LineId Id="39" Count="2" />
       <LineId Id="23" Count="0" />
       <LineId Id="43" Count="2" />
-      <LineId Id="47" Count="1" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="48" Count="0" />
     </LineIds>
     <LineIds Name="ReactorFlowController.ConsumedCo2Amount.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorFlowController.FlowControlCommands.Set">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>

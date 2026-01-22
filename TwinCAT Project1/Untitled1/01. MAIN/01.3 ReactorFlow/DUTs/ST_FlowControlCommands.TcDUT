@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="ST_FlowControlCommands" Id="{ea092267-46ff-4397-9bc8-8d38280c10af}">
+    <Declaration><![CDATA[TYPE ST_FlowControlCommands :
+STRUCT
+	resetCo2Consumption : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -5,6 +5,7 @@
 VAR_INPUT
 	meanFlow : REAL;
 	flowControlParameters : ST_FlowControlParameters;
+	resetInput : BOOL;
 END_VAR
 VAR_OUTPUT
 	consumedCo2Amount : REAL;
@@ -16,12 +17,16 @@ END_VAR
     <Implementation>
       <ST><![CDATA[
 consumptionCalculator.calculate(
-							start := TRUE,
+							start := NOT resetInput,
 							valuePerSec := meanFlow/60,
-							intervalMs := flowControlParameters.movingAvgDurationSecs,
+							intervalMs := flowControlParameters.movingAvgDurationSecs*1000,
 							dtime := T#10MS);
 							
 consumedCo2Amount := consumptionCalculator.sum;
+
+IF resetInput THEN
+	consumptionCalculator.reset();
+END_IF
 ]]></ST>
     </Implementation>
     <LineIds Name="FB_Co2ConsumptionHandler">
@@ -29,6 +34,9 @@ consumedCo2Amount := consumptionCalculator.sum;
       <LineId Id="13" Count="0" />
       <LineId Id="17" Count="3" />
       <LineId Id="24" Count="1" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="40" Count="1" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>

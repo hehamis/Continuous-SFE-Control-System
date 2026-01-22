@@ -4,6 +4,7 @@
     <Declaration><![CDATA[TYPE ST_FlowControlParameters :
 STRUCT
 	movingAvgDurationSecs : INT;
+	co2ConsumptionLimit : DINT;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

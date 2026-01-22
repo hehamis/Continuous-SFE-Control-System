@@ -91,6 +91,9 @@
     <Compile Include="01. MAIN\01.2 ReactorLevelAndPressure\ReactorLevelAndPressureController.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\DUTs\ST_FlowControlCommands.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\01.3 ReactorFlow\DUTs\ST_FlowControlParameters.TcDUT">
       <SubType>Code</SubType>
     </Compile>

@@ -82,7 +82,8 @@ ProcessViewBindings(
 				onOffValvePressureLimit := ParameterViewBindings.onOffValvePressureLimit,
 				AutomaticExtractionValues := ReactorLevelAndPressureController.AutomaticExtractionValues,
 				MeanReactorFlow := ReactorFlowController.MeanReactorFlow,
-				ConsumedCo2Value := ReactorFlowController.ConsumedCo2Amount);
+				ConsumedCo2Value := ReactorFlowController.ConsumedCo2Amount,
+				FlowControlParameters := ParameterViewBindings.flowControlParameters);
 // ProcessView out
 ReactorTemperatureController.temperatureContactorCommand := ProcessViewBindings.temperatureContactorCommand;
 ReactorLevelAndPressureController.SlurryInValveCommand := ProcessViewBindings.SlurryInValveCommand;
@@ -91,6 +92,7 @@ ReactorLevelAndPressureController.SlurryOutValveCommand := ProcessViewBindings.S
 ReactorLevelAndPressureController.ExtractiveOutOnOffValveCommand := ProcessViewBindings.ExtractiveOutOnOffValveCommand;
 ReactorLevelAndPressureController.ExtractiveControlValveCommands := ProcessViewBindings.ExtractiveControlValveCommands;
 ReactorFlowController.FlowControlParameters := ParameterViewBindings.flowControlParameters;
+ReactorFlowController.FlowControlCommands := ProcessViewBindings.FlowControlCommands;
 	
 // ParameterView in			
 ParameterViewBindings();
@@ -149,10 +151,12 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterV
       <LineId Id="373" Count="0" />
       <LineId Id="375" Count="0" />
       <LineId Id="380" Count="0" />
+      <LineId Id="384" Count="0" />
       <LineId Id="358" Count="0" />
       <LineId Id="315" Count="4" />
       <LineId Id="313" Count="0" />
       <LineId Id="381" Count="0" />
+      <LineId Id="383" Count="0" />
       <LineId Id="312" Count="0" />
       <LineId Id="359" Count="0" />
       <LineId Id="256" Count="0" />

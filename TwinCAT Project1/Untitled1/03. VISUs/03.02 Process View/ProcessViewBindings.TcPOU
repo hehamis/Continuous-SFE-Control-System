@@ -21,6 +21,7 @@ VAR_INPUT
 	AutomaticExtractionValues : ST_AutomaticExtractionValues;
 	MeanReactorFlow	: REAL;
 	ConsumedCo2Value : REAL;
+	FlowControlParameters : ST_FlowControlParameters;
 END_VAR
 VAR_OUTPUT
 	temperatureContactorCommand : BOOL;
@@ -29,6 +30,7 @@ VAR_OUTPUT
 	SlurryOutValveCommand : BOOL;
 	ExtractiveOutOnOffValveCommand : BOOL;
 	ExtractiveControlValveCommands : ST_ExtractiveControlValveCommands;
+	FlowControlCommands	: ST_FlowControlCommands;
 END_VAR
 VAR
 	ReactorLowerTemperatureTextField_TextVariable : INT;
@@ -100,7 +102,11 @@ VAR
 	ElapsedTimeLabel_TextVariable : STRING;
 	TimeLabels_Invisible : BOOL;
 
-	MeanFlowLabel_TextVariable : dint;
+	MeanFlowLabel_TextVariable : DINT;
+	
+	ConsumedCo2Label_TextVariable : DINT;
+	ConsumedCo2SetpointLabel_TextVariable :DINT;
+	ResetCo2ConsumptionButton_TapVariable : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF reactorOutletValve = 1 THEN
@@ -229,12 +235,22 @@ ElapsedTimeLabel_TextVariable := TO_STRING(TO_DINT(AutomaticExtractionValues.ela
 TimeLabels_Invisible := NOT AutomaticExtractionValues.timeVisible;
 
 // MeanFlowLabel
-MeanFlowLabel_TextVariable := TO_DINT(MeanReactorFlow);]]></ST>
+MeanFlowLabel_TextVariable := TO_DINT(MeanReactorFlow);
+
+// ConsumedCo2Label
+ConsumedCo2Label_TextVariable := TO_DINT(ConsumedCo2Value);
+ConsumedCo2SetpointLabel_TextVariable := FlowControlParameters.co2ConsumptionLimit;
+FlowControlCommands.resetCo2Consumption := ResetCo2ConsumptionButton_TapVariable;]]></ST>
     </Implementation>
     <LineIds Name="ProcessViewBindings">
       <LineId Id="1131" Count="124" />
       <LineId Id="93" Count="0" />
       <LineId Id="1353" Count="0" />
+      <LineId Id="1457" Count="0" />
+      <LineId Id="1456" Count="0" />
+      <LineId Id="1458" Count="0" />
+      <LineId Id="1460" Count="0" />
+      <LineId Id="1463" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
