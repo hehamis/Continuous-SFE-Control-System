@@ -120,16 +120,22 @@
 			</Tasks>
 		</System>
 		<Plc>
-			<Project GUID="{F1DA8C98-B70B-4E0D-AFB2-4F0E6AE5FF49}" Name="Untitled1" PrjFilePath="Untitled1\Untitled1.plcproj" TmcFilePath="Untitled1\Untitled1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<ProjectVariant PvUseDisable="true">
+			<Project GUID="{F1DA8C98-B70B-4E0D-AFB2-4F0E6AE5FF49}" Name="Untitled1" PrjFilePath="Untitled1\Untitled1.plcproj" TmcFilePath="Untitled1\Untitled1.tmc" EnableImplicitDefines="true" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
+				<ProjectVariant PvUseDisable="true" PvUseDefine="true">
 					<Variant>
 						<Name>Complete</Name>
+						<Disable>0</Disable>
+						<Defines/>
+					</Variant>
+					<Variant>
 						<Name>Simulation</Name>
 						<Disable>0</Disable>
+						<Defines></Defines>
 					</Variant>
 					<Variant>
 						<Name>Tests</Name>
 						<Disable>1</Disable>
+						<Defines/>
 					</Variant>
 				</ProjectVariant>
 				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Untitled1\Untitled1.tmc">
@@ -154,6 +160,11 @@
 					<Vars VarGrpType="1" ContextId="1" AreaNo="16">
 						<Name>PlcTask Inputs</Name>
 						<Var>
+							<Name>GVL_IO.reactorLevelHigherHigh</Name>
+							<Comment><![CDATA[ Higher high slurry level]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>GVL_IO.reactorTemperatureUpper</Name>
 							<Comment><![CDATA[ Reactor temperature]]></Comment>
 							<Type>INT</Type>
@@ -162,11 +173,6 @@
 							<Name>GVL_IO.reactorTemperatureLower</Name>
 							<Comment><![CDATA[ Reactor temperature lower]]></Comment>
 							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.reactorLevelHigherHigh</Name>
-							<Comment><![CDATA[ Higher high slurry level]]></Comment>
-							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.reactorLevelLow</Name>

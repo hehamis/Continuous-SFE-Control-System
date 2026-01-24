@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="SimulationViewBindings" Id="{b55f8d2e-1783-4f6e-a2c7-a2b84d2145a7}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM SimulationViewBindings
+VAR
+	// Pointers to simulated variables
+	pFlowMeasurement : POINTER TO DINT := ADR(SerialCommunicationController.HandleSerialCommunication.readData.flowMeasurement);	
+	
+	// Locals
+	flowSlider_Variable : DINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+pFlowMeasurement^ := flowSlider_Variable;]]></ST>
+    </Implementation>
+    <LineIds Name="SimulationViewBindings">
+      <LineId Id="12" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

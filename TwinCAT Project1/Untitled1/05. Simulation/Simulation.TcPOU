@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="Simulation" Id="{5d906d4b-9516-4e23-8a16-d66aa578ea01}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Simulation
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+SimulationViewBindings();]]></ST>
+    </Implementation>
+    <LineIds Name="Simulation">
+      <LineId Id="6" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

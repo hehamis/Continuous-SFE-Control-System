@@ -101,6 +101,13 @@ ReactorTemperatureController.pidControllerParameters := ParameterViewBindings.re
 ReactorLevelAndPressureController.AutomaticExtractionParameters := ParameterViewBindings.autoExtractionParameters;
 ReactorLevelAndPressureController.PressureIntervals := ParameterViewBindings.pressureIntervals;
 ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterViewBindings.extractionValveParameters;
+
+
+// Simulation
+{IF defined (Simulation)}
+	Simulation();
+{END_IF}
+
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
@@ -163,6 +170,8 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterV
       <LineId Id="361" Count="0" />
       <LineId Id="323" Count="2" />
       <LineId Id="322" Count="0" />
+      <LineId Id="393" Count="5" />
+      <LineId Id="392" Count="0" />
       <LineId Id="251" Count="0" />
     </LineIds>
   </POU>

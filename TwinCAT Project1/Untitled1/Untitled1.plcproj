@@ -208,6 +208,16 @@
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
+    <Compile Include="05. Simulation\05.01 SimulationView\SimulationView.TcVIS">
+      <SubType>Code</SubType>
+      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
+    </Compile>
+    <Compile Include="05. Simulation\05.01 SimulationView\SimulationViewBindings.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="05. Simulation\Simulation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GlobalTextList.TcGTLO">
       <SubType>Code</SubType>
     </Compile>
@@ -394,6 +404,8 @@
     <Folder Include="04. GVLs" />
     <Folder Include="01. MAIN" />
     <Folder Include="02. MAIN_Fast" />
+    <Folder Include="05. Simulation" />
+    <Folder Include="05. Simulation\05.01 SimulationView" />
     <Folder Include="Trash">
       <ExcludeFromBuild>true</ExcludeFromBuild>
     </Folder>
