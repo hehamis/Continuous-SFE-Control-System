@@ -19,7 +19,7 @@ END_VAR
 consumptionCalculator.calculate(
 							start := NOT resetInput,
 							valuePerSec := meanFlow/60,
-							intervalMs := flowControlParameters.movingAvgDurationSecs*1000,
+							intervalS := flowControlParameters.movingAvgShiftIntervalSecs,
 							dtime := T#10MS);
 							
 consumedCo2Amount := consumptionCalculator.sum;

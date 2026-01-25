@@ -406,6 +406,16 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"772"</v>
+              <v n="TextDefault">"Moving average calculation window (s)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"763"</v>
+              <v n="TextDefault">"Moving average shift interval (s)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"351"</v>
               <v n="TextDefault">"ON/OFF"</v>
               <l n="LanguageTexts" t="ArrayList" />

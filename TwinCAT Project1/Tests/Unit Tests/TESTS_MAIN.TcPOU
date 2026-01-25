@@ -20,19 +20,22 @@ IF startTests THEN
 	movingavg.startCalculation(
 							start := TRUE,
 							measurement := meas,
-							intervalMs := 10000,
+							intervalS := 1,
+							windowS := 10,
 							dTime := T#10MS);
 	consumptioncalc.calculate(
 							start := TRUE,
 							valuePerSec := movingavg.value/60,
-							intervalMs := 10000,
+							intervalS := 10,
 							dtime := T#10MS);
 END_IF
 ]]></ST>
     </Implementation>
     <LineIds Name="TESTS_MAIN">
       <LineId Id="7" Count="2" />
-      <LineId Id="31" Count="3" />
+      <LineId Id="31" Count="2" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="34" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="46" Count="4" />
       <LineId Id="2" Count="0" />

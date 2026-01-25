@@ -21,7 +21,7 @@ END_VAR
 VAR_INPUT
 	start : BOOL;
 	valuePerSec : REAL;
-    intervalMs : INT;
+    intervalS : INT;
     dtime : TIME;   
 END_VAR
 VAR
@@ -29,7 +29,7 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[intervalTime := INT_TO_TIME(intervalMs);
+        <ST><![CDATA[intervalTime := INT_TO_TIME(intervalS*1000);
 RTRIG_Started(CLK := start);
 // Start edge
 IF RTRIG_Started.q THEN
@@ -46,7 +46,7 @@ IF running THEN
 	// Simulate time passing
 	elapsedTime := elapsedTime + dtime;
 	IF elapsedTime >= intervalTime THEN
-		sum := sum + valuePerSec*(intervalMs/1000);
+		sum := sum + valuePerSec*(intervalS);
 		elapsedTime := T#0S;
 	END_IF 	
 END_IF

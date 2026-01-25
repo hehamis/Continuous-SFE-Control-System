@@ -11,6 +11,13 @@ VAR
     count         : UDINT;
     running       : BOOL;
     elapsedTime   : TIME;
+	
+	addToSum		: BOOL;
+	elapsedSecond	: INT;
+	valueArray		: ARRAY[1..999] OF REAL;
+	i				: INT;
+	
+    intervalTime : TIME;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -27,7 +34,8 @@ ready := FALSE;
 sum := 0;
 count := 0;
 running := FALSE;
-elapsedTime := T#0S;]]></ST>
+elapsedTime := T#0S;
+elapsedSecond := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="startCalculation" Id="{2cdab5be-80e6-49cf-bfa3-f2f6f32391de}">
@@ -35,50 +43,91 @@ elapsedTime := T#0S;]]></ST>
 VAR_INPUT
     start : BOOL;
     measurement : REAL;
-    intervalMs : INT;
+    windowS : INT;
+	intervalS : INT;
     dtime : TIME;   // ✅ caller passes elapsed time (mockable!)
 END_VAR
-VAR
-    intervalTime : TIME;
-END_VAR]]></Declaration>
+]]></Declaration>
       <Implementation>
-        <ST><![CDATA[intervalTime := INT_TO_TIME(intervalMs);
+        <ST><![CDATA[
+// If window is 0, return immediately
+IF windowS = 0 THEN
+	RETURN;
+END_IF
 
 // Start edge
 IF start AND NOT running THEN
     running := TRUE;
     //ready := FALSE;
-    sum := 0.0;
-    count := 0;
-    elapsedTime := T#0S;
+//    sum := 0.0;
+//    count := 0;
+//    elapsedTime := T#0S;
 END_IF
 
-// Only run if active
 IF running THEN
-    // Accumulate data
-    sum := sum + measurement;
-    count := count + 1;
-
-    // Simulate time passing
-    elapsedTime := elapsedTime + dtime;
-
-    // Check interval completion
-    IF elapsedTime >= intervalTime THEN
-        IF count > 0 THEN
-            value := sum / count;
-        ELSE
-            value := 0.0;
-        END_IF
-
-        ready := TRUE;
-        running := FALSE;
-
-        startCalculation := TRUE;  // pulse TRUE one cycle
-        RETURN;
-    END_IF
+	elapsedTime := elapsedTime + dtime;
+	intervalTime := intervalTime + dtime;
+	
+	// Every second, calculate new mean value and shift values forward
+	IF ready THEN
+		IF (TIME_TO_INT(intervalTime))/1000 >= intervalS THEN
+			addToSum := TRUE;
+			elapsedSecond := elapsedSecond + 1;
+			FOR i := 1 TO windowS DO
+				sum := sum + valueArray[i];
+			END_FOR
+			value := sum/windowS;
+			// Shift values
+			FOR i := 1 TO windowS - 1 DO
+				valueArray[i] := valueArray[i + 1];
+			END_FOR
+			valueArray[windowS] := measurement;
+			intervalTime := T#0S;
+			sum := 0;
+		END_IF
+	ELSE
+		IF (TIME_TO_INT(intervalTime))/1000 >= intervalS THEN
+			elapsedSecond := elapsedSecond + 1;
+			valueArray[elapsedSecond] := measurement;
+			intervalTime := T#0S;
+		END_IF
+	END_IF
+	
+	// After initial interval passed, start calculating the value
+	IF elapsedTime >= INT_TO_TIME(windowS*1000) THEN
+		startCalculation := TRUE;
+		ready := TRUE;
+	END_IF
+	
 END_IF
 
-startCalculation := FALSE;]]></ST>
+
+//// Only run if active
+//IF running THEN
+//    // Accumulate data
+//    sum := sum + measurement;
+//    count := count + 1;
+
+//    // Simulate time passing
+//    elapsedTime := elapsedTime + dtime;
+
+//    // Check interval completion
+//    IF elapsedTime >= intervalTime THEN
+//        IF count > 0 THEN
+//            value := sum / count;
+//        ELSE
+//            value := 0.0;
+//        END_IF
+
+//        ready := TRUE;
+//        running := FALSE;
+
+//        startCalculation := TRUE;  // pulse TRUE one cycle
+//        RETURN;
+//    END_IF
+//END_IF
+
+//startCalculation := FALSE;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_MovingAverage">
@@ -90,9 +139,41 @@ startCalculation := FALSE;]]></ST>
       <LineId Id="10" Count="0" />
       <LineId Id="12" Count="2" />
       <LineId Id="11" Count="0" />
+      <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="FB_MovingAverage.startCalculation">
-      <LineId Id="157" Count="35" />
+      <LineId Id="354" Count="3" />
+      <LineId Id="215" Count="0" />
+      <LineId Id="358" Count="0" />
+      <LineId Id="216" Count="7" />
+      <LineId Id="262" Count="0" />
+      <LineId Id="224" Count="1" />
+      <LineId Id="291" Count="0" />
+      <LineId Id="287" Count="0" />
+      <LineId Id="278" Count="0" />
+      <LineId Id="288" Count="0" />
+      <LineId Id="226" Count="0" />
+      <LineId Id="254" Count="0" />
+      <LineId Id="266" Count="0" />
+      <LineId Id="273" Count="1" />
+      <LineId Id="312" Count="5" />
+      <LineId Id="327" Count="0" />
+      <LineId Id="295" Count="1" />
+      <LineId Id="255" Count="0" />
+      <LineId Id="334" Count="1" />
+      <LineId Id="339" Count="0" />
+      <LineId Id="336" Count="0" />
+      <LineId Id="338" Count="0" />
+      <LineId Id="337" Count="0" />
+      <LineId Id="289" Count="0" />
+      <LineId Id="340" Count="0" />
+      <LineId Id="342" Count="3" />
+      <LineId Id="341" Count="0" />
+      <LineId Id="264" Count="0" />
+      <LineId Id="261" Count="0" />
+      <LineId Id="260" Count="0" />
+      <LineId Id="227" Count="24" />
+      <LineId Id="283" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

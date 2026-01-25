@@ -23,7 +23,8 @@ reactorFlow := serialCommData.flowMeasurement;
 flowMovingAvg.startCalculation(
 							start := TRUE,
 							measurement := reactorFlow,
-							intervalMs := flowControlParameters.movingAvgDurationSecs*1000,
+							windowS := flowControlParameters.movingAvgDurationSecs,
+							intervalS := flowControlParameters.movingAvgShiftIntervalSecs,
 							dtime := T#10MS);
 
 meanReactorFlow := flowMovingAvg.value;]]></ST>
@@ -34,7 +35,9 @@ meanReactorFlow := flowMovingAvg.value;]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="14" Count="0" />
-      <LineId Id="19" Count="3" />
+      <LineId Id="19" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="21" Count="1" />
       <LineId Id="42" Count="0" />
       <LineId Id="41" Count="0" />
     </LineIds>

@@ -27,13 +27,13 @@ TEST('theCalculatedValueShouldBe20After20Seconds');
 consumptionCalc.calculate(
 						start := TRUE,
 						valuePerSec := 1,
-						intervalMs := 10000,
+						intervalS := 10,
 						dtime := T#10S);
 consumptionCalc.sum;								
 consumptionCalc.calculate(
 						start := TRUE,
 						valuePerSec := 1,
-						intervalMs := 10000,
+						intervalS := 10,
 						dtime := T#10S);
 consumptionCalc.sum;			
 						
@@ -57,14 +57,14 @@ TEST('theCalculatedValueShouldBeTenAfterTenSeconds');
 consumptionCalc.calculate(
 						start := TRUE,
 						valuePerSec := 0,
-						intervalMs := 10000,
+						intervalS := 10,
 						dtime := T#10MS);
 	
 consumptionCalc.sum;						
 consumptionCalc.calculate(
 						start := TRUE,
 						valuePerSec := 1,
-						intervalMs := 10000,
+						intervalS := 10,
 						dtime := T#10S);
 consumptionCalc.sum;
 						
@@ -86,13 +86,13 @@ TEST('theCalulatedValueShouldBe30After20Seconds');
 consumptionCalc.calculate(
 						start := TRUE,
 						valuePerSec := 1,
-						intervalMs := 10000,
+						intervalS := 10,
 						dtime := T#10S);
 						
 consumptionCalc.calculate(
 						start := TRUE,
 						valuePerSec := 2,
-						intervalMs := 10000,
+						intervalS := 10,
 						dtime := T#10S);
 
 AssertEquals_REAL(Expected := 30, Actual := consumptionCalc.sum, Delta := 0, Message := 'Calculated value not 30 after twenty seconds');

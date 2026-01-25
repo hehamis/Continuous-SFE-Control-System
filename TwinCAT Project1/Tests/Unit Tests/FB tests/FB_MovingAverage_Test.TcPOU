@@ -18,7 +18,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[
 TEST('calculationShouldBeReadyWhenTimePassed');
-movingAverage.startCalculation(TRUE, 0, 1, T#3S);
+movingAverage.startCalculation(TRUE,0, 3,1, T#3S);
 AssertEquals_BOOL(Expected := TRUE, Actual :=  movingAverage.ready, Message := 'Moving average calculation not ready after time passed');
 TEST_FINISHED();]]></ST>
       </Implementation>
@@ -32,7 +32,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[
 TEST('calculationShouldNotBeReadyBeforeTimePassed');
-movingAverage.startCalculation(TRUE, 0, 1, T#0S);
+movingAverage.startCalculation(TRUE, 0, 1,1, T#0S);
 AssertEquals_BOOL(Expected := FALSE, Actual :=  movingAverage.ready, Message := 'Moving average calculation ready before time passed');
 TEST_FINISHED();]]></ST>
       </Implementation>
@@ -45,9 +45,10 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[
 TEST('movingAverageOfThreePlusTwoPlusOneShouldBeTwo');
-movingAverage.startCalculation(TRUE, 3, 3000, T#0S);
-movingAverage.startCalculation(TRUE, 2, 3000, T#1S);
-movingAverage.startCalculation(TRUE, 1, 3000, T#2S);
+movingAverage.startCalculation(TRUE, 3, 3, 1, T#1S);
+movingAverage.startCalculation(TRUE, 2, 3, 1, T#1S);
+movingAverage.startCalculation(TRUE, 1, 3, 1, T#1S);
+movingAverage.startCalculation(TRUE, 0, 3, 1, T#1S);
 AssertEquals_REAL(Expected := 2, Actual := movingAverage.value, 0, Message := 'Moving average calculation not equal to two!');
 TEST_FINISHED();]]></ST>
       </Implementation>
@@ -61,7 +62,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[
 TEST('resetMethodCallShouldResetValue');
-movingAverage.startCalculation(start := TRUE, measurement := 50, intervalMs := 0, dtime := T#3S);
+movingAverage.startCalculation(start := TRUE, measurement := 50, intervalS := 1, windowS := 3, dtime := T#3S);
 movingAverage.reset();
 AssertEquals_REAL(0, movingAverage.value, 0, 'Reset did not reset value!'); 
 TEST_FINISHED();]]></ST>
@@ -91,6 +92,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="8" Count="2" />
       <LineId Id="12" Count="0" />
       <LineId Id="14" Count="0" />
+      <LineId Id="18" Count="0" />
       <LineId Id="11" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>

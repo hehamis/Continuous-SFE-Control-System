@@ -34,7 +34,8 @@ VAR PERSISTENT
 	LowerIntervalSlurryOnNotUpperTextField_TextVariable : INT;
 	LowerIntervalSlurryOffUpperTextField_TextVariable : INT;	
 	
-	movingAvgIntervalTextField_TextVariable : INT := 5;
+	movingAvgWindowTextField_TextVariable : INT := 5;
+	movingAvgShiftIntervalTextField_TextVariable : INT := 1;
 	co2ConsumptionLimitTextField_TextVariable : DINT;
 END_VAR]]></Declaration>
     <Implementation>
@@ -74,7 +75,8 @@ onOffValvePressureLimit := onOffValvePressureLimitTextField_TextVariable;
 
 // Flow control parameters
 
-flowControlParameters.movingAvgDurationSecs := movingAvgIntervalTextField_TextVariable;
+flowControlParameters.movingAvgDurationSecs := movingAvgWindowTextField_TextVariable;
+flowControlParameters.movingAvgShiftIntervalSecs := movingAvgShiftIntervalTextField_TextVariable;
 flowControlParameters.co2ConsumptionLimit := co2ConsumptionLimitTextField_TextVariable;]]></ST>
     </Implementation>
     <LineIds Name="ParameterViewBindings">
@@ -95,6 +97,7 @@ flowControlParameters.co2ConsumptionLimit := co2ConsumptionLimitTextField_TextVa
       <LineId Id="44" Count="0" />
       <LineId Id="188" Count="0" />
       <LineId Id="187" Count="0" />
+      <LineId Id="260" Count="0" />
       <LineId Id="223" Count="0" />
     </LineIds>
   </POU>

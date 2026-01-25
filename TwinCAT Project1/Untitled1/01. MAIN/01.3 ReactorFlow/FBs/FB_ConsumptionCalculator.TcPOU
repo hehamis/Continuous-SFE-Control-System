@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="FB_ConsumptionCalculator" Id="{583b06a5-8944-4d8a-9708-d95728931719}" SpecialFunc="None">
+  <POU Name="FB_ConsumptionCalculator" Id="{075ff8aa-fb38-44ce-8269-f9c8148fabab}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_ConsumptionCalculator
 VAR_INPUT
 END_VAR
@@ -16,12 +16,12 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="calculate" Id="{5f19d6d6-2f68-40e4-a4d6-8c8c349e1989}">
+    <Method Name="calculate" Id="{aeb31521-5e6c-4df7-a5a4-e9f9b916710c}">
       <Declaration><![CDATA[METHOD calculate : BOOL
 VAR_INPUT
 	start : BOOL;
 	valuePerSec : REAL;
-    intervalMs : INT;
+    intervalS : INT;
     dtime : TIME;   
 END_VAR
 VAR
@@ -29,7 +29,7 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[intervalTime := INT_TO_TIME(intervalMs);
+        <ST><![CDATA[intervalTime := INT_TO_TIME(intervalS*1000);
 RTRIG_Started(CLK := start);
 // Start edge
 IF RTRIG_Started.q THEN
@@ -46,7 +46,7 @@ IF running THEN
 	// Simulate time passing
 	elapsedTime := elapsedTime + dtime;
 	IF elapsedTime >= intervalTime THEN
-		sum := sum + valuePerSec*(intervalMs/1000);
+		sum := sum + valuePerSec*(intervalS);
 		elapsedTime := T#0S;
 	END_IF 	
 END_IF
@@ -54,7 +54,7 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="reset" Id="{c75af44e-29e4-4a7a-b6f5-ded1a53807a6}">
+    <Method Name="reset" Id="{98bc18ca-0729-4d13-afdf-cc7222e376a5}">
       <Declaration><![CDATA[METHOD reset : BOOL
 VAR_INPUT
 END_VAR
