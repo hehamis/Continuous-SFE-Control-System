@@ -34,7 +34,7 @@ VAR PERSISTENT
 	LowerIntervalSlurryOnNotUpperTextField_TextVariable : INT;
 	LowerIntervalSlurryOffUpperTextField_TextVariable : INT;	
 	
-	movingAvgWindowTextField_TextVariable : INT := 10;
+	movingAvgWindowTextField_TextVariable : INT := 80;
 	movingAvgShiftIntervalTextField_TextVariable : INT := 1;
 	co2ConsumptionLimitTextField_TextVariable : DINT;
 END_VAR]]></Declaration>
