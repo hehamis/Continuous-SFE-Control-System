@@ -151,6 +151,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"202"</v>
+              <v n="TextDefault">"Avg:"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"482"</v>
               <v n="TextDefault">"Bias (%)"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -623,6 +628,11 @@
             <o>
               <v n="TextID">"160"</v>
               <v n="TextDefault">"Setpoint"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"483"</v>
+              <v n="TextDefault">"Sliding avg:"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
