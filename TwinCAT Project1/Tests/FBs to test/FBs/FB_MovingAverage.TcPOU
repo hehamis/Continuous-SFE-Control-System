@@ -90,6 +90,11 @@ IF running THEN
 			elapsedSecond := elapsedSecond + 1;
 			valueArray[elapsedSecond] := measurement;
 			intervalTime := T#0S;
+			FOR i := 1 TO elapsedSecond DO
+				sum := sum + valueArray[i];
+			END_FOR
+			value := sum / elapsedSecond;
+			sum := 0;
 		END_IF
 	END_IF
 	
@@ -164,6 +169,9 @@ END_IF
       <LineId Id="339" Count="0" />
       <LineId Id="336" Count="0" />
       <LineId Id="338" Count="0" />
+      <LineId Id="368" Count="2" />
+      <LineId Id="367" Count="0" />
+      <LineId Id="371" Count="0" />
       <LineId Id="337" Count="0" />
       <LineId Id="289" Count="0" />
       <LineId Id="340" Count="0" />
