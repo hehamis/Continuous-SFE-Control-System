@@ -35,7 +35,10 @@ sum := 0;
 count := 0;
 running := FALSE;
 elapsedTime := T#0S;
-elapsedSecond := 0;]]></ST>
+elapsedSecond := 0;
+FOR i := 1 TO 999 DO
+	valueArray[i] := 0;
+END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="startCalculation" Id="{2cdab5be-80e6-49cf-bfa3-f2f6f32391de}">
@@ -113,11 +116,7 @@ END_IF
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_MovingAverage.reset">
-      <LineId Id="9" Count="0" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="12" Count="2" />
-      <LineId Id="11" Count="0" />
+      <LineId Id="22" Count="9" />
       <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="FB_MovingAverage.startCalculation">

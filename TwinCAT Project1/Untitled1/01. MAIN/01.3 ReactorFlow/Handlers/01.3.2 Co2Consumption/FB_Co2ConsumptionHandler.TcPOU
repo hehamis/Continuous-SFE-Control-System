@@ -16,11 +16,13 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-consumptionCalculator.calculate(
-							start := NOT resetInput,
-							valuePerSec := meanFlow/60,
-							intervalS := flowControlParameters.movingAvgShiftIntervalSecs,
-							dtime := T#10MS);
+IF flowControlParameters.startConsumptionCalculationWithAvg THEN 
+	consumptionCalculator.calculate(
+								start := NOT resetInput,
+								valuePerSec := meanFlow/60,
+								intervalS := flowControlParameters.movingAvgShiftIntervalSecs,
+								dtime := T#10MS);
+END_IF
 							
 consumedCo2Amount := consumptionCalculator.sum;
 
@@ -30,9 +32,11 @@ END_IF
 ]]></ST>
     </Implementation>
     <LineIds Name="FB_Co2ConsumptionHandler">
+      <LineId Id="55" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="17" Count="3" />
+      <LineId Id="56" Count="0" />
       <LineId Id="24" Count="1" />
       <LineId Id="39" Count="0" />
       <LineId Id="38" Count="0" />

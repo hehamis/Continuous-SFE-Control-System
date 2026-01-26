@@ -37,7 +37,8 @@ VAR PERSISTENT
 	movingAvgWindowTextField_TextVariable : INT := 80;
 	movingAvgShiftIntervalTextField_TextVariable : INT := 1;
 	co2ConsumptionLimitTextField_TextVariable : DINT;
-	startMovingAvgAfterWindowCheckBox_Variable : BOOL;
+	startMovingAvgAfterWindowCheckBox_Variable : BOOL := TRUE;
+	automaticallyStartConsumptionCalculationCheckBox_variable : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[
@@ -79,7 +80,9 @@ onOffValvePressureLimit := onOffValvePressureLimitTextField_TextVariable;
 flowControlParameters.movingAvgDurationSecs := movingAvgWindowTextField_TextVariable;
 flowControlParameters.movingAvgShiftIntervalSecs := movingAvgShiftIntervalTextField_TextVariable;
 flowControlParameters.co2ConsumptionLimit := co2ConsumptionLimitTextField_TextVariable;
-flowControlParameters.excludeValuesPreFirstWindow := startMovingAvgAfterWindowCheckBox_Variable;]]></ST>
+flowControlParameters.excludeValuesPreFirstWindow := startMovingAvgAfterWindowCheckBox_Variable;
+flowControlParameters.startConsumptionCalculationWithAvg := automaticallyStartConsumptionCalculationCheckBox_variable;
+]]></ST>
     </Implementation>
     <LineIds Name="ParameterViewBindings">
       <LineId Id="71" Count="0" />
@@ -102,6 +105,8 @@ flowControlParameters.excludeValuesPreFirstWindow := startMovingAvgAfterWindowCh
       <LineId Id="260" Count="0" />
       <LineId Id="223" Count="0" />
       <LineId Id="298" Count="0" />
+      <LineId Id="302" Count="0" />
+      <LineId Id="300" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
