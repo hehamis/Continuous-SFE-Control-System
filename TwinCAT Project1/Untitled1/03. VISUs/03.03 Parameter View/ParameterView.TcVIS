@@ -6964,7 +6964,7 @@
                       <v n="InputBoxVariable">""</v>
                       <v n="InputType">"VisuDialogs.Numpad"</v>
                       <v n="InputBoxMin">"1"</v>
-                      <v n="InputBoxMax">"9999"</v>
+                      <v n="InputBoxMax">"999"</v>
                       <v n="InputBoxDialogTitle">""</v>
                       <v n="Password">false</v>
                       <v n="UseTextOutputVariable">true</v>
@@ -7582,7 +7582,7 @@
                       <v n="InputBoxVariable">""</v>
                       <v n="InputType">"VisuDialogs.Numpad"</v>
                       <v n="InputBoxMin">"0"</v>
-                      <v n="InputBoxMax">"9999"</v>
+                      <v n="InputBoxMax">"999"</v>
                       <v n="InputBoxDialogTitle">""</v>
                       <v n="Password">false</v>
                       <v n="UseTextOutputVariable">true</v>
