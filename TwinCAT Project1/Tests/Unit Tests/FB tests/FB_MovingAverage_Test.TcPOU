@@ -3,12 +3,12 @@
   <POU Name="FB_MovingAverage_Test" Id="{37b413a4-f223-4570-9474-bb8c477d7df3}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_MovingAverage_Test EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-calculationShouldBeReadyWhenTimePassed();
+      <ST><![CDATA[calculationShouldBeReadyWhenTimePassed();
 calculationShouldNotBeReadyBeforeTimePassed();
 movingAverageOfThreePlusTwoPlusOneShouldBeTwo();
 resetMethodCallShouldResetValue();
-theValueShouldBe40AfterTwoSeconds();]]></ST>
+theValueShouldBe40AfterTwoSeconds();
+valueShouldBe0BeforeWindowPassedIfPreReadyNotIncluded();]]></ST>
     </Implementation>
     <Method Name="calculationShouldBeReadyWhenTimePassed" Id="{6eb0e18c-3c4c-41df-9aec-1ae6efb07c6f}">
       <Declaration><![CDATA[METHOD calculationShouldBeReadyWhenTimePassed : BOOL
@@ -19,7 +19,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[
 TEST('calculationShouldBeReadyWhenTimePassed');
-movingAverage.startCalculation(TRUE,0, 3,1, T#3S);
+movingAverage.startCalculation(TRUE,0, 3,1, T#3S, FALSE);
 AssertEquals_BOOL(Expected := TRUE, Actual :=  movingAverage.ready, Message := 'Moving average calculation not ready after time passed');
 TEST_FINISHED();]]></ST>
       </Implementation>
@@ -33,7 +33,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[
 TEST('calculationShouldNotBeReadyBeforeTimePassed');
-movingAverage.startCalculation(TRUE, 0, 1,1, T#0S);
+movingAverage.startCalculation(TRUE, 0, 1,1, T#0S, FALSE);
 AssertEquals_BOOL(Expected := FALSE, Actual :=  movingAverage.ready, Message := 'Moving average calculation ready before time passed');
 TEST_FINISHED();]]></ST>
       </Implementation>
@@ -46,10 +46,10 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[
 TEST('movingAverageOfThreePlusTwoPlusOneShouldBeTwo');
-movingAverage.startCalculation(TRUE, 3, 3, 1, T#1S);
-movingAverage.startCalculation(TRUE, 2, 3, 1, T#1S);
-movingAverage.startCalculation(TRUE, 1, 3, 1, T#1S);
-movingAverage.startCalculation(TRUE, 0, 3, 1, T#1S);
+movingAverage.startCalculation(TRUE, 3, 3, 1, T#1S, FALSE);
+movingAverage.startCalculation(TRUE, 2, 3, 1, T#1S, FALSE);
+movingAverage.startCalculation(TRUE, 1, 3, 1, T#1S, FALSE);
+movingAverage.startCalculation(TRUE, 0, 3, 1, T#1S, FALSE);
 AssertEquals_REAL(Expected := 2, Actual := movingAverage.value, 0, Message := 'Moving average calculation not equal to two!');
 TEST_FINISHED();]]></ST>
       </Implementation>
@@ -63,7 +63,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[
 TEST('resetMethodCallShouldResetValue');
-movingAverage.startCalculation(start := TRUE, measurement := 50, intervalS := 1, windowS := 3, dtime := T#3S);
+movingAverage.startCalculation(start := TRUE, measurement := 50, intervalS := 1, windowS := 3, dtime := T#3S, excludeUntilReady := FALSE);
 movingAverage.reset();
 AssertEquals_REAL(0, movingAverage.value, 0, 'Reset did not reset value!'); 
 TEST_FINISHED();]]></ST>
@@ -76,18 +76,30 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('theValueShouldBe40AfterTwoSeconds');
-movingAverage.startCalculation(start := TRUE, measurement := 40, intervalS := 1, windowS := 3, dtime := T#1S);
-movingAverage.startCalculation(start := TRUE, measurement := 40, intervalS := 1, windowS := 3, dtime := T#1S);
+movingAverage.startCalculation(start := TRUE, measurement := 40, intervalS := 1, windowS := 3, dtime := T#1S, excludeUntilReady := FALSE);
+movingAverage.startCalculation(start := TRUE, measurement := 40, intervalS := 1, windowS := 3, dtime := T#1S, excludeUntilReady := FALSE);
 AssertEquals_REAL(40, movingAverage.value, 0, 'Value not 40 after two seconds'); 
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
+    <Method Name="valueShouldBe0BeforeWindowPassedIfPreReadyNotIncluded" Id="{23b74a6b-b4e2-4c6c-bc78-02fa8b5c37c0}">
+      <Declaration><![CDATA[METHOD valueShouldBe0BeforeWindowPassedIfPreReadyNotIncluded
+VAR
+	movingAverage : FB_MovingAverage;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('valueShouldBe0BeforeWindowPassedIfPreReadyNotIncluded');
+movingAverage.startCalculation(start := TRUE, measurement := 40, intervalS := 1, windowS := 3, dtime := T#1S, excludeUntilReady := TRUE);
+movingAverage.startCalculation(start := TRUE, measurement := 40, intervalS := 1, windowS := 3, dtime := T#1S, excludeUntilReady := TRUE);
+AssertEquals_REAL(0, movingAverage.value, 0, 'Value not 0 before window passed when exclude values before first window checked'); 
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_MovingAverage_Test">
-      <LineId Id="10" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="24" Count="1" />
+      <LineId Id="27" Count="4" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_MovingAverage_Test.calculationShouldBeReadyWhenTimePassed">
       <LineId Id="14" Count="0" />
@@ -120,6 +132,10 @@ TEST_FINISHED();]]></ST>
     </LineIds>
     <LineIds Name="FB_MovingAverage_Test.theValueShouldBe40AfterTwoSeconds">
       <LineId Id="8" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MovingAverage_Test.valueShouldBe0BeforeWindowPassedIfPreReadyNotIncluded">
+      <LineId Id="6" Count="4" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

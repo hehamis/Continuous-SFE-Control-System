@@ -23,6 +23,7 @@ END_VAR
 HandleCo2MeanFlowCalculation(
 				serialCommData := serialCommData,
 				flowControlParameters := _flowControlParameters,
+				startCalculation := _flowControlCommands.startMovingAvgCalculation,
 				meanReactorFlow => _meanReactorFlow);
 				
 HandleCo2Consumption(
@@ -82,6 +83,7 @@ MeanReactorFlow := _meanReactorFlow;]]></ST>
     <LineIds Name="ReactorFlowController">
       <LineId Id="42" Count="0" />
       <LineId Id="39" Count="2" />
+      <LineId Id="82" Count="0" />
       <LineId Id="23" Count="0" />
       <LineId Id="43" Count="2" />
       <LineId Id="47" Count="0" />

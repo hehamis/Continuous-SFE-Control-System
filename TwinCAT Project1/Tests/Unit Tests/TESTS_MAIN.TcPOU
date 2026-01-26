@@ -22,7 +22,8 @@ IF startTests THEN
 							measurement := meas,
 							intervalS := 1,
 							windowS := 10,
-							dTime := T#10MS);
+							dTime := T#10MS,
+							excludeUntilReady := FALSE);
 	consumptioncalc.calculate(
 							start := TRUE,
 							valuePerSec := movingavg.value/60,
@@ -37,6 +38,7 @@ END_IF
       <LineId Id="62" Count="0" />
       <LineId Id="34" Count="0" />
       <LineId Id="30" Count="0" />
+      <LineId Id="74" Count="0" />
       <LineId Id="46" Count="4" />
       <LineId Id="2" Count="0" />
       <LineId Id="27" Count="0" />

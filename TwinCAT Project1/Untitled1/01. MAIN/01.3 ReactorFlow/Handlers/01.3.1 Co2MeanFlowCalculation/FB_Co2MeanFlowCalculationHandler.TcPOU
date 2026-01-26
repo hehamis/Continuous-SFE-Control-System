@@ -5,6 +5,7 @@
 VAR_INPUT
 	serialCommData : ST_SerialCommReadData;
 	flowControlParameters : ST_FlowControlParameters;
+	startCalculation : BOOL;
 END_VAR
 VAR_OUTPUT
 	meanReactorFlow : REAL;
@@ -13,6 +14,7 @@ VAR
 	reactorFlow : REAL;
 	flowMovingAvg : FB_MovingAverage;
 	parameters : ST_FlowControlParameters;
+	resetActive : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -20,12 +22,21 @@ END_VAR
 reactorFlow := serialCommData.flowMeasurement;
 
 // Calculate mean flow 
-flowMovingAvg.startCalculation(
-							start := TRUE,
-							measurement := reactorFlow,
-							windowS := flowControlParameters.movingAvgDurationSecs,
-							intervalS := flowControlParameters.movingAvgShiftIntervalSecs,
-							dtime := T#10MS);
+IF startCalculation THEN
+	flowMovingAvg.startCalculation(
+								start := TRUE,
+								measurement := reactorFlow,
+								windowS := flowControlParameters.movingAvgDurationSecs,
+								intervalS := flowControlParameters.movingAvgShiftIntervalSecs,
+								dtime := T#10MS,
+								excludeUntilReady := flowControlParameters.excludeValuesPreFirstWindow);
+	resetActive := FALSE;
+ELSE
+	IF NOT resetActive THEN
+		flowMovingAvg.reset();
+		resetActive := TRUE;
+	END_IF
+END_IF
 
 meanReactorFlow := flowMovingAvg.value;]]></ST>
     </Implementation>
@@ -34,10 +45,19 @@ meanReactorFlow := flowMovingAvg.value;]]></ST>
       <LineId Id="9" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="15" Count="0" />
+      <LineId Id="74" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="19" Count="1" />
       <LineId Id="57" Count="0" />
       <LineId Id="21" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="77" Count="0" />
       <LineId Id="42" Count="0" />
       <LineId Id="41" Count="0" />
     </LineIds>

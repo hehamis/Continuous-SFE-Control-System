@@ -45,7 +45,8 @@ VAR_INPUT
     measurement : REAL;
     windowS : INT;
 	intervalS : INT;
-    dtime : TIME;   // ✅ caller passes elapsed time (mockable!)
+    dtime : TIME;  
+	excludeUntilReady : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -58,10 +59,6 @@ END_IF
 // Start edge
 IF start AND NOT running THEN
     running := TRUE;
-    //ready := FALSE;
-//    sum := 0.0;
-//    count := 0;
-//    elapsedTime := T#0S;
 END_IF
 
 IF running THEN
@@ -90,11 +87,15 @@ IF running THEN
 			elapsedSecond := elapsedSecond + 1;
 			valueArray[elapsedSecond] := measurement;
 			intervalTime := T#0S;
-			FOR i := 1 TO elapsedSecond DO
-				sum := sum + valueArray[i];
-			END_FOR
-			value := sum / elapsedSecond;
-			sum := 0;
+			IF NOT excludeUntilReady THEN
+				FOR i := 1 TO elapsedSecond DO
+					sum := sum + valueArray[i];
+				END_FOR
+				value := sum / elapsedSecond;
+				sum := 0;
+			ELSE
+				value := 0;
+			END_IF
 		END_IF
 	END_IF
 	
@@ -105,34 +106,7 @@ IF running THEN
 	END_IF
 	
 END_IF
-
-
-//// Only run if active
-//IF running THEN
-//    // Accumulate data
-//    sum := sum + measurement;
-//    count := count + 1;
-
-//    // Simulate time passing
-//    elapsedTime := elapsedTime + dtime;
-
-//    // Check interval completion
-//    IF elapsedTime >= intervalTime THEN
-//        IF count > 0 THEN
-//            value := sum / count;
-//        ELSE
-//            value := 0.0;
-//        END_IF
-
-//        ready := TRUE;
-//        running := FALSE;
-
-//        startCalculation := TRUE;  // pulse TRUE one cycle
-//        RETURN;
-//    END_IF
-//END_IF
-
-//startCalculation := FALSE;]]></ST>
+]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_MovingAverage">
@@ -150,7 +124,8 @@ END_IF
       <LineId Id="354" Count="3" />
       <LineId Id="215" Count="0" />
       <LineId Id="358" Count="0" />
-      <LineId Id="216" Count="7" />
+      <LineId Id="216" Count="2" />
+      <LineId Id="223" Count="0" />
       <LineId Id="262" Count="0" />
       <LineId Id="224" Count="1" />
       <LineId Id="291" Count="0" />
@@ -169,9 +144,12 @@ END_IF
       <LineId Id="339" Count="0" />
       <LineId Id="336" Count="0" />
       <LineId Id="338" Count="0" />
+      <LineId Id="381" Count="0" />
       <LineId Id="368" Count="2" />
       <LineId Id="367" Count="0" />
       <LineId Id="371" Count="0" />
+      <LineId Id="383" Count="1" />
+      <LineId Id="382" Count="0" />
       <LineId Id="337" Count="0" />
       <LineId Id="289" Count="0" />
       <LineId Id="340" Count="0" />
@@ -179,9 +157,6 @@ END_IF
       <LineId Id="341" Count="0" />
       <LineId Id="264" Count="0" />
       <LineId Id="261" Count="0" />
-      <LineId Id="260" Count="0" />
-      <LineId Id="227" Count="24" />
-      <LineId Id="283" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

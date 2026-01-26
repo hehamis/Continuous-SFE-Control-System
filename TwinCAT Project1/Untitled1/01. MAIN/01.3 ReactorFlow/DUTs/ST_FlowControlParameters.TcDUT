@@ -6,6 +6,7 @@ STRUCT
 	movingAvgDurationSecs : INT;
 	movingAvgShiftIntervalSecs : INT;
 	co2ConsumptionLimit : DINT;
+	excludeValuesPreFirstWindow : BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

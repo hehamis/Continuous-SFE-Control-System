@@ -316,6 +316,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"307"</v>
+              <v n="TextDefault">"Exclude values before first interval"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"985"</v>
               <v n="TextDefault">"EXIT"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -691,6 +696,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1027"</v>
+              <v n="TextDefault">"Start moving avg calculation after first window passed"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"24"</v>
               <v n="TextDefault">"STATE"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -748,6 +758,11 @@
             <o>
               <v n="TextID">"290"</v>
               <v n="TextDefault">"Upper intervals"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1270"</v>
+              <v n="TextDefault">"Wait until first window passed"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
           </l>

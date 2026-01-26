@@ -4,6 +4,7 @@
     <Declaration><![CDATA[TYPE ST_FlowControlCommands :
 STRUCT
 	resetCo2Consumption : BOOL;
+	startMovingAvgCalculation : BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>
