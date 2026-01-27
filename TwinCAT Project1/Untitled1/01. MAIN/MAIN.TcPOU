@@ -18,6 +18,7 @@ ReactorLevelAndPressureController(
 					serialCommData := SerialCommunicationController.SerialCommReadData,
 					stop := SafetyController.stop,
 					levelHigh := GVL_IO.reactorLevelHigh,
+					co2ConsumptionLimitExceeded := ReactorFlowController.Co2ConsumptionLimitExceeded,
 					slurryInletValve => GVL_IO.reactorInletValve,
 					slurryOutletValve => GVL_IO.reactorOutletValve,
 					extractiveOutletOnOffValve => GVL_IO.extractiveOutletOnOffValve,
@@ -83,7 +84,8 @@ ProcessViewBindings(
 				AutomaticExtractionValues := ReactorLevelAndPressureController.AutomaticExtractionValues,
 				MeanReactorFlow := ReactorFlowController.MeanReactorFlow,
 				ConsumedCo2Value := ReactorFlowController.ConsumedCo2Amount,
-				FlowControlParameters := ParameterViewBindings.flowControlParameters);
+				FlowControlParameters := ParameterViewBindings.flowControlParameters,
+				co2ConsumptionLimitExceeded := ReactorFlowController.Co2ConsumptionLimitExceeded);
 // ProcessView out
 ReactorTemperatureController.temperatureContactorCommand := ProcessViewBindings.temperatureContactorCommand;
 ReactorLevelAndPressureController.SlurryInValveCommand := ProcessViewBindings.SlurryInValveCommand;
@@ -122,7 +124,9 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterV
       <LineId Id="240" Count="0" />
       <LineId Id="193" Count="0" />
       <LineId Id="274" Count="1" />
-      <LineId Id="349" Count="1" />
+      <LineId Id="349" Count="0" />
+      <LineId Id="400" Count="0" />
+      <LineId Id="350" Count="0" />
       <LineId Id="332" Count="0" />
       <LineId Id="353" Count="0" />
       <LineId Id="351" Count="1" />
@@ -159,6 +163,7 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterV
       <LineId Id="375" Count="0" />
       <LineId Id="380" Count="0" />
       <LineId Id="384" Count="0" />
+      <LineId Id="402" Count="0" />
       <LineId Id="358" Count="0" />
       <LineId Id="315" Count="4" />
       <LineId Id="313" Count="0" />

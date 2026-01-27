@@ -16,6 +16,7 @@ VAR
 	_flowControlParameters : ST_FlowControlParameters;
 	_consumedCo2Amount : REAL;
 	_flowControlCommands : ST_FlowControlCommands;
+	_co2ConsumptionLimitExceeded : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -30,8 +31,21 @@ HandleCo2Consumption(
 				meanFlow := _meanReactorFlow,
 				flowControlParameters := _flowControlParameters,
 				resetInput := _flowControlCommands.resetCo2Consumption,
-				consumedCo2Amount => _consumedCo2Amount);]]></ST>
+				consumedCo2Amount => _consumedCo2Amount,
+				limitExceeded => _co2ConsumptionLimitExceeded);]]></ST>
     </Implementation>
+    <Property Name="Co2ConsumptionLimitExceeded" Id="{e63d7dc5-de1e-4e21-892b-686d47b989ed}">
+      <Declaration><![CDATA[PROPERTY Co2ConsumptionLimitExceeded : BOOL]]></Declaration>
+      <Get Name="Get" Id="{f79d35cf-ce48-4946-856f-8b1a17ac789d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+Co2ConsumptionLimitExceeded := _co2ConsumptionLimitExceeded;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="ConsumedCo2Amount" Id="{15d55ab9-92af-4bd7-9af9-6676fe5e9820}">
       <Declaration><![CDATA[PROPERTY ConsumedCo2Amount : REAL]]></Declaration>
       <Get Name="Get" Id="{7cb71c26-fc41-4127-ad9c-30da31ebea17}">
@@ -89,6 +103,11 @@ MeanReactorFlow := _meanReactorFlow;]]></ST>
       <LineId Id="47" Count="0" />
       <LineId Id="65" Count="0" />
       <LineId Id="48" Count="0" />
+      <LineId Id="84" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorFlowController.Co2ConsumptionLimitExceeded.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="ReactorFlowController.ConsumedCo2Amount.Get">
       <LineId Id="5" Count="0" />

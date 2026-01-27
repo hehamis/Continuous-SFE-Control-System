@@ -5,7 +5,7 @@
       <Data>
         <o xml:space="preserve" t="VisualObject">
           <n n="LastVisuLanguageModelEntry" />
-          <v n="UniqueIdGenerator">"10"</v>
+          <v n="UniqueIdGenerator">"12"</v>
           <o n="VisualElemList" t="VisualElemList">
             <l n="VisualElementList" t="VisualElemCollection" cet="GenericVisualElem">
               <o>
@@ -23365,12 +23365,12 @@
                       <v n="Value">""</v>
                     </o>
                     <o>
-                      <v n="Id">823443203L</v>
-                      <v n="Value">"853"</v>
-                    </o>
-                    <o>
                       <v n="Id">2880254039L</v>
                       <v n="Value">"ProcessViewBindings.MeanFlowLabel_Invisible"</v>
+                    </o>
+                    <o>
+                      <v n="Id">823443203L</v>
+                      <v n="Value">"853"</v>
                     </o>
                   </l>
                 </o>
@@ -23582,11 +23582,8 @@
                     </o>
                     <o>
                       <v n="Id">493260384L</v>
-                      <l n="Value" t="ArrayList" cet="NamedStyleColor">
-                        <o>
-                          <v n="Color">-12337</v>
-                          <v n="CanonicalName">"Element-Alarm-Fill-Color"</v>
-                        </o>
+                      <l n="Value" t="ArrayList" cet="UInt32">
+                        <v>4278190080</v>
                       </l>
                     </o>
                     <o>
@@ -23623,7 +23620,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"&lt;toggle/tap variable&gt;"</v>
+                      <v n="Value">""</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -24198,7 +24195,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"ProcessViewBindings.ExtractiveOutOnOffValveButton_ToggleColor"</v>
+                      <v n="Value">""</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -24399,7 +24396,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"ProcessViewBindings.ExtractiveOutOnOffValveButton_ToggleColor"</v>
+                      <v n="Value">""</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -24597,7 +24594,7 @@
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"ProcessViewBindings.ExtractiveOutOnOffValveButton_ToggleColor"</v>
+                      <v n="Value">""</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -24633,6 +24630,165 @@
                 <a n="LMGuids" et="Guid" />
                 <d n="SubElements" t="Hashtable" />
                 <v n="VisualElementId">267</v>
+                <l n="UserManagementAccessRights" t="ArrayList" />
+              </o>
+              <o>
+                <a n="ConfiguredComplexInputs" et="ComplexInput" />
+                <l n="Elements" t="ArrayList" />
+                <n n="VisualElementDescription" />
+                <o n="VisualElemMemberList" t="VisualElemMemberList">
+                  <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
+                    <o>
+                      <v n="Id">571893170L</v>
+                      <v n="Value">""</v>
+                    </o>
+                    <o>
+                      <v n="Id">494569607L</v>
+                      <l n="Value" t="ArrayList" cet="UInt32">
+                        <v>4278190080</v>
+                      </l>
+                    </o>
+                    <o>
+                      <v n="Id">2812299069L</v>
+                      <l n="Value" t="ArrayList" cet="UInt32">
+                        <v>4278190080</v>
+                      </l>
+                    </o>
+                    <o>
+                      <v n="Id">135947015L</v>
+                      <l n="Value" t="ArrayList" cet="NamedStyleColor">
+                        <o>
+                          <v n="Color">-65536</v>
+                          <v n="CanonicalName">"Element-Alarm-Frame-Color"</v>
+                        </o>
+                      </l>
+                    </o>
+                    <o>
+                      <v n="Id">493260384L</v>
+                      <l n="Value" t="ArrayList" cet="UInt32">
+                        <v>4278190080</v>
+                      </l>
+                    </o>
+                    <o>
+                      <v n="Id">2340015797L</v>
+                      <v n="Value">"RIGHT"</v>
+                    </o>
+                    <o>
+                      <v n="Id">2565699834L</v>
+                      <v n="Value">"VCENTER"</v>
+                    </o>
+                    <o>
+                      <v n="Id">4134387352L</v>
+                      <v n="Value">"NONE"</v>
+                    </o>
+                    <o>
+                      <v n="Id">1603690730L</v>
+                      <v n="Value">"Arial"</v>
+                    </o>
+                    <o>
+                      <v n="Id">4253639993L</v>
+                      <v n="Value" t="Int16">12</v>
+                    </o>
+                    <o>
+                      <v n="Id">2729990903L</v>
+                      <v n="Value">0U</v>
+                    </o>
+                    <o>
+                      <v n="Id">1213979116L</v>
+                      <v n="Value">0U</v>
+                    </o>
+                    <o>
+                      <v n="Id">3488306084L</v>
+                      <v n="Value">4278190080U</v>
+                    </o>
+                    <o>
+                      <v n="Id">1999528970L</v>
+                      <v n="Value">""</v>
+                    </o>
+                    <o>
+                      <v n="Id">3719097617L</v>
+                      <v n="Value">0</v>
+                    </o>
+                    <o>
+                      <v n="Id">1649127785L</v>
+                      <v n="Value">613</v>
+                    </o>
+                    <o>
+                      <v n="Id">357335551L</v>
+                      <v n="Value">45</v>
+                    </o>
+                    <o>
+                      <v n="Id">2422045748L</v>
+                      <v n="Value">95</v>
+                    </o>
+                    <o>
+                      <v n="Id">2134141914L</v>
+                      <v n="Value">34</v>
+                    </o>
+                    <o>
+                      <v n="Id">3729828405L</v>
+                      <l n="Value" t="ArrayList" cet="FontDescription">
+                        <o>
+                          <v n="FontStyle">1</v>
+                          <v n="AdditionalFontStyle" t="UInt16">0</v>
+                          <v n="ExplicitColor">-16777216</v>
+                          <v n="FontName">"Segoe UI"</v>
+                          <v n="FontSize">19</v>
+                          <v n="ScriptIdentification">0</v>
+                          <v n="DoubleFontSize" t="Double">0</v>
+                          <o n="NamedColor" t="NamedStyleColor">
+                            <v n="Color">-65536</v>
+                            <v n="CanonicalName">"Red"</v>
+                          </o>
+                        </o>
+                      </l>
+                    </o>
+                    <o>
+                      <v n="Id">1337389588L</v>
+                      <v n="Value">"FROM_STYLE"</v>
+                    </o>
+                    <o>
+                      <v n="Id">2678395525L</v>
+                      <v n="Value">1U</v>
+                    </o>
+                    <o>
+                      <v n="Id">390574330L</v>
+                      <v n="Value">"%i l"</v>
+                    </o>
+                    <o>
+                      <v n="Id">2597686782L</v>
+                      <v n="Value">false</v>
+                    </o>
+                    <o>
+                      <v n="Id">2477733581L</v>
+                      <v n="Value">"ProcessViewBindings.ConsumedCo2Label_TextVariable "</v>
+                    </o>
+                    <o>
+                      <v n="Id">55702900L</v>
+                      <v n="Value">""</v>
+                    </o>
+                    <o>
+                      <v n="Id">2880254039L</v>
+                      <v n="Value">"ProcessViewBindings.ConsumedCo2alarmLabel_Invisible"</v>
+                    </o>
+                    <o>
+                      <v n="Id">823443203L</v>
+                      <v n="Value">"1260"</v>
+                    </o>
+                  </l>
+                </o>
+                <v n="VisualElementName">"Textfield"</v>
+                <v n="VisualElementTypeName">"VisuFbElemTextfield"</v>
+                <v n="VisualElementIsRectangle">true</v>
+                <v n="VisualElementIdentifier">"GenElemInst_265"</v>
+                <n n="VisualElementOfflinePaintCommands" />
+                <n n="VisualElementFrameInformation" />
+                <d n="VisualElementInputActions" t="Hashtable" />
+                <v n="VisualElementIdentification">{f42d83d8-09e7-4488-b9d9-0c92aafecdfe}</v>
+                <v n="VisualElementOwningObjectGuid">{db42b6b2-d290-49df-811a-85d444c7c9db}</v>
+                <a n="LMGuids" et="Guid" />
+                <d n="SubElements" t="Hashtable" />
+                <v n="VisualElementId">270</v>
                 <l n="UserManagementAccessRights" t="ArrayList" />
               </o>
             </l>
@@ -24788,16 +24944,16 @@
             </o>
             <v n="DialogDut">{91758170-1d5b-4706-9bdc-d157182bf4fc}</v>
           </o>
-          <v n="LastUsedIdForIdentifier">263</v>
+          <v n="LastUsedIdForIdentifier">265</v>
           <o n="TextDocument" t="TextDocument">
             <a n="TextLines" cet="TextLine">
               <o>
-                <v n="Id">9L</v>
+                <v n="Id">11L</v>
                 <n n="Tag" />
                 <v n="Text">"VAR_IN_OUT"</v>
               </o>
               <o>
-                <v n="Id">10L</v>
+                <v n="Id">12L</v>
                 <n n="Tag" />
                 <v n="Text">"	"</v>
               </o>

@@ -8,6 +8,7 @@ STRUCT
 	co2ConsumptionLimit : DINT;
 	excludeValuesPreFirstWindow : BOOL;
 	startConsumptionCalculationWithAvg : BOOL;
+	closeOnOffValveIfConsumptionExceeded : BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

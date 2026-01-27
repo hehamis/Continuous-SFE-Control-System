@@ -6,6 +6,7 @@ VAR_INPUT
 	serialCommData : ST_SerialCommReadData;
 	stop : BOOL;
 	levelHigh : BOOL;
+	co2ConsumptionLimitExceeded : BOOL;
 END_VAR
 VAR_OUTPUT
 	slurryInletValve : BOOL;
@@ -49,7 +50,7 @@ END_VAR]]></Declaration>
 HandlePressureSensorScaling(
 						reactorPressureSensor := GVL_IO.reactorPressure,
 						PressureScaledValue => _iPressureScaledValue);
-						
+
 HandleAutomaticExtraction(
 						automaticExtractionParameters := _automaticExtractionParameters,
 						extractiveControlValveParameters := _extractiveControlValveParameters,
@@ -61,7 +62,7 @@ HandleAutomaticExtraction(
 						startAutomaticExtraction := _startAutomaticExtraction,
 						calibrateDone := _calibrateDone,
 						slurryInValveCommand := _slurryInValveCommand,
-						slurryOutValveCommand := _slurryOutValveCommand ,
+						slurryOutValveCommand := _slurryOutValveCommand,
 						decreasePumpSetpoint => _decreasePumpSetpoint,
 						reactorInletValve => slurryInletValve,
 						automaticExtractionState => _automaticExtractionState,
@@ -75,7 +76,7 @@ HandleExtractiveOutlet(
 					extractiveControlValveCommands := _ExtractiveControlValveCommands,
 					extractiveControlValveParameters := _ExtractiveControlValveParameters,
 					extractiveOutOnOffValveCommand := (_extractiveOutOnOffValveCommand AND (_automaticExtractionState = E_AutomaticExtractionState.MANUAL_EXTRACTION)) OR 
-														((_automaticExtractionState <> E_AutomaticExtractionState.MANUAL_EXTRACTION) AND HandleAutomaticExtraction.extractiveOutOnOffValveAutoCommand),
+														((_automaticExtractionState <> E_AutomaticExtractionState.MANUAL_EXTRACTION) AND HandleAutomaticExtraction.extractiveOutOnOffValveAutoCommand AND NOT co2ConsumptionLimitExceeded),
 					autoExtractionControlValveValue := HandleAutomaticExtraction.controlValveAutoOpenPercentage,
 					autoExtractionStarted := _automaticExtractionState <> E_AutomaticExtractionState.MANUAL_EXTRACTION,
 					controlValveOpeningPercentage => _controlValveOpening,

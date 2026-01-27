@@ -39,6 +39,7 @@ VAR PERSISTENT
 	co2ConsumptionLimitTextField_TextVariable : DINT;
 	startMovingAvgAfterWindowCheckBox_Variable : BOOL := TRUE;
 	automaticallyStartConsumptionCalculationCheckBox_variable : BOOL;
+	closeExtractiveOutletValveAfterConsumptionLimitExceededCheckBox_Variable : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[
@@ -76,12 +77,12 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := extraction
 onOffValvePressureLimit := onOffValvePressureLimitTextField_TextVariable;
 
 // Flow control parameters
-
 flowControlParameters.movingAvgDurationSecs := movingAvgWindowTextField_TextVariable;
 flowControlParameters.movingAvgShiftIntervalSecs := movingAvgShiftIntervalTextField_TextVariable;
 flowControlParameters.co2ConsumptionLimit := co2ConsumptionLimitTextField_TextVariable;
 flowControlParameters.excludeValuesPreFirstWindow := startMovingAvgAfterWindowCheckBox_Variable;
 flowControlParameters.startConsumptionCalculationWithAvg := automaticallyStartConsumptionCalculationCheckBox_variable;
+flowControlParameters.closeOnOffValveIfConsumptionExceeded := closeExtractiveOutletValveAfterConsumptionLimitExceededCheckBox_Variable;
 ]]></ST>
     </Implementation>
     <LineIds Name="ParameterViewBindings">
@@ -100,12 +101,11 @@ flowControlParameters.startConsumptionCalculationWithAvg := automaticallyStartCo
       <LineId Id="153" Count="0" />
       <LineId Id="185" Count="0" />
       <LineId Id="44" Count="0" />
-      <LineId Id="188" Count="0" />
       <LineId Id="187" Count="0" />
       <LineId Id="260" Count="0" />
       <LineId Id="223" Count="0" />
       <LineId Id="298" Count="0" />
-      <LineId Id="302" Count="0" />
+      <LineId Id="302" Count="1" />
       <LineId Id="300" Count="0" />
     </LineIds>
   </POU>
