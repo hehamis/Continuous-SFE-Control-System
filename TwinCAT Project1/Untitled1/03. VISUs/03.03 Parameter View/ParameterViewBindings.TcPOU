@@ -37,7 +37,7 @@ VAR PERSISTENT
 	movingAvgWindowTextField_TextVariable : INT := 80;
 	movingAvgShiftIntervalTextField_TextVariable : INT := 1;
 	co2ConsumptionLimitTextField_TextVariable : DINT;
-	startMovingAvgAfterWindowCheckBox_Variable : BOOL := TRUE;
+	startMovingAvgAfterWindowCheckBox_Variable : BOOL;
 	automaticallyStartConsumptionCalculationCheckBox_variable : BOOL;
 	closeExtractiveOutletValveAfterConsumptionLimitExceededCheckBox_Variable : BOOL;
 END_VAR]]></Declaration>
