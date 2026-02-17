@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_StateSpaceModel" Id="{dcf04b36-9606-4b0e-bcf8-fd602d1b7f4c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT FB_StateSpaceModel
+VAR
+    nx : INT;
+    nu : INT;
+    ny : INT;
+	
+    x  		: ARRAY[1..15] OF LREAL;
+
+    _A  : ARRAY[1..15,1..15] OF LREAL;
+    _B  : ARRAY[1..15,1..15] OF LREAL;
+    _C  : ARRAY[1..15,1..15] OF LREAL;
+    _D  : ARRAY[1..15,1..15] OF LREAL;
+    _K  : ARRAY[1..15] OF LREAL;
+
+	_activateObserver : BOOL;
+    bInit : BOOL;
+	
+	i,j : INT;
+    x_new : ARRAY[1..10] OF LREAL;
+    e : LREAL;
+END_VAR
+VAR_OUTPUT
+	y  : ARRAY[1..15] OF LREAL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Init" Id="{b1a1fbce-7488-459e-a918-05d26a30116b}">
+      <Declaration><![CDATA[METHOD PUBLIC Init
+VAR_INPUT
+	activateObserver : BOOL;
+END_VAR
+VAR
+    i,j : INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+FOR i := 1 TO nx DO
+    x[i] := 0;
+    _K[i] := _K[i]; // keep
+END_FOR
+_activateObserver := activateObserver;
+bInit := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="step" Id="{673a3b0c-a3cb-4aba-bf8c-343c4d6c442b}">
+      <Declaration><![CDATA[METHOD PUBLIC Step
+VAR_INPUT
+    u  		: ARRAY[1..15] OF LREAL;
+	y_meas 	: LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+// --- Output ---
+FOR i := 1 TO ny DO
+    y[i] := 0;
+    FOR j := 1 TO nx DO 
+        y[i] := y[i] + _C[i,j]*x[j];
+    END_FOR
+END_FOR
+
+// --- Innovation (single y example) ---
+IF _activateObserver THEN
+	e := y_meas - y[1];
+ELSE 
+	e := 0;
+END_IF
+
+// --- State update ---
+FOR i := 1 TO nx DO
+    x_new[i] := 0;
+
+    FOR j := 1 TO nx DO
+        x_new[i] := x_new[i] + _A[i,j]*x[j];
+    END_FOR
+
+    FOR j := 1 TO nu DO
+        x_new[i] := x_new[i] + _B[i,j]*u[j];
+    END_FOR
+
+    x_new[i] := x_new[i] + _K[i]*e;
+END_FOR
+
+FOR i := 1 TO nx DO
+    x[i] := x_new[i];
+END_FOR
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_StateSpaceModel">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StateSpaceModel.Init">
+      <LineId Id="11" Count="5" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StateSpaceModel.step">
+      <LineId Id="175" Count="0" />
+      <LineId Id="177" Count="8" />
+      <LineId Id="209" Count="0" />
+      <LineId Id="186" Count="0" />
+      <LineId Id="210" Count="2" />
+      <LineId Id="187" Count="17" />
+      <LineId Id="169" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

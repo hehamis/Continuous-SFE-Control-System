@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_mF" Id="{b18010f3-2706-4404-9ecc-35c272b2c268}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_mF EXTENDS FB_StateSpaceModel
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Init" Id="{132c8693-1e25-4406-a7bb-52bcb4be7308}">
+      <Declaration><![CDATA[METHOD PUBLIC Init
+VAR_INPUT
+	activateObserver : BOOL;
+END_VAR
+VAR
+    i,j : INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+SUPER^();
+nx := 2;
+nu := 2;
+ny := 1;
+
+// Load matrices
+_A[1,1] := 0.9895;
+_A[1,2] := 0.03677;
+_A[2,1] := -0.01237;
+_A[2,2] := 0.9649;
+
+_B[1,1] := -2.52E-05;
+_B[1,2] := -1.673E-06;
+_B[2,1] := -2.199E-04;
+_B[2,2] := -5.346E-06;
+
+_C[1,1] := -10.22;
+_C[1,2] := -0.1235;
+
+_K[1] := -0.1242;
+_K[2] := -0.5091;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_mF">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_mF.Init">
+      <LineId Id="7" Count="20" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -4,12 +4,15 @@
     <Declaration><![CDATA[PROGRAM ReactorFlowController
 VAR_INPUT
 	serialCommData : ST_SerialCommReadData;
+	flowControlValveOpening : DINT;
+	serialCommReadData : ST_SerialCommReadData;
 END_VAR
 VAR
 	
 	// Handlers to call
 	HandleCo2MeanFlowCalculation : FB_Co2MeanFlowCalculationHandler;
 	HandleCo2Consumption : FB_Co2consumptionHandler;
+	HandleCo2FlowModeling : FB_Co2FlowModelingHandler;
 	
 	// Local variables
 	_meanReactorFlow : REAL;
@@ -20,8 +23,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-HandleCo2MeanFlowCalculation(
+      <ST><![CDATA[HandleCo2MeanFlowCalculation(
 				serialCommData := serialCommData,
 				flowControlParameters := _flowControlParameters,
 				startCalculation := _flowControlCommands.startMovingAvgCalculation,
@@ -32,7 +34,13 @@ HandleCo2Consumption(
 				flowControlParameters := _flowControlParameters,
 				resetInput := _flowControlCommands.resetCo2Consumption,
 				consumedCo2Amount => _consumedCo2Amount,
-				limitExceeded => _co2ConsumptionLimitExceeded);]]></ST>
+				limitExceeded => _co2ConsumptionLimitExceeded);
+				
+HandleCo2FlowModeling(
+				valvePositionPercentage := flowControlValveOpening,
+				pumpingPressureDelta := serialCommReadData.pumpingPressureSetpoint-serialCommReadData.pumpingPressureMeasurement,
+				flowMeasurement := _meanReactorFlow,
+				modeledOutput => );]]></ST>
     </Implementation>
     <Property Name="Co2ConsumptionLimitExceeded" Id="{e63d7dc5-de1e-4e21-892b-686d47b989ed}">
       <Declaration><![CDATA[PROPERTY Co2ConsumptionLimitExceeded : BOOL]]></Declaration>
@@ -95,15 +103,8 @@ MeanReactorFlow := _meanReactorFlow;]]></ST>
       </Get>
     </Property>
     <LineIds Name="ReactorFlowController">
-      <LineId Id="42" Count="0" />
-      <LineId Id="39" Count="2" />
-      <LineId Id="82" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="43" Count="2" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="48" Count="0" />
-      <LineId Id="84" Count="0" />
+      <LineId Id="211" Count="16" />
+      <LineId Id="108" Count="0" />
     </LineIds>
     <LineIds Name="ReactorFlowController.Co2ConsumptionLimitExceeded.Get">
       <LineId Id="5" Count="0" />

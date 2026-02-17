@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_Co2FlowModelingHandler" Id="{0c3a1a44-bbe4-40f1-bd8e-14ec8d0563a7}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Co2FlowModelingHandler
+VAR_INPUT
+	valvePositionPercentage : DINT;
+	pumpingPressureDelta : DINT;
+	flowMeasurement : REAL;
+END_VAR
+VAR_OUTPUT
+	modeledOutput : LREAL;
+END_VAR
+VAR
+	u : ARRAY[1..15] OF LREAL;
+	mF : FB_mF;
+	maxValveOpening : LREAL;
+	valvePosition : LREAL;
+	TON_StepInterval : TON;
+	firstCycle : BOOL := TRUE;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// Init model on first cycle
+IF firstCycle THEN
+	mF.Init(
+		activateObserver := FALSE);
+	firstCycle := FALSE;
+END_IF
+
+// Calculate valve position
+valvePosition := maxValveOpening * (TO_LREAL(valvePositionPercentage)/100);
+
+// Fill input matrix
+u[1] := valvePosition;
+u[2] := TO_LREAL(pumpingPressureDelta);
+
+// Calculate flow every second
+TON_StepInterval(IN := TRUE, PT := T#1S);
+IF TON_StepInterval.Q THEN
+	mF.Step(
+			u := u,
+			y_meas := TO_LREAL(flowMeasurement));
+END_IF
+
+modeledOutput := mF.y[1];]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Co2FlowModelingHandler">
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="16" Count="1" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="22" Count="2" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="41" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
