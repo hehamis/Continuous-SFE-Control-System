@@ -20,7 +20,13 @@
     <Compile Include="FBs to test\FBs\FB_ConsumptionCalculator.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FBs to test\FBs\FB_mF.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FBs to test\FBs\FB_MovingAverage.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FBs to test\FBs\FB_StateSpaceModel.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FBs to test\ITFs\I_TON.TcIO">
@@ -33,6 +39,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Unit Tests\FB tests\FB_ConsumptionCalculator_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Unit Tests\FB tests\FB_mF_Test.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Unit Tests\FB tests\FB_MovingAverage_Test.TcPOU">

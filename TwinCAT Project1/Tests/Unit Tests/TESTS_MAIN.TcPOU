@@ -8,13 +8,27 @@ VAR
 	// FBs to test
 	fbMovingAverageTest : FB_MovingAverage_Test;
 	fbConsumptionCalculatorTest : FB_ConsumptionCalculator_Test;
+	fbmFTest : FB_mF_Test;
 	movingavg : FB_MovingAverage;
 	consumptioncalc : FB_ConsumptionCalculator;
-	meas : REAL;
+	measF : REAL;
+	
+	mF : FB_mF;
+	TON_Test : TON;
+	meas : LREAL;
+	uTest : ARRAY[1..15] OF LREAL;
+	fbGetCurTaskIndex : GETCURTASKINDEX;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
+fbGetCurTaskIndex();
+IF _TaskInfo[fbGetCurTaskIndex.index].FirstCycle THEN
+    // The code that you want to be executed at the first cycle
+	mF.Init(
+		activateObserver := FALSE);
+END_IF
+
 IF startTests THEN
 	TcUnit.RUN();
 	movingavg.startCalculation(
@@ -29,10 +43,23 @@ IF startTests THEN
 							valuePerSec := movingavg.value/60,
 							intervalS := 10,
 							dtime := T#10MS);
+	uTest[1];
+	TON_Test(IN := TRUE, PT := T#1S);
+	IF TON_Test.Q THEN
+		mF.Step(
+				u := uTest,
+				y_meas := meas);
+		TON_Test(IN := FALSE);
+		mF.y[1];
+	END_IF
 END_IF
 ]]></ST>
     </Implementation>
     <LineIds Name="TESTS_MAIN">
+      <LineId Id="97" Count="0" />
+      <LineId Id="99" Count="3" />
+      <LineId Id="129" Count="0" />
+      <LineId Id="98" Count="0" />
       <LineId Id="7" Count="2" />
       <LineId Id="31" Count="2" />
       <LineId Id="62" Count="0" />
@@ -40,6 +67,14 @@ END_IF
       <LineId Id="30" Count="0" />
       <LineId Id="74" Count="0" />
       <LineId Id="46" Count="4" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="93" Count="1" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="106" Count="0" />
       <LineId Id="2" Count="0" />
       <LineId Id="27" Count="0" />
     </LineIds>

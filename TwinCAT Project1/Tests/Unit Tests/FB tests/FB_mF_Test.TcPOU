@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_mF_Test" Id="{416b76a5-f41c-4a83-abf5-ec6ac421419b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_mF_Test EXTENDS TcUnit.FB_TestSuite
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+valueShouldChangeWhenInputChanges();]]></ST>
+    </Implementation>
+    <Method Name="valueShouldChangeWhenInputChanges" Id="{4ba9ccdb-35b9-4b07-8b9f-04437f83a946}">
+      <Declaration><![CDATA[METHOD valueShouldChangeWhenInputChanges
+VAR
+	mF : FB_mF;
+	uTest : ARRAY[1..15] OF LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('valueShouldChangeWhenInputChanges');
+	uTest[1] := 5;
+	mF.Step(
+			u := uTest,
+			y_meas := 2);
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_mF_Test">
+      <LineId Id="23" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_mF_Test.valueShouldChangeWhenInputChanges">
+      <LineId Id="19" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="20" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
