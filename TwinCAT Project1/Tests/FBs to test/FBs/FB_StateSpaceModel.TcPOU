@@ -8,7 +8,6 @@ VAR
     ny : INT;
 	
     x  		: ARRAY[1..15] OF LREAL;
-    y  : ARRAY[1..15] OF LREAL;
 
     _A  : ARRAY[1..15,1..15] OF LREAL;
     _B  : ARRAY[1..15,1..15] OF LREAL;
@@ -23,7 +22,9 @@ VAR
     x_new : ARRAY[1..10] OF LREAL;
     e : LREAL;
 END_VAR
-]]></Declaration>
+VAR_OUTPUT
+	y  : ARRAY[1..15] OF LREAL;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
