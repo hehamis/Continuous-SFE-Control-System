@@ -37,13 +37,16 @@ u[2] := TO_LREAL(pumpingPressureDelta);
 
 // Calculate flow every second
 TON_StepInterval(IN := TRUE, PT := T#1S);
-IF TON_StepInterval.Q THEN
+IF TON_StepInterval.Q AND valvePosition >= 0.25 THEN
 	mF.Step(
 			u := u,
 			y_meas := TO_LREAL(flowMeasurement));
+			
+	modeledOutput := mF.y[1];
+ELSE
+	modeledOutput := 0;
 END_IF
-
-modeledOutput := mF.y[1];]]></ST>
+]]></ST>
     </Implementation>
     <LineIds Name="FB_Co2FlowModelingHandler">
       <LineId Id="18" Count="0" />
@@ -62,8 +65,9 @@ modeledOutput := mF.y[1];]]></ST>
       <LineId Id="36" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="20" Count="1" />
+      <LineId Id="63" Count="1" />
+      <LineId Id="66" Count="1" />
       <LineId Id="38" Count="0" />
-      <LineId Id="42" Count="0" />
       <LineId Id="41" Count="0" />
     </LineIds>
   </POU>
