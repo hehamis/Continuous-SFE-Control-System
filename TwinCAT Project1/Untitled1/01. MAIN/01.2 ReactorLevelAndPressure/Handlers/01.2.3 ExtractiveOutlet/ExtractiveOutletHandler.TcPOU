@@ -34,7 +34,7 @@ END_IF
 
 RTRIG_AutomaticExtractionStopped(CLK := NOT autoExtractionStarted);
 RTRIG_EstopPRessed(CLK := stop);
-extractiveControlValveCommands.requireCalibration := RTRIG_AutomaticExtractionStopped.Q OR RTRIG_EstopPRessed.q;
+extractiveControlValveCommands.requireCalibration := RTRIG_EstopPRessed.q;//RTRIG_AutomaticExtractionStopped.Q OR RTRIG_EstopPRessed.q;
 
 ExtractiveOutletControl(
 					onOffValveCommand := extractiveOutOnOffValveCommand,
