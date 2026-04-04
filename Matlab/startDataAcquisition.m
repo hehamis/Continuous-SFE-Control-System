@@ -41,7 +41,8 @@ while stopMatlab ~= true
         allvar = getAllChildren(namespace(3));
         started = true;
         %% Initialize value vectors
-        n = 0; saveround = 0; % Iteration round variable
+        n = 0; saveround = 0; divround = 0;% Iteration round variable
+        setNo = 1;
         pvalues = []; currenttime = []; tvalues = [];  % NÄIHIN OIKEAT NIMER
         foldername = ([num2str(starttime(1)),'_',num2str(starttime(2)),'_',...
             num2str(starttime(3)),'_',num2str(starthr),'_',num2str(startmin),'_',...
@@ -71,7 +72,8 @@ while stopMatlab ~= true
         round(n) = n; % Iteration rounds collected in an array (for plotting)
         timestamp = clock;
         %timestampmat(n,:) = num2str([round(timestamp(4),3,'significant') round(timestamp(5),3,'significant') round(timestamp(6),3,'significant')]);
-        timestampmat(n,:) = [timestamp(4) timestamp(5) timestamp(6)]
+        timestampmat(n,:) = [timestamp(4) timestamp(5) timestamp(6)];
+        disp(timestampmat(n,1:3));
         round(n) = n;
         %% Read symbols cyclically
         stopMatlab = adsClt.ReadSymbol(stopMatlabSymbol);
@@ -160,22 +162,36 @@ while stopMatlab ~= true
         set(gca,"xticklabel",timestamp(:,6));
 
 
-        %% Save data every 30s
+        %% Save data every 60s
         saveround = saveround + 1; 
-        if saveround ==  30
+        divround = divround + 1;
+        if saveround ==  300 % 300 rounds, ~60s
             cd(currentFolder); % Make new folder current
-            save("T_data","T_data")
-            save("TCO2_data","TCO2_data")
-            save("TS_data","TS_data")
-            save("P_data", "P_data")
-            save("F_data", "F_data")
-            save("Valve_data","Valve_data")
-            save("Total_runtime_(s)","n")
-            save("Timestamps", "timestampmat")
+            save("T_data_" + setNo + ".mat","T_data")
+            save("TCO2_data_" + setNo + ".mat","TCO2_data")
+            save("TS_data_" + setNo + ".mat","TS_data")
+            save("P_data_" + setNo + ".mat", "P_data")
+            save("F_data_" + setNo + ".mat", "F_data")
+            save("Valve_data_" + setNo + ".mat","Valve_data")
+            save("Total_runtime_(s)_" + setNo + ".mat","n")
+            save("Timestamps_" + setNo + ".mat", "timestampmat")
             saveround = 0;
             cd('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab')
         end        
-        pause(1);
+        % New data set every 5 minutes
+        if divround == 1500 % 1500, ~5 minutes
+                setNo = setNo + 1;
+                T_data = [];
+                TCO2_data = [];
+                TS_data = [];
+                P_data = [];
+                F_data = [];
+                Valve_data = [];
+                timestampmat = [];
+                n = 1;
+                divround = 0;
+        end
+        pause(0.2); % Data acquisition interval ~0.2s
     end
 end
 adsClt.WriteAny(matlabRunningSymbol.IndexGroup,matlabRunningSymbol.IndexOffset,false);
