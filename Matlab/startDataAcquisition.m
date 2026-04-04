@@ -107,13 +107,13 @@ while stopMatlab ~= true
         tspvalues(n) = double(tspdata(:,n));
         tuvalues(n) = double(tudata(:,n));
         T_data(n,:) = [tvalues(n) tspvalues(n) tuvalues(n) timestamp];
-        subplot(2,2,1);
-        plot(round,tvalues,"b-");
-        hold on;
-        plot(round,tspvalues,"r-");
-        xlabel("Second out of passing minute (s)"); ylabel("Reactor temperature (*C)");
-        set(gca,"xticklabel",timestamp(:,6));
-        hold off;
+        %subplot(2,2,1);
+        %plot(round,tvalues,"b-");
+        %hold on;
+        %plot(round,tspvalues,"r-");
+        %xlabel("Second out of passing minute (s)"); ylabel("Reactor temperature (*C)");
+        %set(gca,"xticklabel",timestamp(:,6));
+        %hold off;
 
          % CO2 preheater temperature
         pretdata(n) = readValue(uaClient,iPreHeaterTemperature);
@@ -128,13 +128,13 @@ while stopMatlab ~= true
         stvalues(n) = double(stdata(:,n));
         stspvalues(n) = double(stspdata(:,n));
         TS_data(n,:) = [stvalues(n) stspvalues(n) timestamp];
-        subplot(2,2,2);
-        plot(round,stvalues,"b-");
-        hold on;
-        plot(round,stspvalues,"r-");
-        xlabel("Second out of passing minute (s)"); ylabel("Separator temperature (*C)");
-        set(gca,"xticklabel",timestamp(:,6));
-        hold off;
+        %subplot(2,2,2);
+        %plot(round,stvalues,"b-");
+        %hold on;
+        %plot(round,stspvalues,"r-");
+        %xlabel("Second out of passing minute (s)"); ylabel("Separator temperature (*C)");
+        %set(gca,"xticklabel",timestamp(:,6));
+        %hold off;
 
         % Reactor pressure 
         %pdata(n) = read(iReactorTy); % TÄHÄN OIKEA MUUTTUJA 
@@ -144,7 +144,7 @@ while stopMatlab ~= true
         pvalues(n) = double(pdata(:,n));
         pspvalues(n) = double(pspdata(:,n));
         P_data(n,:) = [pvalues(n) pspvalues(n) timestamp];
-        subplot(2,2,3);
+        subplot(2,1,1);
         plot(round,pvalues,"b-");
         hold on;
         plot(round,pspvalues,"r-");
@@ -156,7 +156,7 @@ while stopMatlab ~= true
         fdata(n) = readValue(uaClient,iCO2VolumetricFlow);
         fvalues(n) = double(fdata(:,n));
         F_data(n,:) = [fvalues(n) timestamp];
-        subplot(2,2,4);
+        subplot(2,1,2);
         plot(round,fvalues,"b-");
         xlabel("Second out of passing minute (s)"); ylabel("CO2 volumetric flow (cl/min)");
         set(gca,"xticklabel",timestamp(:,6));
