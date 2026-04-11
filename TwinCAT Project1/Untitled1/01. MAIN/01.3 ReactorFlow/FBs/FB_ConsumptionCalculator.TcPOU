@@ -11,6 +11,8 @@ VAR
     running       : BOOL;
     elapsedTime   : TIME;
 	RTRIG_Started : R_TRIG;
+	amountOfCycles: DINT;
+	counter : DINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -48,7 +50,10 @@ IF running THEN
 	IF elapsedTime >= intervalTime THEN
 		sum := sum + valuePerSec*(intervalS);
 		elapsedTime := T#0S;
-	END_IF 	
+		amountOfCycles := amountOfCycles + counter;
+		counter := 0;
+	END_IF 
+	counter := counter + 1;
 END_IF
 
 ]]></ST>
@@ -63,20 +68,29 @@ END_VAR
         <ST><![CDATA[
 sum := 0;
 running := FALSE;
-elapsedTime := T#0S;]]></ST>
+elapsedTime := T#0S;
+counter := 0;
+amountOfCycles := 0;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ConsumptionCalculator">
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_ConsumptionCalculator.calculate">
-      <LineId Id="155" Count="21" />
+      <LineId Id="155" Count="18" />
+      <LineId Id="187" Count="0" />
+      <LineId Id="190" Count="0" />
+      <LineId Id="174" Count="0" />
+      <LineId Id="189" Count="0" />
+      <LineId Id="175" Count="1" />
       <LineId Id="20" Count="0" />
     </LineIds>
     <LineIds Name="FB_ConsumptionCalculator.reset">
       <LineId Id="11" Count="1" />
       <LineId Id="14" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="18" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
