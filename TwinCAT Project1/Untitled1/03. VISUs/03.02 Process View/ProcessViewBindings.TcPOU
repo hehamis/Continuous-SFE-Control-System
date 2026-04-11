@@ -73,7 +73,7 @@ VAR
 	SlurryOutValveButton_ToggleVariable : BOOL;
 	
 	PreHeaterTemperatureTextField_TextVariable : DINT;
-	Co2FlowTextField_TextVariable : DINT;
+	Co2FlowTextField_TextVariable : REAL;
 	Co2PressureTextField_TextVariable : DINT;
 
 	SeperatorTemperatureTextField_TextVariable : DINT;
@@ -104,7 +104,7 @@ VAR
 	ElapsedTimeLabel_TextVariable : STRING;
 	TimeLabels_Invisible : BOOL;
 
-	MeanFlowLabel_TextVariable : DINT;
+	MeanFlowLabel_TextVariable : REAL;
 	MeanFlowLabel_Invisible : BOOL;
 	
 	ConsumedCo2Label_TextVariable : DINT;
@@ -249,7 +249,7 @@ ElapsedTimeLabel_TextVariable := TO_STRING(TO_DINT(AutomaticExtractionValues.ela
 TimeLabels_Invisible := NOT AutomaticExtractionValues.timeVisible;
 
 // MeanFlowLabel
-MeanFlowLabel_TextVariable := TO_DINT(MeanReactorFlow);
+MeanFlowLabel_TextVariable := MeanReactorFlow;
 MeanFlowLabel_Invisible := not FlowControlCommands.startMovingAvgCalculation;
 
 // ConsumedCo2Label

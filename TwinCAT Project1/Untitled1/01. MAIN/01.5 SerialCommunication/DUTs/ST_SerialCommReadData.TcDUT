@@ -6,7 +6,7 @@ STRUCT
 	pumpingPressureMeasurement : DINT;
 	pumpingPressureSetpoint	: DINT;
 	pumpingPressureOutputPower : DINT;
-	flowMeasurement : DINT;
+	flowMeasurement : REAL;
 	preHeaterTemperatureMeasurement : DINT;
 	preHeaterTemperatureSetpoint : DINT;
 	preHeaterTemperatureOutputPower : DINT;

@@ -23,7 +23,7 @@ VAR_GLOBAL
 	{attribute 'OPC.UA.DA' := '1'} OPC_SeparatorTemperature: DINT;
 	{attribute 'OPC.UA.DA' := '1'} OPC_SeparatorTemperatureSetpoint: DINT;
 	
-	{attribute 'OPC.UA.DA' := '1'} OPC_CO2VolumetricFlow: DINT;
+	{attribute 'OPC.UA.DA' := '1'} OPC_CO2VolumetricFlow: REAL;
 	
 	// Program name 
 	{attribute 'OPC.UA.DA' := '1'} OPC_ProgramNamePrefix: STRING;

@@ -6,8 +6,28 @@
         <o xml:space="preserve" t="GlobalTextListObject">
           <l n="TextList" t="ArrayList" cet="TextListRow">
             <o>
+              <v n="TextID">"774"</v>
+              <v n="TextDefault">"%0.001f l/min"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1141"</v>
+              <v n="TextDefault">"%0.01f  l/min"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"387"</v>
               <v n="TextDefault">"%0.01f l/min"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"523"</v>
+              <v n="TextDefault">"%0.02f  l/min"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1335"</v>
+              <v n="TextDefault">"%0.02f l/min"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -573,6 +593,16 @@
             <o>
               <v n="TextID">"1029"</v>
               <v n="TextDefault">"REACTOR HEATING RUNNING"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"277"</v>
+              <v n="TextDefault">"Reactor pressure (bar)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1489"</v>
+              <v n="TextDefault">"Reactor pressure sensor (inc)"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
