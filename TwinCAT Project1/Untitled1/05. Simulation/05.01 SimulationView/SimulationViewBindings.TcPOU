@@ -4,19 +4,23 @@
     <Declaration><![CDATA[PROGRAM SimulationViewBindings
 VAR
 	// Pointers to simulated variables
-	pFlowMeasurement : POINTER TO DINT := ADR(SerialCommunicationController.HandleSerialCommunication.readData.flowMeasurement);	
+	pFlowMeasurement : POINTER TO REAL := ADR(SerialCommunicationController.HandleSerialCommunication.readData.flowMeasurement);
+	pPressureMeasurement : POINTER TO DINT := ADR(GVL_IO.reactorPressure); 	
 	
 	// Locals
-	flowSlider_Variable : DINT;
+	flowSlider_Variable : REAL;
+	pressureSlider_Variable : DINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-pFlowMeasurement^ := flowSlider_Variable;]]></ST>
+pFlowMeasurement^ := flowSlider_Variable/100;
+pPressureMeasurement^ := pressureSlider_Variable;]]></ST>
     </Implementation>
     <LineIds Name="SimulationViewBindings">
       <LineId Id="12" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="23" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
