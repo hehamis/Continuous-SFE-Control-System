@@ -2,10 +2,15 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="DataAcquisitionController" Id="{8ef7b23d-377f-464a-94da-dbf13a683f44}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM DataAcquisitionController
+VAR_INPUT
+	slurryOutletValveOpen : BOOL;
+	automaticExtractionStateActive : BOOL;
+END_VAR
 VAR
 	// Handlers to call
-	HandleOpcTagWriting : OpcTagWritingHandler;
-	HandleMatlab 		: MatlabHandler;
+	HandleOpcTagWriting 		: OpcTagWritingHandler;
+	HandleMatlab 				: MatlabHandler;
+	HandleSpecialDataWriting 	: SpecialDataWritingHandler;
 	
 	// Local variables
 	_matlabBtn : BOOL;
@@ -18,7 +23,11 @@ HandleOpcTagWriting();
 
 HandleMatlab(
 			startButton := _matlabBtn,
-			hmiValues => _matlabHmiValues);]]></ST>
+			hmiValues => _matlabHmiValues);
+			
+HandleSpecialDataWriting(
+					outletValveOpen := slurryOutletValveOpen,
+					saveActive := automaticExtractionStateActive);]]></ST>
     </Implementation>
     <Property Name="MatlabBtn" Id="{12390ade-eb97-4d4a-aa0b-dfac54f1b9cf}">
       <Declaration><![CDATA[PROPERTY MatlabBtn : BOOL]]></Declaration>
@@ -49,6 +58,8 @@ MatlabHmiValues := _matlabHmiValues;]]></ST>
       <LineId Id="14" Count="0" />
       <LineId Id="40" Count="0" />
       <LineId Id="27" Count="2" />
+      <LineId Id="52" Count="1" />
+      <LineId Id="55" Count="1" />
     </LineIds>
     <LineIds Name="DataAcquisitionController.MatlabBtn.Set">
       <LineId Id="5" Count="0" />

@@ -133,6 +133,9 @@
     <Compile Include="01. MAIN\01.4 DataAcquisition\Handlers\01.4.2 Matlab\MatlabHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\01.4 DataAcquisition\Handlers\01.4.3 SpecialDataWriting\SpecialDataWritingHandler.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\01.6 VariablePersistence\VariablePersistenceController.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -390,6 +393,7 @@
     <Folder Include="01. MAIN\01.4 DataAcquisition\DUTs" />
     <Folder Include="01. MAIN\01.4 DataAcquisition\Handlers\01.4.1 OpcTagWriting" />
     <Folder Include="01. MAIN\01.4 DataAcquisition\Handlers\01.4.2 Matlab" />
+    <Folder Include="01. MAIN\01.4 DataAcquisition\Handlers\01.4.3 SpecialDataWriting" />
     <Folder Include="01. MAIN\01.6 VariablePersistence" />
     <Folder Include="01. MAIN\01.5 SerialCommunication" />
     <Folder Include="01. MAIN\01.5 SerialCommunication\FUNs" />

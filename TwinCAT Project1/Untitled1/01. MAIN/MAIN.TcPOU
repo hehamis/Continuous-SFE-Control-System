@@ -32,7 +32,9 @@ ReactorFlowController(
 					serialCommReadData := SerialCommunicationController.SerialCommReadData);
 					
 // Data acquisition
-DataAcquisitionController();
+DataAcquisitionController(
+					slurryOutletValveOpen := GVL_IO.reactorOutletValve,
+					automaticExtractionStateActive := ReactorLevelAndPressureController.automaticExtractionState = E_AutomaticExtractionState.FILLING_ACTIVE);
 
 {IF NOT defined (Simulation)}
 // Persistent data saving
@@ -136,6 +138,7 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterV
       <LineId Id="406" Count="1" />
       <LineId Id="354" Count="0" />
       <LineId Id="194" Count="1" />
+      <LineId Id="410" Count="1" />
       <LineId Id="366" Count="0" />
       <LineId Id="336" Count="1" />
       <LineId Id="197" Count="0" />

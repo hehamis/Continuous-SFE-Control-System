@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="SpecialDataWritingHandler" Id="{c8b81348-d458-4793-8edc-72bcd9457d28}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK SpecialDataWritingHandler
+VAR_INPUT
+	outletValveOpen : BOOL;
+	saveActive : BOOL;
+END_VAR
+VAR_OUTPUT
+	outletValveOpenArray : ARRAY[0..99] OF BOOL;
+	outletValveOpenTimestamps : ARRAY[0..99] OF DT;
+END_VAR
+VAR
+	i : INT;
+	specialDataSaveState : INT;
+	index : INT;
+	RTRIG_ValveOpened : R_TRIG;
+	LocalTime     : FB_LocalSystemTime;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+LocalTime(bEnable := TRUE);
+
+CASE specialDataSaveState OF
+	0:
+	
+		IF saveActive THEN
+			specialDataSaveState := 1;
+			resetDataArray();
+		END_IF
+	
+	1:
+		RTRIG_ValveOpened(CLK := outletValveOpen);
+		IF RTRIG_ValveOpened.Q THEN
+			outletValveOpenArray[index] := TRUE;
+			outletValveOpenTimeStamps[index] :=  SYSTEMTIME_TO_DT(LocalTime.systemTime);
+			index := index + 1;
+		END_IF
+		
+		IF NOT saveActive THEN
+			specialDataSaveState := 0;
+		END_IF
+	
+END_CASE]]></ST>
+    </Implementation>
+    <Method Name="resetDataArray" Id="{84f98cca-f7b8-445f-b2e8-3768bad478a9}">
+      <Declaration><![CDATA[METHOD resetDataArray : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+FOR i := 0 TO 99 DO
+	outletValveOpenArray[i] := FALSE;
+	outletValveOpenTimestamps[i] := DT#1970-01-01-00:00;
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="SpecialDataWritingHandler">
+      <LineId Id="74" Count="1" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="43" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="37" Count="2" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="67" Count="3" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="36" Count="0" />
+    </LineIds>
+    <LineIds Name="SpecialDataWritingHandler.resetDataArray">
+      <LineId Id="6" Count="2" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

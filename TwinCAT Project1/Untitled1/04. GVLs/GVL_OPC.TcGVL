@@ -25,8 +25,14 @@ VAR_GLOBAL
 	
 	{attribute 'OPC.UA.DA' := '1'} OPC_CO2VolumetricFlow: REAL;
 	
+	{attribute 'OPC.UA.DA' := '1'} OPC_AutoExtractionState: STRING;
+	
 	// Program name 
 	{attribute 'OPC.UA.DA' := '1'} OPC_ProgramNamePrefix: STRING;
+	
+	// Special data 
+	{attribute 'OPC.UA.DA' := '1'} OPC_OutletValveOpenArray: ARRAY[0..99] OF BOOL;
+	{attribute 'OPC.UA.DA' := '1'} OPC_OutletValveOpenTimeStampArray: ARRAY[0..99] OF DT;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
