@@ -1105,7 +1105,7 @@
                       <v n="InputBoxVariable">""</v>
                       <v n="InputType">"VisuDialogs.Numpad"</v>
                       <v n="InputBoxMin">"1"</v>
-                      <v n="InputBoxMax">"5999"</v>
+                      <v n="InputBoxMax">"100"</v>
                       <v n="InputBoxDialogTitle">""</v>
                       <v n="Password">false</v>
                       <v n="UseTextOutputVariable">true</v>
@@ -8163,10 +8163,10 @@
               <d n="FbMethods" t="CaseInsensitiveHashtable" ckt="String" cvt="Guid">
                 <v>FB_Init</v>
                 <v>6c9d8814-399a-4319-8817-bb582e21c91d</v>
-                <v>FB_Exit</v>
-                <v>9351c3bf-92a6-4e6f-9224-5f08708040bc</v>
                 <v>FB_Reinit</v>
                 <v>aed7e96c-53e1-46a6-b0b2-e3b56a64bfbd</v>
+                <v>FB_Exit</v>
+                <v>9351c3bf-92a6-4e6f-9224-5f08708040bc</v>
               </d>
               <v n="FbName">"NotImportant"</v>
               <v n="FbGuid">{10cdc7ac-584a-4427-af3f-3e696948a3a3}</v>
