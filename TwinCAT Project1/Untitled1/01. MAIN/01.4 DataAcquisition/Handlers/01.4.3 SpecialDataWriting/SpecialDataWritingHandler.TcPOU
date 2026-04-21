@@ -9,12 +9,16 @@ END_VAR
 VAR_OUTPUT
 	outletValveOpenArray : ARRAY[0..99] OF BOOL;
 	outletValveOpenTimestamps : ARRAY[0..99] OF DT;
+	outletValveCloseArray : ARRAY[0..99] OF BOOL;
+	outletValveCloseTimestamps : ARRAY[0..99] OF DT;
 END_VAR
 VAR
 	i : INT;
 	specialDataSaveState : INT;
-	index : INT;
+	openIndex : INT;
+	closeIndex : INT;
 	RTRIG_ValveOpened : R_TRIG;
+	FTRIG_ValveClosed : R_TRIG;
 	LocalTime     : FB_LocalSystemTime;
 END_VAR
 ]]></Declaration>
@@ -32,13 +36,21 @@ CASE specialDataSaveState OF
 	
 	1:
 		RTRIG_ValveOpened(CLK := outletValveOpen);
+		FTRIG_ValveClosed(CLK := outletValveOpen);
 		IF RTRIG_ValveOpened.Q THEN
-			outletValveOpenArray[index] := TRUE;
-			outletValveOpenTimeStamps[index] :=  SYSTEMTIME_TO_DT(LocalTime.systemTime);
-			index := index + 1;
+			outletValveOpenArray[openIndex] := TRUE;
+			outletValveOpenTimeStamps[openIndex] :=  SYSTEMTIME_TO_DT(LocalTime.systemTime);
+			openIndex := openIndex + 1;
+		END_IF
+		IF FTRIG_ValveClosed.Q THEN
+			outletValveCloseArray[closeIndex] := TRUE;
+			outletValveCloseTimeStamps[closeIndex] :=  SYSTEMTIME_TO_DT(LocalTime.systemTime);
+			closeIndex := closeIndex + 1;
 		END_IF
 		
 		IF NOT saveActive THEN
+			openIndex := 0;
+			closeIndex := 0;
 			specialDataSaveState := 0;
 		END_IF
 	
@@ -54,6 +66,8 @@ END_VAR
 FOR i := 0 TO 99 DO
 	outletValveOpenArray[i] := FALSE;
 	outletValveOpenTimestamps[i] := DT#1970-01-01-00:00;
+	outletValveCloseArray[i] := FALSE;
+	outletValveCloseTimestamps[i] := DT#1970-01-01-00:00;
 END_FOR]]></ST>
       </Implementation>
     </Method>
@@ -67,18 +81,26 @@ END_FOR]]></ST>
       <LineId Id="71" Count="0" />
       <LineId Id="45" Count="0" />
       <LineId Id="37" Count="2" />
+      <LineId Id="93" Count="0" />
       <LineId Id="49" Count="0" />
       <LineId Id="46" Count="0" />
       <LineId Id="72" Count="0" />
       <LineId Id="51" Count="0" />
       <LineId Id="50" Count="0" />
-      <LineId Id="67" Count="3" />
+      <LineId Id="96" Count="3" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="67" Count="1" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="69" Count="1" />
       <LineId Id="40" Count="0" />
       <LineId Id="36" Count="0" />
     </LineIds>
     <LineIds Name="SpecialDataWritingHandler.resetDataArray">
       <LineId Id="6" Count="2" />
       <LineId Id="10" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="14" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
