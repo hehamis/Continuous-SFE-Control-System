@@ -10,6 +10,7 @@ END_VAR
 VAR_OUTPUT
 	consumedCo2Amount : REAL;
 	limitExceeded : BOOL;
+	closeOnOffValve : BOOL;
 END_VAR
 VAR
 	consumptionCalculator : FB_ConsumptionCalculator;
@@ -31,12 +32,17 @@ IF resetInput THEN
 	consumptionCalculator.reset();
 END_IF
 
-IF consumedCo2Amount > flowControlParameters.co2ConsumptionLimit THEN
+IF flowControlParameters.co2ConsumptionLimit > 0 AND consumedCo2Amount > flowControlParameters.co2ConsumptionLimit THEN
 	limitExceeded := TRUE;
 ELSE 
 	limitExceeded := FALSE;
 END_IF
-]]></ST>
+
+IF flowControlParameters.closeOnOffValveIfConsumptionExceeded AND limitExceeded THEN
+	closeOnOffValve := TRUE;
+ELSE
+	closeOnOffValve := FALSE;
+END_IF]]></ST>
     </Implementation>
     <LineIds Name="FB_Co2ConsumptionHandler">
       <LineId Id="55" Count="0" />
@@ -53,7 +59,11 @@ END_IF
       <LineId Id="60" Count="0" />
       <LineId Id="62" Count="1" />
       <LineId Id="61" Count="0" />
+      <LineId Id="81" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="85" Count="1" />
+      <LineId Id="83" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

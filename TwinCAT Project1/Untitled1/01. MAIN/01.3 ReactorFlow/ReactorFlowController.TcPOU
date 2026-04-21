@@ -20,6 +20,8 @@ VAR
 	_consumedCo2Amount : REAL;
 	_flowControlCommands : ST_FlowControlCommands;
 	_co2ConsumptionLimitExceeded : BOOL;
+	_modeledReactorMeanFlow : REAL;
+	_closeOnOffValve : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -34,14 +36,27 @@ HandleCo2Consumption(
 				flowControlParameters := _flowControlParameters,
 				resetInput := _flowControlCommands.resetCo2Consumption,
 				consumedCo2Amount => _consumedCo2Amount,
-				limitExceeded => _co2ConsumptionLimitExceeded);
+				limitExceeded => _co2ConsumptionLimitExceeded,
+				closeOnOffValve => _closeOnOffValve);
 				
 HandleCo2FlowModeling(
 				valvePositionPercentage := flowControlValveOpening,
 				pumpingPressureDelta := serialCommReadData.pumpingPressureSetpoint-serialCommReadData.pumpingPressureMeasurement,
 				flowMeasurement := _meanReactorFlow,
-				modeledOutput => );]]></ST>
+				modeledOutput => _modeledReactorMeanFlow);]]></ST>
     </Implementation>
+    <Property Name="CloseOnOffValve" Id="{f2106895-29cc-4255-a249-f7d05f58ca87}">
+      <Declaration><![CDATA[PROPERTY CloseOnOffValve : BOOL]]></Declaration>
+      <Get Name="Get" Id="{0fcd2bfe-a430-4321-886c-289ced6cc77c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+CloseOnOffValve := _closeOnOffValve;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="Co2ConsumptionLimitExceeded" Id="{e63d7dc5-de1e-4e21-892b-686d47b989ed}">
       <Declaration><![CDATA[PROPERTY Co2ConsumptionLimitExceeded : BOOL]]></Declaration>
       <Get Name="Get" Id="{f79d35cf-ce48-4946-856f-8b1a17ac789d}">
@@ -103,8 +118,14 @@ MeanReactorFlow := _meanReactorFlow;]]></ST>
       </Get>
     </Property>
     <LineIds Name="ReactorFlowController">
-      <LineId Id="211" Count="16" />
+      <LineId Id="211" Count="11" />
+      <LineId Id="249" Count="0" />
+      <LineId Id="223" Count="4" />
       <LineId Id="108" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorFlowController.CloseOnOffValve.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="ReactorFlowController.Co2ConsumptionLimitExceeded.Get">
       <LineId Id="5" Count="0" />
