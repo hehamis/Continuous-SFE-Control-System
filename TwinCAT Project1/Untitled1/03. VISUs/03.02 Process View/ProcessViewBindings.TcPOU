@@ -23,6 +23,7 @@ VAR_INPUT
 	ConsumedCo2Value : REAL;
 	FlowControlParameters : ST_FlowControlParameters;
 	co2ConsumptionLimitExceeded : BOOL;
+	closeOnOffValve : BOOL;
 END_VAR
 VAR_OUTPUT
 	temperatureContactorCommand : BOOL;
@@ -107,7 +108,7 @@ VAR
 	MeanFlowLabel_TextVariable : REAL;
 	MeanFlowLabel_Invisible : BOOL;
 	
-	ConsumedCo2Label_TextVariable : DINT;
+	ConsumedCo2Label_TextVariable : REAL;
 	ConsumedCo2alarmLabel_Invisible : BOOL;
 	ConsumedCo2SetpointLabel_TextVariable :DINT;
 	ResetCo2ConsumptionButton_TapVariable : BOOL;
@@ -204,7 +205,7 @@ ExtractiveOnOffValveValues := ReactorLevelAndPressureController.ExtractiveOnOffV
 ExtractiveOutOnOffValveCommand := ExtractiveOutOnOffValveButton_ToggleVariable;
 ExtractiveOutOnOffValveButton_ToggleColor := ExtractiveOnOffValveValues.open; //GVL_IO.extractiveOutletOnOffValve; 
 // StartMovingAvgCalculation Buttons
-RTRIG_ConsumptionExceeded(CLK := co2ConsumptionLimitExceeded);
+RTRIG_ConsumptionExceeded(CLK := closeOnOffValve);
 IF RTRIG_ConsumptionExceeded.Q THEN
 	ExtractiveOutOnOffValveButton_ToggleVariable := FALSE;
 END_IF
@@ -253,7 +254,7 @@ MeanFlowLabel_TextVariable := MeanReactorFlow;
 MeanFlowLabel_Invisible := not FlowControlCommands.startMovingAvgCalculation;
 
 // ConsumedCo2Label
-ConsumedCo2Label_TextVariable := TO_DINT(ConsumedCo2Value);
+ConsumedCo2Label_TextVariable := ConsumedCo2Value;
 ConsumedCo2SetpointLabel_TextVariable := FlowControlParameters.co2ConsumptionLimit;
 FlowControlCommands.resetCo2Consumption := ResetCo2ConsumptionButton_TapVariable;
 ConsumedCo2alarmLabel_Invisible := not co2ConsumptionLimitExceeded;
