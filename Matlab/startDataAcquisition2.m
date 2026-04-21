@@ -41,7 +41,8 @@ while stopMatlab ~= true
         allvar = getAllChildren(namespace(3));
         started = true;
         %% Initialize value vectors
-        n = 0; saveround = 0; % Iteration round variable
+        n = 0; saveround = 0; divround = 0;% Iteration round variable
+        setNo = 1;
         pvalues = []; currenttime = []; tvalues = [];  % NÄIHIN OIKEAT NIMER
         foldername = ([num2str(starttime(1)),'_',num2str(starttime(2)),'_',...
             num2str(starttime(3)),'_',num2str(starthr),'_',num2str(startmin),'_',...
@@ -71,13 +72,13 @@ while stopMatlab ~= true
         round(n) = n; % Iteration rounds collected in an array (for plotting)
         timestamp = clock;
         %timestampmat(n,:) = num2str([round(timestamp(4),3,'significant') round(timestamp(5),3,'significant') round(timestamp(6),3,'significant')]);
-        timestampmat(n,:) = [timestamp(4) timestamp(5) timestamp(6)]
+        timestampmat(n,:) = [timestamp(4) timestamp(5) timestamp(6)];
+        disp(timestampmat(n,1:3));
         round(n) = n;
         %% Read symbols cyclically
         stopMatlab = adsClt.ReadSymbol(stopMatlabSymbol);
         %% Read measurement values
-        iReactorTyU = findNodeByName(allvar,'OPC_ReactorTemperature','-once');% Reactor upper temperature value
-        iReactorTyL = findNodeByName(allvar,'OPC_ReactorLowerTemperature','-once'); % Reactor lower temperature value
+        iReactorTy =  findNodeByName(allvar,'OPC_ReactorTemperature','-once');% Reactor temperature value
         iReactorTsp = findNodeByName(allvar,'OPC_ReactorTemperatureSetpoint','-once'); 
         bReactorTu = findNodeByName(allvar,'OPC_TemperatureContactor','-once'); % Reactor temperature Contactor
         iReactorPy = findNodeByName(allvar,'OPC_ReactorPressure','-once'); % Reactor pressure
@@ -90,7 +91,6 @@ while stopMatlab ~= true
         iSeparatorTemperature = findNodeByName(allvar,'OPC_SeparatorTemperature','-once');
         iSeparatorTemperatureSetpoint = findNodeByName(allvar,'OPC_SeparatorTemperatureSetpoint','-once');
         iCO2VolumetricFlow = findNodeByName(allvar,'OPC_CO2VolumetricFlow','-once');
-        
 
         %% Save and plot data
         %Slurry valves
@@ -101,23 +101,20 @@ while stopMatlab ~= true
         Valve_data(n,:) = [outletvalues(n) inletvalues(n) timestamp];    
 
         % Reactor temperature
-        t1data(n) = readValue(uaClient,iReactorTyU)./10;
-        t2data(n) = readValue(uaClient,iReactorTyL)./10;
+        tdata(n) = readValue(uaClient,iReactorTy)./10;
         tspdata(n) = readValue(uaClient, iReactorTsp);
         tudata(n) = readValue(uaClient, bReactorTu);
-        t1values(n) = double(t1data(:,n));
-        t2values(n) = double(t2data(:,n));
+        tvalues(n) = double(tdata(:,n));
         tspvalues(n) = double(tspdata(:,n));
         tuvalues(n) = double(tudata(:,n));
-        T_data(n,:) = [t1values(n) tspvalues(n) t2values(n) tuvalues(n) timestamp];
-        % subplot(2,2,1);
-        % plot(round,t1values,"b-");
-        % hold on;
-        % plot(round,tspvalues,"r-");
-        % plot(round,t2values,"g-");
-        % xlabel("Second out of passing minute (s)"); ylabel("Reactor temperature (*C)");
-        % set(gca,"xticklabel",timestamp(:,6));
-        % hold off;
+        T_data(n,:) = [tvalues(n) tspvalues(n) tuvalues(n) timestamp];
+        %subplot(2,2,1);
+        %plot(round,tvalues,"b-");
+        %hold on;
+        %plot(round,tspvalues,"r-");
+        %xlabel("Second out of passing minute (s)"); ylabel("Reactor temperature (*C)");
+        %set(gca,"xticklabel",timestamp(:,6));
+        %hold off;
 
          % CO2 preheater temperature
         pretdata(n) = readValue(uaClient,iPreHeaterTemperature);
@@ -132,18 +129,18 @@ while stopMatlab ~= true
         stvalues(n) = double(stdata(:,n));
         stspvalues(n) = double(stspdata(:,n));
         TS_data(n,:) = [stvalues(n) stspvalues(n) timestamp];
-        % subplot(2,2,2);
-        % plot(round,stvalues,"b-");
-        % hold on;
-        % plot(round,stspvalues,"r-");
-        % xlabel("Second out of passing minute (s)"); ylabel("Separator temperature (*C)");
-        % set(gca,"xticklabel",timestamp(:,6));
-        % hold off;
+        %subplot(2,2,2);
+        %plot(round,stvalues,"b-");
+        %hold on;
+        %plot(round,stspvalues,"r-");
+        %xlabel("Second out of passing minute (s)"); ylabel("Separator temperature (*C)");
+        %set(gca,"xticklabel",timestamp(:,6));
+        %hold off;
 
         % Reactor pressure 
         %pdata(n) = read(iReactorTy); % TÄHÄN OIKEA MUUTTUJA 
-        p1data(n) = readValue(uaClient,iReactorPy); % uuden puolen paine
-        p2data(n) = readValue(uaClient,iPumpingPressure); % pumpun paine
+        p1data(n) = readValue(uaClient,iReactorPy);
+        p2data(n) = readValue(uaClient,iPumpingPressure);
         disp(readValue(uaClient,iReactorPy))
         pspdata(n) = readValue(uaClient,iPumpingPressureSetpoint); 
         p1values(n) = double(p1data(:,n));
@@ -168,22 +165,36 @@ while stopMatlab ~= true
         set(gca,"xticklabel",timestamp(:,6));
 
 
-        %% Save data every 30s
+        %% Save data every 60s
         saveround = saveround + 1; 
-        if saveround ==  30
+        divround = divround + 1;
+        if saveround ==  300 % 300 rounds, ~60s
             cd(currentFolder); % Make new folder current
-            save("T_data","T_data")
-            save("TCO2_data","TCO2_data")
-            save("TS_data","TS_data")
-            save("P_data", "P_data")
-            save("F_data", "F_data")
-            save("Valve_data","Valve_data")
-            save("Total_runtime_(s)","n")
-            save("Timestamps", "timestampmat")
+            save("T_data_" + setNo + ".mat","T_data")
+            save("TCO2_data_" + setNo + ".mat","TCO2_data")
+            save("TS_data_" + setNo + ".mat","TS_data")
+            save("P_data_" + setNo + ".mat", "P_data")
+            save("F_data_" + setNo + ".mat", "F_data")
+            save("Valve_data_" + setNo + ".mat","Valve_data")
+            save("Total_runtime_(s)_" + setNo + ".mat","n")
+            save("Timestamps_" + setNo + ".mat", "timestampmat")
             saveround = 0;
             cd('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab')
         end        
-        pause(1);
+        % New data set every 5 minutes
+        if divround == 1500 % 1500, ~5 minutes
+                setNo = setNo + 1;
+                T_data = [];
+                TCO2_data = [];
+                TS_data = [];
+                P_data = [];
+                F_data = [];
+                Valve_data = [];
+                timestampmat = [];
+                n = 1;
+                divround = 0;
+        end
+        pause(0.2); % Data acquisition interval ~0.2s
     end
 end
 adsClt.WriteAny(matlabRunningSymbol.IndexGroup,matlabRunningSymbol.IndexOffset,false);

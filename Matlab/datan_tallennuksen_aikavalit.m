@@ -1,5 +1,5 @@
 close, clear all;
-load('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab\2025_4_15_9_6_13.382 (150425_1)/F_data.mat')
+load('C:\Users\OMISTAJA\Documents\TcXaeShell\TwinCAT Project1\Matlab\2026_4_15_10_42_32.332 (datan_keruun_testi_ajo_13)/F_data.mat')
 e = [];
 k = size(F_data(:,7));
 f = k(:,1);
@@ -14,7 +14,7 @@ E = E(h,1);
 maxE = max(E);
 minE = min(E);
 keskE = mean(E);
-E = E-1;
+E = E-0.3;
 
 k = size(E);
 f = k(:,1);
@@ -38,7 +38,7 @@ for l = 1:f-1
 end
 
 hukattu_aika = (Ajoaika*60 - f)/60;
-hukattu_aika_prosentteina = hukattu_aika / Ajoaika;
+hukattu_aika_prosentteina = (hukattu_aika / Ajoaika)*100;
 
 plot(E);
 figure(2);
