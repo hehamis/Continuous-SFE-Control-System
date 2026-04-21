@@ -16,13 +16,28 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1028"</v>
+              <v n="TextDefault">"%0.01f l"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"387"</v>
               <v n="TextDefault">"%0.01f l/min"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"433"</v>
+              <v n="TextDefault">"%0.02f  l"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"523"</v>
               <v n="TextDefault">"%0.02f  l/min"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1068"</v>
+              <v n="TextDefault">"%0.02f l"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
