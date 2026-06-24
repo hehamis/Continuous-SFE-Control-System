@@ -32,9 +32,9 @@ VAR_GLOBAL
 	
 	// Special data 
 	{attribute 'OPC.UA.DA' := '1'} OPC_OutletValveOpenArray: ARRAY[0..99] OF BOOL;
-	{attribute 'OPC.UA.DA' := '1'} OPC_OutletValveOpenTimeStampArray: ARRAY[0..99] OF DT;
+	{attribute 'OPC.UA.DA' := '1'} OPC_OutletValveOpenTimeStampArray: ARRAY[0..99] OF STRING;
 	{attribute 'OPC.UA.DA' := '1'} OPC_OutletValveCloseArray: ARRAY[0..99] OF BOOL;
-	{attribute 'OPC.UA.DA' := '1'} OPC_OutletValveCloseTimeStampArray: ARRAY[0..99] OF DT;
+	{attribute 'OPC.UA.DA' := '1'} OPC_OutletValveCloseTimeStampArray: ARRAY[0..99] OF STRING;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

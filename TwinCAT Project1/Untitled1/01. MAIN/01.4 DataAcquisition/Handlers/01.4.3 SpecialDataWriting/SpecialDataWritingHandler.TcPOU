@@ -8,9 +8,9 @@ VAR_INPUT
 END_VAR
 VAR_OUTPUT
 	outletValveOpenArray : ARRAY[0..99] OF BOOL;
-	outletValveOpenTimestamps : ARRAY[0..99] OF DT;
+	outletValveOpenTimestamps : ARRAY[0..99] OF STRING;
 	outletValveCloseArray : ARRAY[0..99] OF BOOL;
-	outletValveCloseTimestamps : ARRAY[0..99] OF DT;
+	outletValveCloseTimestamps : ARRAY[0..99] OF STRING;
 END_VAR
 VAR
 	i : INT;
@@ -20,6 +20,8 @@ VAR
 	RTRIG_ValveOpened : R_TRIG;
 	FTRIG_ValveClosed : R_TRIG;
 	LocalTime     : FB_LocalSystemTime;
+	currentOpenTime : DT;
+	currentCloseTime : DT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -39,12 +41,14 @@ CASE specialDataSaveState OF
 		FTRIG_ValveClosed(CLK := outletValveOpen);
 		IF RTRIG_ValveOpened.Q THEN
 			outletValveOpenArray[openIndex] := TRUE;
-			outletValveOpenTimeStamps[openIndex] :=  SYSTEMTIME_TO_DT(LocalTime.systemTime);
+			currentOpenTime :=  SYSTEMTIME_TO_DT(LocalTime.systemTime);
+			outletValveOpenTimestamps[openIndex] := CONCAT(CONCAT(TO_STRING(currentOpenTime),'.'),TO_STRING(LocalTime.systemTime.wMilliseconds));
 			openIndex := openIndex + 1;
 		END_IF
 		IF FTRIG_ValveClosed.Q THEN
 			outletValveCloseArray[closeIndex] := TRUE;
-			outletValveCloseTimeStamps[closeIndex] :=  SYSTEMTIME_TO_DT(LocalTime.systemTime);
+			currentCloseTime :=  SYSTEMTIME_TO_DT(LocalTime.systemTime);
+			outletValveCloseTimeStamps[closeIndex] := CONCAT(CONCAT(TO_STRING(currentCloseTime),'.'),TO_STRING(LocalTime.systemTime.wMilliseconds));
 			closeIndex := closeIndex + 1;
 		END_IF
 		
@@ -65,9 +69,9 @@ END_VAR
         <ST><![CDATA[
 FOR i := 0 TO 99 DO
 	outletValveOpenArray[i] := FALSE;
-	outletValveOpenTimestamps[i] := DT#1970-01-01-00:00;
+	outletValveOpenTimestamps[i] := '0';
 	outletValveCloseArray[i] := FALSE;
-	outletValveCloseTimestamps[i] := DT#1970-01-01-00:00;
+	outletValveCloseTimestamps[i] := '0';
 END_FOR]]></ST>
       </Implementation>
     </Method>
@@ -84,10 +88,14 @@ END_FOR]]></ST>
       <LineId Id="93" Count="0" />
       <LineId Id="49" Count="0" />
       <LineId Id="46" Count="0" />
-      <LineId Id="72" Count="0" />
+      <LineId Id="131" Count="0" />
+      <LineId Id="133" Count="0" />
       <LineId Id="51" Count="0" />
       <LineId Id="50" Count="0" />
-      <LineId Id="96" Count="3" />
+      <LineId Id="96" Count="1" />
+      <LineId Id="132" Count="0" />
+      <LineId Id="134" Count="0" />
+      <LineId Id="99" Count="0" />
       <LineId Id="95" Count="0" />
       <LineId Id="67" Count="1" />
       <LineId Id="92" Count="0" />
