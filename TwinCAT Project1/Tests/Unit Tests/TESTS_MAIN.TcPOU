@@ -9,6 +9,7 @@ VAR
 	fbMovingAverageTest : FB_MovingAverage_Test;
 	fbConsumptionCalculatorTest : FB_ConsumptionCalculator_Test;
 	fbmFTest : FB_mF_Test;
+	fbCo2ModelDeviationHandlerTest : FB_Co2FlowModelDeviationHandler_Test;
 	movingavg : FB_MovingAverage;
 	consumptioncalc : FB_ConsumptionCalculator;
 	measF : REAL;

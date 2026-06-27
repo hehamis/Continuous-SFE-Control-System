@@ -17,6 +17,9 @@
     <LibraryReferences>{d108dbf5-6d23-4fab-aded-6288be91c939}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FBs to test\FBs\FB_Co2FlowModelDeviationHandler.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FBs to test\FBs\FB_ConsumptionCalculator.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -36,6 +39,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Unit Tests\FB tests\FB_Co2FlowModelDeviationHandler_Test.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Unit Tests\FB tests\FB_ConsumptionCalculator_Test.TcPOU">

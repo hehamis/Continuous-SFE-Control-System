@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_Co2FlowModelDeviationHandler_Test" Id="{dbbf9f13-0f78-4045-95eb-cf080fce2611}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Co2FlowModelDeviationHandler_Test EXTENDS TcUnit.FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+simpleCalculationsTest();
+ifCurrentFlowIsZeroDeviationShouldBeZero();]]></ST>
+    </Implementation>
+    <Method Name="ifCurrentFlowIsZeroDeviationShouldBeZero" Id="{9d7019b3-e587-41fe-ac24-f8a42c05b095}">
+      <Declaration><![CDATA[METHOD ifCurrentFlowIsZeroDeviationShouldBeZero
+VAR
+	deviationHandler : FB_Co2FlowModelDeviationHandler;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('ifCurrentFlowIsZeroDeviationShouldBeZero');
+
+deviationHandler(
+			currentFlow := 0,
+			modeledFlow := 50);
+					
+AssertEquals_DINT(Expected := 0, Actual := deviationHandler.deviationPercentage, Message := 'Deviation not zero when current flow is zero');
+
+TEST_FINISHED();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="simpleCalculationsTest" Id="{dfe3233d-3553-4b9b-aed2-522d143efd45}">
+      <Declaration><![CDATA[METHOD simpleCalculationsTest
+VAR
+	deviationHandler : FB_Co2FlowModelDeviationHandler;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('deviationShouldBeMinus50');
+
+deviationHandler(
+			currentFlow := 100,
+			modeledFlow := 50);
+					
+AssertEquals_DINT(Expected := -50, Actual := deviationHandler.deviationPercentage, Message := 'Deviation not -50 when it should be');
+
+TEST_FINISHED();
+
+TEST('deviationShouldBePlus20');
+
+deviationHandler(
+			currentFlow := 100,
+			modeledFlow := 120);
+					
+AssertEquals_DINT(Expected := 20, Actual := deviationHandler.deviationPercentage, Message := 'Deviation not 20 when it should be');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Co2FlowModelDeviationHandler_Test">
+      <LineId Id="10" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="18" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Co2FlowModelDeviationHandler_Test.ifCurrentFlowIsZeroDeviationShouldBeZero">
+      <LineId Id="6" Count="9" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Co2FlowModelDeviationHandler_Test.simpleCalculationsTest">
+      <LineId Id="7" Count="1" />
+      <LineId Id="28" Count="3" />
+      <LineId Id="22" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="33" Count="8" />
+      <LineId Id="32" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
