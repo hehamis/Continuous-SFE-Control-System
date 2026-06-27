@@ -24,6 +24,8 @@ VAR_INPUT
 	FlowControlParameters : ST_FlowControlParameters;
 	co2ConsumptionLimitExceeded : BOOL;
 	closeOnOffValve : BOOL;
+	modeledMeanReactorFlow : REAL;
+	co2FlowDeviationPercentage : DINT;
 END_VAR
 VAR_OUTPUT
 	temperatureContactorCommand : BOOL;
@@ -117,6 +119,10 @@ VAR
 	StartMovingAvgCalculationButton_Invisible : BOOL;
 	StopMovingAvgCalculationButton_TapVariable : BOOL;
 	StopMovingAvgCalculationButton_Invisible : BOOL;
+	
+	Co2ModelLabel_TextVariable : REAL;
+	
+	Co2DeviationLabel_TextVariable : DINT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF reactorOutletValve = 1 THEN
@@ -266,7 +272,12 @@ IF StopMovingAvgCalculationButton_TapVariable THEN
 	FlowControlCommands.startMovingAvgCalculation := FALSE;
 END_IF
 StartMovingAvgCalculationButton_Invisible := FlowControlCommands.startMovingAvgCalculation;
-StopMovingAvgCalculationButton_Invisible := NOT FlowControlCommands.startMovingAvgCalculation;]]></ST>
+StopMovingAvgCalculationButton_Invisible := NOT FlowControlCommands.startMovingAvgCalculation;
+
+// Co2ModelLabel
+Co2ModelLabel_TextVariable := modeledMeanReactorFlow;
+// Co2DeviationLabel
+Co2DeviationLabel_TextVariable := co2FlowDeviationPercentage;]]></ST>
     </Implementation>
     <LineIds Name="ProcessViewBindings">
       <LineId Id="1131" Count="84" />
@@ -290,6 +301,10 @@ StopMovingAvgCalculationButton_Invisible := NOT FlowControlCommands.startMovingA
       <LineId Id="1581" Count="1" />
       <LineId Id="1586" Count="0" />
       <LineId Id="1588" Count="0" />
+      <LineId Id="1834" Count="0" />
+      <LineId Id="1833" Count="0" />
+      <LineId Id="1835" Count="0" />
+      <LineId Id="1839" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>

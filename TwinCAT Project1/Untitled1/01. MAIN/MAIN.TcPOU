@@ -90,7 +90,9 @@ ProcessViewBindings(
 				ConsumedCo2Value := ReactorFlowController.ConsumedCo2Amount,
 				FlowControlParameters := ParameterViewBindings.flowControlParameters,
 				co2ConsumptionLimitExceeded := ReactorFlowController.Co2ConsumptionLimitExceeded,
-				closeOnOffValve := ReactorFlowController.CloseOnOffValve);
+				closeOnOffValve := ReactorFlowController.CloseOnOffValve,
+				modeledMeanReactorFlow := ReactorFlowController.ModeledMeanReactorFlow,
+				co2FlowDeviationPercentage := ReactorFlowController.FlowModelDeviationPercentage);
 // ProcessView out
 ReactorTemperatureController.temperatureContactorCommand := ProcessViewBindings.temperatureContactorCommand;
 ReactorLevelAndPressureController.SlurryInValveCommand := ProcessViewBindings.SlurryInValveCommand;
@@ -172,6 +174,8 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterV
       <LineId Id="384" Count="0" />
       <LineId Id="402" Count="0" />
       <LineId Id="413" Count="0" />
+      <LineId Id="416" Count="0" />
+      <LineId Id="415" Count="0" />
       <LineId Id="358" Count="0" />
       <LineId Id="315" Count="4" />
       <LineId Id="313" Count="0" />

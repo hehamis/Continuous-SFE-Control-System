@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_Co2FlowModelDeviationHandler" Id="{f2cdafab-1b1c-4e4c-8880-93fc7a57225e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Co2FlowModelDeviationHandler
+VAR_INPUT
+	currentFlow : REAL;
+	modeledFlow : REAL;
+END_VAR
+VAR_OUTPUT
+	deviationPercentage : DINT;
+END_VAR
+VAR
+	delta : REAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+IF currentFlow <> 0 THEN
+	delta := modeledFlow / currentFlow;
+	
+	IF delta < 0 THEN
+		deviationPercentage := TO_DINT(delta*100);
+	ELSE
+		deviationPercentage := TO_DINT(-(100 - delta*100));
+	END_IF
+	
+ELSE
+	currentFlow := 0;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Co2FlowModelDeviationHandler">
+      <LineId Id="14" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="20" Count="2" />
+      <LineId Id="25" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="16" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

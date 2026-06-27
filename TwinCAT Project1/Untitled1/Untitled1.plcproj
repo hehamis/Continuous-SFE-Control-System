@@ -115,6 +115,9 @@
     <Compile Include="01. MAIN\01.3 ReactorFlow\Handlers\01.3.3 Co2FlowModeling\FB_Co2FlowModelingHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\Handlers\01.3.4 Co2FlowModelDeviation\FB_Co2FlowModelDeviationHandler.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\01.3 ReactorFlow\ReactorFlowController.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -387,6 +390,7 @@
     <Folder Include="01. MAIN\01.3 ReactorFlow\Handlers\01.3.1 Co2MeanFlowCalculation" />
     <Folder Include="01. MAIN\01.3 ReactorFlow\Handlers\01.3.2 Co2Consumption" />
     <Folder Include="01. MAIN\01.3 ReactorFlow\Handlers\01.3.3 Co2FlowModeling" />
+    <Folder Include="01. MAIN\01.3 ReactorFlow\Handlers\01.3.4 Co2FlowModelDeviation" />
     <Folder Include="01. MAIN\01.4 DataAcquisition" />
     <Folder Include="01. MAIN\01.4 DataAcquisition\FBs" />
     <Folder Include="01. MAIN\01.4 DataAcquisition\Handlers" />

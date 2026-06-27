@@ -13,6 +13,7 @@ VAR
 	HandleCo2MeanFlowCalculation : FB_Co2MeanFlowCalculationHandler;
 	HandleCo2Consumption : FB_Co2consumptionHandler;
 	HandleCo2FlowModeling : FB_Co2FlowModelingHandler;
+	HandleCo2FlowModelDeviation : FB_Co2FlowModelDeviationHandler;
 	
 	// Local variables
 	_meanReactorFlow : REAL;
@@ -22,6 +23,7 @@ VAR
 	_co2ConsumptionLimitExceeded : BOOL;
 	_modeledReactorMeanFlow : REAL;
 	_closeOnOffValve : BOOL;
+	_flowModelDeviationPercentage : DINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -43,7 +45,12 @@ HandleCo2FlowModeling(
 				valvePositionPercentage := flowControlValveOpening,
 				pumpingPressureDelta := serialCommReadData.pumpingPressureSetpoint-serialCommReadData.pumpingPressureMeasurement,
 				flowMeasurement := _meanReactorFlow,
-				modeledOutput => _modeledReactorMeanFlow);]]></ST>
+				modeledOutput => _modeledReactorMeanFlow);
+				
+HandleCo2FlowModelDeviation(
+				currentFlow := _meanReactorFlow,
+				modeledFlow := _modeledReactorMeanFlow,
+				deviationPercentage => _flowModelDeviationPercentage);]]></ST>
     </Implementation>
     <Property Name="CloseOnOffValve" Id="{f2106895-29cc-4255-a249-f7d05f58ca87}">
       <Declaration><![CDATA[PROPERTY CloseOnOffValve : BOOL]]></Declaration>
@@ -105,6 +112,18 @@ _flowControlParameters := FlowControlParameters;]]></ST>
         </Implementation>
       </Set>
     </Property>
+    <Property Name="FlowModelDeviationPercentage" Id="{22a43f75-ad1c-4ffc-94e5-2f0f90ba56e2}">
+      <Declaration><![CDATA[PROPERTY FlowModelDeviationPercentage : DINT]]></Declaration>
+      <Get Name="Get" Id="{3d84f36f-90b5-441d-b9fe-9d60886be910}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+FlowModelDeviationPercentage := _flowModelDeviationPercentage;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="MeanReactorFlow" Id="{54cf3119-bfc4-4992-9290-14785dcc2c4c}">
       <Declaration><![CDATA[PROPERTY MeanReactorFlow : REAL]]></Declaration>
       <Get Name="Get" Id="{d74e12b3-eeff-426f-95ec-b4d7bd07139c}">
@@ -117,11 +136,24 @@ MeanReactorFlow := _meanReactorFlow;]]></ST>
         </Implementation>
       </Get>
     </Property>
+    <Property Name="ModeledMeanReactorFlow" Id="{d89940c1-e57b-4ab0-80d4-4a5c5dd1e9d7}">
+      <Declaration><![CDATA[PROPERTY ModeledMeanReactorFlow : REAL]]></Declaration>
+      <Get Name="Get" Id="{1d1f071e-5a92-4ab8-b188-21226a15a07f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+ModeledMeanReactorFlow := _modeledReactorMeanFlow;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <LineIds Name="ReactorFlowController">
       <LineId Id="211" Count="11" />
       <LineId Id="249" Count="0" />
       <LineId Id="223" Count="4" />
       <LineId Id="108" Count="0" />
+      <LineId Id="273" Count="4" />
     </LineIds>
     <LineIds Name="ReactorFlowController.CloseOnOffValve.Get">
       <LineId Id="5" Count="0" />
@@ -143,7 +175,15 @@ MeanReactorFlow := _meanReactorFlow;]]></ST>
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="ReactorFlowController.FlowModelDeviationPercentage.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="ReactorFlowController.MeanReactorFlow.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorFlowController.ModeledMeanReactorFlow.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>

@@ -461,6 +461,16 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"274"</v>
+              <v n="TextDefault">"Model deviation"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"65"</v>
+              <v n="TextDefault">"Model: "</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"348"</v>
               <v n="TextDefault">"Moving average calculation interval (s)"</v>
               <l n="LanguageTexts" t="ArrayList" />
