@@ -18,7 +18,7 @@ VAR
 	openIndex : INT;
 	closeIndex : INT;
 	RTRIG_ValveOpened : R_TRIG;
-	FTRIG_ValveClosed : R_TRIG;
+	FTRIG_ValveClosed : F_TRIG;
 	LocalTime     : FB_LocalSystemTime;
 	currentOpenTime : DT;
 	currentCloseTime : DT;
