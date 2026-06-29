@@ -25,7 +25,7 @@ IF currentFlow <> 0 THEN
 	END_IF
 	
 ELSE
-	currentFlow := 0;
+	deviationPercentage := 0;
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="FB_Co2FlowModelDeviationHandler">
