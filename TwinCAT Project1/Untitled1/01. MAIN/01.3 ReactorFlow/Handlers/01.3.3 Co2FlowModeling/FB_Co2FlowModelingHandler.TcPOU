@@ -24,7 +24,7 @@ END_VAR
 // Init model on first cycle
 IF firstCycle THEN
 	mF.Init(
-		activateObserver := FALSE);
+		activateObserver := TRUE);
 	firstCycle := FALSE;
 END_IF
 
