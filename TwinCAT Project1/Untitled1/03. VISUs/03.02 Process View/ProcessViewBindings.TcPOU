@@ -98,6 +98,7 @@ VAR
 	autoExtractionParameterMenuButton_ToggleVariable : BOOL;
 	
 	ControlValveOpeningPercentageTextBox_TextVariable : DINT;
+	ControlValveOpeningPercentageTextBox_NumPadVariable : DINT;
 	
 	ExtractiveOutletValveSlider_Invisible : BOOL;
 	
@@ -225,15 +226,16 @@ END_IF
 ExtractiveOutOnOffValveButton_DisableInputs := NOT ExtractiveOnOffValveValues.open AND (iPressureScaledValue < onOffValvePressureLimit);
 
 // ExtractiveOutLines
-ExtractiveOutLines_ToggleColor  := ExtractiveOnOffValveValues.open;//GVL_IO.extractiveOutletOnOffValve;
+ExtractiveOutLines_ToggleColor  := ExtractiveOnOffValveValues.open;
 
 // ExtractiveOutletValveCalibrateButton
 ExtractiveControlValveCommands.calibrate := ExtractiveOutletValveCalibrateButton_TapVariable;
 
 // ExtractiveOutletValveSlider
-ExtractiveControlValveCommands.openPercentage := ExtractiveOutletValveSlider_Variable*10;
+ExtractiveControlValveCommands.openPercentage := ControlValveOpeningPercentageTextBox_NumPadVariable;//ExtractiveOutletValveSlider_Variable*10;
 IF ExtractiveControlValveCommands.calibrate THEN
-	ExtractiveOutletValveSlider_Variable := 0;
+	ControlValveOpeningPercentageTextBox_NumPadVariable := 0;
+//	ExtractiveOutletValveSlider_Variable := 0;
 END_IF
 ExtractiveOutletValveSlider_DisableInputs := ReactorLevelAndPressureController.controlValveOpeningOrClosing OR MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;
 ExtractiveOutletValveSlider_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable OR NOT CalibrateDone;
@@ -285,7 +287,11 @@ Co2DeviationOverLimLabel_Invisible := ProcessViewBindings.MeanFlowLabel_Invisibl
 ]]></ST>
     </Implementation>
     <LineIds Name="ProcessViewBindings">
-      <LineId Id="2088" Count="153" />
+      <LineId Id="2088" Count="105" />
+      <LineId Id="2387" Count="0" />
+      <LineId Id="2194" Count="5" />
+      <LineId Id="2369" Count="0" />
+      <LineId Id="2201" Count="40" />
       <LineId Id="2243" Count="0" />
       <LineId Id="2242" Count="0" />
     </LineIds>
