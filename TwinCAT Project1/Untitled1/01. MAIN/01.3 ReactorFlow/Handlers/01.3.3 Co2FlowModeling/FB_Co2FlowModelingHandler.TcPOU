@@ -23,7 +23,7 @@ END_VAR
       <ST><![CDATA[
 // Init model on first cycle
 IF firstCycle THEN
-	mF.Init(
+	mF.setParams(
 		activateObserver := TRUE);
 	firstCycle := FALSE;
 END_IF

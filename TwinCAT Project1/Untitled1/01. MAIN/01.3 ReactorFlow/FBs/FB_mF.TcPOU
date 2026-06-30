@@ -12,8 +12,8 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="Init" Id="{132c8693-1e25-4406-a7bb-52bcb4be7308}">
-      <Declaration><![CDATA[METHOD PUBLIC Init
+    <Method Name="setParams" Id="{132c8693-1e25-4406-a7bb-52bcb4be7308}">
+      <Declaration><![CDATA[METHOD PUBLIC setParams
 VAR_INPUT
 	activateObserver : BOOL;
 END_VAR
@@ -23,6 +23,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[
 SUPER^();
+Init(activateObserver := activateObserver);
 nx := 2;
 nu := 2;
 ny := 1;
@@ -48,8 +49,10 @@ _K[2] := -0.5091;]]></ST>
     <LineIds Name="FB_mF">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_mF.Init">
-      <LineId Id="7" Count="20" />
+    <LineIds Name="FB_mF.setParams">
+      <LineId Id="7" Count="1" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="9" Count="18" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
