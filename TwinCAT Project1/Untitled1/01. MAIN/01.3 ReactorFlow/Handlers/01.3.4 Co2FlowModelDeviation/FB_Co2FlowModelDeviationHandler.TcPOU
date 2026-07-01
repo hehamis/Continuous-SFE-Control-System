@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="FB_Co2FlowModelDeviationHandler" Id="{f2cdafab-1b1c-4e4c-8880-93fc7a57225e}" SpecialFunc="None">
+  <POU Name="FB_Co2FlowModelDeviationHandler" Id="{678061e6-311d-48d4-8dfc-d5894915d185}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Co2FlowModelDeviationHandler
 VAR_INPUT
 	currentFlow : REAL;
@@ -11,34 +11,49 @@ VAR_OUTPUT
 END_VAR
 VAR
 	delta : REAL;
+	_maxValue : REAL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
 IF currentFlow <> 0 THEN
-	delta := modeledFlow / currentFlow;
+	delta := modeledFlow - currentFlow;
 	
-	IF delta < 0 THEN
-		deviationPercentage := TO_DINT(delta*100);
-	ELSE
-		deviationPercentage := TO_DINT(-(100 - delta*100));
-	END_IF
+	// Normalize max value to 100 percent
+	deviationPercentage := TO_DINT((delta/_maxValue)*100);
 	
 ELSE
 	deviationPercentage := 0;
 END_IF]]></ST>
     </Implementation>
+    <Method Name="FB_init" Id="{9d5aec9a-2e6e-4d2a-92ac-16849f948a59}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	maxValue : REAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+_maxValue := maxValue;
+]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_Co2FlowModelDeviationHandler">
       <LineId Id="14" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="18" Count="0" />
-      <LineId Id="20" Count="2" />
-      <LineId Id="25" Count="1" />
-      <LineId Id="23" Count="0" />
+      <LineId Id="46" Count="2" />
       <LineId Id="31" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="16" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Co2FlowModelDeviationHandler.FB_init">
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="10" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

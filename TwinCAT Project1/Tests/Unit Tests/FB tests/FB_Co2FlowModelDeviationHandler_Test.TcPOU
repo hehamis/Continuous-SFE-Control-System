@@ -17,7 +17,7 @@ ifCurrentFlowIsZeroDeviationShouldBeZero();]]></ST>
     <Method Name="ifCurrentFlowIsZeroDeviationShouldBeZero" Id="{9d7019b3-e587-41fe-ac24-f8a42c05b095}">
       <Declaration><![CDATA[METHOD ifCurrentFlowIsZeroDeviationShouldBeZero
 VAR
-	deviationHandler : FB_Co2FlowModelDeviationHandler;
+	deviationHandler : FB_Co2FlowModelDeviationHandler(maxValue := 100);
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -37,7 +37,7 @@ TEST_FINISHED();
     <Method Name="simpleCalculationsTest" Id="{dfe3233d-3553-4b9b-aed2-522d143efd45}">
       <Declaration><![CDATA[METHOD simpleCalculationsTest
 VAR
-	deviationHandler : FB_Co2FlowModelDeviationHandler;
+	deviationHandler : FB_Co2FlowModelDeviationHandler(maxValue := 100);
 END_VAR
 ]]></Declaration>
       <Implementation>

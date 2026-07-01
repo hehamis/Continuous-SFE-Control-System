@@ -13,7 +13,7 @@ VAR
 	HandleCo2MeanFlowCalculation : FB_Co2MeanFlowCalculationHandler;
 	HandleCo2Consumption : FB_Co2consumptionHandler;
 	HandleCo2FlowModeling : FB_Co2FlowModelingHandler;
-	HandleCo2FlowModelDeviation : FB_Co2FlowModelDeviationHandler;
+	HandleCo2FlowModelDeviation : FB_Co2FlowModelDeviationHandler(maxValue := 0.35);
 	
 	// Local variables
 	_meanReactorFlow : REAL;
