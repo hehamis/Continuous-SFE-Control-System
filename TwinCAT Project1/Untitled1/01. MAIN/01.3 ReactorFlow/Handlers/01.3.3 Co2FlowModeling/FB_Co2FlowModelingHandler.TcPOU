@@ -10,10 +10,10 @@ VAR_INPUT
 END_VAR
 VAR_OUTPUT
 	modeledOutput : LREAL;
+	mF : FB_mF;
 END_VAR
 VAR
 	u : ARRAY[1..15] OF LREAL;
-	mF : FB_mF;
 	maxValveOpening : LREAL := 1.75;
 	valvePosition : LREAL;
 	TON_StepInterval : TON;

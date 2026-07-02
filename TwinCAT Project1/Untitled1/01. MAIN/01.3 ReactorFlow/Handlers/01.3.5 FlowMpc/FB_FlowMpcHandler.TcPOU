@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_FlowMpcHandler" Id="{b89f0a14-0c2b-48c3-8c3c-0bbae460cc8d}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_FlowMpcHandler
+VAR_INPUT
+	flowSetpoint : REAL;
+	pumpingPressureDelta : DINT;
+	currentValvePosition : DINT;
+	modeledValvePercentage : DINT;
+	flowModel	: FB_mF;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	maxValue : REAL := 1.75;
+	currentValvePosRounds : REAL;
+	valvePosRounds : REAL;
+	flowMpc : FB_MPC(
+					Horizon := 20,
+					ManipulatedVariableMin := 0.0,
+					ManipulatedVariableMax := 1.75,
+					StepSize := 0.05,
+					Qin := 1.0,
+    				Rin := 0.1);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// Valve position percentage to rounds
+currentValvePosRounds := (TO_REAL(currentValvePosition)/100) * maxValue;
+
+flowMpc(
+	Enable := ,
+	setPoint := flowSetpoint,
+	measuredDisturbance := pumpingPressureDelta,
+	currentManipulatedVariable := currentValvePosRounds,
+	model := flowModel,
+	manipulatedVariableTarget => ,
+	BestCost => );
+	
+modeledValvePercentage := TO_DINT((flowMpc.manipulatedVariableTarget / maxValue) * 100);]]></ST>
+    </Implementation>
+    <LineIds Name="FB_FlowMpcHandler">
+      <LineId Id="38" Count="2" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="12" Count="3" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="16" Count="1" />
+      <LineId Id="45" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

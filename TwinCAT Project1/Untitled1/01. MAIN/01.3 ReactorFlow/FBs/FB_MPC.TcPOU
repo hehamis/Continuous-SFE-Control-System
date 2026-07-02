@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_MPC" Id="{75fc410a-f7da-4c80-b4d6-0b599f05017c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MPC
+VAR_IN_OUT
+    model : FB_StateSpaceModel;
+END_VAR
+VAR_INPUT
+    Enable          : BOOL;
+
+    setPoint          : LREAL;
+
+    measuredDisturbance : DINT;
+
+    currentManipulatedVariable    : LREAL;
+END_VAR
+VAR_OUTPUT
+    manipulatedVariableTarget     : LREAL;
+
+    BestCost        : LREAL;
+END_VAR
+
+VAR;
+
+    xPred : ARRAY[1..15] OF LREAL;
+    xNext : ARRAY[1..15] OF LREAL;
+
+    uPred : ARRAY[1..15] OF LREAL;
+    yPred : ARRAY[1..15] OF LREAL;
+
+    CandidateManipulatedVariable : LREAL;
+
+    Cost : LREAL;
+
+    Error : LREAL;
+
+    MinCost : LREAL;
+
+    i : DINT;
+    k : DINT;
+	
+    _Horizon : DINT := 20;
+
+    _ValveMin : LREAL := 0.0;
+    _ValveMax : LREAL := 1.75;
+
+    _ValveStep : LREAL := 0.05;
+
+    _Q : LREAL := 1.0;
+    _R : LREAL := 0.1;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT Enable THEN
+    RETURN;
+END_IF;
+
+
+MinCost := 1.0E100;
+
+manipulatedVariableTarget := currentManipulatedVariable;
+
+
+model.GetState(
+    State => xPred);
+
+
+FOR i := 0 TO TRUNC((_ValveMax - _ValveMin) / _ValveStep) DO
+
+    CandidateManipulatedVariable := _ValveMin + _ValveStep * TO_LREAL(i);
+
+    Cost := 0.0;
+
+    FOR k := 1 TO _Horizon DO
+
+        uPred[1] := CandidateManipulatedVariable;
+        uPred[2] := TO_LREAL(measuredDisturbance);
+
+        model.Predict(
+            xIn := xPred,
+            u := uPred,
+            xOut => xNext,
+            yOut => yPred);
+
+        xPred := xNext;
+
+        Error := setPoint - yPred[1];
+
+        Cost :=
+              Cost
+            + _Q * Error * Error
+            + _R * (CandidateManipulatedVariable - currentManipulatedVariable)
+                * (CandidateManipulatedVariable - currentManipulatedVariable);
+
+    END_FOR
+
+
+    IF Cost < MinCost THEN
+
+        MinCost := Cost;
+
+        manipulatedVariableTarget := CandidateManipulatedVariable;
+
+    END_IF
+
+
+    model.GetState(
+        State => xPred);
+
+END_FOR
+
+BestCost := MinCost;]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{c513f42f-1953-4bbd-8534-e68bc38469ef}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+    Horizon : DINT := 20;
+    
+    ManipulatedVariableMin : LREAL := 0.0;
+    ManipulatedVariableMax : LREAL := 1.75;
+    
+    StepSize : LREAL := 0.05;
+    
+    Qin : LREAL := 1.0;
+    Rin : LREAL := 0.1;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_Horizon := Horizon;
+
+_ValveMin := ManipulatedVariableMin;
+_ValveMax := ManipulatedVariableMax;
+
+_ValveStep := StepSize;
+
+_Q := Qin;
+_R := Rin;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_MPC">
+      <LineId Id="1522" Count="57" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MPC.FB_init">
+      <LineId Id="113" Count="7" />
+      <LineId Id="15" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
