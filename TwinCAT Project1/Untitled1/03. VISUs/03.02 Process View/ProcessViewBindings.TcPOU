@@ -99,6 +99,7 @@ VAR
 	
 	ControlValveOpeningPercentageTextBox_TextVariable : DINT;
 	ControlValveOpeningPercentageTextBox_NumPadVariable : DINT;
+	ControlValveopeningPercentageTextBox_DisableInputs : BOOL;
 	
 	ExtractiveOutletValveSlider_Invisible : BOOL;
 	
@@ -237,12 +238,15 @@ IF ExtractiveControlValveCommands.calibrate THEN
 	ControlValveOpeningPercentageTextBox_NumPadVariable := 0;
 //	ExtractiveOutletValveSlider_Variable := 0;
 END_IF
-ExtractiveOutletValveSlider_DisableInputs := ReactorLevelAndPressureController.controlValveOpeningOrClosing OR MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;
+ExtractiveOutletValveSlider_DisableInputs := ReactorLevelAndPressureController.controlValveOpeningOrClosing 
+											OR MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable;
 ExtractiveOutletValveSlider_Invisible := MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable OR NOT CalibrateDone;
 
 // ControlValveOpeningPercentageTextBox
 ControlValveOpeningPercentageTextBox_TextVariable := ControlValveOpening;
-
+ControlValveopeningPercentageTextBox_DisableInputs := ReactorLevelAndPressureController.controlValveOpeningOrClosing 
+											OR MainScreenBindings.StartAutomaticExtractionButton_ToggleVariable
+											OR NOT CalibrateDone;
 // StateLabel
 StateLabel_TextVariable := TO_STRING(automaticExtractionState);
 
@@ -289,9 +293,12 @@ Co2DeviationOverLimLabel_Invisible := ProcessViewBindings.MeanFlowLabel_Invisibl
     <LineIds Name="ProcessViewBindings">
       <LineId Id="2088" Count="105" />
       <LineId Id="2387" Count="0" />
-      <LineId Id="2194" Count="5" />
+      <LineId Id="2194" Count="2" />
+      <LineId Id="2514" Count="0" />
+      <LineId Id="2197" Count="2" />
       <LineId Id="2369" Count="0" />
-      <LineId Id="2201" Count="40" />
+      <LineId Id="2517" Count="2" />
+      <LineId Id="2202" Count="39" />
       <LineId Id="2243" Count="0" />
       <LineId Id="2242" Count="0" />
     </LineIds>
