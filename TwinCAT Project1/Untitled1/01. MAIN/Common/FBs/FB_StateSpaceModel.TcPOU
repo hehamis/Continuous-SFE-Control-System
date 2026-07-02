@@ -18,8 +18,10 @@ VAR
 	_activateObserver : BOOL;
     bInit : BOOL;
 	
-	i,j : INT;
-    x_new : ARRAY[1..10] OF LREAL;
+	i,j,l : INT;
+    xNext : ARRAY[1..15] OF LREAL;
+    yPred : ARRAY[1..15] OF LREAL;
+
     e : LREAL;
 END_VAR
 VAR_OUTPUT
@@ -28,6 +30,38 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="getOutput" Id="{ccd21c9e-bce9-4b78-b3af-9dd4669553af}">
+      <Declaration><![CDATA[METHOD PUBLIC GetOutput
+VAR_OUTPUT
+    Output : ARRAY[1..15] OF LREAL;
+END_VAR
+VAR
+    i : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+FOR i:=1 TO ny DO
+    Output[i] := y[i];
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="getState" Id="{6af0abee-6782-47d8-8b52-eaed0358b801}">
+      <Declaration><![CDATA[METHOD GetState
+VAR_OUTPUT
+    State : ARRAY[1..15] OF LREAL;
+END_VAR
+VAR
+    i : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+FOR i:=1 TO nx DO
+    State[i] := x[i];
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="Init" Id="{b1a1fbce-7488-459e-a918-05d26a30116b}">
       <Declaration><![CDATA[METHOD PUBLIC Init
 VAR_INPUT
@@ -38,73 +72,158 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[
-FOR i := 1 TO nx DO
-    x[i] := 0;
-    _K[i] := _K[i]; // keep
-END_FOR
+Reset();
+//FOR i := 1 TO nx DO
+//    x[i] := 0;
+//    _K[i] := _K[i]; // keep
+//END_FOR
 _activateObserver := activateObserver;
 bInit := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="predict" Id="{c12546b3-a33b-4d4b-9a01-fcb29ea4ba69}">
+      <Declaration><![CDATA[METHOD PUBLIC Predict
+VAR_INPUT
+    xIn : ARRAY[1..15] OF LREAL;
+    u   : ARRAY[1..15] OF LREAL;
+END_VAR
+VAR_OUTPUT
+    xOut : ARRAY[1..15] OF LREAL;
+    yOut : ARRAY[1..15] OF LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+(* Calculate output *)
+
+FOR i:=1 TO ny DO
+
+    yOut[i] := 0.0;
+
+    FOR j:=1 TO nx DO
+        yOut[i] := yOut[i] + _C[i,j] * xIn[j];
+    END_FOR
+
+    FOR j:=1 TO nu DO
+        yOut[i] := yOut[i] + _D[i,j] * u[j];
+    END_FOR
+
+END_FOR
+
+
+(* Predict next state *)
+
+FOR i:=1 TO nx DO
+
+    xOut[i] := 0.0;
+
+    FOR j:=1 TO nx DO
+        xOut[i] := xOut[i] + _A[i,j] * xIn[j];
+    END_FOR
+
+    FOR j:=1 TO nu DO
+        xOut[i] := xOut[i] + _B[i,j] * u[j];
+    END_FOR
+
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Reset" Id="{32ca3dbd-498c-44f5-8aa8-3c942ba76c41}">
+      <Declaration><![CDATA[METHOD Reset : BOOL
+VAR
+    i : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+FOR i:=1 TO 15 DO
+
+    x[i] := 0.0;
+
+    y[i] := 0.0;
+
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="setState" Id="{361ca776-39b8-4fa5-878b-ae32d8a2a6d9}">
+      <Declaration><![CDATA[METHOD setState : BOOL
+VAR_INPUT
+    State : ARRAY[1..15] OF LREAL;
+END_VAR
+VAR
+    i : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+FOR i:=1 TO nx DO
+    x[i] := State[i];
+END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="step" Id="{673a3b0c-a3cb-4aba-bf8c-343c4d6c442b}">
       <Declaration><![CDATA[METHOD PUBLIC Step
 VAR_INPUT
-    u  		: ARRAY[1..15] OF LREAL;
-	y_meas 	: LREAL;
+    u      : ARRAY[1..15] OF LREAL;
+    yMeas  : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[
-// --- Output ---
-FOR i := 1 TO ny DO
-    y[i] := 0;
-    FOR j := 1 TO nx DO 
-        y[i] := y[i] + _C[i,j]*x[j];
-    END_FOR
-END_FOR
+        <ST><![CDATA[Predict(
+    xIn := x,
+    u := u,
+    xOut => xNext,
+    yOut => yPred);
 
-// --- Innovation (single y example) ---
 IF _activateObserver THEN
-	e := y_meas - y[1];
-ELSE 
-	e := 0;
+
+    e := yMeas - yPred[1];
+
+    FOR l:=1 TO nx DO
+        xNext[l] := xNext[l] + _K[l] * e;
+    END_FOR
+
 END_IF
 
-// --- State update ---
-FOR i := 1 TO nx DO
-    x_new[i] := 0;
-
-    FOR j := 1 TO nx DO
-        x_new[i] := x_new[i] + _A[i,j]*x[j];
-    END_FOR
-
-    FOR j := 1 TO nu DO
-        x_new[i] := x_new[i] + _B[i,j]*u[j];
-    END_FOR
-
-    x_new[i] := x_new[i] + _K[i]*e;
+FOR l:=1 TO nx DO
+    x[l] := xNext[l];
 END_FOR
 
-FOR i := 1 TO nx DO
-    x[i] := x_new[i];
-END_FOR
-]]></ST>
+FOR l:=1 TO ny DO
+    y[l] := yPred[l];
+END_FOR]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_StateSpaceModel">
       <LineId Id="9" Count="0" />
     </LineIds>
+    <LineIds Name="FB_StateSpaceModel.getOutput">
+      <LineId Id="12" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StateSpaceModel.getState">
+      <LineId Id="9" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
     <LineIds Name="FB_StateSpaceModel.Init">
+      <LineId Id="23" Count="0" />
       <LineId Id="11" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>
+    <LineIds Name="FB_StateSpaceModel.predict">
+      <LineId Id="17" Count="0" />
+      <LineId Id="24" Count="30" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StateSpaceModel.Reset">
+      <LineId Id="6" Count="6" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StateSpaceModel.setState">
+      <LineId Id="12" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
     <LineIds Name="FB_StateSpaceModel.step">
-      <LineId Id="175" Count="0" />
-      <LineId Id="177" Count="8" />
-      <LineId Id="209" Count="0" />
-      <LineId Id="186" Count="0" />
-      <LineId Id="210" Count="2" />
-      <LineId Id="187" Count="17" />
-      <LineId Id="169" Count="0" />
+      <LineId Id="217" Count="21" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
