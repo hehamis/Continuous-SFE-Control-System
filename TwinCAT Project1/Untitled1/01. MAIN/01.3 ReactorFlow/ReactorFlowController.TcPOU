@@ -45,6 +45,7 @@ HandleCo2FlowModeling(
 				valvePositionPercentage := flowControlValveOpening,
 				pumpingPressureDelta := serialCommReadData.pumpingPressureSetpoint-serialCommReadData.pumpingPressureMeasurement,
 				flowMeasurement := _meanReactorFlow,
+				modelingActive := _flowControlCommands.startMovingAvgCalculation,
 				modeledOutput => _modeledReactorMeanFlow);
 				
 HandleCo2FlowModelDeviation(
@@ -152,6 +153,7 @@ ModeledMeanReactorFlow := _modeledReactorMeanFlow;]]></ST>
       <LineId Id="211" Count="11" />
       <LineId Id="249" Count="0" />
       <LineId Id="223" Count="4" />
+      <LineId Id="302" Count="0" />
       <LineId Id="108" Count="0" />
       <LineId Id="273" Count="4" />
     </LineIds>

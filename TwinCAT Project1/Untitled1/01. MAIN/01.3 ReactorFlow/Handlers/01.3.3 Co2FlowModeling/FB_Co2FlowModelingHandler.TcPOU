@@ -6,6 +6,7 @@ VAR_INPUT
 	valvePositionPercentage : DINT;
 	pumpingPressureDelta : DINT;
 	flowMeasurement : REAL;
+	modelingActive : BOOL;
 END_VAR
 VAR_OUTPUT
 	modeledOutput : LREAL;
@@ -31,19 +32,24 @@ END_IF
 // Calculate valve position
 valvePosition := maxValveOpening * (TO_LREAL(valvePositionPercentage)/100);
 
-// Fill input matrix
-u[1] := valvePosition;
-u[2] := TO_LREAL(pumpingPressureDelta);
-
-// Calculate flow every second
-TON_StepInterval(IN := TRUE, PT := T#1S);
-IF TON_StepInterval.Q AND valvePosition >= 0.25 THEN
-	mF.Step(
-			u := u,
-			y_meas := TO_LREAL(flowMeasurement));
-			
-	modeledOutput := mF.y[1];
+IF modelingActive THEN
+	// Fill input matrix
+	u[1] := valvePosition;
+	u[2] := TO_LREAL(pumpingPressureDelta);
+	
+	// Calculate flow every second
+	TON_StepInterval(IN := TRUE, PT := T#1S);
+	IF TON_StepInterval.Q AND valvePosition >= 0.25 THEN
+		mF.Step(
+				u := u,
+				yMeas := TO_LREAL(flowMeasurement));
+				
+		modeledOutput := mF.y[1];
+	ELSE
+		modeledOutput := 0;
+	END_IF
 ELSE
+	mF.Reset();
 	modeledOutput := 0;
 END_IF
 ]]></ST>
@@ -57,6 +63,7 @@ END_IF
       <LineId Id="30" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="33" Count="0" />
+      <LineId Id="87" Count="0" />
       <LineId Id="22" Count="2" />
       <LineId Id="26" Count="0" />
       <LineId Id="35" Count="0" />
@@ -68,6 +75,9 @@ END_IF
       <LineId Id="63" Count="1" />
       <LineId Id="66" Count="1" />
       <LineId Id="38" Count="0" />
+      <LineId Id="88" Count="1" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="90" Count="0" />
       <LineId Id="41" Count="0" />
     </LineIds>
   </POU>
