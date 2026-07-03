@@ -69,7 +69,7 @@ CASE controlState OF
 			open := TRUE;
 			close := FALSE;
 		ELSIF controlValveCommands.openPercentage < currentControlValveOpenPercentage THEN
-			close := FALSE;
+			open := FALSE;
 			close := TRUE;
 		ELSE
 			open := FALSE;
