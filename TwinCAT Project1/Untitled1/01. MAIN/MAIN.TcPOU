@@ -19,6 +19,8 @@ ReactorLevelAndPressureController(
 					stop := SafetyController.stop,
 					levelHigh := GVL_IO.reactorLevelHigh,
 					co2ConsumptionLimitExceeded :=  ReactorFlowController._closeOnOffValve,
+					modeledValvePosition := ReactorFlowController.ModeledValvePercentage,
+					flowMpcEnabled :=  ProcessViewBindings.FlowControlCommands.enableFlowMpc,
 					slurryInletValve => GVL_IO.reactorInletValve,
 					slurryOutletValve => GVL_IO.reactorOutletValve,
 					extractiveOutletOnOffValve => GVL_IO.extractiveOutletOnOffValve,
@@ -133,6 +135,7 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterV
       <LineId Id="274" Count="1" />
       <LineId Id="349" Count="0" />
       <LineId Id="400" Count="0" />
+      <LineId Id="419" Count="1" />
       <LineId Id="350" Count="0" />
       <LineId Id="332" Count="0" />
       <LineId Id="353" Count="0" />

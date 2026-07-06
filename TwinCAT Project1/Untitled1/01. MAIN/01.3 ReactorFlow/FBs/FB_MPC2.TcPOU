@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_MPC2" Id="{73f87072-8d2a-4f02-ab17-106eb5a60a76}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MPC2
+VAR_INPUT
+    Enable : BOOL;
+
+    FlowSP : LREAL;
+
+    CurrentValve : LREAL;
+
+    PressureDelta : LREAL;
+
+    ValveBusy : BOOL;
+END_VAR
+
+VAR_IN_OUT
+    Model : FB_StateSpaceModel;
+END_VAR
+
+VAR_OUTPUT
+    ValveTarget : LREAL;
+
+    DeltaValve : LREAL;
+END_VAR
+
+VAR
+    xHat : ARRAY[1..15] OF LREAL;
+
+    Yfree : ARRAY[1..20] OF LREAL;
+
+    Ref : ARRAY[1..20] OF LREAL;
+
+    Gradient : ARRAY[1..5] OF LREAL;
+
+    DeltaU : ARRAY[1..5] OF LREAL;
+
+    i : INT;
+    j : INT;
+
+	_MPC_Matrices : ST_MPC_Matrices;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Model.GetState(State => xHat);
+
+FOR i := 1 TO 20 DO
+    Ref[i] := FlowSP;
+END_FOR
+
+FOR i := 1 TO 20 DO
+
+    Yfree[i] := 0.0;
+
+    FOR j := 1 TO 2 DO
+        Yfree[i] :=
+            Yfree[i]
+            + _MPC_Matrices.gMPC_F[i,j] * xHat[j];
+    END_FOR
+
+END_FOR
+
+FOR i := 1 TO 5 DO
+
+    Gradient[i] := 0.0;
+
+    FOR j := 1 TO 20 DO
+
+        Gradient[i] :=
+            Gradient[i]
+            + _MPC_Matrices.gMPC_Phi[j,i]
+            * (Yfree[j]-Ref[j]);
+
+    END_FOR
+
+END_FOR
+
+FOR i := 1 TO 5 DO
+
+    DeltaU[i] := 0.0;
+
+    FOR j := 1 TO 5 DO
+
+        DeltaU[i] :=
+            DeltaU[i]
+            - _MPC_Matrices.gMPC_Hinv[i,j]
+            * Gradient[j];
+
+    END_FOR
+
+END_FOR
+
+DeltaValve := DeltaU[1];
+
+IF DeltaValve > 0.07 THEN
+    DeltaValve := 0.07;
+END_IF;
+
+IF DeltaValve < -0.07 THEN
+    DeltaValve := -0.07;
+END_IF;
+
+ValveTarget :=
+    CurrentValve
+    + DeltaValve;
+	
+IF ValveTarget > 1.75 THEN
+    ValveTarget := 1.75;
+END_IF;
+
+IF ValveTarget < 0.0 THEN
+    ValveTarget := 0.0;
+END_IF;
+
+IF ValveBusy THEN
+    ValveTarget := CurrentValve;
+END_IF;]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{fcaad005-711a-4589-8d35-c274f92f7216}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	
+	MPC_Matrices : ST_MPC_Matrices;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+_MPC_Matrices := MPC_Matrices;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_MPC2">
+      <LineId Id="462" Count="71" />
+      <LineId Id="114" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MPC2.FB_init">
+      <LineId Id="20" Count="0" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

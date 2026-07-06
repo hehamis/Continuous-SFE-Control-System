@@ -127,6 +127,10 @@ VAR
 	Co2DeviationUnderLimLabel_TextVariable : DINT;
 	Co2DeviationUnderLimLabel_Invisible : BOOL;
 	Co2DeviationOverLimLabel_Invisible : BOOL;
+	
+	MpcEnableButton_ToggleVariable : BOOL;
+	FlowSetPointTextBox_TextVariable : REAL;
+	
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF reactorOutletValve = 1 THEN
@@ -288,6 +292,11 @@ Co2ModelLabel_TextVariable := modeledMeanReactorFlow;
 Co2DeviationUnderLimLabel_TextVariable := co2FlowDeviationPercentage;
 Co2DeviationUnderLimLabel_Invisible := ProcessViewBindings.MeanFlowLabel_Invisible OR (co2FlowDeviationPercentage >= 30 OR co2FlowDeviationPercentage <= -30 );
 Co2DeviationOverLimLabel_Invisible := ProcessViewBindings.MeanFlowLabel_Invisible OR NOT (co2FlowDeviationPercentage >= 30 OR co2FlowDeviationPercentage <= -30 );
+
+// MpcEnableButton
+FlowControlCommands.enableFlowMpc :=  MpcEnableButton_ToggleVariable;
+// FlowSetPointTextBox
+FlowControlCommands.flowSetpoint := FlowSetPointTextBox_TextVariable; 
 ]]></ST>
     </Implementation>
     <LineIds Name="ProcessViewBindings">
@@ -300,7 +309,10 @@ Co2DeviationOverLimLabel_Invisible := ProcessViewBindings.MeanFlowLabel_Invisibl
       <LineId Id="2517" Count="2" />
       <LineId Id="2202" Count="39" />
       <LineId Id="2243" Count="0" />
+      <LineId Id="2521" Count="0" />
       <LineId Id="2242" Count="0" />
+      <LineId Id="2524" Count="2" />
+      <LineId Id="2522" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

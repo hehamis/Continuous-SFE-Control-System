@@ -39,14 +39,14 @@ IF modelingActive THEN
 	
 	// Calculate flow every second
 	TON_StepInterval(IN := TRUE, PT := T#1S);
-	IF TON_StepInterval.Q AND valvePosition >= 0.25 THEN
+	IF TON_StepInterval.Q THEN // AND valvePosition >= 0.25 THEN
 		mF.Step(
 				u := u,
 				yMeas := TO_LREAL(flowMeasurement));
 				
 		modeledOutput := mF.y[1];
-	ELSE
-		modeledOutput := 0;
+//	ELSE
+//		modeledOutput := 0;
 	END_IF
 ELSE
 	mF.Reset();

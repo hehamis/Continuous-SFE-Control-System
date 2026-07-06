@@ -9,6 +9,8 @@ VAR_INPUT
 	extractiveOutOnOffValveCommand : BOOL;
 	autoExtractionControlValveValue : DINT;
 	autoExtractionStarted : BOOL;
+	modeledValvePosition : DINT;
+	flowMpcEnabled : BOOL;
 END_VAR
 VAR_OUTPUT
 	extractiveOnOffValveValues : ST_ExtractiveOnOffValveValues;
@@ -36,6 +38,10 @@ RTRIG_AutomaticExtractionStopped(CLK := NOT autoExtractionStarted);
 RTRIG_EstopPRessed(CLK := stop);
 extractiveControlValveCommands.requireCalibration := RTRIG_EstopPRessed.q;//RTRIG_AutomaticExtractionStopped.Q OR RTRIG_EstopPRessed.q;
 
+IF flowMpcEnabled THEN
+	extractiveControlValveCommands.openPercentage := modeledValvePosition;
+END_IF
+
 ExtractiveOutletControl(
 					onOffValveCommand := extractiveOutOnOffValveCommand,
 					controlValveCommands := extractiveControlValveCommands,
@@ -57,6 +63,7 @@ extractiveOnOffValveValues.open := ExtractiveOutletControl.onOffValveOpen;]]></S
       <LineId Id="247" Count="0" />
       <LineId Id="251" Count="0" />
       <LineId Id="246" Count="0" />
+      <LineId Id="276" Count="3" />
       <LineId Id="198" Count="0" />
       <LineId Id="183" Count="9" />
       <LineId Id="199" Count="0" />

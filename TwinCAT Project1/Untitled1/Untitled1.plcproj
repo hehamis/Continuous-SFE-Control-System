@@ -97,6 +97,9 @@
     <Compile Include="01. MAIN\01.3 ReactorFlow\DUTs\ST_FlowControlParameters.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\DUTs\ST_MPC_Matrices.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FB_ConsumptionCalculator.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -109,6 +112,9 @@
     <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FB_MPC.TcPOU">
       <SubType>Code</SubType>
       <ExcludeFromBuild>false</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FB_MPC2.TcPOU">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="01. MAIN\01.3 ReactorFlow\Handlers\01.3.1 Co2MeanFlowCalculation\FB_Co2MeanFlowCalculationHandler.TcPOU">
       <SubType>Code</SubType>

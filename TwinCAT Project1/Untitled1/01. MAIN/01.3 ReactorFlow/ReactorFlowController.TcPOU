@@ -25,6 +25,7 @@ VAR
 	_modeledReactorMeanFlow : REAL;
 	_closeOnOffValve : BOOL;
 	_flowModelDeviationPercentage : DINT;
+	_modeledValvePercentage : DINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -55,11 +56,12 @@ HandleCo2FlowModelDeviation(
 				deviationPercentage => _flowModelDeviationPercentage);
 				
 HandleFlowMpc(
-			flowSetpoint := ,
+			flowModel := HandleCo2FlowModeling.mF,
+			enable := _FlowControlCommands.enableFlowMpc,
+			flowSetpoint := _FlowControlCommands.flowSetpoint,
 			pumpingPressureDelta := serialCommReadData.pumpingPressureSetpoint-serialCommReadData.pumpingPressureMeasurement,
 			currentValvePosition := ReactorLevelAndPressureController.ControlValveOpening,
-			modeledValvePercentage := ,
-			flowModel := HandleCo2FlowModeling.mF);]]></ST>
+			modeledValvePercentage => _modeledValvePercentage,);]]></ST>
     </Implementation>
     <Property Name="CloseOnOffValve" Id="{f2106895-29cc-4255-a249-f7d05f58ca87}">
       <Declaration><![CDATA[PROPERTY CloseOnOffValve : BOOL]]></Declaration>
@@ -157,6 +159,18 @@ ModeledMeanReactorFlow := _modeledReactorMeanFlow;]]></ST>
         </Implementation>
       </Get>
     </Property>
+    <Property Name="ModeledValvePercentage" Id="{f48c903a-82a3-458c-a0a9-c7daabdadffd}">
+      <Declaration><![CDATA[PROPERTY ModeledValvePercentage : DINT]]></Declaration>
+      <Get Name="Get" Id="{6a748aa7-1c33-4dbf-bee9-878d97f6fadc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+ModeledValvePercentage := _modeledValvePercentage;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <LineIds Name="ReactorFlowController">
       <LineId Id="211" Count="11" />
       <LineId Id="249" Count="0" />
@@ -164,8 +178,11 @@ ModeledMeanReactorFlow := _modeledReactorMeanFlow;]]></ST>
       <LineId Id="302" Count="0" />
       <LineId Id="108" Count="0" />
       <LineId Id="273" Count="4" />
-      <LineId Id="328" Count="4" />
-      <LineId Id="334" Count="1" />
+      <LineId Id="328" Count="1" />
+      <LineId Id="339" Count="0" />
+      <LineId Id="336" Count="0" />
+      <LineId Id="330" Count="2" />
+      <LineId Id="338" Count="0" />
     </LineIds>
     <LineIds Name="ReactorFlowController.CloseOnOffValve.Get">
       <LineId Id="5" Count="0" />
@@ -196,6 +213,10 @@ ModeledMeanReactorFlow := _modeledReactorMeanFlow;]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="ReactorFlowController.ModeledMeanReactorFlow.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ReactorFlowController.ModeledValvePercentage.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>

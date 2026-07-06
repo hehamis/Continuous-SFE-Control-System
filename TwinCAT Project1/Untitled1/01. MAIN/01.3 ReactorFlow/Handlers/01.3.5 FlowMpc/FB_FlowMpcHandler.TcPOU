@@ -3,25 +3,31 @@
   <POU Name="FB_FlowMpcHandler" Id="{b89f0a14-0c2b-48c3-8c3c-0bbae460cc8d}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_FlowMpcHandler
 VAR_INPUT
+	enable : BOOL;
 	flowSetpoint : REAL;
 	pumpingPressureDelta : DINT;
 	currentValvePosition : DINT;
-	modeledValvePercentage : DINT;
 	flowModel	: FB_mF;
 END_VAR
 VAR_OUTPUT
+	modeledValvePercentage : DINT;
 END_VAR
 VAR
 	maxValue : REAL := 1.75;
 	currentValvePosRounds : REAL;
 	valvePosRounds : REAL;
-	flowMpc : FB_MPC(
-					Horizon := 20,
-					ManipulatedVariableMin := 0.0,
-					ManipulatedVariableMax := 1.75,
-					StepSize := 0.05,
-					Qin := 1.0,
-    				Rin := 0.1);
+//		flowMpc : FB_MPC(
+//					Horizon := 20,
+//					ManipulatedVariableMin := 0.0,
+//					ManipulatedVariableMax := 1.75,
+//					StepSize := 0.05,
+//					Qin := 1.0,
+//    				Rin := 0.1);
+	MPC_Matrices : ST_MPC_Matrices;
+	flowMpc : FB_MPC2(
+					MPC_Matrices := MPC_Matrices);
+					
+	TON_UpdateValve : TON;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -29,25 +35,46 @@ END_VAR
 // Valve position percentage to rounds
 currentValvePosRounds := (TO_REAL(currentValvePosition)/100) * maxValue;
 
+//flowMpc(
+//	Enable := enable,
+//	setPoint := flowSetpoint,
+//	measuredDisturbance := pumpingPressureDelta,
+//	currentManipulatedVariable := currentValvePosRounds,
+//	model := flowModel,
+//	manipulatedVariableTarget => ,
+//	BestCost => );
 flowMpc(
-	Enable := ,
-	setPoint := flowSetpoint,
-	measuredDisturbance := pumpingPressureDelta,
-	currentManipulatedVariable := currentValvePosRounds,
-	model := flowModel,
-	manipulatedVariableTarget => ,
-	BestCost => );
+	Enable := enable,
+    FlowSP := flowSetpoint,
+    CurrentValve := currentValvePosRounds,
+    PressureDelta := pumpingPressureDelta,
+    ValveBusy := GVL_IO.extractiveOutletControlValveClose OR GVL_IO.extractiveOutletControlValveOpen,
+	Model := flowModel);
 	
-modeledValvePercentage := TO_DINT((flowMpc.manipulatedVariableTarget / maxValue) * 100);]]></ST>
+//modeledValvePercentage := TO_DINT((flowMpc.manipulatedVariableTarget / maxValue) * 100);
+//TON_UpdateValve(IN := TRUE, PT := T#5S);
+//IF TON_UpdateValve.Q THEN
+	modeledValvePercentage := TO_DINT((flowMpc.ValveTarget / maxValue) * 100);
+//	TON_UpdateValve(IN := FALSE);
+//END_IF]]></ST>
     </Implementation>
     <LineIds Name="FB_FlowMpcHandler">
       <LineId Id="38" Count="2" />
       <LineId Id="11" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="12" Count="3" />
-      <LineId Id="49" Count="0" />
-      <LineId Id="16" Count="1" />
+      <LineId Id="73" Count="6" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="90" Count="0" />
       <LineId Id="45" Count="1" />
+      <LineId Id="116" Count="1" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="118" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

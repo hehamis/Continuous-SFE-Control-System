@@ -7,6 +7,8 @@ VAR_INPUT
 	stop : BOOL;
 	levelHigh : BOOL;
 	co2ConsumptionLimitExceeded : BOOL;
+	modeledValvePosition : DINT;
+	flowMpcEnabled : BOOL;
 END_VAR
 VAR_OUTPUT
 	slurryInletValve : BOOL;
@@ -79,6 +81,8 @@ HandleExtractiveOutlet(
 														((_automaticExtractionState <> E_AutomaticExtractionState.MANUAL_EXTRACTION) AND HandleAutomaticExtraction.extractiveOutOnOffValveAutoCommand AND NOT co2ConsumptionLimitExceeded),
 					autoExtractionControlValveValue := HandleAutomaticExtraction.controlValveAutoOpenPercentage,
 					autoExtractionStarted := _automaticExtractionState <> E_AutomaticExtractionState.MANUAL_EXTRACTION,
+					modeledValvePosition := modeledValvePosition,
+					flowMpcEnabled := flowMpcEnabled,
 					controlValveOpeningPercentage => _controlValveOpening,
 					extractiveOnOffValveValues => _extractiveOnOffValveValues,
 					calibrateDone => _calibrateDone,
@@ -398,6 +402,7 @@ _startAutomaticExtraction := StartAutomaticExtraction;]]></ST>
       <LineId Id="1580" Count="0" />
       <LineId Id="1569" Count="0" />
       <LineId Id="1628" Count="0" />
+      <LineId Id="1726" Count="1" />
       <LineId Id="1585" Count="0" />
       <LineId Id="1581" Count="0" />
       <LineId Id="1570" Count="0" />
