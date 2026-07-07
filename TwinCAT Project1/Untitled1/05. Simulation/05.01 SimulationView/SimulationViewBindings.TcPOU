@@ -8,18 +8,21 @@ VAR
 	pPressureMeasurement : POINTER TO DINT := ADR(GVL_IO.reactorPressure); 	
 	
 	// Locals
-	flowSlider_Variable : REAL;
+	flowSlider_Variable : DINT;
+	flowSlider_Variable_Real : REAL;
 	pressureSlider_Variable : DINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-pFlowMeasurement^ := flowSlider_Variable/100;
+flowSlider_Variable_Real := TO_REAL(flowSlider_Variable)/100;
+pFlowMeasurement^ := flowSlider_Variable_Real;
 pPressureMeasurement^ := pressureSlider_Variable;]]></ST>
     </Implementation>
     <LineIds Name="SimulationViewBindings">
-      <LineId Id="12" Count="0" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="36" Count="0" />
       <LineId Id="23" Count="0" />
     </LineIds>
   </POU>

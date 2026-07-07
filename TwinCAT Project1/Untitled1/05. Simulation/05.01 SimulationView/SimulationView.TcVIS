@@ -20,7 +20,7 @@
                     </o>
                     <o>
                       <v n="Id">3837067714L</v>
-                      <v n="Value" t="Single">500</v>
+                      <v n="Value" t="Single">35</v>
                     </o>
                     <o>
                       <v n="Id">2867424708L</v>
@@ -636,10 +636,10 @@
               <d n="FbMethods" t="CaseInsensitiveHashtable" ckt="String" cvt="Guid">
                 <v>FB_Init</v>
                 <v>ae516de9-ffe9-483b-88e3-634eb4dcef62</v>
-                <v>FB_Exit</v>
-                <v>9760289f-00b2-42d6-8d78-44e0d1b025ab</v>
                 <v>FB_Reinit</v>
                 <v>c9fc0e70-45f2-470c-94e2-2930a50b0464</v>
+                <v>FB_Exit</v>
+                <v>9760289f-00b2-42d6-8d78-44e0d1b025ab</v>
               </d>
               <v n="FbName">"NotImportant"</v>
               <v n="FbGuid">{2ae77079-4cbd-48ec-8abe-8cf3f4357b2b}</v>
