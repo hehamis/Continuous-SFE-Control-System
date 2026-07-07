@@ -61,6 +61,7 @@ HandleFlowMpc(
 			flowSetpoint := _FlowControlCommands.flowSetpoint,
 			pumpingPressureDelta := serialCommReadData.pumpingPressureSetpoint-serialCommReadData.pumpingPressureMeasurement,
 			currentValvePosition := ReactorLevelAndPressureController.ControlValveOpening,
+			measuredFlow := ReactorFlowController.MeanReactorFlow,
 			modeledValvePercentage => _modeledValvePercentage,);]]></ST>
     </Implementation>
     <Property Name="CloseOnOffValve" Id="{f2106895-29cc-4255-a249-f7d05f58ca87}">
@@ -182,6 +183,7 @@ ModeledValvePercentage := _modeledValvePercentage;]]></ST>
       <LineId Id="339" Count="0" />
       <LineId Id="336" Count="0" />
       <LineId Id="330" Count="2" />
+      <LineId Id="366" Count="0" />
       <LineId Id="338" Count="0" />
     </LineIds>
     <LineIds Name="ReactorFlowController.CloseOnOffValve.Get">
