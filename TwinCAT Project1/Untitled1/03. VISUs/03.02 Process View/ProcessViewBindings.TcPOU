@@ -238,6 +238,9 @@ ExtractiveControlValveCommands.calibrate := ExtractiveOutletValveCalibrateButton
 
 // ExtractiveOutletValveSlider
 ExtractiveControlValveCommands.openPercentage := ControlValveOpeningPercentageTextBox_NumPadVariable;//ExtractiveOutletValveSlider_Variable*10;
+IF automaticExtractionState <> E_AutomaticExtractionState.MANUAL_EXTRACTION OR FlowControlCommands.enableFlowMpc THEN
+	ControlValveOpeningPercentageTextBox_NumPadVariable := ControlValveOpening;
+END_IF
 IF ExtractiveControlValveCommands.calibrate THEN
 	ControlValveOpeningPercentageTextBox_NumPadVariable := 0;
 //	ExtractiveOutletValveSlider_Variable := 0;
@@ -300,7 +303,9 @@ FlowControlCommands.flowSetpoint := FlowSetPointTextBox_TextVariable;
 ]]></ST>
     </Implementation>
     <LineIds Name="ProcessViewBindings">
-      <LineId Id="2088" Count="105" />
+      <LineId Id="2088" Count="104" />
+      <LineId Id="2657" Count="2" />
+      <LineId Id="2193" Count="0" />
       <LineId Id="2387" Count="0" />
       <LineId Id="2194" Count="2" />
       <LineId Id="2514" Count="0" />
