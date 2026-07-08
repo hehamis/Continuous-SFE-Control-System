@@ -300,6 +300,9 @@ Co2DeviationOverLimLabel_Invisible := ProcessViewBindings.MeanFlowLabel_Invisibl
 FlowControlCommands.enableFlowMpc :=  MpcEnableButton_ToggleVariable;
 // FlowSetPointTextBox
 FlowControlCommands.flowSetpoint := FlowSetPointTextBox_TextVariable; 
+IF stop or automaticExtractionState <> E_AutomaticExtractionState.MANUAL_EXTRACTION THEN 
+	 MpcEnableButton_ToggleVariable := FALSE;
+END_IF
 ]]></ST>
     </Implementation>
     <LineIds Name="ProcessViewBindings">
@@ -317,6 +320,7 @@ FlowControlCommands.flowSetpoint := FlowSetPointTextBox_TextVariable;
       <LineId Id="2521" Count="0" />
       <LineId Id="2242" Count="0" />
       <LineId Id="2524" Count="2" />
+      <LineId Id="2660" Count="2" />
       <LineId Id="2522" Count="0" />
     </LineIds>
   </POU>
