@@ -149,9 +149,9 @@ END_IF;
 ManipulatedVariableTarget := manipulatedVariableCurrent;
 
 // Calculate step size (1% of max value)
-StepSize := 1.75 / 100;
+StepSize := manipulatedVariableLimits[1] / 100;
 
-// Only issue commands if valve is idle 
+// Only issue commands if valve is in idle 
 IF NOT controlBusy THEN
 
     IF MoveAccumulator >= StepSize THEN
