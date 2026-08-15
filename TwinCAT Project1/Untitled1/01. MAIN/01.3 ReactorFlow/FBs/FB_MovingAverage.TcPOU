@@ -101,9 +101,9 @@ IF running THEN
 			END_IF
 		END_IF
 	END_IF
-	
+
 	// After initial interval passed, start calculating the value
-	IF elapsedTime >= INT_TO_TIME(windowS*1000) THEN
+	IF elapsedTime >= DINT_TO_TIME(windowS*1000) THEN
 		startCalculation := TRUE;
 		ready := TRUE;
 	END_IF
@@ -156,7 +156,7 @@ END_IF
       <LineId Id="382" Count="0" />
       <LineId Id="337" Count="0" />
       <LineId Id="289" Count="0" />
-      <LineId Id="340" Count="0" />
+      <LineId Id="394" Count="0" />
       <LineId Id="342" Count="3" />
       <LineId Id="341" Count="0" />
       <LineId Id="264" Count="0" />
