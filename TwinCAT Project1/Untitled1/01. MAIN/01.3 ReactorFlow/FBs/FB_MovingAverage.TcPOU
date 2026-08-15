@@ -70,7 +70,7 @@ IF running THEN
 	
 	// Every second, calculate new mean value and shift values forward
 	IF ready THEN
-		IF (TIME_TO_INT(intervalTime))/1000 >= intervalS THEN
+		IF (TIME_TO_DINT(intervalTime))/1000 >= intervalS THEN
 			addToSum := TRUE;
 			elapsedSecond := elapsedSecond + 1;
 			FOR i := 1 TO windowS DO
@@ -86,7 +86,7 @@ IF running THEN
 			sum := 0;
 		END_IF
 	ELSE
-		IF (TIME_TO_INT(intervalTime))/1000 >= intervalS THEN
+		IF (TIME_TO_DINT(intervalTime))/1000 >= intervalS THEN
 			elapsedSecond := elapsedSecond + 1;
 			valueArray[elapsedSecond] := measurement;
 			intervalTime := T#0S;
