@@ -22,7 +22,7 @@ VAR
 	MPC_Matrices : ST_MPC_Matrices;
 	flowMpc : FB_MPC(
 					MPC_Matrices := MPC_Matrices,
-					PredictionHorizon := 20,
+					PredictionHorizon := 80,
 					ControlHorizon := 5);
 	FlowValveLimits : ARRAY[0..1] OF REAL := [0 , 1.75];					
 					

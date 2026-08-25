@@ -33,9 +33,9 @@ END_VAR
 VAR
     xHat : ARRAY[1..15] OF LREAL;
 
-    Yfree : ARRAY[1..20] OF LREAL;
+    Yfree : ARRAY[1..80] OF LREAL;
 
-    Ref : ARRAY[1..20] OF LREAL;
+    Ref : ARRAY[1..80] OF LREAL;
 
     Gradient : ARRAY[1..5] OF LREAL;
 
