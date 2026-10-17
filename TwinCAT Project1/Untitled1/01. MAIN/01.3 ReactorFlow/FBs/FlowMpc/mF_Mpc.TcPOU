@@ -1,0 +1,1171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="mF_Mpc" Id="{ef9b75c5-0b50-4123-b0de-0f01e4b56974}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK mF_Mpc
+VAR_INPUT
+	ssMethodType: SINT;
+	flowCurrent: LREAL;
+	flowSetpoint: LREAL;
+	pressureDifference: LREAL;
+END_VAR
+VAR_OUTPUT
+	valveCommand: LREAL;
+	rtb_xest: ARRAY[0..2] OF LREAL;
+END_VAR
+VAR
+	y_innov: LREAL;
+	v: ARRAY[0..1] OF LREAL;
+	u: LREAL;
+	vseq: ARRAY[0..81] OF LREAL;
+	rseq: ARRAY[0..39] OF LREAL;
+	a1: ARRAY[0..3] OF LREAL;
+	i: DINT;
+	b: ARRAY[0..3] OF LREAL;
+	b_r: ARRAY[0..2] OF LREAL;
+	rMin: LREAL;
+	b_D: ARRAY[0..8] OF LREAL;
+	b_H: ARRAY[0..8] OF LREAL;
+	b_U: ARRAY[0..8] OF LREAL;
+	cTol: ARRAY[0..3] OF LREAL;
+	cTolComputed: BOOL;
+	iC: ARRAY[0..3] OF DINT;
+	nA: DINT;
+	Opt: ARRAY[0..5] OF LREAL;
+	Rhs: ARRAY[0..5] OF LREAL;
+	DualFeasible: BOOL;
+	ColdReset: BOOL;
+	kDrop: DINT;
+	Xnorm0: LREAL;
+	cMin: LREAL;
+	kNext: DINT;
+	cVal: LREAL;
+	z: ARRAY[0..2] OF LREAL;
+	t: LREAL;
+	iSave: DINT;
+	RLinv: ARRAY[0..8] OF LREAL;
+	TL: ARRAY[0..8] OF LREAL;
+	QQ: ARRAY[0..8] OF LREAL;
+	RR: ARRAY[0..8] OF LREAL;
+	v_i: DINT;
+	j_k: DINT;
+	rtb_iAout: ARRAY[0..3] OF BOOL;
+//	rtb_xest: ARRAY[0..2] OF LREAL;
+	iC_0: DINT;
+	xk: LREAL;
+	xk_idx_0: LREAL;
+	xk_idx_1: LREAL;
+	b_H_tmp: DINT;
+	RLinv_tmp: DINT;
+	cVal_tmp: LREAL;
+	cVal_tmp_0: LREAL;
+	rtb_xest_tmp: LREAL;
+	exitg1: DINT;
+	exitg2: DINT;
+	exitg3: DINT;
+	exitg4: DINT;
+	temp1: BOOL;
+	temp2: ARRAY[0..2] OF LREAL;
+	temp3: LREAL;
+	temp4: ARRAY[0..3] OF LREAL;
+	i0_mpcblock_refmd: mpcblock_refmd;
+	i0_qr: qr;
+	i0_maximum2: maximum2;
+	i0_DropConstraint: DropConstraint;
+	i0_b_abs: b_abs;
+	i0_abs_a: abs_a;
+	Memory_InitialCondition: ARRAY[0..3] OF BOOL;
+	Memory_PreviousInput: ARRAY[0..3] OF BOOL;
+	last_x_InitialCondition: ARRAY[0..2] OF LREAL;
+	last_x_PreviousInput: ARRAY[0..2] OF LREAL;
+	last_mv_DSTATE: LREAL;
+	d_a: ARRAY[0..3] OF SINT := [-1, -1, 1, 1];
+	mF_Mpc_b_Mlim: ARRAY[0..3] OF LREAL := [1.75, 1.75, -0.0, -0.0];
+	mF_Mpc_b_Kr: ARRAY[0..79] OF LREAL := [-0.00549463213607137, -0.012512212765038307, -0.020978748468306194, -0.030822367591893881, -0.04197328436307568, -0.05436376289748019, -0.067928081131178014, -0.082602494710805427, -0.098325200873325261, -0.11503630234561939, -0.13267777129273819, -0.15119341334230155, -0.17052883171125094, -0.19063139145989541, -0.21145018389697115, -0.23293599115824856, -0.25504125098006758, -0.27772002168806459, -0.30092794742026929, -0.32462222360269782, -0.34876156269454833, -0.37330616021911811, -0.39821766109560286, -0.42345912628601329, -0.44899499977054591, -0.47479107586387781, -0.500814466884017, -0.52703357118452587, -0.5534180415601555, -0.579938754035168, -0.60656777704289633, -0.63327834100438385, -0.66004480831326817, -0.68684264373341608, -0.71364838521518825, -0.74043961513560164, -0.76719493196707411, -0.79389392237887346, -0.8205171337748508, -0.84704604727052057, -0.0, -0.00549463213607137, -0.012512212765038307, -0.020978748468306194, -0.030822367591893881, -0.04197328436307568, -0.05436376289748019, -0.067928081131178014, -0.082602494710805427, -0.098325200873325261, -0.11503630234561939, -0.13267777129273819, -0.15119341334230155, -0.17052883171125094, -0.19063139145989541, -0.21145018389697115, -0.23293599115824856, -0.25504125098006758, -0.27772002168806459, -0.30092794742026929, -0.32462222360269782, -0.34876156269454833, -0.37330616021911811, -0.39821766109560286, -0.42345912628601329, -0.44899499977054591, -0.47479107586387781, -0.500814466884017, -0.52703357118452587, -0.5534180415601555, -0.579938754035168, -0.60656777704289633, -0.63327834100438385, -0.66004480831326817, -0.68684264373341608, -0.71364838521518825, -0.74043961513560164, -0.76719493196707411, -0.79389392237887346, -0.8205171337748508];
+	mF_Mpc_b_Kx: ARRAY[0..5] OF LREAL := [-94.697209868566148, -76.658429265941407, 14.675975139264946, -88.657433230178924, -72.669379425301543, 13.828929091994425];
+	mF_Mpc_b_Kv: ARRAY[0..163] OF LREAL := [0.00056669670975549417, 0.0, 0.00056454698882445426, 0.0, 0.00056171378115873051, 0.0, 0.000558163705311171, 0.0, 0.00055386753553876089, 0.0, 0.00054880019217074612, 0.0, 0.00054294073422952679, 0.0, 0.00053627235431904076, 0.0, 0.00052878237579336289, 0.0, 0.00052046225221626574, 0.0, 0.0005113075691205054, 0.0, 0.0005013180480736276, 0.0, 0.00049049755305511289, 0.0, 0.00047885409914771263, 0.0, 0.00046639986354384471, 0.0, 0.00045315119886594324, 0.0, 0.00043912864879766121, 0.0, 0.00042435696602082678, 0.0, 0.00040886513245104005, 0.0, 0.00039268638176276609, 0.0, 0.00037585822419273433, 0.0, 0.00035842247360838336, 0.0, 0.0003404252768260013, 0.0, 0.00032191714516109366, 0.0, 0.00030295298819136456, 0.0, 0.00028359214971052386, 0.0, 0.00026389844584892108, 0.0, 0.00024394020533476639, 0.0, 0.00022379031186741283, 0.0, 0.00020352624857185534, 0.0, 0.00018323014450123394, 0.0, 0.00016298882315171894, 0.0, 0.00014289385295169769, 0.0, 0.00012304159968467275, 0.0, 0.00010353328080272097, 0.0, 8.4475021584745662E-5, 0.0, 6.5977913091080226E-5, 0.0, 4.8158071863267726E-5, 0.0, 3.1136701315044024E-5, 0.0, 1.5040154757691293E-5, 0.0, 0.0, 0.0, 0.00053555728746709471, 0.0, 0.00053382324427473109, 0.0, 0.00053146079227706935, 0.0, 0.00052843338775287563, 0.0, 0.00052470868572418341, 0.0, 0.00052025852865698733, 0.0, 0.00051505893739729465, 0.0, 0.00050909010435874194, 0.0, 0.00050233638897594763, 0.0, 0.00049478631543576083, 0.0, 0.00048643257269655649, 0.0, 0.00047727201680372187, 0.0, 0.000467305675507485, 0.0, 0.00045653875518723315, 0.0, 0.0004449806500844704, 0.0, 0.00043264495384456181, 0.0, 0.00041954947336539828, 0.0, 0.00040571624494909787, 0.0, 0.00039117155275083024, 0.0, 0.00037594594951680251, 0.0, 0.0003600742796013881, 0.0, 0.0003435957042512962, 0.0, 0.0003265537291425811, 0.0, 0.00030899623415416288, 0.0, 0.000290975505359383, 0.0, 0.00027254826921493307, 0.0, 0.0002537757289242889, 0.0, 0.00023472360295053224, 0.0, 0.0002154621656511635, 0.0, 0.00019606629000518805, 0.0, 0.00017661549240039669, 0.0, 0.00015719397944635572, 0.0, 0.00013789069677617256, 0.0, 0.00011879937979760023, 0.0, 0.00010001860635149635, 0.0, 8.1651851233045634E-5, 0.0, 6.3807542528496311E-5, 0.0, 4.6599119717442149E-5, 0.0, 3.0145093487901879E-5, 0.0, 1.4569107208607044E-5, 0.0, 0.0, 0.0];
+	mF_Mpc_b_Hinv: ARRAY[0..8] OF LREAL := [47.969269526682837, -48.953924995564833, 0.0, -48.953924995564833, 52.498049705821067, 0.0, 0.0, 0.0, 9.9999999999999974E-6];
+	b_Ac: ARRAY[0..11] OF SINT := [-1, -1, 1, 1, 0, -1, 0, 1, 0, 0, 0, 0];
+	mF_Mpc_b_Linv: ARRAY[0..8] OF LREAL := [1.5232224524270519, -6.75640902307616, 0.0, 0.0, 7.2455537887604606, 0.0, 0.0, 0.0, 0.003162277660168379];
+	mF_Mpc_e_a: ARRAY[0..8] OF LREAL := [0.98951110734634373, -0.012366186463409425, 0.0, 0.036765047017224647, 0.96487287051035242, 0.0, 0.0, 0.0, 1.0];
+	mF_Mpc_f_a: ARRAY[0..2] OF LREAL := [-2.5204929819596814E-5, -0.00021989087306674475, 0.0];
+	mF_Mpc_g_a: ARRAY[0..5] OF LREAL := [-1.6729314626197398E-6, -5.345511968919141E-6, 0.0, 0.0, 0.0, 0.0];
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+CASE ssMethodType OF
+    SS_INITIALIZE: 
+        (* SystemInitialize for Atomic SubSystem: '<Root>/mF_Mpc' *)
+        (* InitializeConditions for Memory: '<S3>/Memory' *)
+        Memory_PreviousInput[0] := Memory_InitialCondition[0];
+        Memory_PreviousInput[1] := Memory_InitialCondition[1];
+        Memory_PreviousInput[2] := Memory_InitialCondition[2];
+        Memory_PreviousInput[3] := Memory_InitialCondition[3];
+        (* InitializeConditions for UnitDelay: '<S3>/last_mv' *)
+        last_mv_DSTATE := 0.0;
+        (* InitializeConditions for Memory: '<S3>/last_x' *)
+        last_x_PreviousInput[0] := last_x_InitialCondition[0];
+        last_x_PreviousInput[1] := last_x_InitialCondition[1];
+        last_x_PreviousInput[2] := last_x_InitialCondition[2];
+        (* End of SystemInitialize for SubSystem: '<Root>/mF_Mpc' *)
+    SS_STEP: 
+        (* Outputs for Atomic SubSystem: '<Root>/mF_Mpc' *)
+        (* MATLAB Function: '<S23>/optimizer' incorporates:
+         *  Memory: '<S3>/Memory'
+         *  Memory: '<S3>/last_x' *)
+        rtb_iAout[0] := Memory_PreviousInput[0];
+        rtb_iAout[1] := Memory_PreviousInput[1];
+        rtb_iAout[2] := Memory_PreviousInput[2];
+        rtb_iAout[3] := Memory_PreviousInput[3];
+        (* MATLAB Function 'MPC Controller/MPC/optimizer/optimizer': '<S24>:1' *)
+        (* '<S24>:1:16' coder.extrinsic('mpcblock_optimizer_double_mex'); *)
+        (* '<S24>:1:17' coder.extrinsic('mpcblock_optimizer_single_mex'); *)
+        (* '<S24>:1:18' coder.extrinsic('mpcblock_refmd_double_mex'); *)
+        (* '<S24>:1:19' coder.extrinsic('mpcblock_refmd_single_mex'); *)
+        (* Inputs (in BlockDataType except iA) *)
+        (* xk:         current state (either x[k|k-1] from built-in KF or external x[k|k]) *)
+        (* '<S24>:1:23' xk = convertDataType(xk0,isDouble); *)
+        (* '<S24>:1:250' if isDouble *)
+        (* convert an input signal to double precision when necessary *)
+        (* '<S24>:1:252' if isa(u,'double') *)
+        (* '<S24>:1:253' y = u; *)
+        (* old_u:      last mv (calculated by MPC) *)
+        (* '<S24>:1:25' old_u = convertDataType(old_u0,isDouble); *)
+        (* '<S24>:1:250' if isDouble *)
+        (* convert an input signal to double precision when necessary *)
+        (* '<S24>:1:252' if isa(u,'double') *)
+        (* '<S24>:1:253' y = u; *)
+        (* ym:         current measured output (used only with built-in KF) *)
+        (* '<S24>:1:27' ym = convertDataType(ym0,isDouble); *)
+        (* '<S24>:1:250' if isDouble *)
+        (* convert an input signal to double precision when necessary *)
+        (* '<S24>:1:252' if isa(u,'double') *)
+        (* '<S24>:1:253' y = u; *)
+        (* ref:        output reference *)
+        (* '<S24>:1:29' ref = convertDataType(ref0,isDouble); *)
+        (* '<S24>:1:250' if isDouble *)
+        (* convert an input signal to double precision when necessary *)
+        (* '<S24>:1:252' if isa(u,'double') *)
+        (* '<S24>:1:253' y = u; *)
+        (* md:         measured disturbance *)
+        (* '<S24>:1:31' md = convertDataType(md0,isDouble); *)
+        (* '<S24>:1:250' if isDouble *)
+        (* convert an input signal to double precision when necessary *)
+        (* '<S24>:1:252' if isa(u,'double') *)
+        (* '<S24>:1:253' y = u; *)
+        (* umin:       run-time MV bound *)
+        (* '<S24>:1:33' umin = convertDataType(umin0,isDouble); *)
+        (* umax:       run-time MV bound *)
+        (* '<S24>:1:35' umax = convertDataType(umax0,isDouble); *)
+        (* ymin:       run-time OV bound *)
+        (* '<S24>:1:37' ymin = convertDataType(ymin0,isDouble); *)
+        (* ymax:       run-time OV bound *)
+        (* '<S24>:1:39' ymax = convertDataType(ymax0,isDouble); *)
+        (* E:          run-time mixed constraints *)
+        (* '<S24>:1:41' E = convertDataType(E0,isDouble); *)
+        (* F:          run-time mixed constraints *)
+        (* '<S24>:1:43' F = convertDataType(F0,isDouble); *)
+        (* G:          run-time mixed constraints *)
+        (* '<S24>:1:45' G = convertDataType(G0,isDouble); *)
+        (* S:          run-time mixed constraints *)
+        (* '<S24>:1:47' S = convertDataType(S0,isDouble); *)
+        (* switch_in:  if it matches "enable_value", MPC is active in control *)
+        (* '<S24>:1:49' switch_in = int32(switch_in0); *)
+        (* ext_mv:     external last mv (actual) *)
+        (* '<S24>:1:51' ext_mv = convertDataType(ext_mv0,isDouble); *)
+        (* MVtarget:   MV reference *)
+        (* '<S24>:1:53' MVtarget = convertDataType(MVtarget0,isDouble); *)
+        (* ywt:        run-time OV weights *)
+        (* '<S24>:1:55' ywt = convertDataType(ywt0,isDouble); *)
+        (* uwt:        run-time MV weights *)
+        (* '<S24>:1:57' uwt = convertDataType(uwt0,isDouble); *)
+        (* duwt:       run-time DMV weights *)
+        (* '<S24>:1:59' duwt = convertDataType(duwt0,isDouble); *)
+        (* ewt:     run-time Slack weights *)
+        (* '<S24>:1:61' ewt = convertDataType(ewt0,isDouble); *)
+        (* iA:         logical previous active set (for warm start) *)
+        (* Outputs (in BlockDataType except iAout) *)
+        (* xk1:        x[k+1|k] from built-in KF *)
+        (* u:          optimal MV *)
+        (* cost:       optimal cost *)
+        (* useq:       optimal MV sequence *)
+        (* xseq:       optimal state sequence *)
+        (* yseq:       optimal OV sequence *)
+        (* status:     QP exit flag *)
+        (* xest:       x[k|k] from built-in KF *)
+        (* iAout:      logical current active set *)
+        (* Parameters (constant) *)
+        (* dimensions (int32):  *)
+        (* nx, nxp, nup, nu, ny, degrees, p, nxQP, enable_value, Mrows, nCC, nv *)
+        (* myindex, mvindex, mdindex, unindex, nxid, m, Ndis, numdis, maxdis *)
+        (* MPC constants (BlockDataType):  *)
+        (* Hinv, Kx, Ku1, Kut, Kr, Kv, Mlim, Mx, Mu1, Mv, utarget *)
+        (* H, Linv, Ac, Wy, Wdu, Jm, SuJm, Su1, Sx, Hv, Wu, I1 *)
+        (* A, C, B, D, Cid, Did, Ecc, Fcc, Scc, Gcc *)
+        (* RYscale, RMDscale, xoff, Uscale, Yscale *)
+        (* uoff, voff, yoff, myoff, RMVscale, Mdis, Vdis *)
+        (* configurations (logical): *)
+        (* isQP, CustomSolver, CustomSolverCodeGen, UseSuboptimalSolution, UseActiveSetSolver *)
+        (* openloopflag, no_umin, no_umax, no_ymin, no_ymax, switch_inport, no_switch *)
+        (* return_cost, return_mvseq, return_xseq, return_ovseq, isLTV *)
+        (* no_ywt, no_uwt, no_duwt, no_rhoeps, no_md, no_ref, no_uref, no_mv *)
+        (* CustomEstimation, no_cc, isHyb, isDouble *)
+        (* ASOptions *)
+        (* IPOptions  *)
+        (* ADOptions *)
+        (* MIQPOptions *)
+        (* Parameters *)
+        (* '<S24>:1:95' isSimulation = coder.target('Sfun') && ~coder.target('RtwForRapid') && ~coder.target('RtwForSim'); *)
+        (* '<S24>:1:96' isAdaptive = false; *)
+        (* '<S24>:1:97' isLTV = false; *)
+        (* '<S24>:1:98' ZERO = zeros('like',ref); *)
+        (* '<S24>:1:99' ONE = ones('like',ref); *)
+        (* '<S24>:1:100' hasMD = nv>int32(1); *)
+        (* Pre-allocate all the MEX block outputs for the simulation mode *)
+        (* '<S24>:1:105' if isSimulation *)
+        (* Get reference and MD signals -- accounting for previewing *)
+        (* '<S24>:1:119' if isSimulation *)
+        (* '<S24>:1:126' else *)
+        (* When doing code generation, use M code directly *)
+        (* '<S24>:1:128' [rseq, vseq, v] = mpcblock_refmd(ref,md,nv,ny,p,yoff,voff,no_md,no_ref,openloopflag, RYscale, RMDscale); *)
+        i0_mpcblock_refmd(ref := flowSetpoint, md := pressureDifference, b_yoff := mF_Mpc_yoff, b_voff := mF_Mpc_voff, b_RYscale := mF_Mpc_RYscale, b_RMDscale := mF_Mpc_RMDscale);
+        rseq := i0_mpcblock_refmd.rseq;
+        vseq := i0_mpcblock_refmd.vseq;
+        v := i0_mpcblock_refmd.v;
+        (* External MV override.   *)
+        (* NOTE: old_u and ext_mv input signals are dimensionless but include offset *)
+        (* '<S24>:1:133' old_u = old_u - uoff; *)
+        (* '<S24>:1:134' if no_mv *)
+        (* '<S24>:1:135' delmv = zeros(nu,1,'like',ref); *)
+        (* Obtain x[k|k] *)
+        (* '<S24>:1:143' xk = xk - xoff; *)
+        (* Remove offset *)
+        (* '<S24>:1:144' if CustomEstimation *)
+        (* '<S24>:1:147' else *)
+        (* Default state estimation.     *)
+        (* Scale measured output and remove offset. *)
+        (* '<S24>:1:150' ym = ym.*RYscale(myindex) - myoff; *)
+        (* Correct x(k|k-1) for possible external mv override. *)
+        (* NOTE:  Offset was removed from x[k|k-1] at k=0. *)
+        (* '<S24>:1:153' xk = xk + Bu*delmv; *)
+        (* Measurement upate to x(k|k) *)
+        (* '<S24>:1:155' ym_est = C(myindex,:)*xk + Dv(myindex,:)*v; *)
+        (* '<S24>:1:156' y_innov = ym - ym_est; *)
+        xk_idx_0 := last_x_PreviousInput[0];
+        xk_idx_1 := last_x_PreviousInput[1];
+        xk := last_x_PreviousInput[2];
+        y_innov := flowCurrent - (((-10.21900021533747 * last_x_PreviousInput[0]) + (-0.12352775524810869 * last_x_PreviousInput[1])) + last_x_PreviousInput[2]);
+        (* '<S24>:1:157' xest = xk + M*y_innov; *)
+        rtb_xest[0] := (-6.1536996887046058E-9 * y_innov) + last_x_PreviousInput[0];
+        rtb_xest[1] := (-1.4963729164443884E-7 * y_innov) + last_x_PreviousInput[1];
+        rtb_xest_tmp := 0.61803395236056324 * y_innov;
+        rtb_xest[2] := rtb_xest_tmp + last_x_PreviousInput[2];
+        (* End of Outputs for SubSystem: '<Root>/mF_Mpc' *)
+        (* Real-time MV target override *)
+        (* Note: utargetValue is a vector length p*nu.   *)
+        (* '<S24>:1:162' if no_uref *)
+        (* no external utarget *)
+        (* '<S24>:1:164' utargetValue = utarget; *)
+        (* Real-time custom constraint override (scaled E/F/S) *)
+        (* '<S24>:1:173' if ~no_cc *)
+        (* '<S24>:1:182' return_sequence = return_mvseq || return_xseq || return_ovseq; *)
+        (* '<S24>:1:183' if isSimulation *)
+        (* '<S24>:1:214' else *)
+        (* When doing code generation, use M code directly *)
+        (* '<S24>:1:216' [u, cost, useq, status, iAout] = mpcblock_optimizer(... *)
+        (* '<S24>:1:217'             rseq, vseq, umin, umax, ymin, ymax, switch_in, xest, old_u, iA, ... *)
+        (* '<S24>:1:218'             isQP, nu, ny, degrees, Hinv, Kx, Ku1, Kut, Kr, Kv, Mlim, ... *)
+        (* '<S24>:1:219'             Mx, Mu1, Mv, utargetValue, p, uoff, voff, yoff, ... *)
+        (* '<S24>:1:220'             false, CustomSolverCodeGen, UseSuboptimalSolution, ... *)
+        (* '<S24>:1:221'             UseActiveSetSolver, ASOptions, IPOptions, ADOptions, MIQPOptions, nxQP, openloopflag, ... *)
+        (* '<S24>:1:222'             no_umin, no_umax, no_ymin, no_ymax, no_cc, switch_inport, ... *)
+        (* '<S24>:1:223'             no_switch, enable_value, return_cost, H, return_sequence, Linv, Ac, ... *)
+        (* '<S24>:1:224'             ywt, uwt, duwt, ewt, no_ywt, no_uwt, no_duwt, no_rhoeps,... *)
+        (* '<S24>:1:225'             Wy, Wdu, Jm, SuJm, Su1, Sx, Hv, Wu, I1, ... *)
+        (* '<S24>:1:226'             isAdaptive, isLTV, A, Bu, Bv, C, Dv, ... *)
+        (* '<S24>:1:227'             Mrows, nCC, Ecc, Fcc, Scc, Gcc, RYscale, RMVscale, m, ... *)
+        (* '<S24>:1:228'             isHyb, Mdis, Ndis, Vdis, numdis, maxdis); *)
+        (* Outputs for Atomic SubSystem: '<Root>/mF_Mpc' *)
+        (* MATLAB Function: '<S23>/optimizer' incorporates:
+         *  Memory: '<S3>/Memory'
+         *  UnitDelay: '<S3>/last_mv' *)
+
+        FOR iSave := 0 TO 3 DO 
+            b[iSave] :=  -((SINT_TO_LREAL(d_a[iSave]) * last_mv_DSTATE) + mF_Mpc_b_Mlim[iSave]);
+        END_FOR;
+
+        z[0] := 0.0;
+        z[1] := 0.0;
+
+        FOR i := 0 TO 1 DO 
+            rMin := 0.0;
+
+            FOR iSave := 0 TO 39 DO 
+                rMin := (mF_Mpc_b_Kr[(40 * i) + iSave] * rseq[iSave]) + rMin;
+            END_FOR;
+
+            Xnorm0 := 0.0;
+
+            FOR iSave := 0 TO 81 DO 
+                Xnorm0 := (mF_Mpc_b_Kv[(82 * i) + iSave] * vseq[iSave]) + Xnorm0;
+            END_FOR;
+
+            z[i] := (((((mF_Mpc_b_Kx[(3 * i) + 1] * rtb_xest[1]) + (mF_Mpc_b_Kx[3 * i] * rtb_xest[0])) + (mF_Mpc_b_Kx[(3 * i) + 2] * rtb_xest[2])) + rMin) + (((-0.019096393427219971 * DINT_TO_LREAL(i)) + 0.42099609446076358) * last_mv_DSTATE)) + Xnorm0;
+        END_FOR;
+
+        rtb_xest[0] := 0.0;
+        rtb_xest[1] := 0.0;
+        rtb_xest[2] := 0.0;
+        a1[0] := 0.0;
+        a1[1] := 0.0;
+        a1[2] := 0.0;
+        a1[3] := 0.0;
+        i := 1;
+        b_r[0] := 0.0;
+        b_r[1] := 0.0;
+        b_r[2] := 0.0;
+        rMin := 0.0;
+        cTolComputed := FALSE;
+        cTol[0] := 1.0;
+        iC[0] := 0;
+        cTol[1] := 1.0;
+        iC[1] := 0;
+        cTol[2] := 1.0;
+        iC[2] := 0;
+        cTol[3] := 1.0;
+        iC[3] := 0;
+        nA := 0;
+
+        IF Memory_PreviousInput[0] THEN 
+            nA := 1;
+            iC[0] := 1;
+        END_IF;
+
+
+        IF Memory_PreviousInput[1] THEN 
+            nA := nA + 1;
+            iC[nA - 1] := 2;
+        END_IF;
+
+
+        IF Memory_PreviousInput[2] THEN 
+            nA := nA + 1;
+            iC[nA - 1] := 3;
+        END_IF;
+
+
+        IF Memory_PreviousInput[3] THEN 
+            nA := nA + 1;
+            iC[nA - 1] := 4;
+        END_IF;
+
+        temp1 := FALSE;
+
+        IF nA > 0 THEN 
+
+            FOR kNext := 0 TO 5 DO 
+                Opt[kNext] := 0.0;
+            END_FOR;
+
+            Rhs[0] := z[0];
+            Rhs[3] := 0.0;
+            Rhs[1] := z[1];
+            Rhs[4] := 0.0;
+            Rhs[2] := 0.0;
+            Rhs[5] := 0.0;
+            DualFeasible := FALSE;
+            ColdReset := FALSE;
+            REPEAT 
+                exitg3 := 0;
+
+                IF (( NOT DualFeasible) AND (nA > 0)) AND (i <= 120) THEN 
+                    kNext := 1;
+
+                    FOR iSave := 0 TO 8 DO 
+                        RLinv[iSave] := 0.0;
+                    END_FOR;
+
+                    kDrop := 0;
+                    WHILE kDrop <= (nA - 1) DO
+                        iC_0 := iC[kDrop];
+                        RLinv[3 * kDrop] := 0.0;
+                        b_H_tmp := (3 * kDrop) + 1;
+                        RLinv[b_H_tmp] := 0.0;
+                        RLinv_tmp := (3 * kDrop) + 2;
+                        RLinv[RLinv_tmp] := 0.0;
+
+                        FOR iSave := 0 TO 2 DO 
+                            j_k := SINT_TO_DINT(b_Ac[((iSave * 4) + iC_0) - 1]);
+                            RLinv[3 * kDrop] := (mF_Mpc_b_Linv[3 * iSave] * DINT_TO_LREAL(j_k)) + RLinv[3 * kDrop];
+                            RLinv[b_H_tmp] := (mF_Mpc_b_Linv[(3 * iSave) + 1] * DINT_TO_LREAL(j_k)) + RLinv[b_H_tmp];
+                            RLinv[RLinv_tmp] := (mF_Mpc_b_Linv[(3 * iSave) + 2] * DINT_TO_LREAL(j_k)) + RLinv[RLinv_tmp];
+                        END_FOR;
+
+                        kDrop := kDrop + 1;
+                    END_WHILE;
+                    i0_qr(b_A := RLinv);
+                    QQ := i0_qr.Q;
+                    RR := i0_qr.b_R;
+                    kDrop := 0;
+                    REPEAT 
+                        exitg4 := 0;
+
+                        IF kDrop <= (nA - 1) THEN 
+
+                            IF ABS(RR[(3 * kDrop) + kDrop]) < 1.0E-12 THEN 
+                                kNext := -2;
+                                exitg4 := 1;
+                            ELSE 
+                                kDrop := kDrop + 1;
+                            END_IF;
+
+                        ELSE 
+
+                            FOR kDrop := 0 TO 2 DO 
+                                cVal := mF_Mpc_b_Linv[(3 * kDrop) + 1];
+                                cMin := mF_Mpc_b_Linv[3 * kDrop];
+                                t := mF_Mpc_b_Linv[(3 * kDrop) + 2];
+
+                                FOR iSave := 0 TO 2 DO 
+                                    TL[kDrop + (3 * iSave)] := ((cVal * QQ[(3 * iSave) + 1]) + (cMin * QQ[3 * iSave])) + (t * QQ[(3 * iSave) + 2]);
+                                END_FOR;
+
+                            END_FOR;
+
+
+                            FOR iSave := 0 TO 8 DO 
+                                RLinv[iSave] := 0.0;
+                            END_FOR;
+
+                            kDrop := nA - 1;
+                            WHILE (kDrop + 1) > 0 DO
+                                b_H_tmp := kDrop + (3 * kDrop);
+                                RLinv[b_H_tmp] := 1.0;
+                                iSave := kDrop;
+                                WHILE (iSave + 1) <= nA DO
+                                    RLinv_tmp := (3 * iSave) + kDrop;
+                                    RLinv[RLinv_tmp] := RLinv[RLinv_tmp] / RR[b_H_tmp];
+                                    iSave := iSave + 1;
+                                END_WHILE;
+
+                                IF (kDrop + 1) > 1 THEN 
+                                    iSave := 0;
+                                    WHILE iSave <= (kDrop - 1) DO
+                                        v_i := kDrop;
+                                        WHILE (v_i + 1) <= nA DO
+                                            b_H_tmp := (3 * v_i) + iSave;
+                                            RLinv[b_H_tmp] := RLinv[b_H_tmp] - (RR[(3 * kDrop) + iSave] * RLinv[(3 * v_i) + kDrop]);
+                                            v_i := v_i + 1;
+                                        END_WHILE;
+                                        iSave := iSave + 1;
+                                    END_WHILE;
+                                END_IF;
+
+                                kDrop := kDrop - 1;
+                            END_WHILE;
+                            iSave := 0;
+                            WHILE (iSave + 1) <= mF_Mpc_degrees DO
+                                b_H[3 * iSave] := 0.0;
+                                v_i := nA;
+                                WHILE (v_i + 1) <= mF_Mpc_degrees DO
+                                    b_H[3 * iSave] := b_H[3 * iSave] - (TL[(3 * v_i) + iSave] * TL[3 * v_i]);
+                                    v_i := v_i + 1;
+                                END_WHILE;
+                                b_H[iSave] := b_H[3 * iSave];
+                                iSave := iSave + 1;
+                            END_WHILE;
+                            iSave := 1;
+                            WHILE (iSave + 1) <= mF_Mpc_degrees DO
+                                b_H_tmp := (3 * iSave) + 1;
+                                b_H[b_H_tmp] := 0.0;
+                                v_i := nA;
+                                WHILE (v_i + 1) <= mF_Mpc_degrees DO
+                                    b_H[b_H_tmp] := b_H[b_H_tmp] - (TL[(3 * v_i) + 1] * TL[(3 * v_i) + iSave]);
+                                    v_i := v_i + 1;
+                                END_WHILE;
+                                b_H[iSave + 3] := b_H[b_H_tmp];
+                                iSave := iSave + 1;
+                            END_WHILE;
+                            iSave := 2;
+                            WHILE (iSave + 1) <= mF_Mpc_degrees DO
+                                b_H_tmp := (3 * iSave) + 2;
+                                b_H[b_H_tmp] := 0.0;
+                                v_i := nA;
+                                WHILE (v_i + 1) <= mF_Mpc_degrees DO
+                                    b_H[b_H_tmp] := b_H[b_H_tmp] - (TL[(3 * v_i) + 2] * TL[(3 * v_i) + iSave]);
+                                    v_i := v_i + 1;
+                                END_WHILE;
+                                b_H[iSave + 6] := b_H[b_H_tmp];
+                                iSave := iSave + 1;
+                            END_WHILE;
+                            kDrop := 0;
+                            WHILE kDrop <= (nA - 1) DO
+                                b_D[3 * kDrop] := 0.0;
+                                v_i := kDrop;
+                                WHILE (v_i + 1) <= nA DO
+                                    b_D[3 * kDrop] := (RLinv[(3 * v_i) + kDrop] * TL[3 * v_i]) + b_D[3 * kDrop];
+                                    v_i := v_i + 1;
+                                END_WHILE;
+                                j_k := (3 * kDrop) + 1;
+                                b_D[j_k] := 0.0;
+                                v_i := kDrop;
+                                WHILE (v_i + 1) <= nA DO
+                                    b_D[j_k] := (TL[(3 * v_i) + 1] * RLinv[(3 * v_i) + kDrop]) + b_D[j_k];
+                                    v_i := v_i + 1;
+                                END_WHILE;
+                                j_k := (3 * kDrop) + 2;
+                                b_D[j_k] := 0.0;
+                                v_i := kDrop;
+                                WHILE (v_i + 1) <= nA DO
+                                    b_D[j_k] := (TL[(3 * v_i) + 2] * RLinv[(3 * v_i) + kDrop]) + b_D[j_k];
+                                    v_i := v_i + 1;
+                                END_WHILE;
+                                kDrop := kDrop + 1;
+                            END_WHILE;
+                            exitg4 := 1;
+                        END_IF;
+
+                    UNTIL NOT(exitg4 = 0)
+                    END_REPEAT;
+
+                    IF kNext < 0 THEN 
+
+                        IF ColdReset THEN 
+                            i := -2;
+                            exitg3 := 2;
+                        ELSE 
+                            nA := 0;
+                            rtb_iAout[0] := FALSE;
+                            iC[0] := 0;
+                            rtb_iAout[1] := FALSE;
+                            iC[1] := 0;
+                            rtb_iAout[2] := FALSE;
+                            iC[2] := 0;
+                            rtb_iAout[3] := FALSE;
+                            iC[3] := 0;
+                            ColdReset := TRUE;
+                        END_IF;
+
+                    ELSE 
+                        kNext := 0;
+                        WHILE kNext <= (nA - 1) DO
+                            Rhs[kNext + 3] := b[iC[kNext] - 1];
+                            kDrop := kNext;
+                            WHILE (kDrop + 1) <= nA DO
+                                v_i := kDrop + (3 * kNext);
+                                b_U[v_i] := 0.0;
+                                iSave := 0;
+                                WHILE iSave <= (nA - 1) DO
+                                    b_U[v_i] := (RLinv[(3 * iSave) + kDrop] * RLinv[(3 * iSave) + kNext]) + b_U[v_i];
+                                    iSave := iSave + 1;
+                                END_WHILE;
+                                b_U[kNext + (3 * kDrop)] := b_U[v_i];
+                                kDrop := kDrop + 1;
+                            END_WHILE;
+                            kNext := kNext + 1;
+                        END_WHILE;
+
+                        FOR kNext := 0 TO 2 DO 
+                            Opt[kNext] := ((b_H[kNext + 3] * Rhs[1]) + (b_H[kNext] * Rhs[0])) + (b_H[kNext + 6] * Rhs[2]);
+                            kDrop := 0;
+                            WHILE kDrop <= (nA - 1) DO
+                                Opt[kNext] := (b_D[(3 * kDrop) + kNext] * Rhs[kDrop + 3]) + Opt[kNext];
+                                kDrop := kDrop + 1;
+                            END_WHILE;
+                        END_FOR;
+
+                        kNext := 0;
+                        WHILE kNext <= (nA - 1) DO
+                            Opt[kNext + 3] := ((b_D[(3 * kNext) + 1] * Rhs[1]) + (b_D[3 * kNext] * Rhs[0])) + (b_D[(3 * kNext) + 2] * Rhs[2]);
+                            kDrop := 0;
+                            WHILE kDrop <= (nA - 1) DO
+                                Opt[kNext + 3] := (b_U[(3 * kDrop) + kNext] * Rhs[kDrop + 3]) + Opt[kNext + 3];
+                                kDrop := kDrop + 1;
+                            END_WHILE;
+                            kNext := kNext + 1;
+                        END_WHILE;
+                        Xnorm0 := -1.0E-12;
+                        kDrop := 0;
+                        kNext := 3;
+                        WHILE (kNext - 3) <= (nA - 1) DO
+                            a1[iC[kNext - 3] - 1] := Opt[kNext];
+
+                            IF Opt[kNext] < Xnorm0 THEN 
+
+                                IF (kNext - 2) <= nA THEN 
+                                    kDrop := kNext - 2;
+                                    Xnorm0 := Opt[kNext];
+                                END_IF;
+
+                            END_IF;
+
+                            kNext := kNext + 1;
+                        END_WHILE;
+
+                        IF kDrop <= 0 THEN 
+                            DualFeasible := TRUE;
+                            rtb_xest[0] := Opt[0];
+                            rtb_xest[1] := Opt[1];
+                            rtb_xest[2] := Opt[2];
+                        ELSE 
+                            i := i + 1;
+
+                            IF i > 5 THEN 
+                                nA := 0;
+                                rtb_iAout[0] := FALSE;
+                                iC[0] := 0;
+                                rtb_iAout[1] := FALSE;
+                                iC[1] := 0;
+                                rtb_iAout[2] := FALSE;
+                                iC[2] := 0;
+                                rtb_iAout[3] := FALSE;
+                                iC[3] := 0;
+                                ColdReset := TRUE;
+                            ELSE 
+                                a1[iC[kDrop - 1] - 1] := 0.0;
+                                i0_DropConstraint(kDrop := kDrop, iA := rtb_iAout, nA := nA, iC := iC);
+                            END_IF;
+
+                        END_IF;
+
+                    END_IF;
+
+                ELSE 
+
+                    IF nA <= 0 THEN 
+                        a1[0] := 0.0;
+                        a1[1] := 0.0;
+                        a1[2] := 0.0;
+                        a1[3] := 0.0;
+                        cVal := z[1];
+                        cMin := z[0];
+
+                        FOR kNext := 0 TO 2 DO 
+                            rtb_xest[kNext] := (( -mF_Mpc_b_Hinv[kNext + 3]) * cVal) + (( -mF_Mpc_b_Hinv[kNext]) * cMin);
+                        END_FOR;
+
+                    END_IF;
+
+                    exitg3 := 1;
+                END_IF;
+
+            UNTIL NOT(exitg3 = 0)
+            END_REPEAT;
+
+            IF exitg3 = 1 THEN 
+                temp1 := TRUE;
+            END_IF;
+
+        ELSE 
+            cVal := z[1];
+            cMin := z[0];
+
+            FOR kNext := 0 TO 2 DO 
+                rtb_xest[kNext] := (( -mF_Mpc_b_Hinv[kNext + 3]) * cVal) + (( -mF_Mpc_b_Hinv[kNext]) * cMin);
+            END_FOR;
+
+            temp1 := TRUE;
+        END_IF;
+
+
+        IF temp1 THEN 
+            Xnorm0 := norm(x := rtb_xest);
+            REPEAT 
+                exitg2 := 0;
+
+                IF i <= 120 THEN 
+                    cMin := -1.0E-6;
+                    kNext := -1;
+
+                    FOR kDrop := 0 TO 3 DO 
+
+                        IF  NOT cTolComputed THEN 
+                            z[0] := SINT_TO_LREAL(b_Ac[kDrop]) * rtb_xest[0];
+                            z[1] := SINT_TO_LREAL(b_Ac[kDrop + 4]) * rtb_xest[1];
+                            z[2] := SINT_TO_LREAL(b_Ac[kDrop + 8]) * rtb_xest[2];
+                            i0_b_abs(x := z);
+                            temp2 := i0_b_abs.y;
+                            temp3 := maximum(x := temp2);
+                            cTol[kDrop] := MAX(cTol[kDrop], temp3);
+                        END_IF;
+
+
+                        IF  NOT rtb_iAout[kDrop] THEN 
+                            cVal := ((((SINT_TO_LREAL(b_Ac[kDrop + 4]) * rtb_xest[1]) + (SINT_TO_LREAL(b_Ac[kDrop]) * rtb_xest[0])) + (SINT_TO_LREAL(b_Ac[kDrop + 8]) * rtb_xest[2])) - b[kDrop]) / cTol[kDrop];
+
+                            IF cVal < cMin THEN 
+                                cMin := cVal;
+                                kNext := kDrop;
+                            END_IF;
+
+                        END_IF;
+
+                    END_FOR;
+
+                    cTolComputed := TRUE;
+
+                    IF (kNext + 1) <= 0 THEN 
+                        exitg2 := 1;
+                    ELSIF i = 120 THEN 
+                        i := 0;
+                        exitg2 := 1;
+                    ELSE 
+                        REPEAT 
+                            exitg1 := 0;
+
+                            IF ((kNext + 1) > 0) AND (i <= 120) THEN 
+                                temp1 := FALSE;
+
+                                IF nA = 0 THEN 
+                                    cVal := 0.0;
+                                    cMin := 0.0;
+                                    t := 0.0;
+
+                                    FOR iSave := 0 TO 2 DO 
+                                        j_k := SINT_TO_DINT(b_Ac[(iSave * 4) + kNext]);
+                                        cVal := (mF_Mpc_b_Hinv[3 * iSave] * DINT_TO_LREAL(j_k)) + cVal;
+                                        cMin := (mF_Mpc_b_Hinv[(3 * iSave) + 1] * DINT_TO_LREAL(j_k)) + cMin;
+                                        t := (mF_Mpc_b_Hinv[(3 * iSave) + 2] * DINT_TO_LREAL(j_k)) + t;
+                                    END_FOR;
+
+                                    z[2] := t;
+                                    z[1] := cMin;
+                                    z[0] := cVal;
+                                    temp1 := TRUE;
+                                ELSE 
+                                    kDrop := 1;
+
+                                    FOR iSave := 0 TO 8 DO 
+                                        RLinv[iSave] := 0.0;
+                                    END_FOR;
+
+                                    v_i := 0;
+                                    WHILE v_i <= (nA - 1) DO
+                                        iC_0 := iC[v_i];
+                                        RLinv[3 * v_i] := 0.0;
+                                        b_H_tmp := (3 * v_i) + 1;
+                                        RLinv[b_H_tmp] := 0.0;
+                                        RLinv_tmp := (3 * v_i) + 2;
+                                        RLinv[RLinv_tmp] := 0.0;
+
+                                        FOR iSave := 0 TO 2 DO 
+                                            j_k := SINT_TO_DINT(b_Ac[((iSave * 4) + iC_0) - 1]);
+                                            RLinv[3 * v_i] := (mF_Mpc_b_Linv[3 * iSave] * DINT_TO_LREAL(j_k)) + RLinv[3 * v_i];
+                                            RLinv[b_H_tmp] := (mF_Mpc_b_Linv[(3 * iSave) + 1] * DINT_TO_LREAL(j_k)) + RLinv[b_H_tmp];
+                                            RLinv[RLinv_tmp] := (mF_Mpc_b_Linv[(3 * iSave) + 2] * DINT_TO_LREAL(j_k)) + RLinv[RLinv_tmp];
+                                        END_FOR;
+
+                                        v_i := v_i + 1;
+                                    END_WHILE;
+                                    i0_qr(b_A := RLinv);
+                                    QQ := i0_qr.Q;
+                                    RR := i0_qr.b_R;
+                                    v_i := 0;
+                                    REPEAT 
+                                        exitg4 := 0;
+
+                                        IF v_i <= (nA - 1) THEN 
+
+                                            IF ABS(RR[(3 * v_i) + v_i]) < 1.0E-12 THEN 
+                                                kDrop := -2;
+                                                exitg4 := 1;
+                                            ELSE 
+                                                v_i := v_i + 1;
+                                            END_IF;
+
+                                        ELSE 
+
+                                            FOR iSave := 0 TO 2 DO 
+                                                cVal := mF_Mpc_b_Linv[(3 * iSave) + 1];
+                                                cMin := mF_Mpc_b_Linv[3 * iSave];
+                                                t := mF_Mpc_b_Linv[(3 * iSave) + 2];
+
+                                                FOR v_i := 0 TO 2 DO 
+                                                    TL[iSave + (3 * v_i)] := ((cVal * QQ[(3 * v_i) + 1]) + (cMin * QQ[3 * v_i])) + (t * QQ[(3 * v_i) + 2]);
+                                                END_FOR;
+
+                                            END_FOR;
+
+
+                                            FOR iSave := 0 TO 8 DO 
+                                                RLinv[iSave] := 0.0;
+                                            END_FOR;
+
+                                            iSave := nA - 1;
+                                            WHILE (iSave + 1) > 0 DO
+                                                b_H_tmp := iSave + (3 * iSave);
+                                                RLinv[b_H_tmp] := 1.0;
+                                                v_i := iSave;
+                                                WHILE (v_i + 1) <= nA DO
+                                                    RLinv_tmp := (3 * v_i) + iSave;
+                                                    RLinv[RLinv_tmp] := RLinv[RLinv_tmp] / RR[b_H_tmp];
+                                                    v_i := v_i + 1;
+                                                END_WHILE;
+
+                                                IF (iSave + 1) > 1 THEN 
+                                                    v_i := 0;
+                                                    WHILE v_i <= (iSave - 1) DO
+                                                        j_k := iSave;
+                                                        WHILE (j_k + 1) <= nA DO
+                                                            b_H_tmp := (3 * j_k) + v_i;
+                                                            RLinv[b_H_tmp] := RLinv[b_H_tmp] - (RR[(3 * iSave) + v_i] * RLinv[(3 * j_k) + iSave]);
+                                                            j_k := j_k + 1;
+                                                        END_WHILE;
+                                                        v_i := v_i + 1;
+                                                    END_WHILE;
+                                                END_IF;
+
+                                                iSave := iSave - 1;
+                                            END_WHILE;
+                                            v_i := 0;
+                                            WHILE (v_i + 1) <= mF_Mpc_degrees DO
+                                                b_H[3 * v_i] := 0.0;
+                                                j_k := nA;
+                                                WHILE (j_k + 1) <= mF_Mpc_degrees DO
+                                                    b_H[3 * v_i] := b_H[3 * v_i] - (TL[(3 * j_k) + v_i] * TL[3 * j_k]);
+                                                    j_k := j_k + 1;
+                                                END_WHILE;
+                                                b_H[v_i] := b_H[3 * v_i];
+                                                v_i := v_i + 1;
+                                            END_WHILE;
+                                            v_i := 1;
+                                            WHILE (v_i + 1) <= mF_Mpc_degrees DO
+                                                b_H_tmp := (3 * v_i) + 1;
+                                                b_H[b_H_tmp] := 0.0;
+                                                j_k := nA;
+                                                WHILE (j_k + 1) <= mF_Mpc_degrees DO
+                                                    b_H[b_H_tmp] := b_H[b_H_tmp] - (TL[(3 * j_k) + 1] * TL[(3 * j_k) + v_i]);
+                                                    j_k := j_k + 1;
+                                                END_WHILE;
+                                                b_H[v_i + 3] := b_H[b_H_tmp];
+                                                v_i := v_i + 1;
+                                            END_WHILE;
+                                            v_i := 2;
+                                            WHILE (v_i + 1) <= mF_Mpc_degrees DO
+                                                b_H_tmp := (3 * v_i) + 2;
+                                                b_H[b_H_tmp] := 0.0;
+                                                j_k := nA;
+                                                WHILE (j_k + 1) <= mF_Mpc_degrees DO
+                                                    b_H[b_H_tmp] := b_H[b_H_tmp] - (TL[(3 * j_k) + 2] * TL[(3 * j_k) + v_i]);
+                                                    j_k := j_k + 1;
+                                                END_WHILE;
+                                                b_H[v_i + 6] := b_H[b_H_tmp];
+                                                v_i := v_i + 1;
+                                            END_WHILE;
+                                            iSave := 0;
+                                            WHILE iSave <= (nA - 1) DO
+                                                b_D[3 * iSave] := 0.0;
+                                                v_i := iSave;
+                                                WHILE (v_i + 1) <= nA DO
+                                                    b_D[3 * iSave] := (RLinv[(3 * v_i) + iSave] * TL[3 * v_i]) + b_D[3 * iSave];
+                                                    v_i := v_i + 1;
+                                                END_WHILE;
+                                                j_k := (3 * iSave) + 1;
+                                                b_D[j_k] := 0.0;
+                                                v_i := iSave;
+                                                WHILE (v_i + 1) <= nA DO
+                                                    b_D[j_k] := (TL[(3 * v_i) + 1] * RLinv[(3 * v_i) + iSave]) + b_D[j_k];
+                                                    v_i := v_i + 1;
+                                                END_WHILE;
+                                                j_k := (3 * iSave) + 2;
+                                                b_D[j_k] := 0.0;
+                                                v_i := iSave;
+                                                WHILE (v_i + 1) <= nA DO
+                                                    b_D[j_k] := (TL[(3 * v_i) + 2] * RLinv[(3 * v_i) + iSave]) + b_D[j_k];
+                                                    v_i := v_i + 1;
+                                                END_WHILE;
+                                                iSave := iSave + 1;
+                                            END_WHILE;
+                                            exitg4 := 1;
+                                        END_IF;
+
+                                    UNTIL NOT(exitg4 = 0)
+                                    END_REPEAT;
+
+                                    IF kDrop <= 0 THEN 
+                                        i := -2;
+                                        exitg1 := 1;
+                                    ELSE 
+
+                                        FOR iSave := 0 TO 8 DO 
+                                            b_U[iSave] :=  -b_H[iSave];
+                                        END_FOR;
+
+                                        cVal := 0.0;
+                                        cMin := 0.0;
+                                        t := 0.0;
+
+                                        FOR iSave := 0 TO 2 DO 
+                                            j_k := SINT_TO_DINT(b_Ac[(iSave * 4) + kNext]);
+                                            cVal := (b_U[3 * iSave] * DINT_TO_LREAL(j_k)) + cVal;
+                                            cMin := (b_U[(3 * iSave) + 1] * DINT_TO_LREAL(j_k)) + cMin;
+                                            t := (b_U[(3 * iSave) + 2] * DINT_TO_LREAL(j_k)) + t;
+                                        END_FOR;
+
+                                        z[2] := t;
+                                        z[1] := cMin;
+                                        z[0] := cVal;
+                                        kDrop := 0;
+                                        WHILE kDrop <= (nA - 1) DO
+                                            b_r[kDrop] := ((b_D[(3 * kDrop) + 1] * SINT_TO_LREAL(b_Ac[kNext + 4])) + (b_D[3 * kDrop] * SINT_TO_LREAL(b_Ac[kNext]))) + (b_D[(3 * kDrop) + 2] * SINT_TO_LREAL(b_Ac[kNext + 8]));
+                                            kDrop := kDrop + 1;
+                                        END_WHILE;
+                                        temp1 := TRUE;
+                                    END_IF;
+
+                                END_IF;
+
+
+                                IF temp1 THEN 
+                                    kDrop := 0;
+                                    cMin := 0.0;
+                                    DualFeasible := TRUE;
+                                    ColdReset := TRUE;
+
+                                    IF nA > 0 THEN 
+                                        iSave := 0;
+                                        REPEAT 
+                                            exitg4 := 0;
+
+                                            IF iSave <= (nA - 1) THEN 
+
+                                                IF b_r[iSave] >= 1.0E-12 THEN 
+                                                    ColdReset := FALSE;
+                                                    exitg4 := 1;
+                                                ELSE 
+                                                    iSave := iSave + 1;
+                                                END_IF;
+
+                                            ELSE 
+                                                exitg4 := 1;
+                                            END_IF;
+
+                                        UNTIL NOT(exitg4 = 0)
+                                        END_REPEAT;
+                                    END_IF;
+
+
+                                    IF (nA <> 0) AND ( NOT ColdReset) THEN 
+                                        v_i := 0;
+                                        WHILE v_i <= (nA - 1) DO
+
+                                            IF b_r[v_i] > 1.0E-12 THEN 
+                                                cVal := a1[iC[v_i] - 1] / b_r[v_i];
+
+                                                IF (kDrop = 0) OR (cVal < rMin) THEN 
+                                                    rMin := cVal;
+                                                    kDrop := v_i + 1;
+                                                END_IF;
+
+                                            END_IF;
+
+                                            v_i := v_i + 1;
+                                        END_WHILE;
+
+                                        IF kDrop > 0 THEN 
+                                            cMin := rMin;
+                                            DualFeasible := FALSE;
+                                        END_IF;
+
+                                    END_IF;
+
+                                    t := SINT_TO_LREAL(b_Ac[kNext + 4]);
+                                    cVal_tmp := SINT_TO_LREAL(b_Ac[kNext]);
+                                    cVal_tmp_0 := SINT_TO_LREAL(b_Ac[kNext + 8]);
+                                    cVal := ((t * z[1]) + (z[0] * cVal_tmp)) + (cVal_tmp_0 * z[2]);
+
+                                    IF cVal <= 0.0 THEN 
+                                        cVal := 0.0;
+                                        ColdReset := TRUE;
+                                    ELSE 
+                                        cVal := (b[kNext] - (((t * rtb_xest[1]) + (cVal_tmp * rtb_xest[0])) + (cVal_tmp_0 * rtb_xest[2]))) / cVal;
+                                        ColdReset := FALSE;
+                                    END_IF;
+
+
+                                    IF DualFeasible AND ColdReset THEN 
+                                        i := -1;
+                                        exitg1 := 1;
+                                    ELSE 
+
+                                        IF ColdReset THEN 
+                                            t := cMin;
+                                        ELSIF DualFeasible THEN 
+                                            t := cVal;
+                                        ELSIF cMin < cVal THEN 
+                                            t := cMin;
+                                        ELSE 
+                                            t := cVal;
+                                        END_IF;
+
+                                        v_i := 0;
+                                        WHILE v_i <= (nA - 1) DO
+                                            a1[iC[v_i] - 1] := a1[iC[v_i] - 1] - (t * b_r[v_i]);
+
+                                            IF iC[v_i] <= 4 THEN 
+
+                                                IF a1[iC[v_i] - 1] < 0.0 THEN 
+                                                    a1[iC[v_i] - 1] := 0.0;
+                                                END_IF;
+
+                                            END_IF;
+
+                                            v_i := v_i + 1;
+                                        END_WHILE;
+                                        a1[kNext] := a1[kNext] + t;
+
+                                        IF ABS(t - cMin) < 2.2204460492503131E-16 THEN 
+                                            i0_DropConstraint(kDrop := kDrop, iA := rtb_iAout, nA := nA, iC := iC);
+                                        END_IF;
+
+
+                                        IF  NOT ColdReset THEN 
+                                            rtb_xest[0] := (t * z[0]) + rtb_xest[0];
+                                            rtb_xest[1] := (t * z[1]) + rtb_xest[1];
+                                            rtb_xest[2] := (t * z[2]) + rtb_xest[2];
+
+                                            IF ABS(t - cVal) < 2.2204460492503131E-16 THEN 
+
+                                                IF nA = mF_Mpc_degrees THEN 
+                                                    i := -1;
+                                                    exitg1 := 1;
+                                                ELSE 
+                                                    nA := nA + 1;
+                                                    iC[nA - 1] := kNext + 1;
+                                                    kDrop := nA - 1;
+                                                    REPEAT 
+                                                        exitg4 := 0;
+
+                                                        IF (kDrop + 1) > 1 THEN 
+                                                            v_i := iC[kDrop - 1];
+
+                                                            IF iC[kDrop] > v_i THEN 
+                                                                exitg4 := 1;
+                                                            ELSE 
+                                                                iSave := iC[kDrop];
+                                                                iC[kDrop] := v_i;
+                                                                iC[kDrop - 1] := iSave;
+                                                                kDrop := kDrop - 1;
+                                                            END_IF;
+
+                                                        ELSE 
+                                                            exitg4 := 1;
+                                                        END_IF;
+
+                                                    UNTIL NOT(exitg4 = 0)
+                                                    END_REPEAT;
+                                                    rtb_iAout[kNext] := TRUE;
+                                                    kNext := -1;
+                                                    i := i + 1;
+                                                END_IF;
+
+                                            ELSE 
+                                                i := i + 1;
+                                            END_IF;
+
+                                        ELSE 
+                                            i := i + 1;
+                                        END_IF;
+
+                                    END_IF;
+
+                                END_IF;
+
+                            ELSE 
+                                cMin := norm(x := rtb_xest);
+
+                                IF ABS(cMin - Xnorm0) > 0.001 THEN 
+                                    Xnorm0 := cMin;
+                                    i0_abs_a(x := b);
+                                    temp4 := i0_abs_a.y;
+                                    i0_maximum2(x := temp4, y := 1.0);
+                                    cTol := i0_maximum2.ex;
+                                    cTolComputed := FALSE;
+                                END_IF;
+
+                                exitg1 := 2;
+                            END_IF;
+
+                        UNTIL NOT(exitg1 = 0)
+                        END_REPEAT;
+
+                        IF exitg1 = 1 THEN 
+                            exitg2 := 1;
+                        END_IF;
+
+                    END_IF;
+
+                ELSE 
+                    exitg2 := 1;
+                END_IF;
+
+            UNTIL NOT(exitg2 = 0)
+            END_REPEAT;
+        END_IF;
+
+
+        IF (i < 0) OR (i = 0) THEN 
+            rtb_xest[0] := 0.0;
+        END_IF;
+
+        u := last_mv_DSTATE + rtb_xest[0];
+        (* Update for Memory: '<S3>/Memory' *)
+        (* '<S24>:1:231' if return_xseq || return_ovseq *)
+        (* '<S24>:1:233' else *)
+        (* '<S24>:1:234' yseq = zeros(p+1,ny,'like',rseq); *)
+        (* '<S24>:1:235' xseq = zeros(p+1,nxQP,'like',rseq); *)
+        (* '<S24>:1:238' if CustomEstimation *)
+        (* '<S24>:1:240' else *)
+        (* update x[k+1|k], assuming that above u and v will be applied. *)
+        (* '<S24>:1:242' xk1 = A*xk + Bu*(u - uoff) + Bv*v + L*y_innov; *)
+        (* '<S24>:1:244' xk1 = xk1 + xoff; *)
+        (* Updated state must include offset *)
+        (* return xest in original value *)
+        (* '<S24>:1:247' xest = xest + xoff; *)
+        Memory_PreviousInput[0] := rtb_iAout[0];
+        Memory_PreviousInput[1] := rtb_iAout[1];
+        Memory_PreviousInput[2] := rtb_iAout[2];
+        Memory_PreviousInput[3] := rtb_iAout[3];
+        (* Update for UnitDelay: '<S3>/last_mv' incorporates:
+         *  MATLAB Function: '<S23>/optimizer' *)
+        last_mv_DSTATE := u;
+        (* End of Outputs for SubSystem: '<Root>/mF_Mpc' *)
+        (* Outputs for Atomic SubSystem: '<Root>/mF_Mpc' *)
+        (* MATLAB Function: '<S23>/optimizer' *)
+
+        FOR iSave := 0 TO 2 DO 
+            rtb_xest[iSave] := (((mF_Mpc_e_a[iSave + 3] * xk_idx_1) + (mF_Mpc_e_a[iSave] * xk_idx_0)) + (mF_Mpc_e_a[iSave + 6] * xk)) + (mF_Mpc_f_a[iSave] * u);
+        END_FOR;
+
+        xk := 0.0;
+        rMin := 0.0;
+
+        FOR iSave := 0 TO 1 DO 
+            Xnorm0 := v[iSave];
+            xk := (mF_Mpc_g_a[3 * iSave] * Xnorm0) + xk;
+            rMin := (mF_Mpc_g_a[(3 * iSave) + 1] * Xnorm0) + rMin;
+        END_FOR;
+
+        (* End of Outputs for SubSystem: '<Root>/mF_Mpc' *)
+        (* Outputs for Atomic SubSystem: '<Root>/mF_Mpc' *)
+        (* Update for Memory: '<S3>/last_x' incorporates:
+         *  MATLAB Function: '<S23>/optimizer' *)
+        last_x_PreviousInput[0] := (rtb_xest[0] + xk) + (-1.1590576263587683E-8 * y_innov);
+        last_x_PreviousInput[1] := (rtb_xest[1] + rMin) + (-1.443048653146427E-7 * y_innov);
+        last_x_PreviousInput[2] := rtb_xest_tmp + rtb_xest[2];
+        (* Outport: '<Root>/valveCommand' incorporates:
+         *  MATLAB Function: '<S23>/optimizer' *)
+        valveCommand := u;
+        (* End of Outputs for SubSystem: '<Root>/mF_Mpc' *)
+END_CASE;
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="mF_Mpc">
+      <LineId Id="3" Count="1068" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
