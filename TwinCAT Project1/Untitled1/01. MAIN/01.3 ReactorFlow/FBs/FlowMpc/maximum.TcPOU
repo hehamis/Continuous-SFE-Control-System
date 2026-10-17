@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="maximum" Id="{af58b192-1ae6-4144-9aa0-47c60762103f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION maximum : LREAL
+VAR_INPUT
+	x: ARRAY[0..2] OF LREAL;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+maximum := x[0];
+
+IF x[0] < x[1] THEN 
+    maximum := x[1];
+END_IF;
+
+
+IF maximum < x[2] THEN 
+    maximum := x[2];
+END_IF;
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="maximum">
+      <LineId Id="3" Count="12" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

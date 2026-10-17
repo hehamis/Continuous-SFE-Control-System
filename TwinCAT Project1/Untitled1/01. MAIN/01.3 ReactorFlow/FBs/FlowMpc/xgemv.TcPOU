@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="xgemv" Id="{fd193886-2d28-4f97-a525-123498fb507f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK xgemv
+VAR_INPUT
+	b_m: DINT;
+	b_n: DINT;
+	b_A: ARRAY[0..8] OF LREAL;
+	ia0: DINT;
+	x: ARRAY[0..8] OF LREAL;
+	ix0: DINT;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR_IN_OUT
+	y: ARRAY[0..2] OF LREAL;
+END_VAR
+VAR
+	ix: DINT;
+	b_c: LREAL;
+	b_iy: DINT;
+	b: DINT;
+	iac: DINT;
+	b_d: DINT;
+	ia: DINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+IF (b_m <> 0) AND (b_n <> 0) THEN 
+    b_iy := 0;
+    WHILE b_iy <= (b_n - 1) DO
+        y[b_iy] := 0.0;
+        b_iy := b_iy + 1;
+    END_WHILE;
+    b_iy := 0;
+    b := ((b_n - 1) * 3) + ia0;
+    iac := ia0;
+    WHILE iac <= b DO
+        ix := ix0;
+        b_c := 0.0;
+        b_d := (iac + b_m) - 1;
+        ia := iac;
+        WHILE ia <= b_d DO
+            b_c := (b_A[ia - 1] * x[ix - 1]) + b_c;
+            ix := ix + 1;
+            ia := ia + 1;
+        END_WHILE;
+        y[b_iy] := y[b_iy] + b_c;
+        b_iy := b_iy + 1;
+        iac := iac + 3;
+    END_WHILE;
+END_IF;
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="xgemv">
+      <LineId Id="3" Count="27" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

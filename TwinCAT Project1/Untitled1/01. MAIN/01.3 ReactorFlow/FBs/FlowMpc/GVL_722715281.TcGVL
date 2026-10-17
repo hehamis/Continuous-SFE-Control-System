@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="GVL_722715281" Id="{fbaef1dd-524c-453a-85a5-4bf0590b2686}">
+    <Declaration><![CDATA[VAR_GLOBAL CONSTANT
+	mF_Mpc_degrees: DINT := 3;
+	mF_Mpc_voff: LREAL := 0.0;
+	mF_Mpc_yoff: LREAL := 0.0;
+	mF_Mpc_RYscale: LREAL := 1.0;
+	mF_Mpc_RMDscale: LREAL := 1.0;
+	SS_INITIALIZE: SINT := 0;
+	SS_STEP: SINT := 1;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

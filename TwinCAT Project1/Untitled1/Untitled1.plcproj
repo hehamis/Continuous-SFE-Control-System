@@ -112,6 +112,45 @@
     <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FB_MPC.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FlowMpc\abs_a.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FlowMpc\b_abs.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FlowMpc\DropConstraint.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FlowMpc\GVL_722715281.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FlowMpc\maximum.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FlowMpc\maximum2.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FlowMpc\mF_Mpc.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FlowMpc\mpcblock_refmd.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FlowMpc\norm.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FlowMpc\qr.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FlowMpc\xgemv.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FlowMpc\xgerc.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\01.3 ReactorFlow\FBs\FlowMpc\xnrm2.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\01.3 ReactorFlow\Handlers\01.3.1 Co2MeanFlowCalculation\FB_Co2MeanFlowCalculationHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -394,6 +433,7 @@
     <Folder Include="01. MAIN\01.2 ReactorLevelAndPressure\Handlers\01.2.2 AutomaticExtraction" />
     <Folder Include="01. MAIN\01.2 ReactorLevelAndPressure\Handlers\01.2.3 ExtractiveOutlet" />
     <Folder Include="01. MAIN\01.3 ReactorFlow\FBs" />
+    <Folder Include="01. MAIN\01.3 ReactorFlow\FBs\FlowMpc" />
     <Folder Include="01. MAIN\01.3 ReactorFlow\Handlers" />
     <Folder Include="01. MAIN\01.3 ReactorFlow\DUTs" />
     <Folder Include="01. MAIN\01.3 ReactorFlow\Handlers\01.3.1 Co2MeanFlowCalculation" />
