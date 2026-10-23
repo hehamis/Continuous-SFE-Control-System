@@ -23,6 +23,7 @@ VAR_OUTPUT
 	reactorOutletValve : BOOL;
 	controlValveAutoOpenPercentage : DINT;
 	automaticExtractionValues : ST_AutomaticExtractionValues;
+	startCalibration : BOOL;
 END_VAR
 VAR
 	manualModeEntered : BOOL;
@@ -48,7 +49,8 @@ END_VAR
 				extractivePumpOn => reactorInletValve,
 				co2onOffValveClosed => ,
 				automaticExtractionState => automaticExtractionState,
-				automaticExtractionValues => automaticExtractionValues);
+				automaticExtractionValues => automaticExtractionValues,
+				startCalibration => startCalibration);
 	extractiveOutOnOffValveAutoCommand := NOT AutomaticExtraction.co2onOffValveClosed;
 	controlValveAutoOpenPercentage := AutomaticExtraction.controlValveOpeningPercentage;
 	
@@ -80,6 +82,7 @@ END_VAR
 	
 ELSE
 	AutomaticExtraction.resetState();
+	startCalibration := FALSE;
 	decreasePumpSetpoint := FALSE;
 	// Close inlet/outlet valves when manual mode entered
 	IF NOT manualModeEntered THEN
@@ -101,6 +104,7 @@ automaticExtraction.getCurrentTimer();]]></ST>
     <LineIds Name="AutomaticExtractionHandler">
       <LineId Id="1263" Count="13" />
       <LineId Id="1410" Count="0" />
+      <LineId Id="1443" Count="0" />
       <LineId Id="1277" Count="6" />
       <LineId Id="1359" Count="1" />
       <LineId Id="1285" Count="0" />
@@ -108,6 +112,7 @@ automaticExtraction.getCurrentTimer();]]></ST>
       <LineId Id="1287" Count="13" />
       <LineId Id="1361" Count="2" />
       <LineId Id="1301" Count="2" />
+      <LineId Id="1476" Count="0" />
       <LineId Id="1364" Count="0" />
       <LineId Id="1304" Count="10" />
       <LineId Id="1408" Count="0" />

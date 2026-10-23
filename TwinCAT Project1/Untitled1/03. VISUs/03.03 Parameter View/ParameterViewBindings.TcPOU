@@ -19,8 +19,11 @@ VAR PERSISTENT
 	
 	controlValveOpeningValueTextField_TextVariable : DINT := 50;
 	refillIntervalTextField_TextVariable : DINT := 300;
-	pumpOnTimeTextField_TextVariable : DINT := 15;
 	pumpSetpointWaitTimeTextField_TextVariable : DINT;
+	pumpPressureWaitTimeTextField_TextVariable : DINT;
+	refillStartPressureOffsetTextField_TextVariable : DINT;
+	refillEndPressureOffsetTextField_TextVariable : DINT;
+	pumpOnTimeTextField_TextVariable : DINT := 15;
 	refillPumpWaitTimeTextField_TextVariable : DINT := 5;
 	
 	calibrationTimeTextField_TextVariable : DINT := 26000;
@@ -52,12 +55,15 @@ reactorTemperaturePidParameters.Bias := BiasTextField_TextVariable;
 ReactorTemperatureController.pidControllerParameters := reactorTemperaturePidParameters;
 
 // Send auto extraction parameters to controller
-autoExtractionParameters.controlValveOpeningValue := controlValveOpeningValueTextField_TextVariable;
 autoExtractionParameters.fillingTime := refillIntervalTextField_TextVariable;
+autoExtractionParameters.pumpSetpointReduceWaitTime := pumpSetpointWaitTimeTextField_TextVariable;
+autoExtractionParameters.pumpPressureReduceWaitTime := pumpPressureWaitTimeTextField_TextVariable;
+autoExtractionParameters.controlValveOpeningValue := controlValveOpeningValueTextField_TextVariable;
+autoExtractionParameters.refillStartPressureOffset := refillStartPressureOffsetTextField_TextVariable;
+autoExtractionParameters.refillEndPressureOffset := refillEndPressureOffsetTextField_TextVariable;
 autoExtractionParameters.pumpOnTime := pumpOnTimeTextField_TextVariable;
-autoExtractionParameters.pumpSetpointWaitTime := pumpSetpointWaitTimeTextField_TextVariable;
 autoExtractionParameters.pumpWaitTime := refillPumpWaitTimeTextField_TextVariable;
-ReactorLevelAndPressureController.AutomaticExtractionParameters := autoExtractionParameters; 
+//ReactorLevelAndPressureController.AutomaticExtractionParameters := autoExtractionParameters; 
 
 // Slurry outlet pressure intervals
 PressureIntervals.PressureUpperInterVal_1 := UpperIntervalSlurryOnUpperTextField_TextVariable;
@@ -89,7 +95,12 @@ flowControlParameters.closeOnOffValveIfConsumptionExceeded := closeExtractiveOut
       <LineId Id="71" Count="0" />
       <LineId Id="31" Count="6" />
       <LineId Id="72" Count="0" />
-      <LineId Id="38" Count="4" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="347" Count="0" />
+      <LineId Id="390" Count="1" />
+      <LineId Id="39" Count="1" />
+      <LineId Id="346" Count="0" />
+      <LineId Id="41" Count="0" />
       <LineId Id="119" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="82" Count="7" />

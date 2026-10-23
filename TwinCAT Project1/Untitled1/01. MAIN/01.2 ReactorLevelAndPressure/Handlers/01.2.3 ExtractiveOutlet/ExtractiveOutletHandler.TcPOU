@@ -11,6 +11,7 @@ VAR_INPUT
 	autoExtractionStarted : BOOL;
 	modeledValvePosition : DINT;
 	flowMpcEnabled : BOOL;
+	externalCalibrationStart : BOOL;
 END_VAR
 VAR_OUTPUT
 	extractiveOnOffValveValues : ST_ExtractiveOnOffValveValues;
@@ -46,6 +47,7 @@ ExtractiveOutletControl(
 					onOffValveCommand := extractiveOutOnOffValveCommand,
 					controlValveCommands := extractiveControlValveCommands,
 					controlValveParameters := extractiveControlValveParameters,
+					externalCalibrationStart := externalCalibrationStart,
 					onOffValveOpen => ,
 					onOffValveButtonCommand => openOnOffValve,//GVL_IO.extractiveOutletOnOffValve,
 					controlValveClose => closeExtractiveOutletValve,
@@ -65,7 +67,9 @@ extractiveOnOffValveValues.open := ExtractiveOutletControl.onOffValveOpen;]]></S
       <LineId Id="246" Count="0" />
       <LineId Id="276" Count="3" />
       <LineId Id="198" Count="0" />
-      <LineId Id="183" Count="9" />
+      <LineId Id="183" Count="3" />
+      <LineId Id="305" Count="0" />
+      <LineId Id="187" Count="5" />
       <LineId Id="199" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
