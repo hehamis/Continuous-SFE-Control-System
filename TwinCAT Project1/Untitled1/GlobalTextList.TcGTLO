@@ -606,8 +606,28 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1659"</v>
+              <v n="TextDefault">"Pump pressure "</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1476"</v>
+              <v n="TextDefault">"Pump pressure reduce wait time (s)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"338"</v>
+              <v n="TextDefault">"Pump pressure setpoint (bar)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"484"</v>
               <v n="TextDefault">"PUMP RUNNING"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"542"</v>
+              <v n="TextDefault">"Pump setpoint reduce wait time (s)"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -661,8 +681,18 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1587"</v>
+              <v n="TextDefault">"Refill end pressure offset (bar)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"223"</v>
               <v n="TextDefault">"Refill interval (s)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"821"</v>
+              <v n="TextDefault">"Refill start pressure offset (bar)"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
