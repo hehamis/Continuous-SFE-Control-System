@@ -516,6 +516,16 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"4"</v>
+              <v n="TextDefault">"On/off valve opening wait time (ms)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"976"</v>
+              <v n="TextDefault">"On/off valve opening wait time (s)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"603"</v>
               <v n="TextDefault">"On/off valve pressure limit"</v>
               <l n="LanguageTexts" t="ArrayList" />

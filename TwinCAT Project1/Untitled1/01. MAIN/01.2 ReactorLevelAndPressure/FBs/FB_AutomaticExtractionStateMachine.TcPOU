@@ -25,6 +25,7 @@ VAR
 	TON_WaitForPressureReduce : TON;
 	TON_WaitForValve : TON;
 	TON_KeepExtractivePumpOn : TON;
+	TON_WaitBeforeOpeningOnOff : TON;
 	startingReactorPRessure : DINT;
 	startingPumpSetpoint : DINT;
 	startingPumpPressure : DINT;
@@ -107,39 +108,51 @@ CASE automaticExtractionState OF
 		
 	E_AutomaticExtractionState.WAIT_FOR_PRESSURE_TO_SET: // Wait until reactor pressure is back to original setpoint + offset
 		
-		IF NOT decreaseReactorPressure AND NOT increaseReactorPressure THEN
-			IF (reactorPressure >= (startingPumpSetpoint + parameters.refillEndPressureOffset)) THEN
-				decreaseReactorPressure := TRUE;
-				increaseReactorPressure := FALSE;
-			ELSIF (reactorPressure < (startingPumpSetpoint + parameters.refillEndPressureOffset)) THEN
-				increaseReactorPressure := TRUE;
-				decreaseReactorPressure := FALSE;
-			END_IF
-		END_IF
-		pressureTarget := startingPumpSetpoint + parameters.refillEndPressureOffset;
-		IF decreaseReactorPressure THEN
-			extractivePumpOn := FALSE;
-			IF reactorPressure <= (startingPumpSetpoint + parameters.refillEndPressureOffset) THEN
-				automaticExtractionState := automaticExtractionState + 1;
-			END_IF			
-		ELSIF increaseReactorPressure THEN
+//		IF NOT decreaseReactorPressure AND NOT increaseReactorPressure THEN
+//			IF (reactorPressure >= (startingPumpSetpoint + parameters.refillEndPressureOffset)) THEN
+//				decreaseReactorPressure := TRUE;
+//				increaseReactorPressure := FALSE;
+//			ELSIF (reactorPressure < (startingPumpSetpoint + parameters.refillEndPressureOffset)) THEN
+//				increaseReactorPressure := TRUE;
+//				decreaseReactorPressure := FALSE;
+//			END_IF
+//		END_IF
+		
+		
+		
+//		pressureTarget := startingPumpSetpoint + parameters.refillEndPressureOffset;
+//		IF decreaseReactorPressure THEN
+//			extractivePumpOn := FALSE;
+//			IF reactorPressure <= (startingPumpSetpoint + parameters.refillEndPressureOffset) THEN
+//				automaticExtractionState := automaticExtractionState + 1;
+//			END_IF			
+//		ELSIF increaseReactorPressure THEN
 			IF reactorPressure >= (startingPumpSetpoint + parameters.refillEndPressureOffset) THEN
 				extractivePumpOn := FALSE;
 				automaticExtractionState := automaticExtractionState + 1;
 			END_IF					
-		END_IF
+//		END_IF
 		
 	E_AutomaticExtractionState.INCREASE_PUMP: // Pressure setpoint back to original
 
 		decreaseReactorPressure := FALSE;
 		increaseReactorPressure := FALSE;	
 		decreasePumpSetpoint := FALSE;
-		automaticExtractionState := automaticExtractionState + 1;
+		IF (reactorPressure >= startingPumpSetpoint) THEN
+			automaticExtractionState := automaticExtractionState + 1;
+		END_IF
 	
 	E_AutomaticExtractionState.OPEN_ON_OFF_VALVE: // open on/off valve
 	
-		co2onOffValveClosed := FALSE;
-		automaticExtractionState := 0;
+		TON_WaitBeforeOpeningOnOff(
+			IN := TRUE,
+			PT := TO_TIME(parameters.onOffValveOpenWaitTime)); // ms!
+		
+		IF TON_WaitBeforeOpeningOnOff.Q THEN
+			co2onOffValveClosed := FALSE;
+			TON_WaitBeforeOpeningOnOff(IN := FALSE);
+			automaticExtractionState := 0;
+		END_IF
 		
 END_CASE]]></ST>
     </Implementation>
@@ -192,7 +205,9 @@ CASE automaticExtractionState OF
 	
 	E_AutomaticExtractionState.OPEN_ON_OFF_VALVE: // open control valve to desired value
 
-		automaticExtractionValues.timeVisible := FALSE;	
+		automaticExtractionValues.currentTimer := TON_WaitBeforeOpeningOnOff.PT;
+		automaticExtractionValues.elapsedTime := TON_WaitBeforeOpeningOnOff.ET;
+		automaticExtractionValues.timeVisible := TRUE;	
 
 END_CASE]]></ST>
       </Implementation>
@@ -210,6 +225,7 @@ TON_WaitForValve(IN :=FALSE);
 TON_WaitForSetpointReduce(IN := FALSE);
 TON_WaitForPressureReduce(IN := FALSE);
 TON_KeepExtractivePumpOn(IN :=FALSE);
+TON_WaitBeforeOpeningOnOff(IN := FALSE);
 co2onOffValveClosed := FALSE;
 decreasePumpSetpoint := FALSE;
 extractivePumpOn := FALSE;
@@ -268,7 +284,11 @@ increaseReactorPressure := FALSE;]]></ST>
       <LineId Id="581" Count="1" />
       <LineId Id="586" Count="0" />
       <LineId Id="580" Count="0" />
-      <LineId Id="588" Count="3" />
+      <LineId Id="588" Count="0" />
+      <LineId Id="728" Count="0" />
+      <LineId Id="730" Count="0" />
+      <LineId Id="729" Count="0" />
+      <LineId Id="589" Count="2" />
       <LineId Id="596" Count="0" />
       <LineId Id="598" Count="0" />
       <LineId Id="595" Count="0" />
@@ -282,10 +302,17 @@ increaseReactorPressure := FALSE;]]></ST>
       <LineId Id="571" Count="0" />
       <LineId Id="641" Count="0" />
       <LineId Id="573" Count="0" />
+      <LineId Id="733" Count="0" />
       <LineId Id="398" Count="0" />
+      <LineId Id="734" Count="0" />
       <LineId Id="404" Count="2" />
+      <LineId Id="736" Count="1" />
+      <LineId Id="739" Count="2" />
       <LineId Id="602" Count="0" />
-      <LineId Id="408" Count="1" />
+      <LineId Id="743" Count="0" />
+      <LineId Id="408" Count="0" />
+      <LineId Id="742" Count="0" />
+      <LineId Id="409" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AutomaticExtractionStateMachine.getCurrentTimer">
@@ -319,7 +346,9 @@ increaseReactorPressure := FALSE;]]></ST>
       <LineId Id="116" Count="0" />
       <LineId Id="82" Count="0" />
       <LineId Id="86" Count="1" />
+      <LineId Id="130" Count="0" />
       <LineId Id="117" Count="0" />
+      <LineId Id="131" Count="0" />
       <LineId Id="88" Count="0" />
       <LineId Id="91" Count="0" />
       <LineId Id="5" Count="0" />
@@ -329,6 +358,7 @@ increaseReactorPressure := FALSE;]]></ST>
       <LineId Id="6" Count="3" />
       <LineId Id="30" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="34" Count="0" />
       <LineId Id="12" Count="0" />
       <LineId Id="11" Count="0" />
       <LineId Id="16" Count="0" />

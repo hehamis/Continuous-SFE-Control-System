@@ -25,6 +25,7 @@ VAR PERSISTENT
 	refillEndPressureOffsetTextField_TextVariable : DINT;
 	pumpOnTimeTextField_TextVariable : DINT := 15;
 	refillPumpWaitTimeTextField_TextVariable : DINT := 5;
+	onOffValveOpeningWaitTimeTextField_TextVariable : DINT := 2;
 	
 	calibrationTimeTextField_TextVariable : DINT := 26000;
 	fullOpenTimeTextField_TextVariable : DINT := 26000;
@@ -63,6 +64,7 @@ autoExtractionParameters.refillStartPressureOffset := refillStartPressureOffsetT
 autoExtractionParameters.refillEndPressureOffset := refillEndPressureOffsetTextField_TextVariable;
 autoExtractionParameters.pumpOnTime := pumpOnTimeTextField_TextVariable;
 autoExtractionParameters.pumpWaitTime := refillPumpWaitTimeTextField_TextVariable;
+autoExtractionParameters.onOffValveOpenWaitTime := onOffValveOpeningWaitTimeTextField_TextVariable;
 //ReactorLevelAndPressureController.AutomaticExtractionParameters := autoExtractionParameters; 
 
 // Slurry outlet pressure intervals
@@ -102,6 +104,7 @@ flowControlParameters.closeOnOffValveIfConsumptionExceeded := closeExtractiveOut
       <LineId Id="346" Count="0" />
       <LineId Id="41" Count="0" />
       <LineId Id="119" Count="0" />
+      <LineId Id="434" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="82" Count="7" />
       <LineId Id="81" Count="0" />

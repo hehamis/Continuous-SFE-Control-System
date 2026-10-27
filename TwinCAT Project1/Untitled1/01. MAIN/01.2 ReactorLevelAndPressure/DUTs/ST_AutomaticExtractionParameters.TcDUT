@@ -11,6 +11,7 @@ STRUCT
 	pumpWaitTime : DINT;
 	pumpOnTime	: DINT;
 	controlValveOpeningValue : DINT;
+	onOffValveOpenWaitTime : DINT;
 END_STRUCT
 END_TYPE
 ]]></Declaration>
