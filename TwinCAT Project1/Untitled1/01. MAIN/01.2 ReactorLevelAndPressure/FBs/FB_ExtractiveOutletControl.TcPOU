@@ -6,6 +6,7 @@ VAR_INPUT
 	onOffValveCommand : BOOL;
 	controlValveCommands : ST_ExtractiveControlValveCommands;
 	controlValveParameters : ST_ExtractiveControlValveParameters;
+	externalCalibrationStart : BOOL;
 END_VAR
 VAR_OUTPUT
 	onOffValveOpen : BOOL;
@@ -34,6 +35,7 @@ onOffValveOpen := onOffValveButton.isOpen;
 ControlValveStateMachine(
 						controlValveCommands := controlValveCommands,
 						controlValveParameters := controlValveParameters,
+						startCalibrationExternal := externalCalibrationStart,
 						closeControlValve => controlValveClose,
 						openControlValve => controlValveOpen,
 						currentControlValveOpenPercentage => controlValveCurrentOpenPercentage,
@@ -42,7 +44,9 @@ ControlValveStateMachine(
     <LineIds Name="FB_ExtractiveOutletControl">
       <LineId Id="163" Count="3" />
       <LineId Id="175" Count="1" />
-      <LineId Id="167" Count="6" />
+      <LineId Id="167" Count="3" />
+      <LineId Id="198" Count="0" />
+      <LineId Id="171" Count="2" />
       <LineId Id="99" Count="0" />
     </LineIds>
   </POU>

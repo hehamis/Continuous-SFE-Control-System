@@ -71,7 +71,8 @@ HandleAutomaticExtraction(
 						extractiveOutOnOffValveAutoCommand => ,
 						controlValveAutoOpenPercentage => ,
 						reactorOutletValve => slurryOutletValve,
-						automaticExtractionValues => _automaticExtractionValues);
+						automaticExtractionValues => _automaticExtractionValues,
+						startCalibration => );
 						
 HandleExtractiveOutlet(
 					stop := stop,
@@ -83,6 +84,7 @@ HandleExtractiveOutlet(
 					autoExtractionStarted := _automaticExtractionState <> E_AutomaticExtractionState.MANUAL_EXTRACTION,
 					modeledValvePosition := modeledValvePosition,
 					flowMpcEnabled := flowMpcEnabled,
+					externalCalibrationStart := HandleAutomaticExtraction.startCalibration,
 					controlValveOpeningPercentage => _controlValveOpening,
 					extractiveOnOffValveValues => _extractiveOnOffValveValues,
 					calibrateDone => _calibrateDone,
@@ -397,12 +399,14 @@ _startAutomaticExtraction := StartAutomaticExtraction;]]></ST>
       <LineId Id="1584" Count="0" />
       <LineId Id="1558" Count="0" />
       <LineId Id="1679" Count="0" />
+      <LineId Id="1775" Count="0" />
       <LineId Id="1562" Count="1" />
       <LineId Id="1565" Count="3" />
       <LineId Id="1580" Count="0" />
       <LineId Id="1569" Count="0" />
       <LineId Id="1628" Count="0" />
       <LineId Id="1726" Count="1" />
+      <LineId Id="1773" Count="0" />
       <LineId Id="1585" Count="0" />
       <LineId Id="1581" Count="0" />
       <LineId Id="1570" Count="0" />

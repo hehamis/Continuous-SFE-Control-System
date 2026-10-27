@@ -5,13 +5,14 @@
 VAR_INPUT
 	controlValveCommands : ST_ExtractiveControlValveCommands;
 	controlValveParameters : ST_ExtractiveControlValveParameters;
+	startCalibrationExternal : BOOL;
 END_VAR
 VAR_OUTPUT
 	closeControlValve : BOOL;
 	openControlValve : BOOL;
 	currentControlValveOpenPercentage : DINT;
 	calibrateDone : BOOL;
-	test : real;
+	test : REAL;
 END_VAR
 VAR
 	startCalibrate : BOOL;
@@ -32,7 +33,7 @@ END_VAR
     <Implementation>
       <ST><![CDATA[// Read commands from ui
 startCalibrate := controlValveCommands.calibrate;
-RTRIG_startCalibrate(CLK := startCalibrate);
+RTRIG_startCalibrate(CLK := startCalibrate OR startCalibrationExternal);
 RTRIG_requireCalibration(CLK := controlValveCommands.requireCalibration);
 
 CASE controlState OF 

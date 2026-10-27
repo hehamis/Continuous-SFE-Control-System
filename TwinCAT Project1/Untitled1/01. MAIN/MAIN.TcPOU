@@ -4,8 +4,7 @@
     <Declaration><![CDATA[PROGRAM MAIN
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-(*** CONTROLLERS: MAIN LOGIC MODULARIZED ***)
+      <ST><![CDATA[(*** CONTROLLERS: MAIN LOGIC MODULARIZED ***)
 
 // Reactor temperature
 ReactorTemperatureController(
@@ -94,7 +93,9 @@ ProcessViewBindings(
 				co2ConsumptionLimitExceeded := ReactorFlowController.Co2ConsumptionLimitExceeded,
 				closeOnOffValve := ReactorFlowController.CloseOnOffValve,
 				modeledMeanReactorFlow := ReactorFlowController.ModeledMeanReactorFlow,
-				co2FlowDeviationPercentage := ReactorFlowController.FlowModelDeviationPercentage);
+				co2FlowDeviationPercentage := ReactorFlowController.FlowModelDeviationPercentage,
+				controlValveOpen := GVL_IO.extractiveOutletControlValveOpen,
+				controlValveClose := GVL_IO.extractiveOutletControlValveClose);
 // ProcessView out
 ReactorTemperatureController.temperatureContactorCommand := ProcessViewBindings.temperatureContactorCommand;
 ReactorLevelAndPressureController.SlurryInValveCommand := ProcessViewBindings.SlurryInValveCommand;
@@ -122,76 +123,7 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterV
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="362" Count="0" />
-      <LineId Id="330" Count="0" />
-      <LineId Id="364" Count="0" />
-      <LineId Id="191" Count="0" />
-      <LineId Id="239" Count="0" />
-      <LineId Id="344" Count="1" />
-      <LineId Id="348" Count="0" />
-      <LineId Id="331" Count="0" />
-      <LineId Id="240" Count="0" />
-      <LineId Id="193" Count="0" />
-      <LineId Id="274" Count="1" />
-      <LineId Id="349" Count="0" />
-      <LineId Id="400" Count="0" />
-      <LineId Id="419" Count="1" />
-      <LineId Id="350" Count="0" />
-      <LineId Id="332" Count="0" />
-      <LineId Id="353" Count="0" />
-      <LineId Id="351" Count="1" />
-      <LineId Id="376" Count="3" />
-      <LineId Id="406" Count="1" />
-      <LineId Id="354" Count="0" />
-      <LineId Id="194" Count="1" />
-      <LineId Id="410" Count="1" />
-      <LineId Id="366" Count="0" />
-      <LineId Id="336" Count="1" />
-      <LineId Id="197" Count="0" />
-      <LineId Id="367" Count="0" />
-      <LineId Id="338" Count="0" />
-      <LineId Id="198" Count="1" />
-      <LineId Id="342" Count="0" />
-      <LineId Id="341" Count="0" />
-      <LineId Id="263" Count="0" />
-      <LineId Id="343" Count="0" />
-      <LineId Id="201" Count="0" />
-      <LineId Id="356" Count="0" />
-      <LineId Id="355" Count="0" />
-      <LineId Id="202" Count="0" />
-      <LineId Id="268" Count="0" />
-      <LineId Id="272" Count="0" />
-      <LineId Id="270" Count="1" />
-      <LineId Id="370" Count="1" />
-      <LineId Id="282" Count="0" />
-      <LineId Id="288" Count="8" />
-      <LineId Id="276" Count="0" />
-      <LineId Id="357" Count="0" />
-      <LineId Id="261" Count="0" />
-      <LineId Id="297" Count="9" />
-      <LineId Id="308" Count="3" />
-      <LineId Id="369" Count="0" />
-      <LineId Id="373" Count="0" />
-      <LineId Id="375" Count="0" />
-      <LineId Id="380" Count="0" />
-      <LineId Id="384" Count="0" />
-      <LineId Id="402" Count="0" />
-      <LineId Id="413" Count="0" />
-      <LineId Id="416" Count="0" />
-      <LineId Id="415" Count="0" />
-      <LineId Id="358" Count="0" />
-      <LineId Id="315" Count="4" />
-      <LineId Id="313" Count="0" />
-      <LineId Id="381" Count="0" />
-      <LineId Id="383" Count="0" />
-      <LineId Id="312" Count="0" />
-      <LineId Id="359" Count="0" />
-      <LineId Id="256" Count="0" />
-      <LineId Id="361" Count="0" />
-      <LineId Id="323" Count="2" />
-      <LineId Id="322" Count="0" />
-      <LineId Id="393" Count="5" />
-      <LineId Id="392" Count="0" />
+      <LineId Id="424" Count="115" />
       <LineId Id="251" Count="0" />
     </LineIds>
   </POU>

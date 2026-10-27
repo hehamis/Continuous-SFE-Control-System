@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="xnrm2" Id="{997dd98c-139f-42ac-a512-13170059cdfb}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION xnrm2 : LREAL
+VAR_INPUT
+	b_n: DINT;
+	x: ARRAY[0..8] OF LREAL;
+	ix0: DINT;
+END_VAR
+VAR
+	scale: LREAL;
+	kend: DINT;
+	absxk: LREAL;
+	t: LREAL;
+	k: DINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+xnrm2 := 0.0;
+
+IF b_n >= 1 THEN 
+
+    IF b_n = 1 THEN 
+        xnrm2 := ABS(x[ix0 - 1]);
+    ELSE 
+        scale := 3.3121686421112381E-170;
+        kend := (ix0 + b_n) - 1;
+        k := ix0;
+        WHILE k <= kend DO
+            absxk := ABS(x[k - 1]);
+
+            IF absxk > scale THEN 
+                t := scale / absxk;
+                xnrm2 := ((xnrm2 * t) * t) + 1.0;
+                scale := absxk;
+            ELSE 
+                t := absxk / scale;
+                xnrm2 := (t * t) + xnrm2;
+            END_IF;
+
+            k := k + 1;
+        END_WHILE;
+        xnrm2 := scale * SQRT(xnrm2);
+    END_IF;
+
+END_IF;
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="xnrm2">
+      <LineId Id="3" Count="30" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="qr" Id="{bac3e3a6-649d-494a-9060-eee7f5db5987}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK qr
+VAR_INPUT
+	b_A: ARRAY[0..8] OF LREAL;
+END_VAR
+VAR_OUTPUT
+	Q: ARRAY[0..8] OF LREAL;
+	b_R: ARRAY[0..8] OF LREAL;
+END_VAR
+VAR
+	c_A: ARRAY[0..8] OF LREAL;
+	tau: ARRAY[0..2] OF LREAL;
+	itau: DINT;
+	work: ARRAY[0..2] OF LREAL;
+	ii: DINT;
+	atmp: LREAL;
+	xnorm: LREAL;
+	knt: DINT;
+	c_lastc: DINT;
+	coltop: DINT;
+	b_coltop: DINT;
+	c_A_0: LREAL;
+	a: LREAL;
+	exitg1: DINT;
+	exitg2: DINT;
+	temp5: LREAL;
+	i0_xgerc: xgerc;
+	i0_xgemv: xgemv;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+FOR ii := 0 TO 8 DO 
+    c_A[ii] := b_A[ii];
+END_FOR;
+
+tau[0] := 0.0;
+work[0] := 0.0;
+tau[1] := 0.0;
+work[1] := 0.0;
+tau[2] := 0.0;
+work[2] := 0.0;
+
+FOR itau := 0 TO 2 DO 
+    ii := (itau * 3) + itau;
+
+    IF (itau + 1) < 3 THEN 
+        atmp := c_A[ii];
+        tau[itau] := 0.0;
+        xnorm := xnrm2(b_n := 2 - itau, x := c_A, ix0 := ii + 2);
+
+        IF xnorm <> 0.0 THEN 
+            c_A_0 := c_A[ii];
+            a := ABS(c_A_0);
+            xnorm := ABS(xnorm);
+
+            IF a < xnorm THEN 
+                a := a / xnorm;
+                xnorm := SQRT((a * a) + 1.0) * xnorm;
+            ELSIF a > xnorm THEN 
+                xnorm := xnorm / a;
+                xnorm := SQRT((xnorm * xnorm) + 1.0) * a;
+            ELSE 
+                xnorm := a * 1.4142135623730951;
+            END_IF;
+
+
+            IF c_A_0 >= 0.0 THEN 
+                xnorm :=  -xnorm;
+            END_IF;
+
+
+            IF ABS(xnorm) < 1.0020841800044864E-292 THEN 
+                knt := 0;
+                REPEAT 
+                    exitg1 := 0;
+                    knt := knt + 1;
+                    c_lastc := (ii - itau) + 3;
+                    b_coltop := ii + 1;
+                    WHILE (b_coltop + 1) <= c_lastc DO
+                        c_A[b_coltop] := 9.9792015476736E+291 * c_A[b_coltop];
+                        b_coltop := b_coltop + 1;
+                    END_WHILE;
+                    xnorm := xnorm * 9.9792015476736E+291;
+                    atmp := atmp * 9.9792015476736E+291;
+
+                    IF ABS(xnorm) < 1.0020841800044864E-292 THEN 
+
+                        IF knt < 20 THEN 
+                            ;
+                            ;
+                        ELSE 
+                            exitg1 := 1;
+                        END_IF;
+
+                    ELSE 
+                        exitg1 := 1;
+                    END_IF;
+
+                UNTIL NOT(exitg1 = 0)
+                END_REPEAT;
+                a := ABS(atmp);
+                temp5 := xnrm2(b_n := 2 - itau, x := c_A, ix0 := ii + 2);
+                xnorm := ABS(temp5);
+
+                IF a < xnorm THEN 
+                    a := a / xnorm;
+                    xnorm := SQRT((a * a) + 1.0) * xnorm;
+                ELSIF a > xnorm THEN 
+                    xnorm := xnorm / a;
+                    xnorm := SQRT((xnorm * xnorm) + 1.0) * a;
+                ELSE 
+                    xnorm := a * 1.4142135623730951;
+                END_IF;
+
+
+                IF atmp >= 0.0 THEN 
+                    xnorm :=  -xnorm;
+                END_IF;
+
+                tau[itau] := (xnorm - atmp) / xnorm;
+                atmp := 1.0 / (atmp - xnorm);
+                b_coltop := ii + 1;
+                WHILE (b_coltop + 1) <= c_lastc DO
+                    c_A[b_coltop] := atmp * c_A[b_coltop];
+                    b_coltop := b_coltop + 1;
+                END_WHILE;
+                c_lastc := 0;
+                WHILE c_lastc <= (knt - 1) DO
+                    xnorm := xnorm * 1.0020841800044864E-292;
+                    c_lastc := c_lastc + 1;
+                END_WHILE;
+                atmp := xnorm;
+            ELSE 
+                tau[itau] := (xnorm - c_A_0) / xnorm;
+                atmp := 1.0 / (c_A_0 - xnorm);
+                knt := (ii - itau) + 3;
+                c_lastc := ii + 1;
+                WHILE (c_lastc + 1) <= knt DO
+                    c_A[c_lastc] := atmp * c_A[c_lastc];
+                    c_lastc := c_lastc + 1;
+                END_WHILE;
+                atmp := xnorm;
+            END_IF;
+
+        END_IF;
+
+        c_A[ii] := 1.0;
+
+        IF tau[itau] <> 0.0 THEN 
+            knt := 3 - itau;
+            c_lastc := (ii - itau) + 2;
+            REPEAT 
+                exitg1 := 0;
+
+                IF knt > 0 THEN 
+
+                    IF c_A[c_lastc] = 0.0 THEN 
+                        knt := knt - 1;
+                        c_lastc := c_lastc - 1;
+                    ELSE 
+                        exitg1 := 1;
+                    END_IF;
+
+                ELSE 
+                    exitg1 := 1;
+                END_IF;
+
+            UNTIL NOT(exitg1 = 0)
+            END_REPEAT;
+            c_lastc := 2 - itau;
+            REPEAT 
+                exitg2 := 0;
+
+                IF c_lastc > 0 THEN 
+                    b_coltop := (((c_lastc - 1) * 3) + ii) + 3;
+                    coltop := b_coltop;
+                    REPEAT 
+                        exitg1 := 0;
+
+                        IF (coltop + 1) <= (b_coltop + knt) THEN 
+
+                            IF c_A[coltop] <> 0.0 THEN 
+                                exitg1 := 1;
+                            ELSE 
+                                coltop := coltop + 1;
+                            END_IF;
+
+                        ELSE 
+                            c_lastc := c_lastc - 1;
+                            exitg1 := 2;
+                        END_IF;
+
+                    UNTIL NOT(exitg1 = 0)
+                    END_REPEAT;
+
+                    IF exitg1 = 1 THEN 
+                        exitg2 := 1;
+                    END_IF;
+
+                ELSE 
+                    exitg2 := 1;
+                END_IF;
+
+            UNTIL NOT(exitg2 = 0)
+            END_REPEAT;
+        ELSE 
+            knt := 0;
+            c_lastc := 0;
+        END_IF;
+
+
+        IF knt > 0 THEN 
+            i0_xgemv(b_m := knt, b_n := c_lastc, b_A := c_A, ia0 := ii + 4, x := c_A, ix0 := ii + 1, y := work);
+            i0_xgerc(b_m := knt, b_n := c_lastc, alpha1 :=  -tau[itau], ix0 := ii + 1, y := work, b_A := c_A, ia0 := ii + 4);
+        END_IF;
+
+        c_A[ii] := atmp;
+    ELSE 
+        tau[2] := 0.0;
+    END_IF;
+
+END_FOR;
+
+b_R[0] := c_A[0];
+ii := 1;
+WHILE (ii + 1) < 4 DO
+    b_R[ii] := 0.0;
+    ii := ii + 1;
+END_WHILE;
+work[0] := 0.0;
+
+FOR ii := 0 TO 1 DO 
+    b_R[ii + 3] := c_A[ii + 3];
+END_FOR;
+
+WHILE (ii + 1) < 4 DO
+    b_R[ii + 3] := 0.0;
+    ii := ii + 1;
+END_WHILE;
+work[1] := 0.0;
+
+FOR ii := 0 TO 2 DO 
+    b_R[ii + 6] := c_A[ii + 6];
+END_FOR;
+
+work[2] := 0.0;
+
+FOR ii := 2 TO 0 BY -1 DO 
+    knt := (ii * 3) + ii;
+
+    IF (ii + 1) < 3 THEN 
+        c_A[knt] := 1.0;
+
+        IF tau[ii] <> 0.0 THEN 
+            c_lastc := 3 - ii;
+            b_coltop := (knt - ii) + 2;
+            REPEAT 
+                exitg1 := 0;
+
+                IF c_lastc > 0 THEN 
+
+                    IF c_A[b_coltop] = 0.0 THEN 
+                        c_lastc := c_lastc - 1;
+                        b_coltop := b_coltop - 1;
+                    ELSE 
+                        exitg1 := 1;
+                    END_IF;
+
+                ELSE 
+                    exitg1 := 1;
+                END_IF;
+
+            UNTIL NOT(exitg1 = 0)
+            END_REPEAT;
+            b_coltop := 2 - ii;
+            REPEAT 
+                exitg2 := 0;
+
+                IF b_coltop > 0 THEN 
+                    coltop := (((b_coltop - 1) * 3) + knt) + 3;
+                    itau := coltop;
+                    REPEAT 
+                        exitg1 := 0;
+
+                        IF (itau + 1) <= (coltop + c_lastc) THEN 
+
+                            IF c_A[itau] <> 0.0 THEN 
+                                exitg1 := 1;
+                            ELSE 
+                                itau := itau + 1;
+                            END_IF;
+
+                        ELSE 
+                            b_coltop := b_coltop - 1;
+                            exitg1 := 2;
+                        END_IF;
+
+                    UNTIL NOT(exitg1 = 0)
+                    END_REPEAT;
+
+                    IF exitg1 = 1 THEN 
+                        exitg2 := 1;
+                    END_IF;
+
+                ELSE 
+                    exitg2 := 1;
+                END_IF;
+
+            UNTIL NOT(exitg2 = 0)
+            END_REPEAT;
+        ELSE 
+            c_lastc := 0;
+            b_coltop := 0;
+        END_IF;
+
+
+        IF c_lastc > 0 THEN 
+            i0_xgemv(b_m := c_lastc, b_n := b_coltop, b_A := c_A, ia0 := knt + 4, x := c_A, ix0 := knt + 1, y := work);
+            i0_xgerc(b_m := c_lastc, b_n := b_coltop, alpha1 :=  -tau[ii], ix0 := knt + 1, y := work, b_A := c_A, ia0 := knt + 4);
+        END_IF;
+
+        c_lastc := (knt - ii) + 3;
+        b_coltop := knt + 1;
+        WHILE (b_coltop + 1) <= c_lastc DO
+            c_A[b_coltop] := ( -tau[ii]) * c_A[b_coltop];
+            b_coltop := b_coltop + 1;
+        END_WHILE;
+    END_IF;
+
+    c_A[knt] := 1.0 - tau[ii];
+    c_lastc := 0;
+    WHILE c_lastc <= (ii - 1) DO
+        c_A[(knt - c_lastc) - 1] := 0.0;
+        c_lastc := c_lastc + 1;
+    END_WHILE;
+END_FOR;
+
+
+FOR itau := 0 TO 2 DO 
+    Q[3 * itau] := c_A[3 * itau];
+    ii := (3 * itau) + 1;
+    Q[ii] := c_A[ii];
+    ii := (3 * itau) + 2;
+    Q[ii] := c_A[ii];
+END_FOR;
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="qr">
+      <LineId Id="3" Count="317" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

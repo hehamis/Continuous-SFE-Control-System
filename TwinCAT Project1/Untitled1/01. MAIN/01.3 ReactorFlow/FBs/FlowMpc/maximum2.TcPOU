@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="maximum2" Id="{c98724e7-962a-4485-8b29-d0c56971430d}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK maximum2
+VAR_INPUT
+	x: ARRAY[0..3] OF LREAL;
+	y: LREAL;
+END_VAR
+VAR_OUTPUT
+	ex: ARRAY[0..3] OF LREAL;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+ex[0] := MAX(x[0], y);
+ex[1] := MAX(x[1], y);
+ex[2] := MAX(x[2], y);
+ex[3] := MAX(x[3], y);
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="maximum2">
+      <LineId Id="3" Count="5" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

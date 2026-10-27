@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="xgerc" Id="{3355228a-0634-4557-8431-63d7a56900b7}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK xgerc
+VAR_INPUT
+	b_m: DINT;
+	b_n: DINT;
+	alpha1: LREAL;
+	ix0: DINT;
+	y: ARRAY[0..2] OF LREAL;
+	ia0: DINT;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR_IN_OUT
+	b_A: ARRAY[0..8] OF LREAL;
+END_VAR
+VAR
+	jA: DINT;
+	jy: DINT;
+	temp: LREAL;
+	ix: DINT;
+	j: DINT;
+	b: DINT;
+	ijA: DINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+IF alpha1 <> 0.0 THEN 
+    jA := ia0 - 1;
+    jy := 0;
+    j := 0;
+    WHILE j <= (b_n - 1) DO
+
+        IF y[jy] <> 0.0 THEN 
+            temp := y[jy] * alpha1;
+            ix := ix0;
+            ijA := jA;
+            b := b_m + jA;
+            WHILE (ijA + 1) <= b DO
+                b_A[ijA] := (b_A[ix - 1] * temp) + b_A[ijA];
+                ix := ix + 1;
+                ijA := ijA + 1;
+            END_WHILE;
+        END_IF;
+
+        jy := jy + 1;
+        jA := jA + 3;
+        j := j + 1;
+    END_WHILE;
+END_IF;
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="xgerc">
+      <LineId Id="3" Count="26" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

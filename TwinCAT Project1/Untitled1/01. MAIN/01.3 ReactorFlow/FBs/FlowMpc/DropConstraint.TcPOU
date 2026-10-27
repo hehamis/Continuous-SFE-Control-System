@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="DropConstraint" Id="{760934e9-26ca-4483-afb8-eb0fa9c0a2a9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK DropConstraint
+VAR_INPUT
+	kDrop: DINT;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR_IN_OUT
+	iA: ARRAY[0..3] OF BOOL;
+	nA: DINT;
+	iC: ARRAY[0..3] OF DINT;
+END_VAR
+VAR
+	i: DINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+IF kDrop > 0 THEN 
+    iA[iC[kDrop - 1] - 1] := FALSE;
+
+    IF kDrop < nA THEN 
+        i := kDrop;
+        WHILE i <= (nA - 1) DO
+            iC[i - 1] := iC[i];
+            i := i + 1;
+        END_WHILE;
+    END_IF;
+
+    iC[nA - 1] := 0;
+    nA := nA - 1;
+END_IF;
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="DropConstraint">
+      <LineId Id="3" Count="17" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

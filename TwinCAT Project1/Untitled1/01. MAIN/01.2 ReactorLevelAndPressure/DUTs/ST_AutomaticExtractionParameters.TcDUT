@@ -4,7 +4,10 @@
     <Declaration><![CDATA[TYPE ST_AutomaticExtractionParameters :
 STRUCT
 	fillingTime : DINT;
-	pumpSetpointWaitTime : DINT;
+	pumpSetpointReduceWaitTime : DINT;
+	pumpPressureReduceWaitTime : DINT;
+	refillStartPressureOffset : DINT;
+	refillEndPressureOffset : DINT;
 	pumpWaitTime : DINT;
 	pumpOnTime	: DINT;
 	controlValveOpeningValue : DINT;

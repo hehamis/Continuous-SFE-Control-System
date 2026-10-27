@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="b_abs" Id="{6c2b875e-8c20-4078-9df3-0a1621994b69}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK b_abs
+VAR_INPUT
+	x: ARRAY[0..2] OF LREAL;
+END_VAR
+VAR_OUTPUT
+	y: ARRAY[0..2] OF LREAL;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+y[0] := ABS(x[0]);
+y[1] := ABS(x[1]);
+y[2] := ABS(x[2]);
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="b_abs">
+      <LineId Id="3" Count="4" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

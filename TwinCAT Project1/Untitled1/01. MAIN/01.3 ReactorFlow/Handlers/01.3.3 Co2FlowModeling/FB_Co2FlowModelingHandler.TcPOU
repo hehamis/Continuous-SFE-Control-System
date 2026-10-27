@@ -45,6 +45,7 @@ IF modelingActive THEN
 				yMeas := TO_LREAL(flowMeasurement));
 				
 		modeledOutput := mF.y[1];
+		TON_StepInterval(IN := FALSE);
 //	ELSE
 //		modeledOutput := 0;
 	END_IF
@@ -73,6 +74,7 @@ END_IF
       <LineId Id="9" Count="0" />
       <LineId Id="20" Count="1" />
       <LineId Id="63" Count="1" />
+      <LineId Id="110" Count="0" />
       <LineId Id="66" Count="1" />
       <LineId Id="38" Count="0" />
       <LineId Id="88" Count="1" />

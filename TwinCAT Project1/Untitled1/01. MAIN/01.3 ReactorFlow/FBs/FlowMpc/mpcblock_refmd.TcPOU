@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="mpcblock_refmd" Id="{0c4357ad-caf8-46de-85ba-af272b3a9045}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK mpcblock_refmd
+VAR_INPUT
+	ref: LREAL;
+	md: LREAL;
+	b_yoff: LREAL;
+	b_voff: LREAL;
+	b_RYscale: LREAL;
+	b_RMDscale: LREAL;
+END_VAR
+VAR_OUTPUT
+	rseq: ARRAY[0..39] OF LREAL;
+	vseq: ARRAY[0..81] OF LREAL;
+	v: ARRAY[0..1] OF LREAL;
+END_VAR
+VAR
+	i: DINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+FOR i := 0 TO 81 DO 
+    vseq[i] := 0.0;
+END_FOR;
+
+
+FOR i := 0 TO 40 DO 
+    vseq[(i * 2) + 1] := 1.0;
+END_FOR;
+
+
+FOR i := 0 TO 39 DO 
+    rseq[i] := (ref * b_RYscale) - b_yoff;
+END_FOR;
+
+
+FOR i := 0 TO 40 DO 
+    vseq[i * 2] := (b_RMDscale * md) - b_voff;
+END_FOR;
+
+v[0] := vseq[0];
+v[1] := vseq[1];
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="mpcblock_refmd">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

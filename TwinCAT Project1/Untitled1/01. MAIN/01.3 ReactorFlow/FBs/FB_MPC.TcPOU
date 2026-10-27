@@ -2,27 +2,30 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="FB_MPC" Id="{73f87072-8d2a-4f02-ab17-106eb5a60a76}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_MPC
+
 VAR_INPUT
     enable : BOOL;
 
     setpoint : REAL;
 
     manipulatedVariableCurrent : LREAL;
-	
-	manipulatedVariableLimits : ARRAY[0..1] OF REAL; // 0 Lower, 1 upper
-	
-	manipulatedVariableMaxReachTime : DINT; // Time in which the manipulated variable takes to reach the maximum from 0
+
+    manipulatedVariableLimits : ARRAY[0..1] OF REAL;
+
+    manipulatedVariableMaxReachTime : DINT;
 
     measuredDisturbance : LREAL;
 
-    controlBusy : BOOL;
+    measuredVariableCurrent : REAL;
 	
-	measuredVariableCurrent : REAL;
+    controlBusy : BOOL;
 END_VAR
+
 
 VAR_IN_OUT
     Model : FB_StateSpaceModel;
 END_VAR
+
 
 VAR_OUTPUT
     ManipulatedVariableTarget : LREAL;
@@ -30,60 +33,106 @@ VAR_OUTPUT
     ManipulatedVariableDelta : LREAL;
 END_VAR
 
+
 VAR
     xHat : ARRAY[1..15] OF LREAL;
 
-    Yfree : ARRAY[1..80] OF LREAL;
+    Yfree : ARRAY[1..50] OF LREAL;
 
-    Ref : ARRAY[1..80] OF LREAL;
+    Ref : ARRAY[1..50] OF LREAL;
 
-    Gradient : ARRAY[1..5] OF LREAL;
+    Gradient : ARRAY[1..2] OF LREAL;
 
-    DeltaU : ARRAY[1..5] OF LREAL;
+    DeltaU : ARRAY[1..2] OF LREAL;
 
     i : INT;
     j : INT;
 
-	_MPC_Matrices : ST_MPC_Matrices;
-	_predictionHorizon : INT;
-	_controlHorizon : INT;
-	
-    MoveAccumulator : LREAL := 0.0;
+    _MPC_Matrices : ST_MPC_Matrices;
 
-    StepSize : LREAL; //:= 0.0175;     // 1% of 
+    _predictionHorizon : INT := 50;
+    _controlHorizon : INT := 2;
 
-    measuredVariableError : LREAL;
+    rateLimit : LREAL;
 
-    measurementTolerance : LREAL := 0.000; // How much deviation allowed setpoint vs. measured
-	
-	rateLimit : REAL;
-
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-// Get the current estimated state
-Model.GetState(State => xHat);
+      <ST><![CDATA[//==========================================================
+// ENABLE
+//==========================================================
 
-// Build the reference trajectory
+IF NOT enable THEN
+
+    ManipulatedVariableTarget :=
+        manipulatedVariableCurrent;
+
+    ManipulatedVariableDelta := 0.0;
+
+    RETURN;
+
+END_IF;
+
+
+//==========================================================
+// GET ESTIMATED STATE FROM STATE OBSERVER
+//
+// The observer should already be using the measured process
+// output to calculate xHat.
+//==========================================================
+
+Model.GetState(
+    State => xHat
+);
+
+
+//==========================================================
+// BUILD REFERENCE TRAJECTORY
+//
+// MATLAB:
+//
+// mpc1_RefSignal = setpoint
+//
+// The reference is constant over the prediction horizon.
+//==========================================================
+
 FOR i := 1 TO _predictionHorizon DO
-    Ref[i] := setpoint;
-END_FOR
 
-// Predict the free response
+    Ref[i] := TO_LREAL(setpoint);
+
+END_FOR;
+
+
+//==========================================================
+// CALCULATE FREE RESPONSE
+//
+// Yfree = F * xHat
+//
+// This is the predicted output if no future changes
+// in the manipulated variable are made.
+//==========================================================
+
 FOR i := 1 TO _predictionHorizon DO
 
     Yfree[i] := 0.0;
 
     FOR j := 1 TO 2 DO
+
         Yfree[i] :=
             Yfree[i]
-            + _MPC_Matrices.gMPC_F[i,j] * xHat[j];
-    END_FOR
+            + _MPC_Matrices.gMPC_F[i,j]
+            * xHat[j];
 
-END_FOR
+    END_FOR;
 
-// Calculate the gradient
+END_FOR;
+
+
+//==========================================================
+// CALCULATE GRADIENT
+//
+// Gradient = Phi' * (Yfree - Ref)
+//==========================================================
+
 FOR i := 1 TO _controlHorizon DO
 
     Gradient[i] := 0.0;
@@ -93,91 +142,109 @@ FOR i := 1 TO _controlHorizon DO
         Gradient[i] :=
             Gradient[i]
             + _MPC_Matrices.gMPC_Phi[j,i]
-            * (Yfree[j]-Ref[j]);
+            * (Yfree[j] - Ref[j]);
 
-    END_FOR
+    END_FOR;
 
-END_FOR
+END_FOR;
 
-// Compute the optimal valve movement
-FOR i := 1 TO _controlHorizon  DO
+
+//==========================================================
+// CALCULATE OPTIMAL DELTA-U
+//
+// DeltaU = -Hinv * Gradient
+//
+// DeltaU[1] is the first MPC control movement.
+//==========================================================
+
+FOR i := 1 TO _controlHorizon DO
 
     DeltaU[i] := 0.0;
 
-    FOR j := 1 TO 5 DO
+    FOR j := 1 TO _controlHorizon DO
 
         DeltaU[i] :=
             DeltaU[i]
             - _MPC_Matrices.gMPC_Hinv[i,j]
             * Gradient[j];
 
-    END_FOR
+    END_FOR;
 
-END_FOR
+END_FOR;
 
-// Select the first control move
-ManipulatedVariableDelta := DeltaU[1];
 
-// Rate limit from MPC
-rateLimit := manipulatedVariableLimits[1] / manipulatedVariableMaxReachTime;
-IF ManipulatedVariableDelta > rateLimit THEN
-    ManipulatedVariableDelta := rateLimit;
+//==========================================================
+// SELECT FIRST CONTROL MOVE
+//
+// Receding-horizon MPC only applies the first move.
+//==========================================================
+
+ManipulatedVariableDelta :=
+    DeltaU[1];
+
+
+//==========================================================
+// CALCULATE ABSOLUTE MANIPULATED VARIABLE TARGET
+//
+// MATLAB MPC works with the manipulated variable itself.
+//
+// If:
+//
+// Current MV = 0.00
+// DeltaU     = 1.20
+//
+// then:
+//
+// Target MV = 1.20
+//
+// If:
+//
+// Current MV = 0.50
+// DeltaU     = 0.30
+//
+// then:
+//
+// Target MV = 0.80
+//==========================================================
+
+ManipulatedVariableTarget :=
+    manipulatedVariableCurrent
+    + ManipulatedVariableDelta;
+
+
+//==========================================================
+// ENFORCE MANIPULATED VARIABLE LOWER LIMIT
+//
+// Corresponds to:
+//
+// mpc1.MV(1).Min = 0;
+//==========================================================
+
+IF ManipulatedVariableTarget <
+   TO_LREAL(manipulatedVariableLimits[0]) THEN
+
+    ManipulatedVariableTarget :=
+        TO_LREAL(manipulatedVariableLimits[0]);
+
 END_IF;
 
-IF ManipulatedVariableDelta < -rateLimit THEN
-    ManipulatedVariableDelta := -rateLimit;
-END_IF;
 
-// Flow tracking error 
-MeasuredVariableError := setpoint - measuredVariableCurrent;
-IF ABS(MeasuredVariableError) < 0.001 THEN // If error close to zero, interpret it as zero
-	MeasuredVariableError := 0;
-END_IF
+//==========================================================
+// ENFORCE MANIPULATED VARIABLE UPPER LIMIT
+//
+// Corresponds to:
+//
+// mpc1.MV(1).Max = 1.75;
+//==========================================================
 
-// Only integrate while there is a meaningful error 
-IF ABS(MeasuredVariableError) > measurementTolerance THEN
+IF ManipulatedVariableTarget >
+   TO_LREAL(manipulatedVariableLimits[1]) THEN
 
-    MoveAccumulator := MoveAccumulator + ManipulatedVariableDelta;
-
-ELSE
-	
-    MoveAccumulator := 0.0;
+    ManipulatedVariableTarget :=
+        TO_LREAL(manipulatedVariableLimits[1]);
 
 END_IF;
-
-// Default 
-ManipulatedVariableTarget := manipulatedVariableCurrent;
-
-// Calculate step size (1% of max value)
-StepSize := manipulatedVariableLimits[1] / 100;
-
-// Only issue commands if valve is in idle 
-IF NOT controlBusy THEN
-
-    IF MoveAccumulator >= StepSize THEN
-
-        ManipulatedVariableTarget := manipulatedVariableCurrent + StepSize;
-
-        MoveAccumulator := MoveAccumulator - StepSize;
-
-    ELSIF MoveAccumulator <= -StepSize THEN
-
-        ManipulatedVariableTarget := manipulatedVariableCurrent - StepSize;
-
-        MoveAccumulator := MoveAccumulator + StepSize;
-
-    END_IF;
-
-END_IF;
-
-// Restrict to limits
-IF ManipulatedVariableTarget > manipulatedVariableLimits[1] THEN
-    ManipulatedVariableTarget := 1.75;
-END_IF;
-
-IF ManipulatedVariableTarget < manipulatedVariableLimits[0] THEN
-    ManipulatedVariableTarget := 0.0;
-END_IF;]]></ST>
+]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{fcaad005-711a-4589-8d35-c274f92f7216}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
@@ -197,15 +264,9 @@ _controlHorizon := ControlHorizon;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_MPC">
-      <LineId Id="3255" Count="0" />
-      <LineId Id="3144" Count="56" />
-      <LineId Id="3265" Count="0" />
-      <LineId Id="3201" Count="26" />
-      <LineId Id="3269" Count="0" />
-      <LineId Id="3268" Count="0" />
-      <LineId Id="3270" Count="0" />
-      <LineId Id="3228" Count="26" />
+      <LineId Id="4591" Count="185" />
       <LineId Id="114" Count="0" />
+      <LineId Id="4832" Count="0" />
     </LineIds>
     <LineIds Name="FB_MPC.FB_init">
       <LineId Id="20" Count="0" />
