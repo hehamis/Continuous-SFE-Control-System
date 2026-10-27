@@ -84,6 +84,7 @@ while stopMatlab ~= true
         bSlurryInlet = findNodeByName(allvar,'OPC_SlurryInletValve','-once');
         bSlurryOutlet = findNodeByName(allvar,'OPC_SlurryOutletValve','-once');
         iPumpingPressureSetpoint = findNodeByName(allvar,'OPC_PumpingPressureSetpoint','-once');
+        iPumpingPressure = findNodeByName(allvar,'OPC_PumpingPressure','-once');
         iPreHeaterTemperature = findNodeByName(allvar,'OPC_PreHeaterTemperature','-once');
         iPreHeaterTemperatureSetpoint = findNodeByName(allvar,'OPC_PreHeaterTemperatureSetpoint','-once');
         iSeparatorTemperature = findNodeByName(allvar,'OPC_SeparatorTemperature','-once');
@@ -137,14 +138,16 @@ while stopMatlab ~= true
 
         % Reactor pressure 
         %pdata(n) = read(iReactorTy); % TÄHÄN OIKEA MUUTTUJA 
-        pdata(n) = readValue(uaClient,iReactorPy);
+        p1data(n) = readValue(uaClient,iReactorPy);
+        p2data(n) = readValue(uaClient,iPumpingPressure);
         disp(readValue(uaClient,iReactorPy))
         pspdata(n) = readValue(uaClient,iPumpingPressureSetpoint); 
-        pvalues(n) = double(pdata(:,n));
+        p1values(n) = double(p1data(:,n));
+        p2values(n) = double(p2data(:,n));
         pspvalues(n) = double(pspdata(:,n));
-        P_data(n,:) = [pvalues(n) pspvalues(n) timestamp];
+        P_data(n,:) = [p1values(n) pspvalues(n) p2values(n) timestamp];
         subplot(2,2,3);
-        plot(round,pvalues,"b-");
+        plot(round,p2values,"b-");
         hold on;
         plot(round,pspvalues,"r-");
         xlabel("Second out of passing minute (s)"); ylabel("Reactor pressure (bar)");
