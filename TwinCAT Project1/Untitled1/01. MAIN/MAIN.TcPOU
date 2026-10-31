@@ -30,7 +30,9 @@ ReactorLevelAndPressureController(
 ReactorFlowController(
 					serialCommData := SerialCommunicationController.SerialCommReadData,
 					flowControlValveOpening := ReactorLevelAndPressureController.ControlValveOpening,
-					serialCommReadData := SerialCommunicationController.SerialCommReadData);
+					serialCommReadData := SerialCommunicationController.SerialCommReadData,
+					controlValveClose := GVL_IO.extractiveOutletControlValveClose,
+					controlValveOpen := GVL_IO.extractiveOutletControlValveOpen);
 					
 // Data acquisition
 DataAcquisitionController(
@@ -123,7 +125,9 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterV
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="424" Count="115" />
+      <LineId Id="424" Count="26" />
+      <LineId Id="541" Count="1" />
+      <LineId Id="451" Count="88" />
       <LineId Id="251" Count="0" />
     </LineIds>
   </POU>

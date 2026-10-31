@@ -10,6 +10,8 @@ VAR_INPUT
 	valveFullOpenTime : DINT := 25; // NOTE: Hardcoded! In the future from parameter view?
 	flowModel	: FB_mF;
 	measuredFlow : REAL;
+	controlValveOpen : BOOL;
+	controlValveClose : BOOL;
 END_VAR
 VAR_OUTPUT
 	modeledValvePercentage : DINT;
@@ -57,7 +59,7 @@ IF enable THEN
 		TON_StepInterval(IN := FALSE);
 	END_IF
 		
-	IF NOT (GVL_IO.extractiveOutletControlValveClose OR GVL_IO.extractiveOutletControlValveOpen) THEN
+	IF NOT (controlValveClose OR controlValveOpen) THEN
 		modeledValvePercentage := TO_DINT((flowMpc.valveCommand / maxValue) * 100);
 	END_IF
 ELSE

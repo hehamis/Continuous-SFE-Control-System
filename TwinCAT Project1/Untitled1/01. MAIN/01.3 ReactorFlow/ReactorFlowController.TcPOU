@@ -6,6 +6,8 @@ VAR_INPUT
 	serialCommData : ST_SerialCommReadData;
 	flowControlValveOpening : DINT;
 	serialCommReadData : ST_SerialCommReadData;
+	controlValveClose : BOOL;
+	controlValveOpen : BOOL;
 END_VAR
 VAR
 	
@@ -62,7 +64,9 @@ HandleFlowMpc(
 			pumpingPressureDelta := serialCommReadData.pumpingPressureSetpoint-serialCommReadData.pumpingPressureMeasurement,
 			currentValvePosition := ReactorLevelAndPressureController.ControlValveOpening,
 			measuredFlow := ReactorFlowController.MeanReactorFlow,
-			modeledValvePercentage => _modeledValvePercentage,);]]></ST>
+			modeledValvePercentage => _modeledValvePercentage,
+			controlValveClose := controlValveClose,
+			controlValveOpen := controlValveOpen);]]></ST>
     </Implementation>
     <Property Name="CloseOnOffValve" Id="{f2106895-29cc-4255-a249-f7d05f58ca87}">
       <Declaration><![CDATA[PROPERTY CloseOnOffValve : BOOL]]></Declaration>
@@ -185,6 +189,7 @@ ModeledValvePercentage := _modeledValvePercentage;]]></ST>
       <LineId Id="330" Count="2" />
       <LineId Id="366" Count="0" />
       <LineId Id="338" Count="0" />
+      <LineId Id="393" Count="1" />
     </LineIds>
     <LineIds Name="ReactorFlowController.CloseOnOffValve.Get">
       <LineId Id="5" Count="0" />
