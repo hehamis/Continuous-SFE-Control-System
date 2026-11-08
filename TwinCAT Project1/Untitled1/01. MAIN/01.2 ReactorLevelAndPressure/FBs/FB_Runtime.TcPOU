@@ -5,7 +5,7 @@
 VAR_INPUT
 	gotime: BOOL;
 	settime: TIME;
-	countdown: BOOL; // New input
+	countdown: BOOL; 
 	resetToTime : TIME;
 END_VAR
 VAR_OUTPUT
@@ -19,7 +19,8 @@ VAR
 	presenttime: TIME;
 	lasttime: TIME;
 	cycletime: TIME;
-
+	testmode : BOOL;
+	_testtime : TIME;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -31,9 +32,14 @@ IF initial THEN
 	initial := FALSE;
 END_IF
 
-presenttime:= TIME();
+// Get current time
+IF testmode THEN
+    presenttime := _testtime;
+ELSE
+    presenttime := TIME();
+END_IF
+
 IF NOT reset THEN
-(* here the test of overflow*)
 	IF (lasttime > presenttime) THEN (*overflow := true*);
 		lasttime:= DWORD_TO_TIME(NOT TIME_TO_DWORD(lasttime))+T#1MS;
 		cycletime:= presenttime+lasttime;
@@ -50,7 +56,7 @@ lasttime:=presenttime;
 IF gotime AND NOT countDown THEN
 		elapsedtime := elapsedtime + cycletime;
 ELSIF NOT gotime AND countdown THEN
-	IF elapsedtime > cycletime THEN
+	IF elapsedtime > cycletime THEN 
 		elapsedtime := elapsedtime - cycletime;
 	ELSE
 		elapsedtime := T#0S;
@@ -73,12 +79,34 @@ reset := FALSE;]]></ST>
         <ST><![CDATA[reset := TRUE;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="setTestMode" Id="{49000685-d0a8-4ee6-ad4a-48c7a4335da2}">
+      <Declaration><![CDATA[METHOD setTestMode : BOOL
+VAR_INPUT
+	testtime : TIME;
+	reset : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+testmode := TRUE;
+_testtime := testtime;
+IF reset THEN
+	resetValues();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_Runtime">
       <LineId Id="105" Count="1" />
       <LineId Id="75" Count="2" />
       <LineId Id="80" Count="0" />
       <LineId Id="78" Count="0" />
-      <LineId Id="25" Count="16" />
+      <LineId Id="127" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="149" Count="3" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="128" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="29" Count="12" />
       <LineId Id="55" Count="0" />
       <LineId Id="63" Count="0" />
       <LineId Id="72" Count="0" />
@@ -93,6 +121,12 @@ reset := FALSE;]]></ST>
     </LineIds>
     <LineIds Name="FB_Runtime.resetValues">
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Runtime.setTestMode">
+      <LineId Id="8" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="2" />
     </LineIds>
   </POU>
 </TcPlcObject>
