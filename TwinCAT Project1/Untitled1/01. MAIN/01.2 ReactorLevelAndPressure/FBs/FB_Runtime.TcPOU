@@ -18,34 +18,43 @@ VAR
 	initial : BOOL := TRUE;
 	presenttime: TIME;
 	lasttime: TIME;
-	cycletime: TIME;
-	testmode : BOOL;
+	cycletime: TIME := T#10MS;
+	_testmode : BOOL;
 	_testtime : TIME;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-_resetToTime := ResetToTime; 
+      <ST><![CDATA[_resetToTime := ResetToTime; 
 
-IF initial THEN
+IF initial AND NOT _testmode THEN
 	elapsedtime := _resetToTime;
 	initial := FALSE;
 END_IF
 
 // Get current time
-IF testmode THEN
-    presenttime := _testtime;
+IF _testmode THEN
+	IF elapsedtime <> _testtime THEN
+		elapsedtime := _testtime;
+	ELSE
+		IF gotime AND NOT countdown THEN
+			elapsedtime := elapsedtime + cycletime;
+		ELSIF NOT gotime AND countdown THEN
+			elapsedtime := elapsedtime - cycletime;
+		END_IF
+	END_IF
 ELSE
     presenttime := TIME();
 END_IF
 
-IF NOT reset THEN
+IF NOT reset AND NOT _testMode THEN
 	IF (lasttime > presenttime) THEN (*overflow := true*);
-		lasttime:= DWORD_TO_TIME(NOT TIME_TO_DWORD(lasttime))+T#1MS;
+		lasttime:= DWORD_TO_TIME(NOT TIME_TO_DWORD(lasttime));//+T#1MS;
 		cycletime:= presenttime+lasttime;
 	ELSE
 		cycletime:= presenttime - lasttime;
 	END_IF
+ELSIF _testmode THEN
+	cycletime := T#10MS;
 ELSE
 	elapsedtime:=_resetToTime;
 	cycletime:=t#0s;
@@ -56,7 +65,7 @@ lasttime:=presenttime;
 IF gotime AND NOT countDown THEN
 		elapsedtime := elapsedtime + cycletime;
 ELSIF NOT gotime AND countdown THEN
-	IF elapsedtime > cycletime THEN 
+	IF elapsedtime >= cycletime THEN 
 		elapsedtime := elapsedtime - cycletime;
 	ELSE
 		elapsedtime := T#0S;
@@ -88,7 +97,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[
-testmode := TRUE;
+_testmode := TRUE;
 _testtime := testtime;
 IF reset THEN
 	resetValues();
@@ -96,27 +105,15 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Runtime">
-      <LineId Id="105" Count="1" />
-      <LineId Id="75" Count="2" />
-      <LineId Id="80" Count="0" />
-      <LineId Id="78" Count="0" />
-      <LineId Id="127" Count="0" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="149" Count="3" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="128" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="29" Count="12" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="63" Count="0" />
-      <LineId Id="72" Count="0" />
-      <LineId Id="68" Count="3" />
-      <LineId Id="66" Count="0" />
-      <LineId Id="44" Count="3" />
-      <LineId Id="73" Count="0" />
-      <LineId Id="48" Count="1" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="84" Count="0" />
+      <LineId Id="200" Count="9" />
+      <LineId Id="253" Count="1" />
+      <LineId Id="257" Count="0" />
+      <LineId Id="255" Count="0" />
+      <LineId Id="258" Count="2" />
+      <LineId Id="256" Count="0" />
+      <LineId Id="210" Count="10" />
+      <LineId Id="261" Count="1" />
+      <LineId Id="221" Count="23" />
       <LineId Id="83" Count="0" />
     </LineIds>
     <LineIds Name="FB_Runtime.resetValues">
