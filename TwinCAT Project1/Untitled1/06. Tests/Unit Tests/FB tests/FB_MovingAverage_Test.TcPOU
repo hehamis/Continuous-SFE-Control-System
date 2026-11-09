@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="FB_MovingAverage_Test" Id="{37b413a4-f223-4570-9474-bb8c477d7df3}" SpecialFunc="None">
+  <POU Name="FB_MovingAverage_Test" Id="{2f19abed-84d4-48fe-930a-61fce21e2a0f}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_MovingAverage_Test EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
       <ST><![CDATA[calculationShouldBeReadyWhenTimePassed();
@@ -10,7 +10,7 @@ resetMethodCallShouldResetValue();
 theValueShouldBe40AfterTwoSeconds();
 valueShouldBe0BeforeWindowPassedIfPreReadyNotIncluded();]]></ST>
     </Implementation>
-    <Method Name="calculationShouldBeReadyWhenTimePassed" Id="{6eb0e18c-3c4c-41df-9aec-1ae6efb07c6f}">
+    <Method Name="calculationShouldBeReadyWhenTimePassed" Id="{191212e6-4fc8-4265-bb95-62915115aacc}">
       <Declaration><![CDATA[METHOD calculationShouldBeReadyWhenTimePassed : BOOL
 VAR
 	movingAverage : FB_MovingAverage;
@@ -24,7 +24,7 @@ AssertEquals_BOOL(Expected := TRUE, Actual :=  movingAverage.ready, Message := '
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="calculationShouldNotBeReadyBeforeTimePassed" Id="{0d5beb96-f79e-4026-9737-489b3f97c409}">
+    <Method Name="calculationShouldNotBeReadyBeforeTimePassed" Id="{0f72b63f-fd9f-47d6-819b-ef24d985cb05}">
       <Declaration><![CDATA[METHOD calculationShouldNotBeReadyBeforeTimePassed : BOOL
 VAR
 	movingAverage : FB_MovingAverage;
@@ -38,7 +38,7 @@ AssertEquals_BOOL(Expected := FALSE, Actual :=  movingAverage.ready, Message := 
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="movingAverageOfThreePlusTwoPlusOneShouldBeTwo" Id="{6fbf797b-777c-48ee-9f5a-eb7f5971efd2}">
+    <Method Name="movingAverageOfThreePlusTwoPlusOneShouldBeTwo" Id="{b9507e38-3aba-4d26-bc53-9f4ae707268f}">
       <Declaration><![CDATA[METHOD movingAverageOfThreePlusTwoPlusOneShouldBeTwo
 VAR
 	movingAverage : FB_MovingAverage;
@@ -54,7 +54,7 @@ AssertEquals_REAL(Expected := 2, Actual := movingAverage.value, 0, Message := 'M
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="resetMethodCallShouldResetValue" Id="{a1bce5bc-4342-4398-8196-3d4fc31f55c7}">
+    <Method Name="resetMethodCallShouldResetValue" Id="{a712c06f-d26e-4670-bdb3-b535903dbd74}">
       <Declaration><![CDATA[METHOD resetMethodCallShouldResetValue
 VAR
 	movingAverage : FB_MovingAverage;
@@ -69,7 +69,7 @@ AssertEquals_REAL(0, movingAverage.value, 0, 'Reset did not reset value!');
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="theValueShouldBe40AfterTwoSeconds" Id="{814b9ee3-e116-4d0b-93a6-41e140a28331}">
+    <Method Name="theValueShouldBe40AfterTwoSeconds" Id="{6d1812bd-834f-47d8-8609-a5c345ed96bf}">
       <Declaration><![CDATA[METHOD theValueShouldBe40AfterTwoSeconds
 VAR
 	movingAverage : FB_MovingAverage;
@@ -82,7 +82,7 @@ AssertEquals_REAL(40, movingAverage.value, 0, 'Value not 40 after two seconds');
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="valueShouldBe0BeforeWindowPassedIfPreReadyNotIncluded" Id="{23b74a6b-b4e2-4c6c-bc78-02fa8b5c37c0}">
+    <Method Name="valueShouldBe0BeforeWindowPassedIfPreReadyNotIncluded" Id="{c81eda91-7c4d-4094-bd68-f8838112ac65}">
       <Declaration><![CDATA[METHOD valueShouldBe0BeforeWindowPassedIfPreReadyNotIncluded
 VAR
 	movingAverage : FB_MovingAverage;

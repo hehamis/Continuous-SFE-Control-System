@@ -20,20 +20,22 @@ VAR_OUTPUT
 	startCalibration : BOOL;
 END_VAR
 VAR
-	TON_FillingTimer : TON;
-	TON_WaitForSetpointReduce : TON;
-	TON_WaitForPressureReduce : TON;
-	TON_WaitForValve : TON;
-	TON_KeepExtractivePumpOn : TON;
-	TON_WaitBeforeOpeningOnOff : TON;
-	startingReactorPRessure : DINT;
-	startingPumpSetpoint : DINT;
-	startingPumpPressure : DINT;
-	endingPumpPressure : DINT;
-	TON_FillingPumpWaitTimer : TON;
-	decreaseReactorPressure : BOOL;
-	increaseReactorPressure : BOOL;
-	pressureTarget : DINT;
+	TON_FillingTimer 				: FB_TestableTon;
+	TON_WaitForSetpointReduce 		: FB_TestableTon;
+	TON_WaitForPressureReduce 		: FB_TestableTon;
+	TON_WaitForValve 				: FB_TestableTon;
+	TON_KeepExtractivePumpOn 		: FB_TestableTon;
+	TON_WaitBeforeOpeningOnOff 		: FB_TestableTon;
+	startingReactorPRessure 		: DINT;
+	startingPumpSetpoint 			: DINT;
+	startingPumpPressure 			: DINT;
+	endingPumpPressure 				: DINT;
+	TON_FillingPumpWaitTimer 		: FB_TestableTon;;
+	decreaseReactorPressure 		: BOOL;
+	increaseReactorPressure 		: BOOL;
+	pressureTarget 					: DINT;
+	_testMode						: BOOL;
+	_testParams 					: ST_AutomaticExtractionStateMachineTest;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -50,8 +52,10 @@ CASE automaticExtractionState OF
 		startCalibration := FALSE;
 		// Start filling timer. When filling timer exceeded, move to filling step
 		TON_FillingTimer(
-						IN := TRUE,
-						PT := TO_TIME(parameters.fillingTime*1000));
+			IN := TRUE,
+			PT := TO_TIME(parameters.fillingTime*1000),
+			TestMode := _testMode,
+			TestDone := _testParams.fillingTimerDone);
 		IF TON_FillingTimer.Q THEN
 			TON_FillingTimer(IN := FALSE);
 			startingPumpSetpoint := pumpSetpoint;
@@ -64,7 +68,9 @@ CASE automaticExtractionState OF
 		startCalibration := TRUE;
 		TON_WaitForSetpointReduce(
 			IN := TRUE, 
-			PT := TO_TIME(parameters.pumpSetpointReduceWaitTime *1000));
+			PT := TO_TIME(parameters.pumpSetpointReduceWaitTime *1000),
+			TestMode := _testMode,
+			TestDone := _testParams.waitForSetpointReduceDone);
 		IF TON_WaitForSetpointReduce.Q THEN 
 			TON_WaitForSetpointReduce(IN := FALSE);
 			automaticExtractionState := automaticExtractionState + 1;
@@ -74,7 +80,9 @@ CASE automaticExtractionState OF
 	
 		TON_WaitForPressureReduce(
 			IN := TRUE,
-			PT := TO_TIME(parameters.pumpPressureReduceWaitTime *1000)); 
+			PT := TO_TIME(parameters.pumpPressureReduceWaitTime *1000),
+			TestMode := _testMode,
+			TestDone := _testParams.waitForPressureReduceDone);
 		IF TON_WaitForPressureReduce.Q THEN
 			IF reactorPressure <= (startingPumpSetpoint + parameters.refillStartPressureOffset) THEN
 				TON_WaitForPressureReduce(IN := FALSE);
@@ -86,7 +94,9 @@ CASE automaticExtractionState OF
 		co2onOffValveClosed := TRUE;  // Close co2 on/off valve
 		TON_FillingPumpWaitTimer(
 			IN := TRUE, 
-			PT := TO_TIME(parameters.pumpWaitTime*1000));
+			PT := TO_TIME(parameters.pumpWaitTime*1000),
+			TestMode := _testMode,
+			TestDone := _testParams.fillingPumpWaitDone);
 		IF TON_FillingPumpWaitTimer.Q THEN 
 			TON_FillingPumpWaitTimer(IN := FALSE);
 			startingReactorPressure := reactorPressure;
@@ -99,7 +109,9 @@ CASE automaticExtractionState OF
 		extractivePumpOn := TRUE;
 		TON_KeepExtractivePumpOn(
 			IN := TRUE,
-			PT := TO_TIME(parameters.pumpOnTime*1000));
+			PT := TO_TIME(parameters.pumpOnTime*1000),
+			TestMode := _testMode,
+			TestDone := _testParams.fillingTimerDone);
 		IF TON_KeepExtractivePumpOn.Q THEN
 			TON_KeepExtractivePumpOn(IN := FALSE);
 			endingPumpPressure := pumpPressure;
@@ -108,30 +120,10 @@ CASE automaticExtractionState OF
 		
 	E_AutomaticExtractionState.WAIT_FOR_PRESSURE_TO_SET: // Wait until reactor pressure is back to original setpoint + offset
 		
-//		IF NOT decreaseReactorPressure AND NOT increaseReactorPressure THEN
-//			IF (reactorPressure >= (startingPumpSetpoint + parameters.refillEndPressureOffset)) THEN
-//				decreaseReactorPressure := TRUE;
-//				increaseReactorPressure := FALSE;
-//			ELSIF (reactorPressure < (startingPumpSetpoint + parameters.refillEndPressureOffset)) THEN
-//				increaseReactorPressure := TRUE;
-//				decreaseReactorPressure := FALSE;
-//			END_IF
-//		END_IF
-		
-		
-		
-//		pressureTarget := startingPumpSetpoint + parameters.refillEndPressureOffset;
-//		IF decreaseReactorPressure THEN
-//			extractivePumpOn := FALSE;
-//			IF reactorPressure <= (startingPumpSetpoint + parameters.refillEndPressureOffset) THEN
-//				automaticExtractionState := automaticExtractionState + 1;
-//			END_IF			
-//		ELSIF increaseReactorPressure THEN
-			IF reactorPressure >= (startingPumpSetpoint + parameters.refillEndPressureOffset) THEN
-				extractivePumpOn := FALSE;
-				automaticExtractionState := automaticExtractionState + 1;
-			END_IF					
-//		END_IF
+		IF reactorPressure >= (startingPumpSetpoint + parameters.refillEndPressureOffset) THEN
+			extractivePumpOn := FALSE;
+			automaticExtractionState := automaticExtractionState + 1;
+		END_IF					
 		
 	E_AutomaticExtractionState.INCREASE_PUMP: // Pressure setpoint back to original
 
@@ -146,7 +138,9 @@ CASE automaticExtractionState OF
 	
 		TON_WaitBeforeOpeningOnOff(
 			IN := TRUE,
-			PT := TO_TIME(parameters.onOffValveOpenWaitTime)); // ms!
+			PT := TO_TIME(parameters.onOffValveOpenWaitTime), // ms!!
+			TestMode := _testMode,
+			TestDone := _testParams.waitBeforeOpeningOnOffDone);
 		
 		IF TON_WaitBeforeOpeningOnOff.Q THEN
 			co2onOffValveClosed := FALSE;
@@ -235,6 +229,27 @@ decreaseReactorPressure := FALSE;
 increaseReactorPressure := FALSE;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="setTestMode" Id="{d73c94bb-6d4c-418d-86d8-23c305786568}">
+      <Declaration><![CDATA[METHOD setTestMode : BOOL
+VAR_INPUT
+	testParams : ST_AutomaticExtractionStateMachineTest;
+	reset : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+_testMode := TRUE;
+_testParams := testParams;
+
+IF reset THEN
+	resetState();
+	reactorPressure := 0;
+	pumpPressure := 0;
+	pumpSetpoint := 0;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_AutomaticExtractionStateMachine">
       <LineId Id="642" Count="0" />
       <LineId Id="607" Count="0" />
@@ -245,14 +260,19 @@ increaseReactorPressure := FALSE;]]></ST>
       <LineId Id="606" Count="0" />
       <LineId Id="346" Count="0" />
       <LineId Id="605" Count="0" />
-      <LineId Id="347" Count="5" />
+      <LineId Id="347" Count="3" />
+      <LineId Id="782" Count="0" />
+      <LineId Id="784" Count="0" />
+      <LineId Id="351" Count="1" />
       <LineId Id="455" Count="0" />
       <LineId Id="353" Count="1" />
       <LineId Id="453" Count="0" />
       <LineId Id="443" Count="1" />
       <LineId Id="557" Count="1" />
       <LineId Id="677" Count="0" />
-      <LineId Id="681" Count="1" />
+      <LineId Id="681" Count="0" />
+      <LineId Id="785" Count="1" />
+      <LineId Id="682" Count="0" />
       <LineId Id="675" Count="0" />
       <LineId Id="680" Count="0" />
       <LineId Id="452" Count="0" />
@@ -260,42 +280,32 @@ increaseReactorPressure := FALSE;]]></ST>
       <LineId Id="604" Count="0" />
       <LineId Id="432" Count="1" />
       <LineId Id="679" Count="0" />
-      <LineId Id="684" Count="1" />
+      <LineId Id="684" Count="0" />
+      <LineId Id="787" Count="1" />
+      <LineId Id="685" Count="0" />
       <LineId Id="694" Count="0" />
       <LineId Id="690" Count="3" />
       <LineId Id="487" Count="2" />
       <LineId Id="497" Count="0" />
       <LineId Id="492" Count="0" />
-      <LineId Id="688" Count="1" />
+      <LineId Id="688" Count="0" />
+      <LineId Id="789" Count="1" />
+      <LineId Id="689" Count="0" />
       <LineId Id="491" Count="0" />
       <LineId Id="496" Count="0" />
       <LineId Id="524" Count="0" />
       <LineId Id="526" Count="0" />
       <LineId Id="494" Count="1" />
       <LineId Id="378" Count="2" />
-      <LineId Id="383" Count="5" />
+      <LineId Id="383" Count="2" />
+      <LineId Id="791" Count="1" />
+      <LineId Id="386" Count="2" />
       <LineId Id="528" Count="0" />
       <LineId Id="389" Count="1" />
       <LineId Id="562" Count="0" />
       <LineId Id="392" Count="1" />
-      <LineId Id="587" Count="0" />
-      <LineId Id="578" Count="1" />
-      <LineId Id="585" Count="0" />
-      <LineId Id="581" Count="1" />
-      <LineId Id="586" Count="0" />
-      <LineId Id="580" Count="0" />
-      <LineId Id="588" Count="0" />
-      <LineId Id="728" Count="0" />
-      <LineId Id="730" Count="0" />
-      <LineId Id="729" Count="0" />
-      <LineId Id="589" Count="2" />
-      <LineId Id="596" Count="0" />
-      <LineId Id="598" Count="0" />
-      <LineId Id="595" Count="0" />
-      <LineId Id="593" Count="0" />
       <LineId Id="599" Count="2" />
       <LineId Id="594" Count="0" />
-      <LineId Id="592" Count="0" />
       <LineId Id="394" Count="0" />
       <LineId Id="570" Count="0" />
       <LineId Id="640" Count="0" />
@@ -307,6 +317,7 @@ increaseReactorPressure := FALSE;]]></ST>
       <LineId Id="734" Count="0" />
       <LineId Id="404" Count="2" />
       <LineId Id="736" Count="1" />
+      <LineId Id="793" Count="1" />
       <LineId Id="739" Count="2" />
       <LineId Id="602" Count="0" />
       <LineId Id="743" Count="0" />
@@ -366,6 +377,17 @@ increaseReactorPressure := FALSE;]]></ST>
       <LineId Id="24" Count="0" />
       <LineId Id="26" Count="0" />
       <LineId Id="25" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AutomaticExtractionStateMachine.setTestMode">
+      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="30" Count="2" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

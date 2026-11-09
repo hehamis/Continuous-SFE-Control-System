@@ -28,6 +28,9 @@ VAR
 	setvalve : BOOL;
 	open : BOOL;
 	close : BOOL;
+	
+	_testMode : BOOL;
+	_testParams : ST_ControlValveStateMachineTest;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -66,16 +69,6 @@ CASE controlState OF
 	2: // Control
 		// Calculate how long control valve should open/close
 		
-		IF controlValveCommands.openPercentage > currentControlValveOpenPercentage THEN
-			open := TRUE;
-			close := FALSE;
-		ELSIF controlValveCommands.openPercentage < currentControlValveOpenPercentage THEN
-			open := FALSE;
-			close := TRUE;
-		ELSE
-			open := FALSE;
-			close := FALSE;
-		END_IF
 		openvalve(
 				gotime := open, 
 				settime := TO_TIME(controlValveParameters.timeToFullyOpenMs),
@@ -88,6 +81,16 @@ CASE controlState OF
 			 	resetToTime := TO_TIME(controlValveParameters.timeToFullyOpenMs),
 				countdown := open, elapsedtime =>, 
 				elapsed => );	
+		IF controlValveCommands.openPercentage > currentControlValveOpenPercentage THEN
+			open := TRUE;
+			close := FALSE;
+		ELSIF controlValveCommands.openPercentage < currentControlValveOpenPercentage THEN
+			open := FALSE;
+			close := TRUE;
+		ELSE
+			open := FALSE;
+			close := FALSE;
+		END_IF
 		
 		// Monitor calibrate command, return to calibration step
 		IF RTRIG_startCalibrate.Q THEN
@@ -116,6 +119,31 @@ openControlValve := open;
 
 ]]></ST>
     </Implementation>
+    <Method Name="setTestMode" Id="{b3f335d9-0f88-426c-9e47-9c4d3e721eb4}">
+      <Declaration><![CDATA[METHOD setTestMode : BOOL
+VAR_INPUT
+	testParams : ST_ControlValveStateMachineTest;
+	reset : BOOL;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+_testMode := TRUE;
+_testParams := testParams;
+
+IF reset THEN
+	controlState := 0;
+	closeControlValve := 0;
+	openControlValve := 0;
+	currentControlValveOpenPercentage := 0;
+	calibrateDone := 0;	
+	open := 0;
+	close := 0;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_ControlValveStateMachine">
       <LineId Id="156" Count="2" />
       <LineId Id="448" Count="0" />
@@ -130,13 +158,6 @@ openControlValve := open;
       <LineId Id="171" Count="7" />
       <LineId Id="180" Count="2" />
       <LineId Id="199" Count="0" />
-      <LineId Id="194" Count="1" />
-      <LineId Id="261" Count="0" />
-      <LineId Id="197" Count="0" />
-      <LineId Id="262" Count="0" />
-      <LineId Id="198" Count="0" />
-      <LineId Id="200" Count="2" />
-      <LineId Id="196" Count="0" />
       <LineId Id="184" Count="0" />
       <LineId Id="350" Count="0" />
       <LineId Id="349" Count="0" />
@@ -147,6 +168,8 @@ openControlValve := open;
       <LineId Id="356" Count="0" />
       <LineId Id="360" Count="0" />
       <LineId Id="358" Count="1" />
+      <LineId Id="491" Count="8" />
+      <LineId Id="490" Count="0" />
       <LineId Id="320" Count="0" />
       <LineId Id="323" Count="0" />
       <LineId Id="321" Count="1" />
@@ -168,6 +191,19 @@ openControlValve := open;
       <LineId Id="227" Count="0" />
       <LineId Id="229" Count="0" />
       <LineId Id="84" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ControlValveStateMachine.setTestMode">
+      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="42" Count="3" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

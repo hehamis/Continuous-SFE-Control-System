@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_TestableTon" Id="{e46f90b1-57b7-4c55-ac15-d319d8bcede7}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_TestableTon
+VAR_INPUT
+    IN : BOOL;
+    PT : TIME;
+    TestMode : BOOL;
+    TestDone : BOOL;
+END_VAR
+
+VAR_OUTPUT
+    Q : BOOL;
+    ET : TIME;
+END_VAR
+
+VAR
+    InternalTON : TON;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+IF TestMode THEN
+    Q := IN AND TestDone;
+    ET := T#0MS;
+ELSE
+    InternalTON(
+        IN := IN,
+        PT := PT
+    );
+
+    Q := InternalTON.Q;
+    ET := InternalTON.ET;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_TestableTon">
+      <LineId Id="24" Count="11" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="TON_Wrapper" Id="{d29dc3bb-fcc7-4177-b77e-d087a4341de6}" SpecialFunc="None">
+  <POU Name="TON_Wrapper" Id="{7178e1fc-e960-41d9-a27d-d1b6e256822f}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TON_Wrapper implements I_TON
 VAR
     {attribute 'hide'} _ton : TON;
@@ -10,7 +10,7 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="Call" Id="{79924cb8-d06d-4c5a-9852-6be0b3cb3d4c}">
+    <Method Name="Call" Id="{63ec6a85-1e3f-446a-ab08-3c86925513ee}">
       <Declaration><![CDATA[ 
 METHOD Call : BOOL
 VAR_INPUT

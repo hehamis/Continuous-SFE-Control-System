@@ -1,0 +1,467 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_AutomaticExtractionStateMachine_Test" Id="{bf48bd3a-afcd-4c4f-98b8-c52294adcfe8}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_AutomaticExtractionStateMachine_Test EXTENDS TcUnit.FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+stateTestsByStep();
+]]></ST>
+    </Implementation>
+    <Method Name="stateTestsByStep" Id="{0ac09153-77c8-411f-94db-2d654a62d4bc}">
+      <Declaration><![CDATA[METHOD stateTestsByStep
+VAR
+	stateMachine : FB_AutomaticExtractionStateMachine;
+	testParams : ST_AutomaticExtractionStateMachineTest;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('1.1: Filling, extractive pump and calibration cannot be active in AUTO_EXTRACTION');
+
+    // Reset FB and enable test mode
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    stateMachine(); // AUTO_EXTRACTION
+
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := (
+            stateMachine.fillingActive OR
+            stateMachine.extractivePumpOn OR
+            stateMachine.startCalibration
+        ),
+        Message := 'filling, extractive pump or calibration active in AUTO_EXTRACTION'
+    );
+
+TEST_FINISHED();
+
+TEST('2.1: Pump setpoint decrease and start calibration commands should be active in REDUCE_PUMP_START_CALIB');
+
+    // Reset FB and prepare test parameters
+    testParams.fillingTimerDone := TRUE;
+    testParams.waitForSetpointReduceDone := FALSE;
+
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    stateMachine(); // AUTO_EXTRACTION
+    stateMachine(); // REDUCE_PUMP_START_CALIB
+
+    AssertEquals_BOOL(
+        Expected := TRUE,
+        Actual := (
+            stateMachine.decreasePumpSetpoint OR
+            stateMachine.startCalibration
+        ),
+        Message := 'pump setpoint decrease OR start calibration NOT active in REDUCE_PUMP_START_CALIB'
+    );
+
+TEST_FINISHED();
+
+TEST('3.1: Process should not proceed in WAIT_FOR_PRESSURE_REDUCE if reactor pressure is above target');
+
+    testParams.fillingTimerDone := TRUE;
+    testParams.waitForSetpointReduceDone := TRUE;
+    testParams.waitForPressureReduceDone := TRUE;
+
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    stateMachine(); // AUTO_EXTRACTION
+    stateMachine(); // REDUCE_PUMP_START_CALIB
+    stateMachine(reactorPressure := 1); // WAIT_FOR_PRESSURE_REDUCE
+
+    AssertEquals_INT(
+        Expected := E_AutomaticExtractionState.WAIT_FOR_PRESSURE_REDUCE,
+        Actual := stateMachine.automaticExtractionState,
+        Message := 'Process proceeded before reactor pressure reached target'
+    );
+
+TEST_FINISHED();
+
+TEST('4.2 process should proceed when reactor pressure reaches target in WAIT_FOR_PRESSURE_REDUCE');
+
+    testParams.fillingTimerDone := TRUE;
+    testParams.waitForSetpointReduceDone := TRUE;
+    testParams.waitForPressureReduceDone := TRUE;
+
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    stateMachine();
+    stateMachine();
+    stateMachine(reactorPressure := 0);  //WAIT_FOR_PRESSURE_REDUCE
+
+    AssertEquals_INT(
+        Expected := E_AutomaticExtractionState.CLOSE_ON_OFF_VALVE,
+        Actual := stateMachine.automaticExtractionState,
+        Message := 'Process did not proceed when reactor pressure reached target'
+    );
+
+TEST_FINISHED();
+
+TEST('4.1: CO2 on/off valve should be closed in CLOSE_ON_OFF_VALVE');
+
+    // Reset FB and enable test mode
+    testParams.fillingTimerDone := TRUE;
+    testParams.waitForSetpointReduceDone := TRUE;
+    testParams.waitForPressureReduceDone := TRUE;
+    testParams.fillingPumpWaitDone := FALSE;
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    stateMachine(); // AUTO_EXTRACTION
+    stateMachine(); // REDUCE_PUMP_START_CALIB
+    stateMachine(); // WAIT_FOR_PRESSURE_REDUCE
+    stateMachine(); // CLOSE_ON_OFF_VALVE
+
+    AssertEquals_BOOL(
+        Expected := TRUE,
+        Actual := stateMachine.co2onOffValveClosed,
+        Message := 'CO2 on/off valve should be closed in CLOSE_ON_OFF_VALVE'
+    );
+
+TEST_FINISHED();
+
+TEST('5.1: extractive pump should be switched off when reactor pressure reaches target in WAIT_FOR_PRESSURE_TO_SET');
+
+    // Prepare test parameters
+    testParams.fillingTimerDone := TRUE;
+    testParams.waitForSetpointReduceDone := TRUE;
+    testParams.waitForPressureReduceDone := TRUE;
+    testParams.fillingPumpWaitDone := TRUE;
+    testParams.keepExtractivePumpOnDone := TRUE;
+    testParams.waitBeforeOpeningOnOffDone := FALSE;
+
+    // Reset FB
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    stateMachine(pumpSetpoint:= 250); // AUTO_EXTRACTION
+    stateMachine(); // REDUCE_PUMP_START_CALIB
+    stateMachine(); // WAIT_FOR_PRESSURE_REDUCE
+    stateMachine(); // CLOSE_ON_OFF_VALVE
+    stateMachine(); // FILLING_ACTIVE
+
+    // WAIT_FOR_PRESSURE_TO_SET
+	stateMachine( 
+		reactorPressure:= 250, 
+		pumpPressure:= , 
+		pumpSetpoint:= , 
+		controlValveOpeningPercentage=> , 
+		decreasePumpSetpoint=> , 
+		extractivePumpOn=> , 
+		co2onOffValveClosed=> , 
+		fillingActive=> , 
+		automaticExtractionState=> , 
+		automaticExtractionValues=> , 
+		startCalibration=> );
+
+    // Verify extractive pump is switched off
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := stateMachine.extractivePumpOn,
+        Message := 'Extractive pump should be switched off when reactor pressure reaches target'
+    );
+
+TEST_FINISHED();
+
+TEST('5.2: Extractive pump should not be switched off if pressure does not reach target in WAIT_FOR_PRESSURE_TO_SET');
+
+    // Prepare test parameters
+    testParams.fillingTimerDone := TRUE;
+    testParams.waitForSetpointReduceDone := TRUE;
+    testParams.waitForPressureReduceDone := TRUE;
+    testParams.fillingPumpWaitDone := TRUE;
+    testParams.keepExtractivePumpOnDone := TRUE;
+    testParams.waitBeforeOpeningOnOffDone := FALSE;
+
+    // Reset FB
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    stateMachine(pumpSetpoint:= 250); // AUTO_EXTRACTION
+    stateMachine(); // REDUCE_PUMP_START_CALIB
+    stateMachine(); // WAIT_FOR_PRESSURE_REDUCE
+    stateMachine(); // CLOSE_ON_OFF_VALVE
+    stateMachine(); // FILLING_ACTIVE
+
+    // WAIT_FOR_PRESSURE_TO_SET
+	stateMachine( 
+		reactorPressure:= 150, 
+		pumpPressure:= , 
+		pumpSetpoint:= , 
+		controlValveOpeningPercentage=> , 
+		decreasePumpSetpoint=> , 
+		extractivePumpOn=> , 
+		co2onOffValveClosed=> , 
+		fillingActive=> , 
+		automaticExtractionState=> , 
+		automaticExtractionValues=> , 
+		startCalibration=> );
+
+    AssertEquals_BOOL(
+        Expected := TRUE,
+        Actual := stateMachine.extractivePumpOn,
+        Message := 'Extractive pump should not be switched off if pressure does not reach target'
+    );
+
+TEST_FINISHED();
+
+TEST('6.1 pump setpoint decrease command should be inactive in INCREASE_PUMP');
+
+    testParams.fillingTimerDone := TRUE;
+    testParams.waitForSetpointReduceDone := TRUE;
+    testParams.waitForPressureReduceDone := TRUE;
+    testParams.fillingPumpWaitDone := TRUE;
+    testParams.keepExtractivePumpOnDone := TRUE;
+
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    // Navigate to INCREASE_PUMP
+    stateMachine(); // AUTO_EXTRACTION
+    stateMachine(); // REDUCE_PUMP_START_CALIB
+    stateMachine(); // WAIT_FOR_PRESSURE_REDUCE
+    stateMachine(); // CLOSE_ON_OFF_VALVE
+    stateMachine(); // FILLING_ACTIVE
+
+    stateMachine(reactorPressure := ); // Execute INCREASE_PUMP
+
+    stateMachine(); // Execute INCREASE_PUMP
+
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := stateMachine.decreasePumpSetpoint,
+        Message := 'Pump setpoint decrease command should be inactive in INCREASE_PUMP'
+    );
+
+TEST_FINISHED();
+
+TEST('6.2 process should not proceed in INCREASE_PUMP before original pressure setpoint is reached');
+
+    testParams.fillingTimerDone := TRUE;
+    testParams.waitForSetpointReduceDone := TRUE;
+    testParams.waitForPressureReduceDone := TRUE;
+    testParams.fillingPumpWaitDone := TRUE;
+    testParams.keepExtractivePumpOnDone := TRUE;
+
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    // Navigate to INCREASE_PUMP
+    stateMachine();
+    stateMachine();
+    stateMachine();
+    stateMachine();
+    stateMachine();
+    stateMachine(); // WAIT_FOR_PRESSURE_TO_SET -> INCREASE_PUMP
+
+    stateMachine(reactorPressure := -1); // Execute INCREASE_PUMP
+
+    AssertEquals_INT(
+        Expected := E_AutomaticExtractionState.INCREASE_PUMP,
+        Actual := stateMachine.automaticExtractionState,
+        Message := 'Process proceeded before original pressure setpoint was reached'
+    );
+
+TEST_FINISHED();
+
+TEST('6.3 process should proceed when original pressure setpoint is reached in INCREASE_PUMP');
+
+    testParams.fillingTimerDone := TRUE;
+    testParams.waitForSetpointReduceDone := TRUE;
+    testParams.waitForPressureReduceDone := TRUE;
+    testParams.fillingPumpWaitDone := TRUE;
+    testParams.keepExtractivePumpOnDone := TRUE;
+
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    // Navigate to INCREASE_PUMP
+    stateMachine();
+    stateMachine();
+    stateMachine();
+    stateMachine();
+    stateMachine();
+    stateMachine(); // WAIT_FOR_PRESSURE_TO_SET -> INCREASE_PUMP
+
+    stateMachine();
+
+    AssertEquals_INT(
+        Expected := E_AutomaticExtractionState.OPEN_ON_OFF_VALVE,
+        Actual := stateMachine.automaticExtractionState,
+        Message := 'Process did not proceed when original pressure setpoint was reached'
+    );
+
+TEST_FINISHED();
+
+TEST('7.1 CO2 on/off valve should remain closed before opening timer expires');
+
+    testParams.fillingTimerDone := TRUE;
+    testParams.waitForSetpointReduceDone := TRUE;
+    testParams.waitForPressureReduceDone := TRUE;
+    testParams.fillingPumpWaitDone := TRUE;
+    testParams.keepExtractivePumpOnDone := TRUE;
+    testParams.waitBeforeOpeningOnOffDone := FALSE;
+
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    // Navigate to OPEN_ON_OFF_VALVE
+    stateMachine();
+    stateMachine();
+    stateMachine();
+    stateMachine();
+    stateMachine();
+    stateMachine(); // WAIT_FOR_PRESSURE_TO_SET -> INCREASE_PUMP
+    stateMachine(); // INCREASE_PUMP -> OPEN_ON_OFF_VALVE
+
+    stateMachine(); // Execute OPEN_ON_OFF_VALVE
+
+    AssertEquals_BOOL(
+        Expected := TRUE,
+        Actual := stateMachine.co2onOffValveClosed,
+        Message := 'CO2 on/off valve opened before opening timer expired'
+    );
+
+TEST_FINISHED();
+
+TEST('7.2 CO2 on/off valve should open after opening timer expires');
+
+    testParams.fillingTimerDone := TRUE;
+    testParams.waitForSetpointReduceDone := TRUE;
+    testParams.waitForPressureReduceDone := TRUE;
+    testParams.fillingPumpWaitDone := TRUE;
+    testParams.keepExtractivePumpOnDone := TRUE;
+    testParams.waitBeforeOpeningOnOffDone := TRUE;
+
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    // Navigate to OPEN_ON_OFF_VALVE
+    stateMachine();
+    stateMachine();
+    stateMachine();
+    stateMachine();
+    stateMachine();
+    stateMachine();
+    stateMachine();
+    stateMachine();
+
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := stateMachine.co2onOffValveClosed,
+        Message := 'CO2 on/off valve did not open after opening timer expired'
+    );
+
+    AssertEquals_INT(
+        Expected := E_AutomaticExtractionState.AUTO_EXTRACTION,
+        Actual := stateMachine.automaticExtractionState,
+        Message := 'State machine did not return to AUTO_EXTRACTION'
+    );
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AutomaticExtractionStateMachine_Test">
+      <LineId Id="37" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="18" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AutomaticExtractionStateMachine_Test.stateTestsByStep">
+      <LineId Id="217" Count="0" />
+      <LineId Id="196" Count="0" />
+      <LineId Id="336" Count="0" />
+      <LineId Id="198" Count="4" />
+      <LineId Id="204" Count="12" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="219" Count="1" />
+      <LineId Id="337" Count="0" />
+      <LineId Id="222" Count="7" />
+      <LineId Id="231" Count="1" />
+      <LineId Id="235" Count="10" />
+      <LineId Id="218" Count="0" />
+      <LineId Id="387" Count="10" />
+      <LineId Id="399" Count="1" />
+      <LineId Id="403" Count="0" />
+      <LineId Id="414" Count="7" />
+      <LineId Id="386" Count="0" />
+      <LineId Id="423" Count="10" />
+      <LineId Id="435" Count="2" />
+      <LineId Id="445" Count="7" />
+      <LineId Id="422" Count="0" />
+      <LineId Id="247" Count="7" />
+      <LineId Id="257" Count="4" />
+      <LineId Id="334" Count="1" />
+      <LineId Id="270" Count="0" />
+      <LineId Id="272" Count="7" />
+      <LineId Id="246" Count="0" />
+      <LineId Id="281" Count="15" />
+      <LineId Id="298" Count="7" />
+      <LineId Id="333" Count="0" />
+      <LineId Id="320" Count="0" />
+      <LineId Id="324" Count="8" />
+      <LineId Id="319" Count="0" />
+      <LineId Id="311" Count="7" />
+      <LineId Id="280" Count="0" />
+      <LineId Id="339" Count="35" />
+      <LineId Id="379" Count="6" />
+      <LineId Id="338" Count="0" />
+      <LineId Id="458" Count="19" />
+      <LineId Id="483" Count="0" />
+      <LineId Id="501" Count="0" />
+      <LineId Id="485" Count="8" />
+      <LineId Id="457" Count="0" />
+      <LineId Id="507" Count="18" />
+      <LineId Id="548" Count="0" />
+      <LineId Id="532" Count="0" />
+      <LineId Id="537" Count="8" />
+      <LineId Id="506" Count="0" />
+      <LineId Id="550" Count="19" />
+      <LineId Id="575" Count="0" />
+      <LineId Id="580" Count="8" />
+      <LineId Id="549" Count="0" />
+      <LineId Id="603" Count="20" />
+      <LineId Id="629" Count="0" />
+      <LineId Id="634" Count="9" />
+      <LineId Id="602" Count="0" />
+      <LineId Id="645" Count="20" />
+      <LineId Id="671" Count="0" />
+      <LineId Id="676" Count="0" />
+      <LineId Id="678" Count="13" />
+      <LineId Id="644" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

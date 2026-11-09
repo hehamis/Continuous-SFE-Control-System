@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="TON_Mock_TimerRanOut" Id="{e4eaacbd-35c4-4076-9dfd-55b2686f215b}" SpecialFunc="None">
+  <POU Name="TON_Mock_TimerRanOut" Id="{7d6d4868-3559-4333-9eae-993ffbb1ee46}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TON_Mock_TimerRanOut IMPLEMENTS I_TON
 VAR_INPUT
 END_VAR
@@ -14,7 +14,7 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="Call" Id="{838dc7fc-3948-44ca-b936-b6c5d5e25610}">
+    <Method Name="Call" Id="{6145eda0-457a-4776-b2af-60b08424d27c}">
       <Declaration><![CDATA[ 
 METHOD Call : BOOL
 VAR_INPUT

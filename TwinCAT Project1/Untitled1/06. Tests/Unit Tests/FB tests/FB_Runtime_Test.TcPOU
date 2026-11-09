@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_Runtime_Test" Id="{a8d3d2e6-1af7-4f13-b66b-339c27657ac2}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Runtime_Test EXTENDS TcUnit.FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[elapsedTimeShouldBe5sAfter5s();
+elapsedFlagShouldBeTrueAfterSettimePassed();
+elapsedFlagShouldntBeTrueBeforeSettimePassed();
+elapsedTimeShouldBe7seconds();
+elapsedTimeShouldBeLessThanStartTimeWhenCountdownUsed();]]></ST>
+    </Implementation>
+    <Method Name="elapsedFlagShouldBeTrueAfterSettimePassed" Id="{c550d865-167f-49c2-a36b-3d2fe2643690}">
+      <Declaration><![CDATA[METHOD elapsedFlagShouldBeTrueAfterSettimePassed
+VAR
+	runtime : FB_Runtime;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('elapsedFlagShouldBeTrueAfterSettimePassed');
+
+	runtime.setTestMode(
+		testtime := T#5S,
+		reset := FALSE);
+
+	runtime(
+		gotime:= TRUE, 
+		settime:= T#5S, 
+		countdown:= , 
+		resetToTime:= , 
+		elapsedtime=> , 
+		elapsed=> );
+		
+	runtime(
+		gotime:= TRUE, 
+		settime:= T#5S, 
+		countdown:= , 
+		resetToTime:= , 
+		elapsedtime=> , 
+		elapsed=> );
+
+	AssertEquals_BOOL(Expected :=  TRUE, Actual := runtime.elapsed , Message := 'Elapsed flag not true after settime passed');	
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="elapsedFlagShouldntBeTrueBeforeSettimePassed" Id="{6c443bf9-7c32-4e14-876d-5004a00adc8d}">
+      <Declaration><![CDATA[METHOD elapsedFlagShouldntBeTrueBeforeSettimePassed
+VAR
+	runtime : FB_Runtime;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('elapsedFlagShouldntBeTrueBeforeSettimePassed');
+
+	runtime.setTestMode(
+		testtime := T#4900MS,
+		reset := FALSE);
+
+	runtime(
+		gotime:= TRUE, 
+		settime:= T#5S, 
+		countdown:= , 
+		resetToTime:= , 
+		elapsedtime=> , 
+		elapsed=> );
+
+
+	AssertEquals_BOOL(Expected :=  FALSE, Actual := runtime.elapsed , Message := 'Elapsed flag not false before settime passed');	
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="elapsedTimeShouldBe5sAfter5s" Id="{5972ffc9-b360-4674-a0ca-d70041eda663}">
+      <Declaration><![CDATA[METHOD elapsedTimeShouldBe5sAfter5s : BOOL
+VAR
+	runtime : FB_Runtime;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('elapsedTimeShouldBe5sAfter5ss');
+
+	runtime.setTestMode(
+		testtime := T#4990MS,
+		reset := FALSE);
+
+	runtime(
+		gotime:= TRUE, 
+		settime:= T#10S, 
+		countdown:= , 
+		resetToTime:= , 
+		elapsedtime=> , 
+		elapsed=> );
+
+	AssertEquals_BOOL(Expected :=  TRUE, Actual := runtime.elapsedTime = T#5S , Message := 'Elapsed time not 5s after 5s!');	
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="elapsedTimeShouldBe7seconds" Id="{c6a651f3-694a-4e66-aa7c-48e7b312ab8a}">
+      <Declaration><![CDATA[METHOD elapsedTimeShouldBe7seconds
+VAR
+	runtime : FB_Runtime;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('elapsedTimeShouldBe7seconds');
+
+	runtime.setTestMode(
+		testtime := T#7010MS,
+		reset := FALSE);
+
+	runtime(
+		gotime:= FALSE, 
+		settime:= T#10S, 
+		countdown:= TRUE, 
+		resetToTime:= , 
+		elapsedtime=> , 
+		elapsed=> );
+
+	AssertEquals_BOOL(Expected :=  TRUE, Actual := runtime.elapsedTime = T#7S , Message := 'Elapsed time not 7s!');	
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="elapsedTimeShouldBeLessThanStartTimeWhenCountdownUsed" Id="{4c8841b3-4a43-4dc4-8951-bb0a0795af18}">
+      <Declaration><![CDATA[METHOD elapsedTimeShouldBeLessThanStartTimeWhenCountdownUsed
+VAR
+	runtime : FB_Runtime;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('elapsedTimeShouldBeLessThanStartTimeWhenCountdownUsed');
+
+	runtime.setTestMode(
+		testtime := T#7S,
+		reset := FALSE);
+
+	runtime(
+		gotime:= FALSE, 
+		settime:= T#10S, 
+		countdown:= TRUE, 
+		resetToTime:= , 
+		elapsedtime=> , 
+		elapsed=> );
+		
+	runtime(
+		gotime:= FALSE, 
+		settime:= T#10S, 
+		countdown:= TRUE, 
+		resetToTime:= , 
+		elapsedtime=> , 
+		elapsed=> );
+		
+	runtime(
+		gotime:= FALSE, 
+		settime:= T#10S, 
+		countdown:= TRUE, 
+		resetToTime:= , 
+		elapsedtime=> , 
+		elapsed=> );
+
+	AssertEquals_BOOL(Expected :=  TRUE, Actual := runtime.elapsedTime < T#7S , Message := 'Elapsed time not less than start time when countdown used');	
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Runtime_Test">
+      <LineId Id="28" Count="2" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="31" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Runtime_Test.elapsedFlagShouldBeTrueAfterSettimePassed">
+      <LineId Id="7" Count="13" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="30" Count="5" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="21" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Runtime_Test.elapsedFlagShouldntBeTrueBeforeSettimePassed">
+      <LineId Id="9" Count="13" />
+      <LineId Id="30" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Runtime_Test.elapsedTimeShouldBe5sAfter5s">
+      <LineId Id="7" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="25" Count="1" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="17" Count="5" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Runtime_Test.elapsedTimeShouldBe7seconds">
+      <LineId Id="8" Count="16" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Runtime_Test.elapsedTimeShouldBeLessThanStartTimeWhenCountdownUsed">
+      <LineId Id="6" Count="13" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="27" Count="5" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="35" Count="5" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="20" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

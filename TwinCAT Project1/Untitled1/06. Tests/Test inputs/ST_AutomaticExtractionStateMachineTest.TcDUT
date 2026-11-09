@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="ST_AutomaticExtractionStateMachineTest" Id="{3e642d7a-2296-4ad2-96aa-0aefa47ce187}">
+    <Declaration><![CDATA[TYPE ST_AutomaticExtractionStateMachineTest :
+STRUCT
+    testMode : BOOL;
+    fillingTimerDone : BOOL;
+    waitForSetpointReduceDone : BOOL;
+    waitForPressureReduceDone : BOOL;
+    fillingPumpWaitDone : BOOL;
+    keepExtractivePumpOnDone : BOOL;
+    waitBeforeOpeningOnOffDone : BOOL;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

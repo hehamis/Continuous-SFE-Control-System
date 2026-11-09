@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="FB_ConsumptionCalculator_Test" Id="{4e76fce4-8491-47f4-acc1-5379a12f6435}" SpecialFunc="None">
+  <POU Name="FB_ConsumptionCalculator_Test" Id="{415b15cd-58e6-4361-a77a-74917d733089}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_ConsumptionCalculator_Test EXTENDS TcUnit.FB_TestSuite
 VAR_INPUT
 END_VAR
@@ -14,7 +14,7 @@ END_VAR
 theCalculatedValueShouldBe20After20Seconds();
 theCalulatedValueShouldBe30After20Seconds();]]></ST>
     </Implementation>
-    <Method Name="theCalculatedValueShouldBe20After20Seconds" Id="{4f57e544-87f9-4435-b2f8-17f180f6ac1a}">
+    <Method Name="theCalculatedValueShouldBe20After20Seconds" Id="{44ae8914-d381-4f21-9d80-9f7071169b99}">
       <Declaration><![CDATA[METHOD theCalculatedValueShouldBe20After20Seconds
 VAR
 	consumptionCalc : FB_ConsumptionCalculator;
@@ -45,7 +45,7 @@ AssertEquals_REAL(Expected := 0, Actual := consumptionCalc.sum, Delta := 0, Mess
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="theCalculatedValueShouldBeTenAfterTenSeconds" Id="{2ce23a2a-5b79-4d69-b281-a57489cf4886}">
+    <Method Name="theCalculatedValueShouldBeTenAfterTenSeconds" Id="{e5d94e70-1220-44b7-91d9-67d13b095137}">
       <Declaration><![CDATA[METHOD theCalculatedValueShouldBeTenAfterTenSeconds : BOOL
 VAR
 	consumptionCalc : FB_ConsumptionCalculator;
@@ -73,7 +73,7 @@ AssertEquals_REAL(Expected := 10, Actual := consumptionCalc.sum, Delta := 0, Mes
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="theCalulatedValueShouldBe30After20Seconds" Id="{f24bc762-8013-4a64-adc3-55829c3371e4}">
+    <Method Name="theCalulatedValueShouldBe30After20Seconds" Id="{f7615408-49e6-41a0-a48b-6152befbed95}">
       <Declaration><![CDATA[METHOD theCalulatedValueShouldBe30After20Seconds
 VAR
 	consumptionCalc : FB_ConsumptionCalculator;
