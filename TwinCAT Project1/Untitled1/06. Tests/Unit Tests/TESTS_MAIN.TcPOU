@@ -1,19 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="TESTS_MAIN" Id="{37444d31-f80d-4c75-941a-8a7910e91182}" SpecialFunc="None">
+  <POU Name="TESTS_MAIN" Id="{c34b9cd4-20c9-4aab-a9d3-84efa1ac7435}" SpecialFunc="None">
     <Declaration><![CDATA[ PROGRAM TESTS_MAIN
 VAR
 	startTests : BOOL;
 	
 	// FBs to test
-	fbMovingAverageTest : FB_MovingAverage_Test;
-	fbConsumptionCalculatorTest : FB_ConsumptionCalculator_Test;
-	fbmFTest : FB_mF_Test;
-	fbCo2ModelDeviationHandlerTest : FB_Co2FlowModelDeviationHandler_Test;
-	movingavg : FB_MovingAverage;
-	consumptioncalc : FB_ConsumptionCalculator;
-	measF : REAL;
+	fbMovingAverageTest 					: FB_MovingAverage_Test;
+	fbConsumptionCalculatorTest 			: FB_ConsumptionCalculator_Test;
+	fbmFTest 								: FB_mF_Test;
+	fbCo2ModelDeviationHandlerTest 			: FB_Co2FlowModelDeviationHandler_Test;
+	fbAutomaticExtractionStateMachineTest : FB_AutomaticExtractionStateMachine_Test;
+	fbRuntimeTest : FB_Runtime_Test;
 	
+	movingavg 						: FB_MovingAverage;
+	consumptioncalc 				: FB_ConsumptionCalculator;
+	measF : REAL;
 	mF : FB_mF;
 	TON_Test : TON;
 	meas : LREAL;
@@ -26,7 +28,7 @@ END_VAR
 fbGetCurTaskIndex();
 IF _TaskInfo[fbGetCurTaskIndex.index].FirstCycle THEN
     // The code that you want to be executed at the first cycle
-	mF.Init(
+	mF.setParams(
 		activateObserver := FALSE);
 END_IF
 
@@ -49,7 +51,7 @@ IF startTests THEN
 	IF TON_Test.Q THEN
 		mF.Step(
 				u := uTest,
-				y_meas := meas);
+				yMeas := meas);
 		TON_Test(IN := FALSE);
 		mF.y[1];
 	END_IF
@@ -58,8 +60,8 @@ END_IF
     </Implementation>
     <LineIds Name="TESTS_MAIN">
       <LineId Id="97" Count="0" />
-      <LineId Id="99" Count="3" />
-      <LineId Id="129" Count="0" />
+      <LineId Id="99" Count="2" />
+      <LineId Id="150" Count="1" />
       <LineId Id="98" Count="0" />
       <LineId Id="7" Count="2" />
       <LineId Id="31" Count="2" />

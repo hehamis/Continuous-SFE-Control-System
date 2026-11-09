@@ -4,7 +4,12 @@
     <Declaration><![CDATA[PROGRAM MAIN
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(*** CONTROLLERS: MAIN LOGIC MODULARIZED ***)
+      <ST><![CDATA[
+{IF defined (Tests)}
+	TESTS_MAIN();
+{ELSE}
+
+(*** CONTROLLERS: MAIN LOGIC MODULARIZED ***)
 
 // Reactor temperature
 ReactorTemperatureController(
@@ -121,13 +126,18 @@ ReactorLevelAndPressureController.ExtractiveControlValveParameters := ParameterV
 {IF defined (Simulation)}
 	Simulation();
 {END_IF}
+{END_IF}
 
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
+      <LineId Id="546" Count="2" />
+      <LineId Id="544" Count="1" />
       <LineId Id="424" Count="26" />
       <LineId Id="541" Count="1" />
-      <LineId Id="451" Count="88" />
+      <LineId Id="451" Count="87" />
+      <LineId Id="549" Count="0" />
+      <LineId Id="539" Count="0" />
       <LineId Id="251" Count="0" />
     </LineIds>
   </POU>

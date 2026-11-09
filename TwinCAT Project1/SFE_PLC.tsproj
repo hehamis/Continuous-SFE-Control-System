@@ -129,13 +129,9 @@
 					</Variant>
 					<Variant>
 						<Name>Simulation</Name>
+						<Name>Tests</Name>
 						<Disable>0</Disable>
 						<Defines></Defines>
-					</Variant>
-					<Variant>
-						<Name>Tests</Name>
-						<Disable>1</Disable>
-						<Defines/>
 					</Variant>
 				</ProjectVariant>
 				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Untitled1\Untitled1.tmc">
@@ -268,7 +264,6 @@
 					</TaskPouOids>
 				</Instance>
 			</Project>
-			<Project File="Tests.xti"/>
 		</Plc>
 		<Io>
 			<Device Id="1" Disabled="true" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="5.86.83.4.2.1" RemoteName="Device 1 (EtherCAT)" InfoImageId="2">

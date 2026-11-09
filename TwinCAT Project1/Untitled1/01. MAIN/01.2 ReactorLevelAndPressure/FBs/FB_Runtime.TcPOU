@@ -21,10 +21,10 @@ VAR
 	cycletime: TIME := T#10MS;
 	_testmode : BOOL;
 	_testtime : TIME;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[_resetToTime := ResetToTime; 
+      <ST><![CDATA[
+_resetToTime := ResetToTime; 
 
 IF initial AND NOT _testmode THEN
 	elapsedtime := _resetToTime;
@@ -105,15 +105,8 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Runtime">
-      <LineId Id="200" Count="9" />
-      <LineId Id="253" Count="1" />
-      <LineId Id="257" Count="0" />
-      <LineId Id="255" Count="0" />
-      <LineId Id="258" Count="2" />
-      <LineId Id="256" Count="0" />
-      <LineId Id="210" Count="10" />
-      <LineId Id="261" Count="1" />
-      <LineId Id="221" Count="23" />
+      <LineId Id="530" Count="0" />
+      <LineId Id="475" Count="54" />
       <LineId Id="83" Count="0" />
     </LineIds>
     <LineIds Name="FB_Runtime.resetValues">

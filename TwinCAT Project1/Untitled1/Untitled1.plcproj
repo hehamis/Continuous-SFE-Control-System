@@ -223,6 +223,9 @@
     <Compile Include="01. MAIN\Common\FBs\FB_StateSpaceModel.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\Common\FBs\FB_TestableTon.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\Common\FBs\FB_ToggleHeartBeat.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -230,6 +233,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="01. MAIN\Common\ITFs\I_PidController.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="01. MAIN\Common\ITFs\I_TON.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="01. MAIN\MAIN.TcPOU">
@@ -279,6 +285,42 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="05. Simulation\Simulation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="06. Tests\Test inputs\ST_AutomaticExtractionStateMachineTest.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="06. Tests\Test inputs\ST_ControlValveStateMachineTest.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="06. Tests\Unit Tests\FB tests\FB_AutomaticExtractionStateMachine_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="06. Tests\Unit Tests\FB tests\FB_Co2FlowModelDeviationHandler_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="06. Tests\Unit Tests\FB tests\FB_ConsumptionCalculator_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="06. Tests\Unit Tests\FB tests\FB_ControlValveStateMachine_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="06. Tests\Unit Tests\FB tests\FB_mF_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="06. Tests\Unit Tests\FB tests\FB_MovingAverage_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="06. Tests\Unit Tests\FB tests\FB_Runtime_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="06. Tests\Unit Tests\Mocks\TON_Mock_TimerRanOut.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="06. Tests\Unit Tests\TESTS_MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="06. Tests\Unit Tests\Wrappers\TON_Wrapper.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GlobalTextList.TcGTLO">
@@ -474,6 +516,14 @@
     <Folder Include="02. MAIN_Fast" />
     <Folder Include="05. Simulation" />
     <Folder Include="05. Simulation\05.01 SimulationView" />
+    <Folder Include="06. Tests">
+      <ExcludeFromBuild>false</ExcludeFromBuild>
+    </Folder>
+    <Folder Include="06. Tests\Test inputs" />
+    <Folder Include="06. Tests\Unit Tests" />
+    <Folder Include="06. Tests\Unit Tests\FB tests" />
+    <Folder Include="06. Tests\Unit Tests\Mocks" />
+    <Folder Include="06. Tests\Unit Tests\Wrappers" />
     <Folder Include="Trash">
       <ExcludeFromBuild>true</ExcludeFromBuild>
     </Folder>
@@ -565,6 +615,11 @@
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_Module</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="TcUnit">
+      <DefaultResolution>TcUnit, * (www.tcunit.org)</DefaultResolution>
+      <Namespace>TcUnit</Namespace>
+      <Condition>Tests</Condition>
     </PlaceholderReference>
     <PlaceholderReference Include="VisuDialogs">
       <DefaultResolution>VisuDialogs, * (System)</DefaultResolution>

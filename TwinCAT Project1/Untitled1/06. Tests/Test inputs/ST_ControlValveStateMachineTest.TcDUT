@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="ST_ControlValveStateMachineTest" Id="{99c3b690-225c-4fb6-a66f-6aba732b46af}">
+    <Declaration><![CDATA[TYPE ST_ControlValveStateMachineTest :
+STRUCT
+	testMode : BOOL;
+    calibrationTimerDone : BOOL;
+    simulatedOpenElapsedTime : TIME;
+    simulatedCloseElapsedTime : TIME;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

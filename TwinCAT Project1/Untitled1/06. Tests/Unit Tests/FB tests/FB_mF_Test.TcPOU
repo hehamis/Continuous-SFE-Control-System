@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_mF_Test" Id="{708b8679-5820-4e1a-b12f-14fefcaf4b3f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_mF_Test EXTENDS TcUnit.FB_TestSuite
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[valueShouldChangeWhenInputChangesAfter1Cycle();]]></ST>
+    </Implementation>
+    <Method Name="valueShouldChangeWhenInputChangesAfter1Cycle" Id="{b5b7ab4d-439e-4b12-a44f-3e31034fb820}">
+      <Declaration><![CDATA[METHOD valueShouldChangeWhenInputChangesAfter1Cycle
+VAR
+	mF : FB_mF;
+	uTest : ARRAY[1..15] OF LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('valueShouldChangeWhenInputChangesAfter1Cycle');
+	mF.setParams(
+		activateObserver := FALSE);
+	uTest[1] := 50;
+	mF.Step(
+			u := uTest,
+			yMeas := 2);
+			
+	// After 1 cycle passed, call the model again
+	mF.Step(
+			u := uTest,
+			yMeas := 2);
+			
+	AssertEquals_BOOL(Expected :=  TRUE, Actual := mF.y[1] <> 0, Message := 'Deviation not zero when current flow is zero');	
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_mF_Test">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_mF_Test.valueShouldChangeWhenInputChangesAfter1Cycle">
+      <LineId Id="19" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="39" Count="1" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="20" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
