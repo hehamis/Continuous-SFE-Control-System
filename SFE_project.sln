@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# TcXaeShell Solution File, Format Version 11.00
+# Visual Studio 15
 VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{BACAAE27-5D5D-4513-97FF-0FED82FEF961}") = "SFE_OPCUAserver", "Empty TwinCAT Connectivity Project2\SFE_OPCUAserver.tcconnproj", "{7C63C30E-E0FA-48ED-AB20-5F24338A693F}"
