@@ -91,6 +91,10 @@ while stopMatlab ~= true
         iSeparatorTemperatureSetpoint = findNodeByName(allvar,'OPC_SeparatorTemperatureSetpoint','-once');
         iCO2VolumetricFlow = findNodeByName(allvar,'OPC_CO2VolumetricFlow','-once');
 
+        iCO2VolumetricFlowMean = findNodeByName(allvar,'OPC_ReactorFlowMean','-once');
+        iCO2VolumetricFlowMpcSetpoint = findNodeByName(allvar,'OPC_ReactorFlowMpcSetpoint','-once');
+
+
         %% Save and plot data
         %Slurry valves
         outletdata(n) = readValue(uaClient,bSlurryOutlet);
@@ -156,10 +160,12 @@ while stopMatlab ~= true
         % CO2 flow
         %pdata(n) = read(iReactorTy); % TÄHÄN OIKEA MUUTTUJA 
         fdata(n) = readValue(uaClient,iCO2VolumetricFlow);
+        f_mean(n) = readValue(uaClient,iCO2VolumetricFlowMean);
+        f_sp(n) = readValue(uaClient,iCO2VolumetricFlowMpcSetpoint);
         fvalues(n) = double(fdata(:,n));
-        F_data(n,:) = [fvalues(n) timestamp];
-        subplot(2,2,4);
-        plot(round,fvalues,"b-");
+        F_data(n,:) = [fvalues(n) f_mean(n) f_sp(n) timestamp];
+        subplot(2,1,2);
+        plot(round,fvalues(:,n),"b-");
         xlabel("Second out of passing minute (s)"); ylabel("CO2 volumetric flow (cl/min)");
         set(gca,"xticklabel",timestamp(:,6));
 
