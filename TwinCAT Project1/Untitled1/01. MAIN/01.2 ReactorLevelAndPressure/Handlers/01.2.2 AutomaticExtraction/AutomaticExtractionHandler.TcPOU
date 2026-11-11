@@ -57,7 +57,7 @@ END_VAR
 	// Slurry outlet valve control
 	RTRIG_SetPressureReference(CLK := automaticExtractionState = E_AutomaticExtractionState.FILLING_ACTIVE);
 	IF RTRIG_SetPressureReference.Q THEN
-		pressureReference :=  pressureScaledValue;
+		pressureReference :=  TO_INT(AutomaticExtraction.startingPumpSetpoint); //pressureScaledValue;
 	END_IF
 	IF automaticExtractionState = E_AutomaticExtractionState.FILLING_ACTIVE THEN
 		SlurryOutValveControl.pressureIntervalControl(

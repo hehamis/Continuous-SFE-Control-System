@@ -8,6 +8,7 @@ VAR_INPUT
 	reactorPressure : DINT;
 	pumpPressure : DINT;
 	pumpSetpoint : DINT;
+	startingPumpSetpoint 			: DINT;
 END_VAR
 VAR_OUTPUT
 	controlValveOpeningPercentage : DINT;
@@ -27,7 +28,7 @@ VAR
 	TON_KeepExtractivePumpOn 		: FB_TestableTon;
 	TON_WaitBeforeOpeningOnOff 		: FB_TestableTon;
 	startingReactorPRessure 		: DINT;
-	startingPumpSetpoint 			: DINT;
+//	startingPumpSetpoint 			: DINT;
 	startingPumpPressure 			: DINT;
 	endingPumpPressure 				: DINT;
 	TON_FillingPumpWaitTimer 		: FB_TestableTon;;
