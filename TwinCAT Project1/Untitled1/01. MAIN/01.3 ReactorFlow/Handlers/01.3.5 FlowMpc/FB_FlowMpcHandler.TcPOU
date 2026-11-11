@@ -60,7 +60,7 @@ IF enable THEN
 	END_IF
 		
 	IF NOT (controlValveClose OR controlValveOpen) THEN
-		modeledValvePercentage := TO_DINT((flowMpc.valveCommand / maxValue) * 100);
+		modeledValvePercentage := TO_DINT((flowMpc.valveCommand / maxValue) * 100 * 0.875);
 	END_IF
 ELSE
 	flowMpc(
