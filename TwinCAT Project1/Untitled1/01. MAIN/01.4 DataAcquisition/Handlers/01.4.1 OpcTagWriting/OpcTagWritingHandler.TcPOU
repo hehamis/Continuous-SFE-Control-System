@@ -50,7 +50,13 @@ GVL_OPC.OPC_PumpingPressureSetpoint := serialCommReadData.pumpingPressureSetpoin
 GVL_OPC.OPC_PreHeaterTemperature := serialCommReadData.preHeaterTemperatureMeasurement;
 GVL_OPC.OPC_PreHeaterTemperatureSetpoint := serialCommReadData.preHeaterTemperatureSetpoint;
 GVL_OPC.OPC_SeparatorTemperature := serialCommReadData.separatorTemperatureMeasurement;
-GVL_OPC.OPC_SeparatorTemperatureSetpoint := serialCommReadData.separatorTemperatureSetpoint;]]></ST>
+GVL_OPC.OPC_SeparatorTemperatureSetpoint := serialCommReadData.separatorTemperatureSetpoint;
+
+// Reactor mean flow and MPC related parameters
+GVL_OPC.OPC_ReactorFlowMean := ReactorFlowController._meanReactorFlow;
+GVL_OPC.OPC_ReactorFlowMpcSetpoint := ReactorFlowController._FlowControlCommands.flowSetpoint;
+
+]]></ST>
     </Implementation>
     <LineIds Name="OpcTagWritingHandler">
       <LineId Id="69" Count="0" />
@@ -81,6 +87,11 @@ GVL_OPC.OPC_SeparatorTemperatureSetpoint := serialCommReadData.separatorTemperat
       <LineId Id="59" Count="0" />
       <LineId Id="52" Count="6" />
       <LineId Id="9" Count="0" />
+      <LineId Id="138" Count="0" />
+      <LineId Id="137" Count="0" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="141" Count="1" />
+      <LineId Id="140" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -35,6 +35,9 @@ VAR_GLOBAL
 	{attribute 'OPC.UA.DA' := '1'} OPC_OutletValveOpenTimeStampArray: ARRAY[0..99] OF STRING;
 	{attribute 'OPC.UA.DA' := '1'} OPC_OutletValveCloseArray: ARRAY[0..99] OF BOOL;
 	{attribute 'OPC.UA.DA' := '1'} OPC_OutletValveCloseTimeStampArray: ARRAY[0..99] OF STRING;
+	
+	{attribute 'OPC.UA.DA' := '1'} OPC_ReactorFlowMean: REAL;
+	{attribute 'OPC.UA.DA' := '1'} OPC_ReactorFlowMpcSetpoint: REAL;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
