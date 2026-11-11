@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="maximum" Id="{af58b192-1ae6-4144-9aa0-47c60762103f}" SpecialFunc="None">
+  <POU Name="maximum" Id="{b4de15a6-019e-4820-9ae4-4f8862d9701a}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION maximum : LREAL
 VAR_INPUT
 	x: ARRAY[0..2] OF LREAL;

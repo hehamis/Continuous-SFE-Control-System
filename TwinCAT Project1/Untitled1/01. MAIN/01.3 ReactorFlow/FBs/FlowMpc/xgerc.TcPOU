@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="xgerc" Id="{3355228a-0634-4557-8431-63d7a56900b7}" SpecialFunc="None">
+  <POU Name="xgerc" Id="{7eb90739-d813-48ad-9b7c-64de9c63bb18}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK xgerc
 VAR_INPUT
 	b_m: DINT;

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="xnrm2" Id="{997dd98c-139f-42ac-a512-13170059cdfb}" SpecialFunc="None">
+  <POU Name="xnrm2" Id="{0e6260a3-3d23-4318-878c-5b615ad695fb}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION xnrm2 : LREAL
 VAR_INPUT
 	b_n: DINT;

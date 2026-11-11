@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="mpcblock_refmd" Id="{0c4357ad-caf8-46de-85ba-af272b3a9045}" SpecialFunc="None">
+  <POU Name="mpcblock_refmd" Id="{16714ffa-e731-4485-851a-ebaf5bcfa14e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK mpcblock_refmd
 VAR_INPUT
 	ref: LREAL;
@@ -11,8 +11,8 @@ VAR_INPUT
 	b_RMDscale: LREAL;
 END_VAR
 VAR_OUTPUT
-	rseq: ARRAY[0..39] OF LREAL;
-	vseq: ARRAY[0..81] OF LREAL;
+	rseq: ARRAY[0..119] OF LREAL;
+	vseq: ARRAY[0..241] OF LREAL;
 	v: ARRAY[0..1] OF LREAL;
 END_VAR
 VAR
@@ -22,22 +22,22 @@ END_VAR
     <Implementation>
       <ST><![CDATA[
 
-FOR i := 0 TO 81 DO 
+FOR i := 0 TO 241 DO 
     vseq[i] := 0.0;
 END_FOR;
 
 
-FOR i := 0 TO 40 DO 
+FOR i := 0 TO 120 DO 
     vseq[(i * 2) + 1] := 1.0;
 END_FOR;
 
 
-FOR i := 0 TO 39 DO 
+FOR i := 0 TO 119 DO 
     rseq[i] := (ref * b_RYscale) - b_yoff;
 END_FOR;
 
 
-FOR i := 0 TO 40 DO 
+FOR i := 0 TO 120 DO 
     vseq[i * 2] := (b_RMDscale * md) - b_voff;
 END_FOR;
 

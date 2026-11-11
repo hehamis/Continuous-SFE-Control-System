@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="norm" Id="{96c9b2b7-44b0-4460-8fd4-294effc86bc7}" SpecialFunc="None">
+  <POU Name="norm" Id="{83185e7d-6fbd-4603-93a3-4e14e3912498}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION norm : LREAL
 VAR_INPUT
 	x: ARRAY[0..2] OF LREAL;

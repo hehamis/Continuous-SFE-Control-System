@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="DropConstraint" Id="{760934e9-26ca-4483-afb8-eb0fa9c0a2a9}" SpecialFunc="None">
+  <POU Name="DropConstraint" Id="{43ab0fed-5f30-46c2-9f92-2ccd622d101b}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK DropConstraint
 VAR_INPUT
 	kDrop: DINT;
@@ -8,9 +8,9 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR_IN_OUT
-	iA: ARRAY[0..3] OF BOOL;
+	iA: ARRAY[0..243] OF BOOL;
 	nA: DINT;
-	iC: ARRAY[0..3] OF DINT;
+	iC: ARRAY[0..243] OF DINT;
 END_VAR
 VAR
 	i: DINT;
