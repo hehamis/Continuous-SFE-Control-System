@@ -165,9 +165,10 @@ while stopMatlab ~= true
         fvalues(n) = double(fdata(:,n));
         F_data(n,:) = [fvalues(n) f_mean(n) f_sp(n) timestamp];
         subplot(2,1,2);
-        plot(round,fvalues(:,n),"b-");
+        plot(round,fvalues,"b-");
         xlabel("Second out of passing minute (s)"); ylabel("CO2 volumetric flow (cl/min)");
         set(gca,"xticklabel",timestamp(:,6));
+
 
 
         %% Save data every 30s
