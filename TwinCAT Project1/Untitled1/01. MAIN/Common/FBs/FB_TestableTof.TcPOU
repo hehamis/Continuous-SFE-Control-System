@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_TestableTof" Id="{9e32cf7c-4f24-44d8-8a25-a58967d2c218}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_TestableTof
+VAR_INPUT
+    IN : BOOL;
+    PT : TIME;
+
+    TestMode : BOOL;
+    TestDone : BOOL;
+END_VAR
+
+VAR_OUTPUT
+    Q : BOOL;
+    ET : TIME;
+END_VAR
+
+VAR
+    tof : TOF;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+IF TestMode THEN
+
+    IF IN THEN
+        Q := TRUE;
+        ET := T#0MS;
+    ELSE
+        Q := NOT TestDone;
+
+        IF TestDone THEN
+            ET := PT;
+        END_IF
+    END_IF;
+
+ELSE
+
+    tof(IN := IN, PT := PT);
+
+    Q := tof.Q;
+    ET := tof.ET;
+
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_TestableTof">
+      <LineId Id="27" Count="20" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

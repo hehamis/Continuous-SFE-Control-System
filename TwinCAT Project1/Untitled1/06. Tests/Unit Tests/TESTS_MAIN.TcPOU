@@ -10,8 +10,9 @@ VAR
 	fbConsumptionCalculatorTest 			: FB_ConsumptionCalculator_Test;
 	fbmFTest 								: FB_mF_Test;
 	fbCo2ModelDeviationHandlerTest 			: FB_Co2FlowModelDeviationHandler_Test;
-	fbAutomaticExtractionStateMachineTest : FB_AutomaticExtractionStateMachine_Test;
-	fbRuntimeTest : FB_Runtime_Test;
+	fbAutomaticExtractionStateMachineTest 	: FB_AutomaticExtractionStateMachine_Test;
+	fbRuntimeTest 							: FB_Runtime_Test;
+	fbControlValveStateMachineTest			: FB_ControlValveStateMachine_Test;
 	
 	movingavg 						: FB_MovingAverage;
 	consumptioncalc 				: FB_ConsumptionCalculator;

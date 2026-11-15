@@ -12,14 +12,13 @@ VAR_OUTPUT
 	openControlValve : BOOL;
 	currentControlValveOpenPercentage : DINT;
 	calibrateDone : BOOL;
-	test : REAL;
 END_VAR
 VAR
 	startCalibrate : BOOL;
 	RTRIG_startCalibrate : R_TRIG;
 	RTRIG_requireCalibration : R_TRIG;
 	controlState : INT;
-	TOF_Calibration : TOF;
+	TOF_Calibration : FB_TestableTof;
 	closeCommand : BOOL;
 	
 	openvalve : FB_Runtime;//(resetToTime := T#0S);
@@ -49,7 +48,11 @@ CASE controlState OF
 		END_IF
 	
 	1: // Calibrate
-		TOF_Calibration(IN := startCalibrate, PT := TO_TIME(controlValveParameters.calibrationTimeMs));
+		TOF_Calibration(
+			IN := startCalibrate, 
+			PT := TO_TIME(controlValveParameters.calibrationTimeMs),
+			TestMode :=  _testMode,
+			TestDone := _testParams.calibrationTimerDone);
 		startCalibrate := FALSE;
 		closeCommand := TRUE;
 		IF controlValveCommands.stopCalibration THEN
@@ -79,8 +82,8 @@ CASE controlState OF
 				gotime := close, 
 				settime := TO_TIME(controlValveParameters.timeToFullyOpenMs),
 			 	resetToTime := TO_TIME(controlValveParameters.timeToFullyOpenMs),
-				countdown := open, elapsedtime =>, 
-				elapsed => );	
+				countdown := open,
+				elapsedtime =>, elapsed => );	
 		IF controlValveCommands.openPercentage > currentControlValveOpenPercentage THEN
 			open := TRUE;
 			close := FALSE;
@@ -110,7 +113,8 @@ END_CASE
 // Calculate valve open-% according to open timer
 IF controlValveParameters.timeToFullyOpenMs > 0 THEN
 	currentControlValveOpenPercentage := TO_DINT(((TIME_TO_REAL(openvalve.elapsedtime)) /(controlValveParameters.timeToFullyOpenMs)*100));// TO_DINT(TIME_TO_REAL(openvalve.elapsedtime)/100);
-	test := TO_DINT(TIME_TO_REAL(openvalve.elapsedtime));
+ELSIF _testMode THEN
+	currentControlValveOpenPercentage := _testParams.simulatedOpeningPercentage;
 END_IF
 
 closeControlValve := closeCommand OR close;
@@ -140,6 +144,8 @@ IF reset THEN
 	calibrateDone := 0;	
 	open := 0;
 	close := 0;
+	RTRIG_requireCalibration(CLK := FALSE);
+	RTRIG_startCalibrate(CLK := FALSE);
 END_IF
 ]]></ST>
       </Implementation>
@@ -149,7 +155,9 @@ END_IF
       <LineId Id="448" Count="0" />
       <LineId Id="159" Count="4" />
       <LineId Id="447" Count="0" />
-      <LineId Id="164" Count="6" />
+      <LineId Id="164" Count="5" />
+      <LineId Id="532" Count="3" />
+      <LineId Id="170" Count="0" />
       <LineId Id="203" Count="0" />
       <LineId Id="288" Count="1" />
       <LineId Id="291" Count="0" />
@@ -167,7 +175,8 @@ END_IF
       <LineId Id="357" Count="0" />
       <LineId Id="356" Count="0" />
       <LineId Id="360" Count="0" />
-      <LineId Id="358" Count="1" />
+      <LineId Id="358" Count="0" />
+      <LineId Id="572" Count="0" />
       <LineId Id="491" Count="8" />
       <LineId Id="490" Count="0" />
       <LineId Id="320" Count="0" />
@@ -184,7 +193,7 @@ END_IF
       <LineId Id="186" Count="4" />
       <LineId Id="391" Count="0" />
       <LineId Id="191" Count="0" />
-      <LineId Id="420" Count="0" />
+      <LineId Id="573" Count="1" />
       <LineId Id="393" Count="0" />
       <LineId Id="192" Count="1" />
       <LineId Id="254" Count="0" />
@@ -202,6 +211,7 @@ END_IF
       <LineId Id="42" Count="3" />
       <LineId Id="47" Count="0" />
       <LineId Id="46" Count="0" />
+      <LineId Id="54" Count="1" />
       <LineId Id="20" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>

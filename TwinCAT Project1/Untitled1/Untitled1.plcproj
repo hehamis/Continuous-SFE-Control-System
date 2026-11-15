@@ -226,6 +226,9 @@
     <Compile Include="01. MAIN\Common\FBs\FB_StateSpaceModel.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\Common\FBs\FB_TestableTof.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\Common\FBs\FB_TestableTon.TcPOU">
       <SubType>Code</SubType>
     </Compile>
