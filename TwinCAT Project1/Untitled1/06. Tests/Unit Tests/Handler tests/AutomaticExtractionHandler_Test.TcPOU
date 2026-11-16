@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="AutomaticExtractionHandler_Test" Id="{3293b6f1-72e0-4bd1-a306-0636ecf992c0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AutomaticExtractionHandler_Test EXTENDS TcUnit.FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// Control valve calibration tests
+
+// Manual mode tests
+(*
+-State must be MANUAL_EXTRACTION when automatic extraction not commanded
+-State must be MANUAL_EXTRACTION when calibration is not done (even if automatic extraction started)
+-All valves must be closed when manual extraction entered
+-Inlet and outlet valve signals must reflect the command during manual extraction
+-Internal calibration start command must be false during manual extraction
+-Pumping pressure decrease command must be false during manual extraction
+*)
+manualModeTests();
+// Automatic mode tests
+(*
+-State must not be MANUAL_EXTRACTION when automatic extraction commanded
+-extractiveOutOnOffValveCommand should be opposite to stateMachines co2onOffValveClosed output
+-controlValveOpeningPercentage should be the same as commanded by StateMachine
+-If reactor filling not active, reactor outlet valve should remain closed
+-If reactor filling active, pressure reference should be updated
+-If reactor filling active, reactor outlet valve should be open if outlet valve commands it to
+*)]]></ST>
+    </Implementation>
+    <Method Name="automaticModeTests" Id="{3efe2a47-b026-479c-ba62-fb8061c61cc0}">
+      <Declaration><![CDATA[METHOD automaticModeTests
+VAR
+	handler : AutomaticExtractionHandler;
+	testParams : ST_AutomaticExtractionHandlerTest;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('1: State must be MANUAL_EXTRACTION when automatic extraction not commanded');
+
+    handler();
+
+    AssertEquals_BOOL(
+        Expected := TRUE,
+        Actual := (handler.automaticExtractionState = E_AutomaticExtractionState.MANUAL_EXTRACTION
+        ),
+        Message := 'State not MANUAL_EXTRACTION when automatic extraction not commanded'
+    );
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="manualModeTests" Id="{77cb51b6-87c0-4878-89fc-f556f6bc106a}">
+      <Declaration><![CDATA[METHOD manualModeTests : BOOL
+VAR
+	handler : AutomaticExtractionHandler;
+	testParams : ST_AutomaticExtractionHandlerTest;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('1: State must be MANUAL_EXTRACTION when automatic extraction not commanded');
+
+    handler();
+
+    AssertEquals_BOOL(
+        Expected := TRUE,
+        Actual := (handler.automaticExtractionState = E_AutomaticExtractionState.MANUAL_EXTRACTION
+        ),
+        Message := 'State not MANUAL_EXTRACTION when automatic extraction not commanded'
+    );
+
+TEST_FINISHED();
+
+TEST('2: State must be MANUAL_EXTRACTION when calibration is not done (even if automatic extraction started');
+
+	handler.setTestMode(
+					testParams := testParams,
+					reset := TRUE);
+
+    handler(
+		startAutomaticExtraction := TRUE,
+		calibrateDone := FALSE);
+
+    AssertEquals_BOOL(
+        Expected := TRUE,
+        Actual := (handler.automaticExtractionState = E_AutomaticExtractionState.MANUAL_EXTRACTION
+        ),
+        Message := 'State not MANUAL_EXTRACTION when calibration unfinished'
+    );
+
+TEST_FINISHED();
+
+TEST('3: All valves must be closed when manual extraction entered');
+
+	handler.setTestMode(
+					testParams := testParams,
+					reset := TRUE);
+
+    handler(
+		startAutomaticExtraction := FALSE,
+		calibrateDone := FALSE);
+
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := (handler.reactorInletValve OR handler.reactorOutletValve ),
+        Message := 'All valves not closed when manual extraction entered'
+    );
+
+TEST_FINISHED();
+
+TEST('4: Inlet and outlet valve signals must reflect the command during manual extraction');
+
+	handler.setTestMode(
+					testParams := testParams,
+					reset := TRUE);
+
+    handler(
+		startAutomaticExtraction := FALSE,
+		slurryInValveCommand := TRUE,
+		slurryOutValveCommand := TRUE,
+		calibrateDone := FALSE);
+
+    AssertEquals_BOOL(
+        Expected := TRUE,
+        Actual := (handler.reactorOutletValve AND handler.reactorInletValve),
+        Message := 'Inlet and outlet valve signals not reflecting the command during manual extraction'
+    );
+
+TEST_FINISHED();
+
+TEST('5: Internal calibration start command must be false during manual extraction');
+
+	handler.setTestMode(
+					testParams := testParams,
+					reset := TRUE);
+
+    handler();
+
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := handler.startCalibration,
+        Message := 'Internal calibration start command not false during manual extraction'
+    );
+
+TEST_FINISHED();
+
+TEST('6: Pumping pressure decrease command must be false during manual extraction');
+
+	handler.setTestMode(
+					testParams := testParams,
+					reset := TRUE);
+
+    handler();
+
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := handler.decreasePumpSetpoint,
+        Message := 'Pumping pressure decrease command not false during manual extraction'
+    );
+
+TEST_FINISHED();
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="AutomaticExtractionHandler_Test">
+      <LineId Id="11" Count="1" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="29" Count="1" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="35" Count="2" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="49" Count="1" />
+      <LineId Id="22" Count="0" />
+    </LineIds>
+    <LineIds Name="AutomaticExtractionHandler_Test.automaticModeTests">
+      <LineId Id="6" Count="11" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="AutomaticExtractionHandler_Test.manualModeTests">
+      <LineId Id="6" Count="1" />
+      <LineId Id="14" Count="5" />
+      <LineId Id="23" Count="4" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="63" Count="3" />
+      <LineId Id="32" Count="1" />
+      <LineId Id="42" Count="1" />
+      <LineId Id="34" Count="7" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="49" Count="1" />
+      <LineId Id="69" Count="3" />
+      <LineId Id="51" Count="7" />
+      <LineId Id="60" Count="2" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="74" Count="1" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="76" Count="5" />
+      <LineId Id="92" Count="1" />
+      <LineId Id="82" Count="7" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="95" Count="6" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="107" Count="7" />
+      <LineId Id="117" Count="14" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

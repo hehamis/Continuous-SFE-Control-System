@@ -13,6 +13,10 @@ VAR
 	fbAutomaticExtractionStateMachineTest 	: FB_AutomaticExtractionStateMachine_Test;
 	fbRuntimeTest 							: FB_Runtime_Test;
 	fbControlValveStateMachineTest			: FB_ControlValveStateMachine_Test;
+	fbReactorValvesTest						: FB_ReactorValves_Test;
+	
+	// Handlers to test
+	AutomaticExtractionHandlerTest			: AutomaticExtractionHandler_Test;
 	
 	movingavg 						: FB_MovingAverage;
 	consumptioncalc 				: FB_ConsumptionCalculator;

@@ -32,6 +32,9 @@ VAR
 	AutomaticExtraction : FB_AutomaticExtractionStateMachine;
 	RTRIG_SetPressureReference : R_TRIG;
 	pressureReference : INT;
+	
+	_testMode : BOOL;
+	_testParams : ST_AutomaticExtractionHandlerTest;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -101,6 +104,37 @@ END_IF
 
 automaticExtraction.getCurrentTimer();]]></ST>
     </Implementation>
+    <Method Name="setTestMode" Id="{db9daa4d-93eb-46e4-8475-bfd2e43ac9ed}">
+      <Declaration><![CDATA[METHOD setTestMode : BOOL
+VAR_INPUT
+	testParams : ST_AutomaticExtractionHandlerTest;
+	reset : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+_testMode := TRUE;
+_testParams := testParams;
+
+AutomaticExtraction.setTestMode(
+	testParams := testParams.automaticExtractionStateMachine,
+	reset := reset);
+	
+IF reset THEN
+	reactorInletValve := FALSE; // Close all valves when auto mode is exited
+	reactorOutletValve := FALSE;
+	autoModeEntered := FALSE;
+	manualModeEntered := TRUE;
+	startCalibration := FALSE;
+	decreasePumpSetpoint := FALSE;
+	extractiveOutOnOffValveAutoCommand := FALSE;
+	controlValveAutoOpenPercentage := 0;
+END_IF
+
+
+]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="AutomaticExtractionHandler">
       <LineId Id="1263" Count="13" />
       <LineId Id="1410" Count="0" />
@@ -120,6 +154,25 @@ automaticExtraction.getCurrentTimer();]]></ST>
       <LineId Id="9" Count="0" />
       <LineId Id="1407" Count="0" />
       <LineId Id="1405" Count="0" />
+    </LineIds>
+    <LineIds Name="AutomaticExtractionHandler.setTestMode">
+      <LineId Id="6" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="17" Count="1" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="28" Count="2" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="7" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
