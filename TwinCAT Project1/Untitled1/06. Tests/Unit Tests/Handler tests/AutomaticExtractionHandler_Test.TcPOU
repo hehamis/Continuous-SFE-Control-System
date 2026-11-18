@@ -31,7 +31,8 @@ manualModeTests();
 -If reactor filling not active, reactor outlet valve should remain closed
 -If reactor filling active, pressure reference should be updated
 -If reactor filling active, reactor outlet valve should be open if outlet valve commands it to
-*)]]></ST>
+*)
+automaticModeTests();]]></ST>
     </Implementation>
     <Method Name="automaticModeTests" Id="{3efe2a47-b026-479c-ba62-fb8061c61cc0}">
       <Declaration><![CDATA[METHOD automaticModeTests
@@ -41,15 +42,36 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[
-TEST('1: State must be MANUAL_EXTRACTION when automatic extraction not commanded');
+TEST('1: State must not be MANUAL_EXTRACTION when automatic extraction commanded and calibration done');
 
-    handler();
+    handler(
+		startAutomaticExtraction := TRUE,
+		calibrateDone := TRUE);
+
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := (handler.automaticExtractionState = E_AutomaticExtractionState.MANUAL_EXTRACTION
+        ),
+        Message := 'State MANUAL_EXTRACTION when automatic extraction commanded and calibration done'
+    );
+
+TEST_FINISHED();
+
+TEST('2: extractiveOutOnOffValveCommand should be opposite to stateMachines co2onOffValveClosed output');
+
+	handler.setTestMode(
+		testParams := testParams,
+		reset := TRUE);    
+
+	handler(
+		startAutomaticExtraction := TRUE,
+		calibrateDone := TRUE);
 
     AssertEquals_BOOL(
         Expected := TRUE,
-        Actual := (handler.automaticExtractionState = E_AutomaticExtractionState.MANUAL_EXTRACTION
+        Actual := (handler.extractiveOutOnOffValveAutoCommand
         ),
-        Message := 'State not MANUAL_EXTRACTION when automatic extraction not commanded'
+        Message := 'extractiveOutOnOffValveCommand should be opposite to stateMachines co2onOffValveClosed output'
     );
 
 TEST_FINISHED();]]></ST>
@@ -187,10 +209,22 @@ TEST_FINISHED();
       <LineId Id="52" Count="0" />
       <LineId Id="49" Count="1" />
       <LineId Id="22" Count="0" />
+      <LineId Id="61" Count="0" />
     </LineIds>
     <LineIds Name="AutomaticExtractionHandler_Test.automaticModeTests">
-      <LineId Id="6" Count="11" />
+      <LineId Id="6" Count="2" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="10" Count="7" />
       <LineId Id="5" Count="0" />
+      <LineId Id="22" Count="2" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="42" Count="1" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="25" Count="8" />
+      <LineId Id="21" Count="0" />
     </LineIds>
     <LineIds Name="AutomaticExtractionHandler_Test.manualModeTests">
       <LineId Id="6" Count="1" />
