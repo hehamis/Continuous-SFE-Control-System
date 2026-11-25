@@ -226,6 +226,9 @@
     <Compile Include="01. MAIN\Common\FBs\FB_StateSpaceModel.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="01. MAIN\Common\FBs\FB_TestableTof.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="01. MAIN\Common\FBs\FB_TestableTon.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -290,6 +293,9 @@
     <Compile Include="05. Simulation\Simulation.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="06. Tests\Test inputs\ST_AutomaticExtractionHandlerTest.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="06. Tests\Test inputs\ST_AutomaticExtractionStateMachineTest.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -314,7 +320,13 @@
     <Compile Include="06. Tests\Unit Tests\FB tests\FB_MovingAverage_Test.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="06. Tests\Unit Tests\FB tests\FB_ReactorValves_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="06. Tests\Unit Tests\FB tests\FB_Runtime_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="06. Tests\Unit Tests\Handler tests\AutomaticExtractionHandler_Test.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="06. Tests\Unit Tests\Mocks\TON_Mock_TimerRanOut.TcPOU">
@@ -526,6 +538,7 @@
     <Folder Include="06. Tests\Unit Tests" />
     <Folder Include="06. Tests\Unit Tests\FB tests" />
     <Folder Include="06. Tests\Unit Tests\Mocks" />
+    <Folder Include="06. Tests\Unit Tests\Handler tests" />
     <Folder Include="06. Tests\Unit Tests\Wrappers" />
     <Folder Include="Trash">
       <ExcludeFromBuild>true</ExcludeFromBuild>

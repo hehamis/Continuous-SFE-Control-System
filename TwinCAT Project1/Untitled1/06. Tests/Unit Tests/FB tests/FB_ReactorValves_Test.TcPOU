@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_ReactorValves_Test" Id="{eb6e6a1a-c546-4e6a-9c45-f02a2bb7f3d2}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ReactorValves_Test EXTENDS TcUnit.FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// Valve should open if upper interval reached
+valveShouldOpenIfUpperIntervalReached();
+ ]]></ST>
+    </Implementation>
+    <Method Name="valveShouldCloseIfForcedTo" Id="{f4be1906-027b-48de-af99-f6d33283511b}">
+      <Declaration><![CDATA[METHOD valveShouldCloseIfForcedTo
+VAR
+	valves : FB_ReactorValves;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('valve Should close if forced to');
+			
+	valves.pressureIntervalControl(
+		interval_1_condition:= TRUE, 
+		pressureUpperInterval_1:= 20, 
+		pressureLowerInterval_1:= 0, 
+		interval_2_condition:= FALSE, 
+		pressureUpperInterval_2:= 999, 
+		pressureLowerInterval_2:= 999, 
+		interval_3_condition:= FALSE, 
+		pressureUpperInterval_3:= 999, 
+		pressureLowerInterval_3:= 999, 
+		pressureValue:= 220, 
+		pressureReference:= 200, 
+		valveOpenCondition:= FALSE, 
+		forceValveClosed:= FALSE);
+			
+	AssertEquals_BOOL(Expected :=  FALSE, Actual := valves.pressureControlOpen, Message := 'Valve not closed when forced to');	
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="valveShouldCloseIfLowerIntervalReached" Id="{8342c621-d981-480d-9d63-1f2522286490}">
+      <Declaration><![CDATA[METHOD valveShouldCloseIfLowerIntervalReached
+VAR
+	valves : FB_ReactorValves;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('valve Should Close If Lower Interval Reached');
+			
+	valves.pressureIntervalControl(
+		interval_1_condition:= TRUE, 
+		pressureUpperInterval_1:= 20, 
+		pressureLowerInterval_1:= 0, 
+		interval_2_condition:= FALSE, 
+		pressureUpperInterval_2:= 999, 
+		pressureLowerInterval_2:= 999, 
+		interval_3_condition:= FALSE, 
+		pressureUpperInterval_3:= 999, 
+		pressureLowerInterval_3:= 999, 
+		pressureValue:= 220, 
+		pressureReference:= 200, 
+		valveOpenCondition:= TRUE, 
+		forceValveClosed:= FALSE);
+		
+	valves.pressureIntervalControl(
+		interval_1_condition:= TRUE, 
+		pressureUpperInterval_1:= 20, 
+		pressureLowerInterval_1:= 20, 
+		interval_2_condition:= FALSE, 
+		pressureUpperInterval_2:= 999, 
+		pressureLowerInterval_2:= 999, 
+		interval_3_condition:= FALSE, 
+		pressureUpperInterval_3:= 999, 
+		pressureLowerInterval_3:= 999, 
+		pressureValue:= 180, 
+		pressureReference:= 200, 
+		valveOpenCondition:= TRUE, 
+		forceValveClosed:= FALSE);
+			
+	AssertEquals_BOOL(Expected :=  FALSE, Actual := valves.pressureControlOpen, Message := 'Valve not closed when lower interval reached');	
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="valveShouldCloseIfOpenConditionNotFulfilled" Id="{e2b33ad6-0094-45e0-949f-42107b8a50cd}">
+      <Declaration><![CDATA[METHOD valveShouldCloseIfOpenConditionNotFulfilled
+VAR
+	valves : FB_ReactorValves;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('valve Should close if open condition not fulfilled');
+			
+	valves.pressureIntervalControl(
+		interval_1_condition:= TRUE, 
+		pressureUpperInterval_1:= 20, 
+		pressureLowerInterval_1:= 0, 
+		interval_2_condition:= FALSE, 
+		pressureUpperInterval_2:= 999, 
+		pressureLowerInterval_2:= 999, 
+		interval_3_condition:= FALSE, 
+		pressureUpperInterval_3:= 999, 
+		pressureLowerInterval_3:= 999, 
+		pressureValue:= 220, 
+		pressureReference:= 200, 
+		valveOpenCondition:= FALSE, 
+		forceValveClosed:= FALSE);
+			
+	AssertEquals_BOOL(Expected :=  FALSE, Actual := valves.pressureControlOpen, Message := 'Valve not closed when open condition not fulfilled');	
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="valveShouldOpenIfUpperIntervalReached" Id="{2e665aa1-ec34-4395-9c56-38bd77bd1367}">
+      <Declaration><![CDATA[METHOD valveShouldOpenIfUpperIntervalReached
+VAR
+	valves : FB_ReactorValves;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('valve Should Open If Upper Interval Reached');
+			
+	valves.pressureIntervalControl(
+		interval_1_condition:= TRUE, 
+		pressureUpperInterval_1:= 20, 
+		pressureLowerInterval_1:= 0, 
+		interval_2_condition:= FALSE, 
+		pressureUpperInterval_2:= 999, 
+		pressureLowerInterval_2:= 999, 
+		interval_3_condition:= FALSE, 
+		pressureUpperInterval_3:= 999, 
+		pressureLowerInterval_3:= 999, 
+		pressureValue:= 220, 
+		pressureReference:= 200, 
+		valveOpenCondition:= TRUE, 
+		forceValveClosed:= FALSE);
+			
+	AssertEquals_BOOL(Expected :=  TRUE, Actual := valves.pressureControlOpen, Message := 'Valve not opened when upper interval reached');	
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_ReactorValves_Test">
+      <LineId Id="9" Count="3" />
+    </LineIds>
+    <LineIds Name="FB_ReactorValves_Test.valveShouldCloseIfForcedTo">
+      <LineId Id="6" Count="18" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ReactorValves_Test.valveShouldCloseIfLowerIntervalReached">
+      <LineId Id="6" Count="16" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="27" Count="12" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="23" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ReactorValves_Test.valveShouldCloseIfOpenConditionNotFulfilled">
+      <LineId Id="24" Count="0" />
+      <LineId Id="6" Count="17" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ReactorValves_Test.valveShouldOpenIfUpperIntervalReached">
+      <LineId Id="6" Count="1" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="32" Count="12" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="19" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -10,10 +10,502 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[
+calibrationTests();
+normalControlTests();]]></ST>
     </Implementation>
+    <Method Name="calibrationTests" Id="{529b1ad5-74aa-433f-89c7-e5ff4885ce97}">
+      <Declaration><![CDATA[METHOD calibrationTests
+VAR
+	stateMachine : FB_ControlValveStateMachine;
+	testParams : ST_ControlValveStateMachineTest;
+	valveCommands : ST_ExtractiveControlValveCommands;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('1.1 control valve should close when calibration is initiated');
+
+	valveCommands.calibrate := TRUE;
+
+    // Reset FB
+    stateMachine.setTestMode(
+		testParams := testParams,
+		reset := TRUE);
+	
+    // Initiate calibration
+	stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+		
+	stateMachine();
+
+    AssertEquals_BOOL(
+        Expected := TRUE,
+        Actual := stateMachine.closeControlValve,
+        Message := 'Control valve should close when calibration is initiated'
+    );
+
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := stateMachine.openControlValve,
+        Message := 'Control valve should not open during calibration'
+    );
+
+TEST_FINISHED();
+
+TEST('1.2 calibration should remain active until calibration timer expires');
+
+    testParams.calibrationTimerDone := FALSE;
+	valveCommands.calibrate := TRUE;
+	
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+	stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+
+    stateMachine();
+
+	stateMachine(
+		controlValveCommands:= , 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+		
+//    stateMachine();
+
+    AssertEquals_BOOL(
+        Expected := TRUE,
+        Actual := stateMachine.closeControlValve,
+        Message := 'Control valve should remain closed during calibration'
+    );
+
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := stateMachine.calibrateDone,
+        Message := 'Calibration should not be completed before timer expires'
+    );
+
+TEST_FINISHED();
+
+TEST('1.3 calibration should finish when calibration timer expires');
+
+    testParams.calibrationTimerDone := TRUE;
+	valveCommands.calibrate := TRUE;
+	
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+	stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+    stateMachine();
+
+    valveCommands.calibrate := FALSE;
+	stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+
+    // Execute calibration state
+    stateMachine();
+
+    AssertEquals_BOOL(
+        Expected := TRUE,
+        Actual := stateMachine.calibrateDone,
+        Message := 'Calibration should be completed when timer expires'
+    );
+
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := stateMachine.closeControlValve,
+        Message := 'Control valve should stop closing after calibration'
+    );
+
+TEST_FINISHED();
+
+TEST('1.4 calibration should stop when stopCalibration command is issued');
+
+    testParams.calibrationTimerDone := FALSE;
+
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    valveCommands.calibrate := TRUE;
+	stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+		
+    stateMachine();
+
+    valveCommands.calibrate := FALSE;
+	stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+    stateMachine();
+
+    valveCommands.stopCalibration := TRUE;
+	stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+    stateMachine();
+
+    valveCommands.stopCalibration := FALSE;
+	stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+
+    // Execute one more cycle to allow state 0 to execute
+    stateMachine();
+
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := stateMachine.closeControlValve,
+        Message := 'Control valve should stop closing when calibration is stopped'
+    );
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="normalControlTests" Id="{50926892-29e7-44c4-ac5a-689746fb471f}">
+      <Declaration><![CDATA[METHOD normalControlTests
+VAR
+	stateMachine : FB_ControlValveStateMachine;
+	testParams : ST_ControlValveStateMachineTest;
+	valveCommands : ST_ExtractiveControlValveCommands;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+TEST('control valve should open when requested percentage is higher than current percentage');
+
+    // Enter control state through calibration
+    testParams.calibrationTimerDone := TRUE;
+    // Request 50% opening
+    ValveCommands.openPercentage := 50;
+
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    valveCommands.calibrate := TRUE;
+	stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+
+
+    valveCommands.calibrate := FALSE;
+	stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+
+    // Simulate current position of 25%
+ 	testParams.simulatedOpeningPercentage := 25;
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := FALSE);
+	stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+
+    AssertEquals_BOOL(
+        Expected := TRUE,
+        Actual := stateMachine.openControlValve,
+        Message := 'Control valve should open when requested percentage is higher'
+    );
+
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := stateMachine.closeControlValve,
+        Message := 'Control valve should not close when requested percentage is higher'
+    );
+
+TEST_FINISHED();
+
+TEST('control valve should close when requested percentage is lower than current percentage');
+
+    // Enter control state through calibration
+    testParams.calibrationTimerDone := TRUE;
+
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    valveCommands.calibrate := TRUE;
+    stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+
+    valveCommands.calibrate := FALSE;
+    stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+
+    // Simulate current position of 75%
+    testParams.simulatedOpeningPercentage := 75;
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := FALSE);
+
+    // Request 25% opening
+    valveCommands.openPercentage := 25;
+
+    stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+		
+    stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := stateMachine.openControlValve,
+        Message := 'Control valve should not open when requested percentage is lower'
+    );
+
+    AssertEquals_BOOL(
+        Expected := TRUE,
+        Actual := stateMachine.closeControlValve,
+        Message := 'Control valve should close when requested percentage is lower'
+    );
+
+TEST_FINISHED();
+
+TEST('control valve should remain stationary when requested percentage equals current percentage');
+
+    testParams.calibrationTimerDone := TRUE;
+
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := TRUE
+    );
+
+    valveCommands.calibrate := TRUE;
+    stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+
+    valveCommands.calibrate := FALSE;
+    stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+
+    // Current position = 50%
+    testParams.simulatedOpeningPercentage := 50;
+    stateMachine.setTestMode(
+        testParams := testParams,
+        reset := FALSE,
+    );
+
+    // Requested position = 50%
+    valveCommands.openPercentage := 50;
+    stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+    stateMachine(
+		controlValveCommands:= valveCommands, 
+		controlValveParameters:= , 
+		startCalibrationExternal:= , 
+		closeControlValve=> , 
+		openControlValve=> , 
+		currentControlValveOpenPercentage=> , 
+		calibrateDone=> );
+    AssertEquals_BOOL(
+        Expected := FALSE,
+        Actual := stateMachine.openControlValve OR stateMachine.closeControlValve,
+        Message := 'Neither valve command should be active when target position is reached'
+    );
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_ControlValveStateMachine_Test">
+      <LineId Id="25" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="26" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ControlValveStateMachine_Test.calibrationTests">
+      <LineId Id="6" Count="1" />
+      <LineId Id="97" Count="1" />
+      <LineId Id="8" Count="2" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="35" Count="9" />
+      <LineId Id="16" Count="12" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="46" Count="3" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="50" Count="4" />
+      <LineId Id="76" Count="8" />
+      <LineId Id="56" Count="2" />
+      <LineId Id="85" Count="9" />
+      <LineId Id="63" Count="12" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="100" Count="4" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="105" Count="3" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="131" Count="7" />
+      <LineId Id="111" Count="2" />
+      <LineId Id="141" Count="7" />
+      <LineId Id="114" Count="15" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="150" Count="10" />
+      <LineId Id="182" Count="8" />
+      <LineId Id="161" Count="2" />
+      <LineId Id="192" Count="7" />
+      <LineId Id="164" Count="2" />
+      <LineId Id="201" Count="7" />
+      <LineId Id="167" Count="2" />
+      <LineId Id="210" Count="7" />
+      <LineId Id="170" Count="9" />
+      <LineId Id="149" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ControlValveStateMachine_Test.normalControlTests">
+      <LineId Id="10" Count="4" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="15" Count="6" />
+      <LineId Id="46" Count="7" />
+      <LineId Id="22" Count="2" />
+      <LineId Id="55" Count="7" />
+      <LineId Id="29" Count="2" />
+      <LineId Id="140" Count="2" />
+      <LineId Id="63" Count="7" />
+      <LineId Id="33" Count="12" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="74" Count="12" />
+      <LineId Id="119" Count="5" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="87" Count="1" />
+      <LineId Id="132" Count="6" />
+      <LineId Id="89" Count="3" />
+      <LineId Id="144" Count="1" />
+      <LineId Id="143" Count="0" />
+      <LineId Id="93" Count="3" />
+      <LineId Id="146" Count="6" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="153" Count="0" />
+      <LineId Id="156" Count="6" />
+      <LineId Id="155" Count="0" />
+      <LineId Id="98" Count="12" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="164" Count="10" />
+      <LineId Id="199" Count="6" />
+      <LineId Id="175" Count="2" />
+      <LineId Id="206" Count="6" />
+      <LineId Id="178" Count="3" />
+      <LineId Id="214" Count="2" />
+      <LineId Id="213" Count="0" />
+      <LineId Id="182" Count="2" />
+      <LineId Id="217" Count="6" />
+      <LineId Id="187" Count="0" />
+      <LineId Id="225" Count="6" />
+      <LineId Id="224" Count="0" />
+      <LineId Id="188" Count="5" />
+      <LineId Id="163" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
