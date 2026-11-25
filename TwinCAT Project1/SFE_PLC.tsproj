@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.22" TcProjectVariant="Simulation">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.22" TcProjectVariant="Complete">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{0146173C-D895-D219-E209-CC005AC77636}" Namespace="Tc2_SerialCom" AutoDeleteType="true">EL6inData22B</Name>
@@ -124,14 +124,14 @@
 				<ProjectVariant PvUseDisable="true" PvUseDefine="true">
 					<Variant>
 						<Name>Complete</Name>
-						<Disable>0</Disable>
-						<Defines/>
-					</Variant>
-					<Variant>
 						<Name>Simulation</Name>
-						<Name>Tests</Name>
 						<Disable>0</Disable>
 						<Defines></Defines>
+					</Variant>
+					<Variant>
+						<Name>Tests</Name>
+						<Disable>0</Disable>
+						<Defines/>
 					</Variant>
 				</ProjectVariant>
 				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Untitled1\Untitled1.tmc">
@@ -266,7 +266,7 @@
 			</Project>
 		</Plc>
 		<Io>
-			<Device Id="1" Disabled="true" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="5.86.83.4.2.1" RemoteName="Device 1 (EtherCAT)" InfoImageId="2">
+			<Device Id="1" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="5.86.83.4.2.1" RemoteName="Device 1 (EtherCAT)" InfoImageId="2">
 				<Name>Device 1 (EtherCAT)</Name>
 				<ProjectVariant PvUseDisable="true">
 					<Variant>
@@ -2179,6 +2179,8 @@ Bit1: Value smaller than Limit2]]></Comment>
 		</Variants>
 	</Project>
 	<Mappings>
+		<MappingInfo Identifier="{00000000-2001-0850-0120-500831000403}" Id="#x02030020"/>
+		<MappingInfo Identifier="{00000000-2003-0850-0020-500810000403}" Id="#x02030010"/>
 		<OwnerA Name="TIPC^Untitled1^Untitled1 Instance">
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 11 (EL3204)">
 				<Link VarA="PlcTask Inputs^GVL_IO.reactorTemperatureLower" VarB="RTD Inputs Channel 2^Reactor lower temperature"/>

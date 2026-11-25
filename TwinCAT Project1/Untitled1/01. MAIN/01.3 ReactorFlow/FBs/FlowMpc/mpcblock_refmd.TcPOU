@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="mpcblock_refmd" Id="{16714ffa-e731-4485-851a-ebaf5bcfa14e}" SpecialFunc="None">
+  <POU Name="mpcblock_refmd" Id="{ed69ffe3-ff83-4584-a7ba-4b34f40074df}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK mpcblock_refmd
 VAR_INPUT
 	ref: LREAL;
