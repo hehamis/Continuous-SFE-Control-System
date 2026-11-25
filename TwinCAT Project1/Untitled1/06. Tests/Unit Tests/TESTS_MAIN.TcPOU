@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="TESTS_MAIN" Id="{c34b9cd4-20c9-4aab-a9d3-84efa1ac7435}" SpecialFunc="None">
-    <Declaration><![CDATA[ PROGRAM TESTS_MAIN
+    <Declaration><![CDATA[PROGRAM TESTS_MAIN
 VAR
+{IF defined (Tests)}
 	startTests : BOOL;
-	
 	// FBs to test
 	fbMovingAverageTest 					: FB_MovingAverage_Test;
 	fbConsumptionCalculatorTest 			: FB_ConsumptionCalculator_Test;
@@ -26,6 +26,7 @@ VAR
 	meas : LREAL;
 	uTest : ARRAY[1..15] OF LREAL;
 	fbGetCurTaskIndex : GETCURTASKINDEX;
+{END_IF}
 END_VAR
 ]]></Declaration>
     <Implementation>
